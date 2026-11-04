@@ -264,7 +264,7 @@
     ],
     [
      "0.9.1",
-     "Connectivity watchdog + /api/health (2026-11-05): 5-min silence -> reconnect -> logged restart, hourly backoff. Field fix for an associated-but-deaf Wi-Fi wedge diagnosed from 68k lines of serial telemetry; verified soak: zero disconnects, fleet 16/16."
+     "Connectivity watchdog + /api/health (2026-11-05): 5-min silence -> reconnect -> logged restart, hourly backoff. Field fix for an associated-but-deaf Wi-Fi wedge diagnosed from 68k lines of serial telemetry; post-flash soak: fleet 16/16, sweep continuously fresh, zero watchdog restarts needed. Multi-radio same-SSID association implicated as a contributing factor; BSSID policy queued as a measured A/B candidate."
     ]
    ]
   },

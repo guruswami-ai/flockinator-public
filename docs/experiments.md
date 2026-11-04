@@ -70,3 +70,7 @@ sighting-count voting rule meets it at useful yield under 60-82%
 identification accuracy. Zero unsafe promotions shipped. Charts,
 gate tables, the deterministic scorer, and sample journals are in
 [results/](results/README.md).
+Field findings from the live fleet (controller self-recovery,
+multi-radio association effects, outage-tolerant journaling) and
+the next experiment families (graded sensing, peer-report trust,
+lone-node policy) are tracked in [results/](results/README.md).
