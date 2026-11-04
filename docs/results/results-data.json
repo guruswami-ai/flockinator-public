@@ -1,0 +1,321 @@
+{
+ "generated_from": "Frozen, lane-reviewed cycle reports (cycles 00-05, 2026-11-04/05). Aggregates only; no device data.",
+ "scorecard_note": "Balanced scorecard: sighted recall, committed-label safety (Enemy->Friendly is the dangerous error), energy, landings. Gates pre-registered before each candidate ran; holdout seeds 100-109 run once, only after dev passes.",
+ "candidates": [
+  {
+   "id": "baseline",
+   "name": "search-board-1 (production)",
+   "cycle": "baseline",
+   "sighted_recall": 0.2141,
+   "committed": 17,
+   "committed_wrong": 1,
+   "committed_ef": 0,
+   "committed_basis": "committed >=3-sighting majority",
+   "energy": 147.9,
+   "verdict": "production",
+   "note": "Frozen reference. Only 17 contacts ever reach 3 sightings."
+  },
+  {
+   "id": "sector-v1",
+   "name": "Sector partition v1",
+   "cycle": "cycle-03",
+   "sighted_recall": 0.6226,
+   "committed": 14,
+   "committed_wrong": 0,
+   "committed_ef": 0,
+   "committed_basis": "committed >=3-sighting majority",
+   "energy": 178.3,
+   "verdict": "rejected",
+   "note": "Recall x2.9, but sighted Enemy->Friendly rate rose (0.1188 -> 0.1345 per discovery): coverage without confirmation spreads thin, single-reader labels."
+  },
+  {
+   "id": "sector-confirm-v2",
+   "name": "Sector + confirmation v2",
+   "cycle": "cycle-04",
+   "sighted_recall": 0.6145,
+   "committed": 57,
+   "committed_wrong": 3,
+   "committed_ef": 2,
+   "committed_basis": "confirmed >=2-sighting majority",
+   "energy": 186.4,
+   "verdict": "rejected",
+   "note": "Every lone report gets a second reader (69 check scans vs 7 baseline). Two agreeing sightings still commit an Enemy as Friendly."
+  },
+  {
+   "id": "sector-adaptive-v3",
+   "name": "Sector + adaptive re-check v3",
+   "cycle": "cycle-05",
+   "sighted_recall": 0.5971,
+   "committed": 51,
+   "committed_wrong": 4,
+   "committed_ef": 2,
+   "committed_basis": "committed >=3-sighting majority",
+   "energy": 195.4,
+   "verdict": "rejected",
+   "note": "Up to 2 checker assignments per contact (117 check scans). More commits at fixed per-sighting error = more chances for a wrong majority. Even unanimous >=3 admits 1 dangerous commit (23 commits)."
+  },
+  {
+   "id": "asymmetric-v4",
+   "name": "Asymmetric commit v4",
+   "cycle": "cycle-06",
+   "sighted_recall": 0.5971,
+   "committed": 40,
+   "committed_wrong": 3,
+   "committed_ef": 1,
+   "committed_basis": "committed-asym: Enemy majority >=3; Friendly unanimous >=3 or >=5 with <=1 dissent",
+   "energy": 195.4,
+   "verdict": "rejected",
+   "note": "Dangerous commits halved (2 -> 1) and yield held at 40, but seed 10's unanimous-wrong contact still commits Friendly and the mislabel rate (0.075) stays over the ceiling. The commit-rule family is now closed by measurement; next levers are graded sensing and explicit abstention."
+  }
+ ],
+ "gates": {
+  "sighted_recall_min": 0.5141,
+  "energy_max_v3": 214
+ },
+ "threshold_tradeoff": {
+  "title": "Same journals, stricter commit rule: yield vs safety (contacts / mislabelled / Enemy->Friendly)",
+  "rows": [
+   {
+    "min_sightings": 2,
+    "baseline": [
+     25,
+     2,
+     0
+    ],
+    "sector_v1": [
+     36,
+     2,
+     1
+    ],
+    "sector_confirm_v2": [
+     57,
+     3,
+     2
+    ]
+   },
+   {
+    "min_sightings": 3,
+    "baseline": [
+     17,
+     1,
+     0
+    ],
+    "sector_v1": [
+     14,
+     0,
+     0
+    ],
+    "sector_confirm_v2": [
+     33,
+     2,
+     1
+    ]
+   },
+   {
+    "min_sightings": 4,
+    "baseline": [
+     10,
+     0,
+     0
+    ],
+    "sector_v1": [
+     6,
+     0,
+     0
+    ],
+    "sector_confirm_v2": [
+     11,
+     0,
+     0
+    ]
+   }
+  ]
+ },
+ "per_seed_recall_delta_sector": [
+  {
+   "seed": 0,
+   "eligible": true,
+   "delta": 0.5714
+  },
+  {
+   "seed": 1,
+   "eligible": true,
+   "delta": 0.0953
+  },
+  {
+   "seed": 2,
+   "eligible": true,
+   "delta": 0.0
+  },
+  {
+   "seed": 3,
+   "eligible": false,
+   "delta": null
+  },
+  {
+   "seed": 4,
+   "eligible": true,
+   "delta": 0.0
+  },
+  {
+   "seed": 5,
+   "eligible": true,
+   "delta": 1.0
+  },
+  {
+   "seed": 6,
+   "eligible": true,
+   "delta": 0.6667
+  },
+  {
+   "seed": 7,
+   "eligible": false,
+   "delta": null
+  },
+  {
+   "seed": 8,
+   "eligible": false,
+   "delta": null
+  },
+  {
+   "seed": 9,
+   "eligible": true,
+   "delta": 0.25
+  },
+  {
+   "seed": 10,
+   "eligible": true,
+   "delta": 0.5833
+  },
+  {
+   "seed": 11,
+   "eligible": true,
+   "delta": 0.6191
+  },
+  {
+   "seed": 12,
+   "eligible": true,
+   "delta": 0.5455
+  },
+  {
+   "seed": 13,
+   "eligible": true,
+   "delta": 1.0
+  },
+  {
+   "seed": 14,
+   "eligible": false,
+   "delta": null
+  },
+  {
+   "seed": 15,
+   "eligible": true,
+   "delta": 0.0
+  },
+  {
+   "seed": 16,
+   "eligible": true,
+   "delta": 0.4546
+  },
+  {
+   "seed": 17,
+   "eligible": true,
+   "delta": 0.25
+  },
+  {
+   "seed": 18,
+   "eligible": true,
+   "delta": 0.0
+  },
+  {
+   "seed": 19,
+   "eligible": true,
+   "delta": 0.5
+  }
+ ],
+ "holdout_baseline": {
+  "sighted_recall_eligible": 0.2055,
+  "committed": 6,
+  "committed_ef": 0,
+  "note": "Sealed seeds 100-109. Never run for rejected candidates."
+ },
+ "checks": {
+  "baseline_check_scans": 7,
+  "sector_check_scans": 24,
+  "v2_check_scans": 69,
+  "v3_check_scans": 117
+ },
+ "identification_accuracy": "Per-sighting identify accuracy in the scenario cover table: 60-82% by priority/cover. This bounds every vote-threshold policy.",
+ "firmware_evolution": [
+  {
+   "component": "Korvo controller (ESP32-S31)",
+   "versions": [
+    [
+     "0.7.0",
+     "Monitor UI + speech events"
+    ],
+    [
+     "0.8.0",
+     "Lab host: fleet sweep, web commander"
+    ],
+    [
+     "0.9.0",
+     "Planner twin (board model), journals to SD"
+    ],
+    [
+     "0.9.1",
+     "Connectivity watchdog + /api/health (2026-11-05): 5-min silence -> reconnect -> logged restart, hourly backoff. Field fix for an associated-but-deaf Wi-Fi wedge diagnosed from 68k lines of serial telemetry; verified soak: zero disconnects, fleet 16/16."
+    ]
+   ]
+  },
+  {
+   "component": "Panel nodes (ESP32-S3 x16)",
+   "versions": [
+    [
+     "0.10.1",
+     "Commissioned fleet baseline"
+    ],
+    [
+     "0.10.2-journal",
+     "Mission journal HTTP endpoints; hash-verified journal copies on node SD for controller-outage retrieval"
+    ]
+   ]
+  },
+  {
+   "component": "Planner intelligence (host/Korvo twins)",
+   "versions": [
+    [
+     "search-board-1",
+     "Production routes/checks (frozen baseline)"
+    ],
+    [
+     "+ I1 telemetry",
+     "Decision traces: signal, energy-before, identify rolls. Proven decision-identical, 100-seed twin parity"
+    ],
+    [
+     "v1 sector / v2 +confirm / v3 +adaptive",
+     "Measured, gated, rejected (see charts). Zero unsafe promotions, zero flashes of unproven candidates"
+    ],
+    [
+     "v4 asymmetric commit",
+     "Pre-registered; running next"
+    ]
+   ]
+  }
+ ],
+ "decision_flow": [
+  "Director seeds scenario (contacts, cover, priorities)",
+  "Planner assigns search routes per unit",
+  "Unit scans tile -> sighting with identify roll (accuracy 60-82% by cover)",
+  "Lone sighting? -> assign budget-checked independent checker",
+  "Checker scans same contact (energy + return-reserve checked)",
+  "Commit rule: majority across >=N sightings (v4: asymmetric)",
+  "Committed labels scored vs ground truth: recall, mislabels, Enemy->Friendly, energy, landings",
+  "Pre-registered gates decide promote/reject before any firmware ships"
+ ],
+ "next": {
+  "name": "Next: graded sensing / explicit abstention",
+  "note": "Four commit-rule candidates measured and rejected; the family is closed. The remaining levers change the evidence itself: let units earn better identification accuracy by spending energy (dwell/range), or leave contested contacts explicitly Unassessed for the operator. Neither is pre-registered yet - that document comes before any code.",
+  "basis": "new pre-registration required"
+ }
+}

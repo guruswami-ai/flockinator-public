@@ -1,0 +1,93 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Flockinator — training-session results</title>
+<meta name="description" content="Measured planner-intelligence experiments on the 16-panel Flockinator swarm: pre-registered gates, three rejected candidates, zero unsafe promotions, reproducible scorer.">
+<style>
+:root{--bg:#14181d;--panel:#1c222a;--line:#39434f;--tx:#e8e4da;--dim:#a9b2bc;--amber:#e0a526;--red:#e0674f;--teal:#3fae97}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 Georgia,'Times New Roman',serif}
+main{max-width:920px;margin:0 auto;padding:32px 20px 64px}
+h1{font-size:34px;line-height:1.15;margin:0 0 6px}h2{font-size:22px;margin:38px 0 10px;border-top:2px solid var(--amber);padding-top:14px}
+h3{font-size:17px;margin:20px 0 6px}p{margin:8px 0}.lede{font-size:18px;color:var(--dim)}
+svg{width:100%;height:auto;background:var(--panel);border:1px solid var(--line)}
+.sl{fill:var(--tx);font:12px ui-monospace,Menlo,monospace}.sv{fill:var(--tx);font:14px ui-monospace,Menlo,monospace}
+.sg{fill:var(--dim);font:11px ui-monospace,Menlo,monospace}
+.card{background:var(--panel);border:1px solid var(--line);padding:14px 16px;margin:10px 0}
+.card.next{border-style:dashed}.ch{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.cm{font:13px ui-monospace,Menlo,monospace;color:var(--dim);margin:4px 0}
+.tag{font:11px ui-monospace,Menlo,monospace;padding:2px 8px;border:1px solid var(--line)}
+.tag.production{color:var(--teal)}.tag.rejected{color:var(--red)}.tag.pre{color:var(--amber)}
+.bad{color:var(--red)}.ok{color:var(--teal)}
+table{border-collapse:collapse;width:100%;font:14px ui-monospace,Menlo,monospace;margin:8px 0}
+th,td{border:1px solid var(--line);padding:6px 9px;text-align:left}th{color:var(--amber)}
+td.ver{white-space:nowrap;color:var(--amber)}
+ol.flow{counter-reset:step;list-style:none;padding:0}
+ol.flow li{counter-increment:step;background:var(--panel);border:1px solid var(--line);padding:10px 14px 10px 52px;margin:6px 0;position:relative}
+ol.flow li::before{content:counter(step);position:absolute;left:14px;top:8px;font:20px ui-monospace,Menlo,monospace;color:var(--amber)}
+pre{background:#0d1013;border:1px solid var(--line);padding:12px 14px;overflow-x:auto;font:13px/1.5 ui-monospace,Menlo,monospace}
+code{font:13px ui-monospace,Menlo,monospace;background:#0d1013;padding:1px 5px}a{color:var(--amber)}
+.finding{background:#241d10;border:1px solid var(--amber);padding:14px 16px;margin:16px 0}
+.dim{color:var(--dim);font-size:14px}
+@media (prefers-reduced-motion: reduce){*{animation:none;transition:none}}
+</style></head><body><main>
+<h1>Teaching a 16-drone swarm to judge what it sees</h1>
+<p class="lede">Flockinator is sixteen ESP32 survey panels flying seeded scenarios under a
+Korvo ESP32-S31 commander. This page is the lab book for its planner-intelligence loop:
+five measured generations, pre-registered promotion gates, and the honest result —
+<span style="color:var(--red)">four candidates rejected, zero unsafe promotions</span>.
+Every number below regenerates from committed journals with the open scorer.</p>
+
+<div class="finding"><b>The finding.</b> Better search coverage nearly tripled recall
+(0.2141 → 0.6226), and confirmation policies pushed committed decisions from 17 to 51–57 —
+but at the scenario's per-sighting identification accuracy (60–82% by cover), <b>no
+sighting-count voting rule reaches zero Enemy→Friendly commits at useful yield</b>. More
+commits at a fixed error rate means more chances for a wrong majority. The next lever
+is not another vote threshold — asymmetric commit costs (v4, below) were the
+last of that family. What remains is better evidence: graded sensing.</div>
+
+<h2>1 · Sighted recall — did the swarm find the contacts?</h2>
+<svg viewBox="0 0 860 252" role="img"><text x="0" y="29" class="sl">search-board-1 (production)</text><rect x="255" y="6" width="147" height="34" fill="#2e8b7a"/><text x="410" y="29" class="sv">0.2141</text><text x="0" y="77" class="sl">Sector partition v1</text><rect x="255" y="54" width="428" height="34" fill="#e0a526"/><text x="691" y="77" class="sv">0.6226</text><text x="0" y="125" class="sl">Sector + confirmation v2</text><rect x="255" y="102" width="422" height="34" fill="#e0a526"/><text x="685" y="125" class="sv">0.6145</text><text x="0" y="173" class="sl">Sector + adaptive re-check v3</text><rect x="255" y="150" width="410" height="34" fill="#e0a526"/><text x="673" y="173" class="sv">0.5971</text><text x="0" y="221" class="sl">Asymmetric commit v4</text><rect x="255" y="198" width="410" height="34" fill="#e0a526"/><text x="673" y="221" class="sv">0.5971</text><line x1="608" y1="0" x2="608" y2="252" stroke="#c84b31" stroke-width="2" stroke-dasharray="5 4"/><text x="614" y="12" class="sg">gate 0.5141</text></svg>
+<svg viewBox="0 0 860 190" role="img"><line x1="40" y1="95" x2="850" y2="95" stroke="#44515f"/><circle cx="50" cy="49" r="6" fill="#2e8b7a"><title>seed 0: +0.5714</title></circle><text x="46" y="184" class="sg">0</text><circle cx="103" cy="87" r="6" fill="#2e8b7a"><title>seed 1: +0.0953</title></circle><text x="99" y="184" class="sg">1</text><circle cx="155" cy="95" r="6" fill="#2e8b7a"><title>seed 2: +0.0000</title></circle><text x="151" y="184" class="sg">2</text><circle cx="208" cy="95" r="6" fill="#2e8b7a"><title>seed 4: +0.0000</title></circle><text x="204" y="184" class="sg">4</text><circle cx="261" cy="15" r="6" fill="#2e8b7a"><title>seed 5: +1.0000</title></circle><text x="257" y="184" class="sg">5</text><circle cx="313" cy="42" r="6" fill="#2e8b7a"><title>seed 6: +0.6667</title></circle><text x="309" y="184" class="sg">6</text><circle cx="366" cy="75" r="6" fill="#2e8b7a"><title>seed 9: +0.2500</title></circle><text x="362" y="184" class="sg">9</text><circle cx="419" cy="48" r="6" fill="#2e8b7a"><title>seed 10: +0.5833</title></circle><text x="415" y="184" class="sg">10</text><circle cx="471" cy="45" r="6" fill="#2e8b7a"><title>seed 11: +0.6191</title></circle><text x="467" y="184" class="sg">11</text><circle cx="524" cy="51" r="6" fill="#2e8b7a"><title>seed 12: +0.5455</title></circle><text x="520" y="184" class="sg">12</text><circle cx="577" cy="15" r="6" fill="#2e8b7a"><title>seed 13: +1.0000</title></circle><text x="573" y="184" class="sg">13</text><circle cx="629" cy="95" r="6" fill="#2e8b7a"><title>seed 15: +0.0000</title></circle><text x="625" y="184" class="sg">15</text><circle cx="682" cy="59" r="6" fill="#2e8b7a"><title>seed 16: +0.4546</title></circle><text x="678" y="184" class="sg">16</text><circle cx="735" cy="75" r="6" fill="#2e8b7a"><title>seed 17: +0.2500</title></circle><text x="731" y="184" class="sg">17</text><circle cx="787" cy="95" r="6" fill="#2e8b7a"><title>seed 18: +0.0000</title></circle><text x="783" y="184" class="sg">18</text><circle cx="840" cy="55" r="6" fill="#2e8b7a"><title>seed 19: +0.5000</title></circle><text x="836" y="184" class="sg">19</text><text x="40" y="16" class="sg">per-seed sighted-recall delta, sector v1 minus baseline (eligible seeds)</text></svg>
+<p class="dim">Dev set: 20 seeded scenarios, 16 eligible under the frozen baseline-energy rule.
+Holdout (sealed seeds 100–109) baseline recall on eligible seeds: 0.2055. Sealed means
+sealed: it was never run for a rejected candidate.</p>
+
+<h2>2 · Committed decisions — and the one error that matters</h2>
+<p>A <i>committed</i> label is what the commander would act on. Committing <b>Enemy as
+Friendly</b> is the dangerous direction, so its gate is absolute: <b>zero</b>.</p>
+<h3>Committed contacts (pooled)</h3><svg viewBox="0 0 860 252" role="img"><text x="0" y="29" class="sl">search-board-1 (production)</text><rect x="255" y="6" width="146" height="34" fill="#9fb4c8"/><text x="409" y="29" class="sv">17</text><text x="0" y="77" class="sl">Sector partition v1</text><rect x="255" y="54" width="120" height="34" fill="#9fb4c8"/><text x="383" y="77" class="sv">14</text><text x="0" y="125" class="sl">Sector + confirmation v2</text><rect x="255" y="102" width="489" height="34" fill="#9fb4c8"/><text x="752" y="125" class="sv">57</text><text x="0" y="173" class="sl">Sector + adaptive re-check v3</text><rect x="255" y="150" width="438" height="34" fill="#9fb4c8"/><text x="701" y="173" class="sv">51</text><text x="0" y="221" class="sl">Asymmetric commit v4</text><rect x="255" y="198" width="343" height="34" fill="#9fb4c8"/><text x="606" y="221" class="sv">40</text></svg>
+<h3>Dangerous commits — Enemy→Friendly (gate = 0)</h3><svg viewBox="0 0 860 252" role="img"><text x="0" y="29" class="sl">search-board-1 (production)</text><rect x="255" y="6" width="2" height="34" fill="#c84b31"/><text x="265" y="29" class="sv">0</text><text x="0" y="77" class="sl">Sector partition v1</text><rect x="255" y="54" width="2" height="34" fill="#c84b31"/><text x="265" y="77" class="sv">0</text><text x="0" y="125" class="sl">Sector + confirmation v2</text><rect x="255" y="102" width="343" height="34" fill="#c84b31"/><text x="606" y="125" class="sv">2</text><text x="0" y="173" class="sl">Sector + adaptive re-check v3</text><rect x="255" y="150" width="343" height="34" fill="#c84b31"/><text x="606" y="173" class="sv">2</text><text x="0" y="221" class="sl">Asymmetric commit v4</text><rect x="255" y="198" width="172" height="34" fill="#c84b31"/><text x="435" y="221" class="sv">1</text></svg>
+<div class="card"><div class="ch"><b>search-board-1 (production)</b><span class="tag production">PRODUCTION</span></div><div class="cm">recall 0.2141 · committed 17 · wrong 1 · <b class="ok">Enemy→Friendly 0</b> · energy 147.9</div><p>Frozen reference. Only 17 contacts ever reach 3 sightings.</p><div class="cm">committed &gt;=3-sighting majority · baseline</div></div><div class="card"><div class="ch"><b>Sector partition v1</b><span class="tag rejected">REJECTED</span></div><div class="cm">recall 0.6226 · committed 14 · wrong 0 · <b class="ok">Enemy→Friendly 0</b> · energy 178.3</div><p>Recall x2.9, but sighted Enemy-&gt;Friendly rate rose (0.1188 -&gt; 0.1345 per discovery): coverage without confirmation spreads thin, single-reader labels.</p><div class="cm">committed &gt;=3-sighting majority · cycle-03</div></div><div class="card"><div class="ch"><b>Sector + confirmation v2</b><span class="tag rejected">REJECTED</span></div><div class="cm">recall 0.6145 · committed 57 · wrong 3 · <b class="bad">Enemy→Friendly 2</b> · energy 186.4</div><p>Every lone report gets a second reader (69 check scans vs 7 baseline). Two agreeing sightings still commit an Enemy as Friendly.</p><div class="cm">confirmed &gt;=2-sighting majority · cycle-04</div></div><div class="card"><div class="ch"><b>Sector + adaptive re-check v3</b><span class="tag rejected">REJECTED</span></div><div class="cm">recall 0.5971 · committed 51 · wrong 4 · <b class="bad">Enemy→Friendly 2</b> · energy 195.4</div><p>Up to 2 checker assignments per contact (117 check scans). More commits at fixed per-sighting error = more chances for a wrong majority. Even unanimous &gt;=3 admits 1 dangerous commit (23 commits).</p><div class="cm">committed &gt;=3-sighting majority · cycle-05</div></div><div class="card"><div class="ch"><b>Asymmetric commit v4</b><span class="tag rejected">REJECTED</span></div><div class="cm">recall 0.5971 · committed 40 · wrong 3 · <b class="bad">Enemy→Friendly 1</b> · energy 195.4</div><p>Dangerous commits halved (2 -&gt; 1) and yield held at 40, but seed 10&#x27;s unanimous-wrong contact still commits Friendly and the mislabel rate (0.075) stays over the ceiling. The commit-rule family is now closed by measurement; next levers are graded sensing and explicit abstention.</p><div class="cm">committed-asym: Enemy majority &gt;=3; Friendly unanimous &gt;=3 or &gt;=5 with &lt;=1 dissent · cycle-06</div></div><div class="card next"><div class="ch"><b>Next: graded sensing / explicit abstention</b><span class="tag pre">OPEN PROBLEM</span></div><p>Four commit-rule candidates measured and rejected; the family is closed. The remaining levers change the evidence itself: let units earn better identification accuracy by spending energy (dwell/range), or leave contested contacts explicitly Unassessed for the operator. Neither is pre-registered yet - that document comes before any code.</p><div class="cm">new pre-registration required</div></div>
+<table><tr><th>Min. sightings to commit</th><th>Baseline</th><th>Sector v1</th><th>Sector + confirm v2</th></tr><tr><td>≥2</td><td>25 / 2 / <b class="ok">0</b></td><td>36 / 2 / <b class="bad">1</b></td><td>57 / 3 / <b class="bad">2</b></td></tr><tr><td>≥3</td><td>17 / 1 / <b class="ok">0</b></td><td>14 / 0 / <b class="ok">0</b></td><td>33 / 2 / <b class="bad">1</b></td></tr><tr><td>≥4</td><td>10 / 0 / <b class="ok">0</b></td><td>6 / 0 / <b class="ok">0</b></td><td>11 / 0 / <b class="ok">0</b></td></tr></table>
+<p class="dim">Cells are committed / mislabelled / Enemy→Friendly on identical journals.
+Stricter rules buy safety with yield — and at ≥3 a dangerous commit still slips through
+under v2 sighting patterns.</p>
+
+<h2>3 · Energy — what did certainty cost?</h2>
+<svg viewBox="0 0 860 252" role="img"><text x="0" y="29" class="sl">search-board-1 (production)</text><rect x="255" y="6" width="331" height="34" fill="#9fb4c8"/><text x="594" y="29" class="sv">147.9</text><text x="0" y="77" class="sl">Sector partition v1</text><rect x="255" y="54" width="399" height="34" fill="#9fb4c8"/><text x="662" y="77" class="sv">178.3</text><text x="0" y="125" class="sl">Sector + confirmation v2</text><rect x="255" y="102" width="417" height="34" fill="#9fb4c8"/><text x="680" y="125" class="sv">186.4</text><text x="0" y="173" class="sl">Sector + adaptive re-check v3</text><rect x="255" y="150" width="438" height="34" fill="#9fb4c8"/><text x="701" y="173" class="sv">195.4</text><text x="0" y="221" class="sl">Asymmetric commit v4</text><rect x="255" y="198" width="438" height="34" fill="#9fb4c8"/><text x="701" y="221" class="sv">195.4</text></svg>
+<p class="dim">Mean total energy per eligible seed. Confirmation is not free: completed check
+scans rose 7 → 24 →
+69 → 117 across generations. Every unit
+still landed home with zero reserve-floor violations in every run.</p>
+
+<h2>4 · How a contact becomes a decision</h2>
+<ol class="flow"><li>Director seeds scenario (contacts, cover, priorities)</li><li>Planner assigns search routes per unit</li><li>Unit scans tile -&gt; sighting with identify roll (accuracy 60-82% by cover)</li><li>Lone sighting? -&gt; assign budget-checked independent checker</li><li>Checker scans same contact (energy + return-reserve checked)</li><li>Commit rule: majority across &gt;=N sightings (v4: asymmetric)</li><li>Committed labels scored vs ground truth: recall, mislabels, Enemy-&gt;Friendly, energy, landings</li><li>Pre-registered gates decide promote/reject before any firmware ships</li></ol>
+
+<h2>5 · Firmware evolution</h2>
+<h3>Korvo controller (ESP32-S31)</h3><table><tr><td class="ver">0.7.0</td><td>Monitor UI + speech events</td></tr><tr><td class="ver">0.8.0</td><td>Lab host: fleet sweep, web commander</td></tr><tr><td class="ver">0.9.0</td><td>Planner twin (board model), journals to SD</td></tr><tr><td class="ver">0.9.1</td><td>Connectivity watchdog + /api/health (2026-11-05): 5-min silence -&gt; reconnect -&gt; logged restart, hourly backoff. Field fix for an associated-but-deaf Wi-Fi wedge diagnosed from 68k lines of serial telemetry; verified soak: zero disconnects, fleet 16/16.</td></tr></table><h3>Panel nodes (ESP32-S3 x16)</h3><table><tr><td class="ver">0.10.1</td><td>Commissioned fleet baseline</td></tr><tr><td class="ver">0.10.2-journal</td><td>Mission journal HTTP endpoints; hash-verified journal copies on node SD for controller-outage retrieval</td></tr></table><h3>Planner intelligence (host/Korvo twins)</h3><table><tr><td class="ver">search-board-1</td><td>Production routes/checks (frozen baseline)</td></tr><tr><td class="ver">+ I1 telemetry</td><td>Decision traces: signal, energy-before, identify rolls. Proven decision-identical, 100-seed twin parity</td></tr><tr><td class="ver">v1 sector / v2 +confirm / v3 +adaptive</td><td>Measured, gated, rejected (see charts). Zero unsafe promotions, zero flashes of unproven candidates</td></tr><tr><td class="ver">v4 asymmetric commit</td><td>Pre-registered; running next</td></tr></table>
+
+<h2>6 · Reproduce it</h2>
+<p>The scorer is deterministic, stdlib-only Python. Sample planner journals (baseline,
+seeds 0 and 10) ship in <code>sample-runs/</code>; seed 10 contains the correlated-error
+contact beside HOME that defeated two candidates.</p>
+<pre>python3 tools/fleet-score/score.py docs/results/sample-runs/baseline-seed-10
+python3 -m unittest discover -s tools/fleet-score -p 'test_*.py'   # 10 tests
+python3 docs/results/generate_dashboard.py                          # rebuild this page</pre>
+<p>Full protocol — pre-registration, eligible-seed rules, sealed holdout, gate definitions,
+restore-on-failure discipline — is in the <a href="README.md">results README</a>. Extend it:
+write your pre-registration first, then beat <b>recall ≥ 0.5141 with Enemy→Friendly = 0</b>.</p>
+<p class="dim">Guardrails: gates frozen before candidates ran; identification rolls are never
+used as commit confidence (in this simulator the roll determines correctness — using it
+would be oracle leakage, not sensing); planner replay is simulation evidence, never
+claimed as on-node inference. On-device measurement (controller health API, fleet sweep,
+node SD journals) is how the same scorecard gets measured on hardware next.</p>
+</main></body></html>

@@ -58,3 +58,15 @@ The illustrated quadcopter survey
 orders, deployment, scanning, sightings, sharing, doubt, verification,
 return, and charging - including the false-report (deception) beat that
 Kulira-style experiments formalise.
+
+## Measured results so far
+
+The planner-intelligence loop has run five generations under this
+method (dev seeds 0-19, 16 eligible; holdout 100-109 sealed):
+coverage nearly tripled (sighted recall 0.2141 -> 0.6226) while four
+successive commit policies were rejected by their own pre-registered
+gates - committed Enemy->Friendly must stay at zero, and no
+sighting-count voting rule meets it at useful yield under 60-82%
+identification accuracy. Zero unsafe promotions shipped. Charts,
+gate tables, the deterministic scorer, and sample journals are in
+[results/](results/README.md).

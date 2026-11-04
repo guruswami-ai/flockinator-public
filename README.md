@@ -37,6 +37,7 @@ direct the experiments. Evidence and reproduction:
 |---|---|
 | Architecture and traffic classes | [docs/architecture.md](docs/architecture.md) |
 | Experimental methodology | [docs/experiments.md](docs/experiments.md) |
+| Measured training-session results | [docs/results/](docs/results/README.md) (charts: `docs/results/index.html`) |
 | Illustrated survey scenario | [docs/scenarios/quadcopter-survey/](docs/scenarios/quadcopter-survey/README.md) |
 | Hardware, components, finished CAD | [docs/hardware.md](docs/hardware.md), [cad/](cad/README.md) |
 | Build and host tools | [docs/build.md](docs/build.md) |
@@ -49,6 +50,11 @@ direct the experiments. Evidence and reproduction:
 ```sh
 uv run --project tools/node-commissioner python previews/recon-hud/serve.py
 # open http://127.0.0.1:8766/
+
+# reproduce the planner-intelligence results
+python3 tools/fleet-score/score.py docs/results/sample-runs/baseline-seed-10
+python3 -m unittest discover -s tools/fleet-score -p 'test_*.py'
+python3 docs/results/generate_dashboard.py
 ```
 
 ## Scope of this repository
