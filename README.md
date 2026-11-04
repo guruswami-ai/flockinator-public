@@ -43,9 +43,25 @@ Highlights:
 - **Real hardware:** firmware in `firmware/`, 3D-printable models in `cad/`,
   browser previews in `previews/`, host tools in `tools/`.
 
+## Measured results — the self-improving loop
+
+Four planner-intelligence generations, pre-registered safety gates,
+three honest rejections and zero unsafe promotions, charted in
+[`docs/results/`](docs/results/) (GitHub Pages: `docs/results/`).
+Coverage nearly tripled (recall 0.2141 → 0.6226); committed
+Enemy→Friendly stays gated at zero, and no sighting-count voting rule
+has met it at useful yield yet — the dashboard shows exactly where
+each candidate failed, and the deterministic scorer plus sample
+journals let you reproduce every number and try to beat it.
+
 ## Reproduce
 
 ```sh
+# experiment results (scorer + charts)
+python3 tools/fleet-score/score.py docs/results/sample-runs/baseline-seed-10
+python3 -m unittest discover -s tools/fleet-score -p 'test_*.py'
+python3 docs/results/generate_dashboard.py
+
 # browser preview
 uv run --project tools/node-commissioner python previews/recon-hud/serve.py
 # open http://127.0.0.1:8766/
