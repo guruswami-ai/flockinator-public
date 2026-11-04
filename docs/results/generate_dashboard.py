@@ -15,7 +15,7 @@ AMBER, RED, TEAL, INK = "#e0a526", "#c84b31", "#2e8b7a", "#9fb4c8"
 def esc(s): return H.escape(str(s))
 
 def bars(rows, vmax, fmt="{:.2f}", gate=None, unit=""):
-    w, bh, gap, lab, pad = 860, 34, 14, 215, 90
+    w, bh, gap, lab, pad = 860, 34, 14, 255, 90
     h = len(rows) * (bh + gap) + 12
     out = [f'<svg viewBox="0 0 {w} {h}" role="img">']
     for i, (name, val, col) in enumerate(rows):
@@ -80,7 +80,7 @@ main{{max-width:920px;margin:0 auto;padding:32px 20px 64px}}
 h1{{font-size:34px;line-height:1.15;margin:0 0 6px}}h2{{font-size:22px;margin:38px 0 10px;border-top:2px solid var(--amber);padding-top:14px}}
 h3{{font-size:17px;margin:20px 0 6px}}p{{margin:8px 0}}.lede{{font-size:18px;color:var(--dim)}}
 svg{{width:100%;height:auto;background:var(--panel);border:1px solid var(--line)}}
-.sl{{fill:var(--tx);font:13px ui-monospace,Menlo,monospace}}.sv{{fill:var(--tx);font:14px ui-monospace,Menlo,monospace}}
+.sl{{fill:var(--tx);font:12px ui-monospace,Menlo,monospace}}.sv{{fill:var(--tx);font:14px ui-monospace,Menlo,monospace}}
 .sg{{fill:var(--dim);font:11px ui-monospace,Menlo,monospace}}
 .card{{background:var(--panel);border:1px solid var(--line);padding:14px 16px;margin:10px 0}}
 .card.next{{border-style:dashed}}.ch{{display:flex;justify-content:space-between;gap:10px;align-items:baseline}}
