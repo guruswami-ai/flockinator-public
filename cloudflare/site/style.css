@@ -1,0 +1,30 @@
+:root { --bg:#0b1020; --panel:#131a2e; --line:#26314f; --text:#e8ecf6; --muted:#a7b0c6;
+  --teal:#2dd4bf; --amber:#f5b544; --red:#f26d6d; --radius:6px; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--text);
+  font-family: ui-sans-system, "Segoe UI", Helvetica, Arial, sans-serif; line-height:1.5; }
+header, main, footer { max-width:960px; margin:0 auto; padding:1.25rem 1rem; }
+h1 { font-size:1.7rem; margin:.2rem 0; } h1 .sub { color:var(--teal); font-size:1.05rem; display:block; }
+h2 { font-size:1.15rem; margin-top:2rem; border-bottom:1px solid var(--line); padding-bottom:.35rem; }
+.lede { font-size:1.02rem; } .badge { display:inline-block; border:1px solid var(--amber); color:var(--amber);
+  padding:.15rem .5rem; border-radius:var(--radius); font-size:.85rem; }
+.note { color:var(--muted); font-size:.9rem; }
+.controls { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin:.8rem 0; }
+button { background:var(--teal); color:#06251f; border:0; padding:.5rem .9rem; border-radius:var(--radius);
+  font-weight:600; cursor:pointer; }
+button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible { outline:2px solid var(--amber); outline-offset:2px; }
+input, select { background:var(--panel); color:var(--text); border:1px solid var(--line);
+  border-radius:var(--radius); padding:.45rem .5rem; }
+.bar-row { display:grid; grid-template-columns:170px 1fr 90px; gap:.6rem; align-items:center; margin:.35rem 0; }
+.bar { background:var(--panel); border:1px solid var(--line); height:18px; border-radius:3px; overflow:hidden; }
+.bar > div { height:100%; background:var(--teal); }
+.bar.scrambled > div { background:var(--red); } .bar.private > div { background:var(--amber); }
+.wall { display:grid; grid-template-columns:repeat(4, 1fr); gap:8px; max-width:520px; }
+.node { aspect-ratio:1; background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:.72rem; text-align:center; padding:4px; }
+.node.survivor { border-color:var(--teal); } .node.hazard { border-color:var(--red); }
+.node.forged { border-color:var(--red); color:var(--red); }
+.node.abstain { opacity:.55; }
+a { color:var(--teal); }
+@media (max-width:640px){ .bar-row{grid-template-columns:110px 1fr 70px;} h1{font-size:1.35rem;} }
+@media (prefers-reduced-motion: reduce){ * { transition:none !important; } }
