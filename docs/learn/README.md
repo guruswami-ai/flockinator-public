@@ -10,7 +10,7 @@ panels so we can slow it down, measure it, attack it, and learn how
 groups become smarter than their members - and how that smartness
 can be stolen.
 
-## The five ideas
+## The six ideas
 
 1. **[Why groups look intelligent](why-groups-look-intelligent.md)**
    Simple local rules, repeated across many neighbours, create
