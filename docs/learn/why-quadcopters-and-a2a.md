@@ -25,6 +25,29 @@ holds wherever the stakes are real: the battlefield case that
 inspired the scenario, and the civilian cases (clinics, shops,
 roads, homes) that embedded agents will actually fill.
 
+How would the scouts actually search? After an earthquake or a
+flood, the swarm's nodes are exactly the kind of cheap, expendable
+sensors you would send into places humans cannot yet go:
+
+- **Thermal / infrared cameras** sweep rubble, floodwater, and
+  collapsed buildings for heat signatures - a survivor under
+  debris is, to an IR eye, a warm shape in a cold field.
+- **CO2 sensing** sniffs the air in voids and sealed rooms:
+  exhaled carbon dioxide accumulating where no vent explains it
+  is a quiet, powerful sign of life.
+- Ordinary cameras, microphones (a tapped pipe, a voice),
+  temperature, humidity, motion, and gas sensors fill in the
+  picture each node can afford.
+
+No single node sees enough. One catches a heat smudge, another a
+CO2 rise two metres away, a third hears nothing and doubts both.
+The swarm's shared intelligence - who corroborates, who doubts,
+what gets believed in time - is what turns scattered sensor
+scraps into "dig here, now". That is also why a false report is
+so costly, and why an attacker who can fabricate a heat signature
+or suppress a real one is dangerous in a way a broken node is
+not: the swarm will dig in the wrong place while the light lasts.
+
 In the technical results you will see the labels *Friendly* and
 *Enemy* - the scenario's original military shorthand. Read them
 in the rescue story as *survivor* and *hazard*: the unforgivable
