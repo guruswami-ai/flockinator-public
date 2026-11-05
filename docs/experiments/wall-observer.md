@@ -34,11 +34,14 @@ cell by cell, and this tool measures by how much.
   bands that swallow panel text. NIGHT is refused by the tool.
 - **Flicker fallback:** bursts of auto frames. Averaging 3 frames cut
   measured banding 3.5x (row-profile high-frequency std 16 -> 4.6).
-- **Video is 16:9 and crops the wall vertically** (still FOV is the
-  full 4x4). The zoom keys do not change this. Use native video for
-  the central band, and still bursts when the whole wall must be in
-  frame; a timelapse assembled from still bursts is the publishable
-  full-wall motion record.
+- **Video must be zoomed out to ~0.6x** (ultrawide). At 1.0x the
+  16:9 video crops the wall to a central band; the keyboard zoom
+  keys do nothing, but the on-screen slider works: tap the preview,
+  drag the right-edge zoom thumb to the bottom. The tool does this
+  before every recording because the setting does not persist
+  across a CAMERA->VIDEO switch. Verified live: at 0.6x the
+  recorded frame (1080x1920) contains all 16 panels, text legible
+  in every cell. Still bursts remain the higher-resolution record.
 - **Video ships silent or not at all.** Household/lab audio is not
   publishable data. The stored video has its audio track stripped
   with ffmpeg at capture time and the manifest records

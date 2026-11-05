@@ -13,6 +13,8 @@ class FakeAdb(Adb):
         super().__init__(serial="FAKESERIAL123")
         self.dcim = set()
         self.n = 0
+        self.shell_calls = []
+        self._vid_taps = 0
 
     def phone_epoch(self):
         return time.time() + 2.0  # phone 2s ahead of host
@@ -24,9 +26,14 @@ class FakeAdb(Adb):
         return set(self.dcim)
 
     def shell(self, *args):
+        self.shell_calls.append(args)
         if args[:2] == ("input", "keyevent"):
             self.n += 1
             self.dcim.add(f"IMG_20261106_1200{self.n:02d}.jpg")
+        if args[:2] == ("input", "tap") and args[3:] == ("1917",):
+            self._vid_taps += 1
+            if self._vid_taps == 2:
+                self.dcim.add("VID_20261106_120000.mp4")
         return ""
 
     def pull(self, remote, local):
@@ -66,6 +73,19 @@ def test_verify_detects_tampered_frame(tmp_path):
     frame.write_bytes(b"tampered")
     with pytest.raises(AdbError, match="sha256 mismatch"):
         verify_session(tmp_path / "s2")
+
+
+def test_video_applies_zoom_and_flags_unstripped(tmp_path, monkeypatch):
+    import kulira_core.wall_observer as wo
+    monkeypatch.setattr(wo.time, "sleep", lambda s: None)
+    adb = FakeAdb()
+    s = WallSession(tmp_path / "sv", "m", adb)
+    entry = s.capture_video("end", 1.0, strip_audio=False)
+    swipes = [c for c in adb.shell_calls if c[:2] == ("input", "swipe")]
+    assert swipes, "zoom-out drag not issued"
+    assert entry["payload"]["video_zoom_applied"] is True
+    assert entry["payload"]["audio_stripped"] is False
+    assert entry["payload"]["publishable"] is False  # silent or not at all
 
 
 def test_night_mode_forbidden(tmp_path):
