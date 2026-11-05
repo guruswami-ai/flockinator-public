@@ -1,0 +1,609 @@
+{
+ "experiment": "composite-defence world seed 200, contacts 0-23 (host simulation replay, not live nodes)",
+ "policies": {
+  "E": "verified pool + margin>=2",
+  "COMP": "E + learned modality-trust weights, loose thresholds"
+ },
+ "contacts": [
+  {
+   "contact": 0,
+   "truth": "survivor",
+   "reports": [
+    {
+     "node": "A1",
+     "modality": "sound",
+     "label": "survivor",
+     "forged": false
+    }
+   ],
+   "E": "abstain",
+   "COMP": "abstain"
+  },
+  {
+   "contact": 1,
+   "truth": "survivor",
+   "reports": [
+    {
+     "node": "A2",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": false
+    },
+    {
+     "node": "A3",
+     "modality": "sound",
+     "label": "survivor",
+     "forged": false
+    }
+   ],
+   "E": "commit",
+   "COMP": "commit"
+  },
+  {
+   "contact": 2,
+   "truth": "survivor",
+   "reports": [
+    {
+     "node": "A3",
+     "modality": "co2",
+     "label": "survivor",
+     "forged": false
+    },
+    {
+     "node": "B1",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": false
+    }
+   ],
+   "E": "commit",
+   "COMP": "commit"
+  },
+  {
+   "contact": 3,
+   "truth": "survivor",
+   "reports": [
+    {
+     "node": "B1",
+     "modality": "sound",
+     "label": "survivor",
+     "forged": false
+    },
+    {
+     "node": "B2",
+     "modality": "sound",
+     "label": "survivor",
+     "forged": false
+    },
+    {
+     "node": "B3",
+     "modality": "co2",
+     "label": "survivor",
+     "forged": false
+    }
+   ],
+   "E": "commit",
+   "COMP": "commit"
+  },
+  {
+   "contact": 4,
+   "truth": "hazard",
+   "reports": [
+    {
+     "node": "B2",
+     "modality": "sound",
+     "label": "hazard",
+     "forged": false
+    },
+    {
+     "node": "B3",
+     "modality": "sound",
+     "label": "hazard",
+     "forged": false
+    },
+    {
+     "node": "K1",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": true
+    },
+    {
+     "node": "B1",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": true
+    },
+    {
+     "node": "C1",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": true
+    },
+    {
+     "node": "D1",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": true
+    }
+   ],
+   "E": "abstain",
+   "COMP": "abstain"
+  },
+  {
+   "contact": 5,
+   "truth": "survivor",
+   "reports": [
+    {
+     "node": "B3",
+     "modality": "co2",
+     "label": "survivor",
+     "forged": false
+    }
+   ],
+   "E": "abstain",
+   "COMP": "abstain"
+  },
+  {
+   "contact": 6,
+   "truth": "hazard",
+   "reports": [
+    {
+     "node": "C1",
+     "modality": "ir",
+     "label": "hazard",
+     "forged": false
+    },
+    {
+     "node": "C2",
+     "modality": "sound",
+     "label": "survivor",
+     "forged": false
+    },
+    {
+     "node": "A1",
+     "modality": "ir",
+     "label": "hazard",
+     "forged": false
+    }
+   ],
+   "E": "abstain",
+   "COMP": "abstain"
+  },
+  {
+   "contact": 7,
+   "truth": "survivor",
+   "reports": [
+    {
+     "node": "C2",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": false
+    },
+    {
+     "node": "A1",
+     "modality": "sound",
+     "label": "survivor",
+     "forged": false
+    },
+    {
+     "node": "A2",
+     "modality": "ir",
+     "label": "hazard",
+     "forged": false
+    }
+   ],
+   "E": "abstain",
+   "COMP": "abstain"
+  },
+  {
+   "contact": 8,
+   "truth": "survivor",
+   "reports": [
+    {
+     "node": "A1",
+     "modality": "co2",
+     "label": "survivor",
+     "forged": false
+    },
+    {
+     "node": "A2",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": false
+    },
+    {
+     "node": "A3",
+     "modality": "sound",
+     "label": "survivor",
+     "forged": false
+    }
+   ],
+   "E": "commit",
+   "COMP": "commit"
+  },
+  {
+   "contact": 9,
+   "truth": "survivor",
+   "reports": [
+    {
+     "node": "A2",
+     "modality": "ir",
+     "label": "hazard",
+     "forged": false
+    },
+    {
+     "node": "A3",
+     "modality": "co2",
+     "label": "survivor",
+     "forged": false
+    }
+   ],
+   "E": "abstain",
+   "COMP": "abstain"
+  },
+  {
+   "contact": 10,
+   "truth": "survivor",
+   "reports": [
+    {
+     "node": "A3",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": false
+    },
+    {
+     "node": "B1",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": false
+    },
+    {
+     "node": "B2",
+     "modality": "sound",
+     "label": "survivor",
+     "forged": false
+    }
+   ],
+   "E": "commit",
+   "COMP": "commit"
+  },
+  {
+   "contact": 11,
+   "truth": "hazard",
+   "reports": [
+    {
+     "node": "B1",
+     "modality": "ir",
+     "label": "hazard",
+     "forged": false
+    },
+    {
+     "node": "B2",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": false
+    }
+   ],
+   "E": "abstain",
+   "COMP": "abstain"
+  },
+  {
+   "contact": 12,
+   "truth": "survivor",
+   "reports": [
+    {
+     "node": "B2",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": false
+    }
+   ],
+   "E": "abstain",
+   "COMP": "abstain"
+  },
+  {
+   "contact": 13,
+   "truth": "hazard",
+   "reports": [
+    {
+     "node": "B3",
+     "modality": "sound",
+     "label": "hazard",
+     "forged": false
+    },
+    {
+     "node": "C1",
+     "modality": "co2",
+     "label": "survivor",
+     "forged": false
+    },
+    {
+     "node": "C2",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": false
+    },
+    {
+     "node": "K1",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": true
+    },
+    {
+     "node": "B1",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": true
+    },
+    {
+     "node": "C1",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": true
+    },
+    {
+     "node": "D1",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": true
+    }
+   ],
+   "E": "abstain",
+   "COMP": "abstain"
+  },
+  {
+   "contact": 14,
+   "truth": "hazard",
+   "reports": [
+    {
+     "node": "C1",
+     "modality": "sound",
+     "label": "hazard",
+     "forged": false
+    },
+    {
+     "node": "K1",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": true
+    },
+    {
+     "node": "B1",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": true
+    },
+    {
+     "node": "C1",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": true
+    },
+    {
+     "node": "D1",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": true
+    }
+   ],
+   "E": "abstain",
+   "COMP": "abstain"
+  },
+  {
+   "contact": 15,
+   "truth": "survivor",
+   "reports": [
+    {
+     "node": "C2",
+     "modality": "co2",
+     "label": "survivor",
+     "forged": false
+    }
+   ],
+   "E": "abstain",
+   "COMP": "abstain"
+  },
+  {
+   "contact": 16,
+   "truth": "survivor",
+   "reports": [
+    {
+     "node": "A1",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": false
+    }
+   ],
+   "E": "abstain",
+   "COMP": "abstain"
+  },
+  {
+   "contact": 17,
+   "truth": "hazard",
+   "reports": [
+    {
+     "node": "A2",
+     "modality": "co2",
+     "label": "hazard",
+     "forged": false
+    },
+    {
+     "node": "A3",
+     "modality": "co2",
+     "label": "hazard",
+     "forged": false
+    },
+    {
+     "node": "B1",
+     "modality": "co2",
+     "label": "hazard",
+     "forged": false
+    }
+   ],
+   "E": "abstain",
+   "COMP": "abstain"
+  },
+  {
+   "contact": 18,
+   "truth": "survivor",
+   "reports": [
+    {
+     "node": "A3",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": false
+    }
+   ],
+   "E": "abstain",
+   "COMP": "abstain"
+  },
+  {
+   "contact": 19,
+   "truth": "survivor",
+   "reports": [
+    {
+     "node": "B1",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": false
+    },
+    {
+     "node": "B2",
+     "modality": "sound",
+     "label": "survivor",
+     "forged": false
+    },
+    {
+     "node": "B3",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": false
+    }
+   ],
+   "E": "commit",
+   "COMP": "commit"
+  },
+  {
+   "contact": 20,
+   "truth": "hazard",
+   "reports": [
+    {
+     "node": "B2",
+     "modality": "co2",
+     "label": "hazard",
+     "forged": false
+    },
+    {
+     "node": "B3",
+     "modality": "ir",
+     "label": "hazard",
+     "forged": false
+    }
+   ],
+   "E": "abstain",
+   "COMP": "abstain"
+  },
+  {
+   "contact": 21,
+   "truth": "hazard",
+   "reports": [
+    {
+     "node": "B3",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": false
+    },
+    {
+     "node": "C1",
+     "modality": "sound",
+     "label": "survivor",
+     "forged": false
+    },
+    {
+     "node": "C2",
+     "modality": "sound",
+     "label": "hazard",
+     "forged": false
+    },
+    {
+     "node": "K1",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": true
+    },
+    {
+     "node": "B1",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": true
+    },
+    {
+     "node": "C1",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": true
+    },
+    {
+     "node": "D1",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": true
+    }
+   ],
+   "E": "abstain",
+   "COMP": "commit"
+  },
+  {
+   "contact": 22,
+   "truth": "survivor",
+   "reports": [
+    {
+     "node": "C1",
+     "modality": "sound",
+     "label": "survivor",
+     "forged": false
+    },
+    {
+     "node": "C2",
+     "modality": "ir",
+     "label": "hazard",
+     "forged": false
+    },
+    {
+     "node": "A1",
+     "modality": "co2",
+     "label": "hazard",
+     "forged": false
+    }
+   ],
+   "E": "abstain",
+   "COMP": "abstain"
+  },
+  {
+   "contact": 23,
+   "truth": "hazard",
+   "reports": [
+    {
+     "node": "C2",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": false
+    },
+    {
+     "node": "A1",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": false
+    },
+    {
+     "node": "A2",
+     "modality": "ir",
+     "label": "survivor",
+     "forged": false
+    }
+   ],
+   "E": "commit",
+   "COMP": "commit"
+  }
+ ]
+}

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flockinator - a microscope for emergent behaviour</title>
+<meta name="description" content="Interactive simulation: watch a 16-node swarm handle forged reports, lying sensors, and abstention. Host simulation only - no real nodes are controlled here.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Flockinator <span class="sub">- a microscope for emergent behaviour</span></h1>
+  <p class="lede">Sixteen embodied agents, staged in sound, light, and language on a wall of
+  nodes, so humans can spot what emerges between agents - then prove or refute the spot
+  against sealed evidence.</p>
+  <p class="badge" role="note">Interactive simulation only. Nothing here controls real hardware.</p>
+</header>
+
+<main>
+<section aria-labelledby="bench-h">
+  <h2 id="bench-h">Flagship benchmark: messages help, corruption hurts more than silence</h2>
+  <p>Seeded host experiment (<code>field-signals-v1</code>): teams of agents identify sectors
+  from private cues plus peer messages. Team success = at least 3 of 4 agents correct.</p>
+  <div class="controls">
+    <label for="seed">Seed (canonical set 0-15)</label>
+    <input id="seed" name="seed" type="number" min="0" max="15" value="0">
+    <button id="run-seed" type="button">Show seed</button>
+    <button id="run-pooled" type="button">Show pooled (seeds 0-15)</button>
+  </div>
+  <div id="bench-out" aria-live="polite">
+    <p>Loading pooled result...</p>
+  </div>
+  <p class="note">Muted/private baseline receives no peer messages by design (different
+  information budget). Reproduce from source: <code>python3 tools/reproduce/run.py --verify</code>
+  in the public repository.</p>
+</section>
+
+<section aria-labelledby="wall-h">
+  <h2 id="wall-h">The wall: watch trust fail and recover</h2>
+  <p>Replay of one scored simulation (composite-defence world, seed 200): forged reports and
+  a sensor modality that starts lying at contact 20. Two policies decide each contact.
+  This is a visualisation of a host-scored run - the microscope view - not live nodes.</p>
+  <div class="controls">
+    <button id="play" type="button">Play replay</button>
+    <button id="step" type="button">Step</button>
+    <label for="policy">Policy shown</label>
+    <select id="policy"><option value="E">E: verified + abstain</option><option value="COMP">COMP: + modality trust</option></select>
+    <span id="contact-label" aria-live="polite"></span>
+  </div>
+  <div id="wall" class="wall" role="img" aria-label="4 by 4 grid of simulated nodes"></div>
+  <p id="verdict" aria-live="polite"></p>
+</section>
+
+<section aria-labelledby="results-h">
+  <h2 id="results-h">Published results</h2>
+  <ul>
+    <li><a href="https://github.com/guruswami-ai/flockinator-public/blob/main/docs/experiments/flagship-communication.md">Flagship communication result</a> - communication helps, corruption worse than silence</li>
+    <li><a href="https://github.com/guruswami-ai/flockinator-public/blob/main/docs/results/cycle-07/README.md">Cycle-07 trust matrix</a> - forgery and lying-insider policies pass; honest baseline fails its frozen floors</li>
+    <li><a href="https://github.com/guruswami-ai/flockinator-public/blob/main/docs/experiments/kulira-trust-series.md">Kulira trust experiment series</a> - fifteen pre-registered experiments, including the falsified ones</li>
+    <li><a href="https://github.com/guruswami-ai/flockinator-public">Source repository</a></li>
+  </ul>
+</section>
+</main>
+<footer>
+  <p>Flockinator - Meta Global AI Developer Hackathon 2026 concept. Simulation and published
+  evidence only; the physical fleet is not reachable from this page.</p>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>
