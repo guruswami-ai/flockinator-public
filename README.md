@@ -15,7 +15,8 @@ wall at all: [a microscope for emergent behaviour](docs/learn/microscope-for-eme
 
 **[Watch the narrated demo](https://www.youtube.com/watch?v=HaYNTBhXbu4)** ·
 [Results and evidence](docs/results/README.md) ·
-[Results dashboard](https://guruswami-ai.github.io/flockinator-public/results/)
+[Results dashboard](https://guruswami-ai.github.io/flockinator-public/results/) ·
+[Judging guide: five minutes to the evidence](JUDGING.md)
 
 ![Flockinator working setup with illuminated swarm panels, controllers and host displays](docs/images/flockinator-working-stack.png)
 

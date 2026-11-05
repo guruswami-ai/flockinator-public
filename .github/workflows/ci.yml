@@ -1,0 +1,37 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  fleet-score:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - name: Scorer v4 + gate-runner suite
+        run: uv run --project tools/fleet-score python -m pytest tools/fleet-score -q
+      - name: Frozen baseline reproduces (recall 0.2141)
+        run: |
+          uv run --project tools/fleet-score python tools/fleet-score/baseline.py --seeds 0-19 --out /tmp/bl --label dev
+          python3 - <<'PY'
+          import json
+          d = json.load(open('/tmp/bl/baseline-dev.json'))
+          rec = [s['recall'] for s in d['per_seed'] if s.get('contacts_total', 0) > 0]
+          mean = round(sum(rec) / len(rec), 4)
+          assert mean == 0.2141, mean
+          print('baseline recall OK:', mean)
+          PY
+      - name: Dashboard regenerates byte-identically
+        run: |
+          uv run --project tools/fleet-score python docs/results/generate_dashboard.py
+          git diff --exit-code docs/results/index.html
+
+  kulira-core:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - name: Kulira adversary suite
+        run: uv run --project tools/kulira-core python -m pytest tools/kulira-core -q
