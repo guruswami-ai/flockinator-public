@@ -117,7 +117,7 @@ def main(argv=None):
     target = out / f"baseline-{args.label}.json"
     target.write_text(json.dumps(payload, indent=1, sort_keys=True))
     print(f"{args.label}: {len(per_seed)} runs -> {target}")
-    for key, value in aggregate.items():
+    for key, value in payload["aggregate_means"].items():
         print(f"  {key}: {value}")
     return 0
 

@@ -34,7 +34,7 @@ you can verify it from this repository alone:
 | Hearsay fusion (P1) helps/hurts | — | U | Untested: no hearsay in cycle-07 journals; unit fixtures only |
 | Abstention policy (P2) performance | — | U | UNMEASURED by construction in cycle-07 (no scorer column). Kulira's relay series measures related policies in its own harness: `docs/experiments/` |
 | Honest baseline vs frozen floors | FAILS (rate 0.0769 vs 0.0750; 13 vs 30 contacts) | R | cycle-07 T0 verdicts; calibration flaw recorded in cycle-07 README |
-| Kulira adversary series (10 experiments; composite D+E/F+modality stack) | per-experiment | R/F | `docs/experiments/kulira-trust-series.md` + per-experiment pre-registration/results pairs; code `tools/kulira-core/` (`pytest tools/kulira-core -q`) |
+| Kulira adversary series (15 experiments; composite D+E/F+modality stack) | per-experiment | R/F | `docs/experiments/kulira-trust-series.md` + per-experiment pre-registration/results pairs; code `tools/kulira-core/` (`pytest tools/kulira-core -q`) |
 
 ## Hardware / field (2026-11-05 unless stated)
 
