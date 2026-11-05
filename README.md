@@ -47,6 +47,7 @@ New to swarms? [Learn: swarms, shared intelligence, and trust](docs/learn/README
 | Experimental methodology | [docs/experiments.md](docs/experiments.md) |
 | Results dashboard and methodology | [docs/results/](docs/results/README.md) |
 | Illustrated survey scenario | [docs/scenarios/quadcopter-survey/](docs/scenarios/quadcopter-survey/README.md) |
+| Proposed sound-and-light flocking scenario | [Patternflow experiment](docs/scenarios/patternflow-flocking/README.md) |
 | Hardware, components, finished CAD | [docs/hardware.md](docs/hardware.md), [cad/](cad/README.md) |
 | Build and host tools | [docs/build.md](docs/build.md) |
 | Firmware | [firmware/node-platform](firmware/node-platform/README.md), [firmware/korvo-monitor](firmware/korvo-monitor/README.md), [firmware/management-console](firmware/management-console/README.md) |

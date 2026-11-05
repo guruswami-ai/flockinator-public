@@ -59,6 +59,11 @@ orders, deployment, scanning, sightings, sharing, doubt, verification,
 return, and charging - including the false-report (deception) beat that
 Kulira-style experiments formalise.
 
+The proposed [Patternflow flocking scenario](scenarios/patternflow-flocking/README.md)
+extends this method to acoustic communication, collective music and panel dance,
+with Kulira disturbances and matched camera/audio/telemetry comparisons across
+firmware and settings generations.
+
 ## Why this is worth doing
 
 **Security.** Agent swarms that trust peer messages inherit every
