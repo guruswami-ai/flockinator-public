@@ -32,7 +32,7 @@ jobs:
         run: docker build -t flockinator-reproduce .
       - name: Run offline as unprivileged user
         run: |
-          mkdir -p /tmp/flockinator-repro-container
+          mkdir -p /tmp/flockinator-repro-container && chmod 777 /tmp/flockinator-repro-container  # unprivileged container user must own its output mount
           docker run --rm --network none -v /tmp/flockinator-repro-container:/tmp/out flockinator-reproduce
           cat /tmp/flockinator-repro-container/summary.txt
           grep -q "72.949%" /tmp/flockinator-repro-container/summary.txt

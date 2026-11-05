@@ -19,6 +19,7 @@ copy it). Runtime is under a second on a laptop.
 
 ```sh
 docker build -t flockinator-reproduce .
+mkdir -p /tmp/flockinator-repro && chmod 777 /tmp/flockinator-repro  # container runs unprivileged; it must be able to write the mount
 docker run --rm --network none -v /tmp/flockinator-repro:/tmp/out flockinator-reproduce
 ```
 
