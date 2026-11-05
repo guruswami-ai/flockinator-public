@@ -82,6 +82,61 @@ A node begins muted, suppresses or marks its own playback and acoustic tail, and
 returns to listening after a finite phrase. Calibrate room coupling and each
 microphone/speaker before interpreting a neighbour response.
 
+## Additional senses and interactive devices
+
+The node firmware already reads SHTC3 temperature/humidity and QMI8658 motion,
+with RTC status and dual-channel microphone capture alongside speaker output.
+These inputs can support environmental context, movement cues and acoustic
+interaction. Source direction from the microphone pair requires calibration and
+an implemented estimator. The board also exposes expansion connections.
+[Board resources](https://docs.waveshare.com/ESP32-S3-RGB-Matrix),
+[sensor driver](../../../firmware/node-platform/src/sensors.cpp),
+[audio driver](../../../firmware/node-platform/src/audio.cpp).
+
+Optional modules extend the same scenario through declared conditions. The ideas
+below are proposed capabilities, subject to exact-module and board compatibility.
+
+| Input or output | Possible experiment | Controlled friction |
+|---|---|---|
+| Existing microphones and speakers | Acoustic motifs, listening turns and musical responses | Overlapping sound, replay and misleading motifs |
+| Existing IMU | A moved or tapped node starts a rhythmic phrase | Unexpected motion or recorded feature perturbations |
+| Existing temperature/humidity sensing | Patterns reflect local environmental changes | Baseline drift or stale readings |
+| Vision | Observe another panel's dance or respond to human gestures | Occlusion, changed lighting or replayed images |
+| LiDAR / time-of-flight ranging | Distance changes tempo or a node's participation | Partial occlusion or missing range samples |
+| mmWave | Presence or movement changes group roles | Distractors, changed placement or missing reports |
+| IR, UV or lux sensors | Compare optical observations or respond to light cues | Controlled ambient changes or recorded feature perturbations |
+| Ultrasonic ranging | Proximity shapes call-and-response | Multiple-emitter cross-talk or delayed samples |
+| Optional actuators | A bounded physical movement or haptic response accompanies a phrase | Delayed or unavailable actuator feedback |
+
+Define the actual sensor output, units, sampling rate and calibration for each
+module. IR may mean reflected-light, ranging or thermal sensing depending on the
+chosen device. Record each reading's validity, age and source, including whether
+it was measured on a node, supplied by a host or simulated. Reuse the public
+[acoustic model](../../../tools/kulira-core/kulira_core/acoustic.py) and
+[sensing analysis](../../../tools/kulira-core/kulira_core/sensing.py) where their
+contracts fit. Physical integration needs measured channel and sensor validation.
+
+Maintain a per-node capability manifest with module/driver versions, interface,
+reserved pins, electrical requirements, address, sample budget and calibration.
+Check the exact board revision and module against the display, SD, audio, memory
+and boot-pin allocations before wiring. Shared buses need compatible addresses
+and timing. Camera capture and active ranging need their own bandwidth, power and
+interference budgets. A companion processor is an option when local resources
+are insufficient, with its latency and execution location recorded.
+
+Evaluate audio-only, optional-sensor-only and combined conditions at declared
+budgets. Hold hardware and observations fixed for firmware/settings comparisons,
+then report added-sensor gains separately. Heterogeneous fleets may allocate senses
+to different roles. Rotate roles and placement across runs. Corroboration must
+account for shared causes such as one speaker exciting several microphones or
+one light affecting several optical sensors.
+
+The recording camera remains an observer by default. Feeding its images to agents
+creates an explicit vision-enabled condition with documented field of view and
+latency. Link those observations and actuator outcomes to the existing run journal
+and media manifest. Every new modality adds its own calibration and acceptance
+step before it contributes to an improvement claim.
+
 ## Friction that tests the learned behaviour
 
 Kulira's model proposes actions through the existing validated execution path.
@@ -192,7 +247,9 @@ aggregate results and separately reviewed demonstration media.
    tones, stale input, queue saturation and self-output exclusion first.
 2. **Instrumented pair.** Add call-and-response, local event journals and aligned
    camera/audio capture. Repeat with a muted sender and disabled coupling.
-3. **Scored communication.** Implement the private-cue task, deterministic scorer,
+3. **Scored communication.** Use the existing host acoustic model as a reference
+   and validate its assumptions against pair recordings. Implement the private-cue
+   task, deterministic scorer,
    fixed protocol, training/evaluation split and reproducible state resets.
 4. **Bounded adversity.** Add the gated acoustic actuator, frozen replay stimuli
    and graded treatments. Verify stop timing, evidence completeness and recovery.
