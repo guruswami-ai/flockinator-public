@@ -205,6 +205,23 @@ class WallSession:
                 time.sleep(burst_gap_s)
         return entries
 
+    def apply_video_zoom_out(self) -> None:
+        """Set VIDEO zoom to minimum (~0.6x ultrawide) via the slider.
+
+        Tapping the preview reveals a vertical zoom slider on the
+        right edge (not in the accessibility tree). Pixel 9a /
+        GrapheneOS Camera at 1080x2424: the 1.0x thumb sits near
+        (995, 1112); dragging it to ~(995, 1285) reaches the wide
+        end. Verified live 2026-11-06: the recorded frame then
+        contains all 16 panels. The setting does NOT persist across
+        a CAMERA->VIDEO mode switch, so this runs before every
+        recording. At 0.6x the phone records 1080x1920.
+        """
+        self.adb.shell("input", "tap", "540", "1000")  # reveal slider
+        time.sleep(1)
+        self.adb.shell("input", "swipe", "995", "1112", "995", "1285", "800")
+        time.sleep(1)
+
     def capture_video(self, phase: str, seconds: float,
                       shutter_xy=(539, 1917),
                       strip_audio: bool = True) -> dict:
@@ -219,6 +236,7 @@ class WallSession:
         """
         self.tap_mode("VIDEO")
         time.sleep(2)
+        self.apply_video_zoom_out()
         before = self.adb.dcim_listing()
         t0 = time.time()
         self.adb.shell("input", "tap", str(shutter_xy[0]), str(shutter_xy[1]))
@@ -245,7 +263,8 @@ class WallSession:
             "host_utc_pulled": utc_iso(time.time()),
             "host_monotonic_s": round(time.monotonic(), 3),
             "camera_mode": "VIDEO",
-            "fov_note": "16:9 crop; full wall via still bursts",
+            "video_zoom_applied": True,
+            "fov_note": "0.6x ultrawide; full 4x4 in frame (verified)",
         })
 
     def tap_mode(self, mode: str) -> None:
