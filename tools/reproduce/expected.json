@@ -1,0 +1,189 @@
+{
+ "scientific_content": {
+  "experiment": "field-signals-v1",
+  "source": "tools/mission-host/coordination_lab.py",
+  "definition": "team success = at least 3 of 4 agents choose the correct sector; 4 teams x 32 held-out rounds per seed (team tasks within a seed are not independent)",
+  "seeds": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15
+  ],
+  "per_seed": [
+   {
+    "seed": 0,
+    "clear_recoveries": 100,
+    "clear_tasks": 128,
+    "scrambled_recoveries": 49,
+    "scrambled_tasks": 128,
+    "private_recoveries": 86,
+    "private_tasks": 128
+   },
+   {
+    "seed": 1,
+    "clear_recoveries": 89,
+    "clear_tasks": 128,
+    "scrambled_recoveries": 38,
+    "scrambled_tasks": 128,
+    "private_recoveries": 74,
+    "private_tasks": 128
+   },
+   {
+    "seed": 2,
+    "clear_recoveries": 91,
+    "clear_tasks": 128,
+    "scrambled_recoveries": 48,
+    "scrambled_tasks": 128,
+    "private_recoveries": 77,
+    "private_tasks": 128
+   },
+   {
+    "seed": 3,
+    "clear_recoveries": 82,
+    "clear_tasks": 128,
+    "scrambled_recoveries": 33,
+    "scrambled_tasks": 128,
+    "private_recoveries": 62,
+    "private_tasks": 128
+   },
+   {
+    "seed": 4,
+    "clear_recoveries": 80,
+    "clear_tasks": 128,
+    "scrambled_recoveries": 46,
+    "scrambled_tasks": 128,
+    "private_recoveries": 57,
+    "private_tasks": 128
+   },
+   {
+    "seed": 5,
+    "clear_recoveries": 95,
+    "clear_tasks": 128,
+    "scrambled_recoveries": 42,
+    "scrambled_tasks": 128,
+    "private_recoveries": 70,
+    "private_tasks": 128
+   },
+   {
+    "seed": 6,
+    "clear_recoveries": 93,
+    "clear_tasks": 128,
+    "scrambled_recoveries": 40,
+    "scrambled_tasks": 128,
+    "private_recoveries": 76,
+    "private_tasks": 128
+   },
+   {
+    "seed": 7,
+    "clear_recoveries": 91,
+    "clear_tasks": 128,
+    "scrambled_recoveries": 41,
+    "scrambled_tasks": 128,
+    "private_recoveries": 68,
+    "private_tasks": 128
+   },
+   {
+    "seed": 8,
+    "clear_recoveries": 98,
+    "clear_tasks": 128,
+    "scrambled_recoveries": 51,
+    "scrambled_tasks": 128,
+    "private_recoveries": 76,
+    "private_tasks": 128
+   },
+   {
+    "seed": 9,
+    "clear_recoveries": 96,
+    "clear_tasks": 128,
+    "scrambled_recoveries": 38,
+    "scrambled_tasks": 128,
+    "private_recoveries": 67,
+    "private_tasks": 128
+   },
+   {
+    "seed": 10,
+    "clear_recoveries": 91,
+    "clear_tasks": 128,
+    "scrambled_recoveries": 44,
+    "scrambled_tasks": 128,
+    "private_recoveries": 72,
+    "private_tasks": 128
+   },
+   {
+    "seed": 11,
+    "clear_recoveries": 101,
+    "clear_tasks": 128,
+    "scrambled_recoveries": 42,
+    "scrambled_tasks": 128,
+    "private_recoveries": 73,
+    "private_tasks": 128
+   },
+   {
+    "seed": 12,
+    "clear_recoveries": 95,
+    "clear_tasks": 128,
+    "scrambled_recoveries": 46,
+    "scrambled_tasks": 128,
+    "private_recoveries": 75,
+    "private_tasks": 128
+   },
+   {
+    "seed": 13,
+    "clear_recoveries": 95,
+    "clear_tasks": 128,
+    "scrambled_recoveries": 38,
+    "scrambled_tasks": 128,
+    "private_recoveries": 78,
+    "private_tasks": 128
+   },
+   {
+    "seed": 14,
+    "clear_recoveries": 95,
+    "clear_tasks": 128,
+    "scrambled_recoveries": 47,
+    "scrambled_tasks": 128,
+    "private_recoveries": 70,
+    "private_tasks": 128
+   },
+   {
+    "seed": 15,
+    "clear_recoveries": 102,
+    "clear_tasks": 128,
+    "scrambled_recoveries": 45,
+    "scrambled_tasks": 128,
+    "private_recoveries": 79,
+    "private_tasks": 128
+   }
+  ],
+  "pooled": {
+   "clear": {
+    "recoveries": 1494,
+    "tasks": 2048,
+    "rate": 0.729492
+   },
+   "scrambled": {
+    "recoveries": 688,
+    "tasks": 2048,
+    "rate": 0.335938
+   },
+   "private": {
+    "recoveries": 1160,
+    "tasks": 2048,
+    "rate": 0.566406
+   }
+  }
+ },
+ "canonical_sha256": "406549c30f4d38f62fbdca39b7265902370793be717d84e5c6f1a856584f94c9"
+}
