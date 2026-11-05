@@ -51,6 +51,18 @@ scenario is a visualisation of that question, not an operational system.
 Synchronised animation, packet counts, and extra observations are not,
 by themselves, evidence of cooperation or intelligence.
 
+## The wider frontier
+
+The quadcopter scenario is a deliberately relatable first case.
+The research target is agent-to-agent communication for low-cost
+embedded agents (medical sensors, point-of-sale, vehicle
+navigation, flight control), where intelligence may live between
+devices rather than in monolithic rented models. Unlike early
+TCP/IP - exploited slowly because few humans had the skills -
+A2A holes will be probed by models at machine speed; obscurity
+is no longer protection for an unpatched device. Argument:
+[learn/why-quadcopters-and-a2a.md](learn/why-quadcopters-and-a2a.md).
+
 ## Reference scenario
 
 The illustrated quadcopter survey
