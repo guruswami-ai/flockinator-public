@@ -5,9 +5,7 @@ from kulira_core.e2e import build_run
 def test_e2e_run_scores_with_fleet_scorer(tmp_path):
     out = build_run(tmp_path/"run", seed=42)
     assert (out/"director.json").exists()
-    scorer = Path(__file__).parents[2] / "tools/fleet-score/score.py"
-    # fleet-score lives at repo root tools/, kulira test is tools/kulira-core
-    scorer = Path(__file__).resolve().parents[2] / "fleet-score" / "score.py"
+    scorer = Path(__file__).resolve().parents[2] / "tools/fleet-score/score.py"
     r = subprocess.run([sys.executable, str(scorer), str(out)], capture_output=True, text=True)
     assert r.returncode == 0, r.stderr
     score = json.loads(r.stdout)

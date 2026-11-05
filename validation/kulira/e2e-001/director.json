@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "source": "kulira_lab_simulation",
+  "run": "kulira-e2e-42",
+  "units": [
+    "A1",
+    "B1",
+    "C1",
+    "D1",
+    "K1"
+  ],
+  "ground_truth": [
+    {
+      "pos": [
+        7,
+        7
+      ],
+      "kind": "Friendly",
+      "priority": "High"
+    },
+    {
+      "pos": [
+        8,
+        8
+      ],
+      "kind": "Enemy",
+      "priority": "High"
+    },
+    {
+      "pos": [
+        9,
+        9
+      ],
+      "kind": "Friendly",
+      "priority": "Low"
+    },
+    {
+      "pos": [
+        10,
+        10
+      ],
+      "kind": "Enemy",
+      "priority": "Low"
+    }
+  ]
+}
