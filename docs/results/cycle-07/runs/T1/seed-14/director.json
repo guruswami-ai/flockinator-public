@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "ruleset": "search-board-1",
+  "source": "planner_simulation",
+  "run": "cycle07-T1-seed-14",
+  "phase": "Complete",
+  "last_turn": 12,
+  "started_utc": "2023-11-14T22:13:20.000+00:00",
+  "units": [
+    "A1",
+    "B1",
+    "C1",
+    "D1",
+    "A2",
+    "B2",
+    "C2",
+    "D2",
+    "A3",
+    "B3",
+    "C3",
+    "D3",
+    "A4",
+    "B4",
+    "C4",
+    "D4"
+  ],
+  "scenario": {
+    "pattern": "Tree-line fan",
+    "cover": "Patchy",
+    "count": 16,
+    "battery": 16,
+    "focus": [
+      8,
+      5
+    ],
+    "custom": {},
+    "seed": 14,
+    "phase": "Running",
+    "turn": 0,
+    "scenario_seed": 14,
+    "episode": "cycle07-T1-seed-14"
+  },
+  "ground_truth": [],
+  "clock_segments": [
+    [
+      0,
+      1700000000.0
+    ]
+  ]
+}

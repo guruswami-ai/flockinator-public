@@ -1,48 +1,34 @@
-# Talking in harmonics: pheromones, music, and dance
+# Exploring communication through sound and dance
 
-Not every swarm talks in data packets. Ants talk in pheromones -
-chemicals left in the world for whoever passes next. Bees talk in
-dance. Flockinator's nodes have a third option their radio does
-not give them: **sound**.
+Flockinator's nodes have microphones, speaker output and animated panels. These
+provide a way to explore how a group could exchange acoustic signals and develop
+shared rhythms while responding to noise or misleading cues.
 
-Each node has microphones and a speaker, and a screen that already
-knows how to draw music - spectrum bars, pulses, patterns that
-move with what the node hears and sings. So a new experiment
-asks: put sixteen nodes in a room, let them make short harmonic
-phrases, listen to each other, and see what happens.
+A host-side acoustic model is implemented and tested. It represents distance
+attenuation and exclusion of a source's own phrase within a settling interval,
+and calculates phase alignment and shared-pitch counts. Physical sound-driven
+Patternflow animation and a swarm that learns acoustic signals remain proposed
+experiments. The [model](../../tools/kulira-core/kulira_core/acoustic.py) and
+[tests](../../tools/kulira-core/test_acoustic.py) define the implemented behaviour.
 
-Three things might emerge, and each is measurable:
+Three questions guide the experiment.
 
-- **A shared vocabulary.** No pitch is assigned a meaning. But if
-  one node's phrase gets answered, copied, and spread - the way
-  a pheromone trail strengthens with use - a shared set of
-  pitches may grow that the group treats as signals. We count
-  distinct pitches, and how many nodes share each one.
-- **Synchrony.** Oscillators that hear each other tend to align.
-  Fireflies do this; metronomes on a shared shelf do this. We
-  measure phase alignment directly (a number from 0, chaos, to
-  1, perfect unison) and watch whether nodes fall into coordinated
-  music - or coordinated *movement* patterns on their panels,
-  a visible dance driven by what they hear.
-- **A channel attackers must respect physics to abuse.** Sound
-  fades with distance and a node is briefly deaf after singing.
-  A liar across the room is quieter than a friend beside you.
-  That does not make acoustic trust automatic - a loudspeaker
-  lies at any volume - but it changes the attack geometry in
-  ways radio does not, and Kulira will test exactly that.
+- **Can sounds carry learned information?** Track whether a receiver uses a phrase
+  to make a better task decision on unseen examples. The current pitch-counting
+  helper records which pitches occur across listeners. Shared meaning requires
+  decoding and task-success measurements as well.
+- **Can a group coordinate a performance?** Measure phase alignment, participation
+  and recovery after a disturbance. The current synchrony metric ranges from zero
+  for cancelling phase vectors to one for full alignment. Low values can describe
+  structured patterns with opposing phases. Panel dance would show each node's
+  recorded state and response to sound.
+- **Can cooperation survive misleading cues?** Compare clean and disturbed runs
+  with matched budgets and frozen stimuli. Distance, room reflections, source
+  volume and microphone placement all need calibration in a physical experiment.
 
-Why it matters beyond pretty lights: if small devices are going
-to hold intelligence *between* themselves, they will use every
-channel they have - radio, light, sound, shared surfaces. A
-swarm that can invent even a primitive acoustic language in a
-room is a visible, audible model of the same emergence we claim
-for rescue sensing and for A2A protocols. And an audience can
-*hear* consensus form - or be deceived - which no log file will
-ever give them.
-
-Status: the host-side acoustic model (distance attenuation,
-self-deaf settling, synchrony and vocabulary metrics) is
-implemented and tested in `tools/kulira-core`; firmware that
-sings and listens on the nodes themselves is a separate,
-owner-gated experiment. Nothing here is claimed as run on the
-fleet yet.
+Camera and room-audio recordings can help an audience follow these interactions.
+Time-aligned telemetry and controlled comparisons establish whether information
+changed a decision, whether learning improved performance and whether a firmware
+revision retained the gain. The [experimental methodology](../experiments.md)
+defines those comparisons, and the [results record](../results/README.md) identifies
+completed measurements and their limits.

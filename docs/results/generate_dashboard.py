@@ -3,7 +3,7 @@
 
 Reads results-data.json (frozen, lane-reviewed cycle aggregates) from this
 directory and writes a self-contained index.html with inline SVG charts.
-Stdlib only. Usage: python3 generate_dashboard.py
+Stdlib only. Usage: uv run --no-project docs/results/generate_dashboard.py
 """
 import json, pathlib, html as H
 HERE = pathlib.Path(__file__).resolve().parent
@@ -73,7 +73,7 @@ flow = "".join(f"<li>{esc(s)}</li>" for s in D["decision_flow"])
 html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Flockinator — training-session results</title>
-<meta name="description" content="Measured planner-intelligence experiments on the 16-panel Flockinator swarm: pre-registered gates, four rejected candidates, zero unsafe promotions, reproducible scorer.">
+<meta name="description" content="Flockinator planner simulation results, four rejected candidates, hardware field observations and reproducible scorer fixtures.">
 <style>
 :root{{--bg:#14181d;--panel:#1c222a;--line:#39434f;--tx:#e8e4da;--dim:#a9b2bc;--amber:#e0a526;--red:#e0674f;--teal:#3fae97}}
 *{{box-sizing:border-box}}body{{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 Georgia,'Times New Roman',serif}}
@@ -101,20 +101,21 @@ code{{font:13px ui-monospace,Menlo,monospace;background:#0d1013;padding:1px 5px}
 .dim{{color:var(--dim);font-size:14px}}
 @media (prefers-reduced-motion: reduce){{*{{animation:none;transition:none}}}}
 </style></head><body><main>
-<h1>Teaching a 16-drone swarm to judge what it sees</h1>
-<p class="lede">Flockinator is sixteen ESP32 survey panels flying seeded scenarios under a
-Korvo ESP32-S31 commander. This page is the lab book for its planner-intelligence loop:
-five measured generations, pre-registered promotion gates, and the honest result —
-<span style="color:var(--red)">four candidates rejected, zero unsafe promotions</span>.
-Every number below regenerates from committed journals with the open scorer.</p>
+<h1>Evaluating decisions in a simulated swarm</h1>
+<p class="lede">Flockinator's planner scorecard records a frozen baseline and
+<span style="color:var(--red)">four rejected candidates</span>. These are simulation
+replay results evaluated against pre-registered promotion gates.</p>
+<p>This dashboard is generated from <a href="results-data.json">published aggregate
+reports</a>. Bundled synthetic journals reproduce scorer fixtures. Reproducing all
+aggregate results requires the corresponding complete run sets. The
+<a href="README.md">results record</a> explains provenance and hardware field observations.</p>
 
-<div class="finding"><b>The finding.</b> Better search coverage nearly tripled recall
-(0.2141 → 0.6226), and confirmation policies pushed committed decisions from 17 to 51–57 —
-but at the scenario's per-sighting identification accuracy (60–82% by cover), <b>no
-sighting-count voting rule reaches zero Enemy→Friendly commits at useful yield</b>. More
-commits at a fixed error rate means more chances for a wrong majority. The next lever
-is not another vote threshold — asymmetric commit costs (v4, below) were the
-last of that family. What remains is better evidence: graded sensing.</div>
+<div class="finding">Search coverage improved, while all four tested candidates
+failed the full promotion criteria. These results support rejecting those candidates
+under the recorded conditions. Graded sensing and explicit abstention are proposed
+next experiments.</div>
+<p class="dim">Historical Friendly/Enemy labels are retained for traceability.
+The current public scenario uses a search-and-rescue narrative.</p>
 
 <h2>1 · Sighted recall — did the swarm find the contacts?</h2>
 {recall}
@@ -148,12 +149,13 @@ still landed home with zero reserve-floor violations in every run.</p>
 {fw}
 
 <h2>6 · Reproduce it</h2>
-<p>The scorer is deterministic, stdlib-only Python. Sample planner journals (baseline,
-seeds 0 and 10) ship in <code>sample-runs/</code>; seed 10 contains the correlated-error
-contact beside HOME that defeated two candidates.</p>
-<pre>python3 tools/fleet-score/score.py docs/results/sample-runs/baseline-seed-10
-python3 -m unittest discover -s tools/fleet-score -p 'test_*.py'   # 11 tests
-python3 docs/results/generate_dashboard.py                          # rebuild this page</pre>
+<p>The scorer is deterministic, stdlib-only Python. The bundled synthetic fixtures
+include baseline seeds 0 and 10 with eight units and a sixteen-unit planner capture.
+Run these commands from the repository root.</p>
+<pre>uv run --project tools/fleet-score python tools/fleet-score/score.py docs/results/sample-runs/baseline-seed-10
+uv run --project tools/fleet-score python tools/fleet-score/score.py docs/results/sample-runs/cycle-00-planner-capture
+uv run --project tools/fleet-score python -m pytest tools/fleet-score -q
+uv run --project tools/fleet-score python docs/results/generate_dashboard.py</pre>
 <p>Full protocol — pre-registration, eligible-seed rules, sealed holdout, gate definitions,
 restore-on-failure discipline — is in the <a href="README.md">results README</a>. Extend it:
 write your pre-registration first, then beat <b>recall ≥ 0.5141 with Enemy→Friendly = 0</b>.</p>
@@ -161,7 +163,8 @@ write your pre-registration first, then beat <b>recall ≥ 0.5141 with Enemy→F
 used as commit confidence (in this simulator the roll determines correctness — using it
 would be oracle leakage, not sensing); planner replay is simulation evidence, never
 claimed as on-node inference. On-device measurement (controller health API, fleet sweep,
-node SD journals) is how the same scorecard gets measured on hardware next.</p>
+node SD journal copies) records infrastructure behaviour. Evaluating learning
+on physical nodes requires attributable node decisions and matched experiment runs.</p>
 </main></body></html>
 """
 (HERE / "index.html").write_text(html)

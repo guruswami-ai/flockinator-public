@@ -8,6 +8,14 @@ nature's slow optimisation (hardship and selection over evolutionary
 time) into seeded, measurable runs humans can watch. The search-and-rescue
 scenario is a visualisation of that question, not an operational system.
 
+## Optimisation stance
+
+The swarm is not optimised toward a smartest state; it is
+filtered toward a survivable one. Promotion gates are viability
+gates (zero dangerous error first, usefulness second), declared
+before runs because the gates *are* the landscape. Plain-language
+version: [learn/optimisation-in-nature.md](learn/optimisation-in-nature.md).
+
 ## Three loci of intelligence
 
 - **In the node** — the small local model/policy each ESP32 body carries.
@@ -16,6 +24,23 @@ scenario is a visualisation of that question, not an operational system.
   [meta-muse](meta-muse/README.md)).
 - **Between nodes** — inter-node trust, corroboration, and communication
   norms that emerge (or fail) under pressure.
+
+## Why a wall: designing for human perception
+
+A key reason this system is physical: to constrain agentic
+systems into scenarios optimised for human biology. Agents are
+forced through human-perceptible channels - displayed state,
+auditory markers, readable language - consolidated on a wall of
+nodes, with bottlenecks and checkpoints where human senses and
+comprehension are useful for detecting behaviour nobody predicted.
+Text logs and binary interaction graphs at swarm scale are
+normally meaningless to a human reader; a watching human spots
+the unusual pattern first, and sealed evidence then confirms or
+refutes the spot. Flockinator is a microscope for emergent
+behaviour and a feedback mechanism researchers can conceptualise
+while experiments run. Decision record:
+[ADR-001](decisions/ADR-001-human-perceptible-swarm.md) ·
+plain language: [learn/microscope-for-emergence.md](learn/microscope-for-emergence.md).
 
 ## Method
 
@@ -50,6 +75,9 @@ scenario is a visualisation of that question, not an operational system.
 
 Synchronised animation, packet counts, and extra observations are not,
 by themselves, evidence of cooperation or intelligence.
+
+Twelve further scenarios with methods and pre-declared
+success/failure conditions: [experiment-catalogue.md](experiment-catalogue.md).
 
 ## Reference scenario
 
@@ -87,10 +115,14 @@ ecosystem-level strategy, yet those higher-level patterns are real,
 adaptive, and abundant. They are also hard to quantify, because our
 metrics are built per-agent. Flockinator is an instrument for that
 measurement problem: sixteen embodied agents with sealed ground truth,
-so extra-node intelligence can be defined operationally - the paired
-gain of the communicating swarm over the sum of its isolated agents,
-at matched observation and energy budgets - and watched as it emerges,
-fails, or is deceived.
+so cooperative benefit can be measured with paired runs. For each seed, compute
+the same pre-declared task score for communicating agents and for those agents
+acting on private cues alone, using the same aggregation rule, observations and
+resource budgets. Subtract the private-cue score from the communicating score,
+then report the distribution of differences across seeds with uncertainty.
+Individual accuracy percentages must use that aggregation rule before comparison.
+This protocol is a proposed test of shared intelligence. A completed physical
+paired-gain result remains an open measurement in the public results record.
 
 **Implication for agent design.** If intelligence can live between
 agents, then designing intelligent systems in the AI age is not only

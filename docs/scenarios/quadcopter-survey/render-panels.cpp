@@ -15,6 +15,8 @@ void write(const std::filesystem::path& dir,const std::string& id,Scene s,int in
 }
 int main(int argc,char** argv){
  if(argc!=2)return 2;std::filesystem::path dir=argv[1];std::filesystem::create_directories(dir);
+ // 25 of the firmware enum's 30 states: ENGAGE/KILL are outside this
+ // non-weaponised survey scenario; FRIEND/TARGET/BLANK are not shown.
  const State states[]={READY,APPROVED,ORDERS,TAKEOFF,DEPLOY,SCAN,LOITER,SEEN,SHARE,CHECK,DOUBT,LOST,HOLD,ALERT,PRIORITY,CLAIM,ASSIGN,YIELD,R2B,LAND,CHARGE,STANDBY,NOLINK,EMPTY,CRASH};
  Scene s;s.phase=2.1f;s.motion=34;s.launch=1;s.observations=true;s.owner=2;s.source=0;s.peer=1;s.cycle=1;
  for(auto state:states){s.state=state;s.direction=0;s.commAge=99;s.phase=state==APPROVED?.1f:state==CRASH?1.2f:2.1f;write(dir,name(state),s);}

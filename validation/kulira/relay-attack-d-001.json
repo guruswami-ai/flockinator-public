@@ -1,0 +1,923 @@
+{
+ "experiment": "relay-attack-policy-d",
+ "simulation": true,
+ "amendment": "docs/experiments/relay-attack-amendment-d.md",
+ "dev_seeds": "0-19",
+ "holdout_seeds": "100-109",
+ "dev": {
+  "A": {
+   "per_seed": {
+    "0": {
+     "dangerous": 8,
+     "forged_dangerous": 6,
+     "survivor_recall": 0.3636,
+     "survivors": 22,
+     "committed_survivors": 8
+    },
+    "1": {
+     "dangerous": 15,
+     "forged_dangerous": 15,
+     "survivor_recall": 0.3571,
+     "survivors": 14,
+     "committed_survivors": 5
+    },
+    "2": {
+     "dangerous": 10,
+     "forged_dangerous": 10,
+     "survivor_recall": 0.2941,
+     "survivors": 17,
+     "committed_survivors": 5
+    },
+    "3": {
+     "dangerous": 9,
+     "forged_dangerous": 9,
+     "survivor_recall": 0.3684,
+     "survivors": 19,
+     "committed_survivors": 7
+    },
+    "4": {
+     "dangerous": 10,
+     "forged_dangerous": 10,
+     "survivor_recall": 0.3158,
+     "survivors": 19,
+     "committed_survivors": 6
+    },
+    "5": {
+     "dangerous": 15,
+     "forged_dangerous": 15,
+     "survivor_recall": 0.5789,
+     "survivors": 19,
+     "committed_survivors": 11
+    },
+    "6": {
+     "dangerous": 9,
+     "forged_dangerous": 9,
+     "survivor_recall": 0.4211,
+     "survivors": 19,
+     "committed_survivors": 8
+    },
+    "7": {
+     "dangerous": 5,
+     "forged_dangerous": 4,
+     "survivor_recall": 0.56,
+     "survivors": 25,
+     "committed_survivors": 14
+    },
+    "8": {
+     "dangerous": 14,
+     "forged_dangerous": 13,
+     "survivor_recall": 0.6667,
+     "survivors": 18,
+     "committed_survivors": 12
+    },
+    "9": {
+     "dangerous": 10,
+     "forged_dangerous": 9,
+     "survivor_recall": 0.5789,
+     "survivors": 19,
+     "committed_survivors": 11
+    },
+    "10": {
+     "dangerous": 12,
+     "forged_dangerous": 10,
+     "survivor_recall": 0.5789,
+     "survivors": 19,
+     "committed_survivors": 11
+    },
+    "11": {
+     "dangerous": 12,
+     "forged_dangerous": 12,
+     "survivor_recall": 0.4545,
+     "survivors": 22,
+     "committed_survivors": 10
+    },
+    "12": {
+     "dangerous": 9,
+     "forged_dangerous": 9,
+     "survivor_recall": 0.5714,
+     "survivors": 21,
+     "committed_survivors": 12
+    },
+    "13": {
+     "dangerous": 16,
+     "forged_dangerous": 15,
+     "survivor_recall": 0.2222,
+     "survivors": 18,
+     "committed_survivors": 4
+    },
+    "14": {
+     "dangerous": 8,
+     "forged_dangerous": 7,
+     "survivor_recall": 0.3704,
+     "survivors": 27,
+     "committed_survivors": 10
+    },
+    "15": {
+     "dangerous": 12,
+     "forged_dangerous": 12,
+     "survivor_recall": 0.4444,
+     "survivors": 18,
+     "committed_survivors": 8
+    },
+    "16": {
+     "dangerous": 8,
+     "forged_dangerous": 7,
+     "survivor_recall": 0.4286,
+     "survivors": 21,
+     "committed_survivors": 9
+    },
+    "17": {
+     "dangerous": 11,
+     "forged_dangerous": 11,
+     "survivor_recall": 0.6,
+     "survivors": 20,
+     "committed_survivors": 12
+    },
+    "18": {
+     "dangerous": 11,
+     "forged_dangerous": 11,
+     "survivor_recall": 0.619,
+     "survivors": 21,
+     "committed_survivors": 13
+    },
+    "19": {
+     "dangerous": 7,
+     "forged_dangerous": 7,
+     "survivor_recall": 0.4545,
+     "survivors": 22,
+     "committed_survivors": 10
+    }
+   },
+   "pooled": {
+    "dangerous": 211,
+    "forged_dangerous": 201,
+    "survivor_recall": 0.465
+   }
+  },
+  "B": {
+   "per_seed": {
+    "0": {
+     "dangerous": 2,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.3636,
+     "survivors": 22,
+     "committed_survivors": 8
+    },
+    "1": {
+     "dangerous": 3,
+     "forged_dangerous": 3,
+     "survivor_recall": 0.3571,
+     "survivors": 14,
+     "committed_survivors": 5
+    },
+    "2": {
+     "dangerous": 4,
+     "forged_dangerous": 4,
+     "survivor_recall": 0.2941,
+     "survivors": 17,
+     "committed_survivors": 5
+    },
+    "3": {
+     "dangerous": 2,
+     "forged_dangerous": 2,
+     "survivor_recall": 0.3684,
+     "survivors": 19,
+     "committed_survivors": 7
+    },
+    "4": {
+     "dangerous": 2,
+     "forged_dangerous": 2,
+     "survivor_recall": 0.3158,
+     "survivors": 19,
+     "committed_survivors": 6
+    },
+    "5": {
+     "dangerous": 2,
+     "forged_dangerous": 2,
+     "survivor_recall": 0.5789,
+     "survivors": 19,
+     "committed_survivors": 11
+    },
+    "6": {
+     "dangerous": 2,
+     "forged_dangerous": 2,
+     "survivor_recall": 0.4211,
+     "survivors": 19,
+     "committed_survivors": 8
+    },
+    "7": {
+     "dangerous": 3,
+     "forged_dangerous": 2,
+     "survivor_recall": 0.56,
+     "survivors": 25,
+     "committed_survivors": 14
+    },
+    "8": {
+     "dangerous": 4,
+     "forged_dangerous": 3,
+     "survivor_recall": 0.6667,
+     "survivors": 18,
+     "committed_survivors": 12
+    },
+    "9": {
+     "dangerous": 2,
+     "forged_dangerous": 1,
+     "survivor_recall": 0.5789,
+     "survivors": 19,
+     "committed_survivors": 11
+    },
+    "10": {
+     "dangerous": 4,
+     "forged_dangerous": 2,
+     "survivor_recall": 0.5789,
+     "survivors": 19,
+     "committed_survivors": 11
+    },
+    "11": {
+     "dangerous": 1,
+     "forged_dangerous": 1,
+     "survivor_recall": 0.4545,
+     "survivors": 22,
+     "committed_survivors": 10
+    },
+    "12": {
+     "dangerous": 3,
+     "forged_dangerous": 3,
+     "survivor_recall": 0.5714,
+     "survivors": 21,
+     "committed_survivors": 12
+    },
+    "13": {
+     "dangerous": 5,
+     "forged_dangerous": 4,
+     "survivor_recall": 0.2222,
+     "survivors": 18,
+     "committed_survivors": 4
+    },
+    "14": {
+     "dangerous": 2,
+     "forged_dangerous": 1,
+     "survivor_recall": 0.3704,
+     "survivors": 27,
+     "committed_survivors": 10
+    },
+    "15": {
+     "dangerous": 3,
+     "forged_dangerous": 3,
+     "survivor_recall": 0.4444,
+     "survivors": 18,
+     "committed_survivors": 8
+    },
+    "16": {
+     "dangerous": 1,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.4286,
+     "survivors": 21,
+     "committed_survivors": 9
+    },
+    "17": {
+     "dangerous": 5,
+     "forged_dangerous": 5,
+     "survivor_recall": 0.6,
+     "survivors": 20,
+     "committed_survivors": 12
+    },
+    "18": {
+     "dangerous": 3,
+     "forged_dangerous": 3,
+     "survivor_recall": 0.619,
+     "survivors": 21,
+     "committed_survivors": 13
+    },
+    "19": {
+     "dangerous": 2,
+     "forged_dangerous": 2,
+     "survivor_recall": 0.4545,
+     "survivors": 22,
+     "committed_survivors": 10
+    }
+   },
+   "pooled": {
+    "dangerous": 55,
+    "forged_dangerous": 45,
+    "survivor_recall": 0.465
+   }
+  },
+  "C": {
+   "per_seed": {
+    "0": {
+     "dangerous": 2,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.2273,
+     "survivors": 22,
+     "committed_survivors": 5
+    },
+    "1": {
+     "dangerous": 1,
+     "forged_dangerous": 1,
+     "survivor_recall": 0.2857,
+     "survivors": 14,
+     "committed_survivors": 4
+    },
+    "2": {
+     "dangerous": 3,
+     "forged_dangerous": 3,
+     "survivor_recall": 0.2353,
+     "survivors": 17,
+     "committed_survivors": 4
+    },
+    "3": {
+     "dangerous": 1,
+     "forged_dangerous": 1,
+     "survivor_recall": 0.2632,
+     "survivors": 19,
+     "committed_survivors": 5
+    },
+    "4": {
+     "dangerous": 2,
+     "forged_dangerous": 2,
+     "survivor_recall": 0.2632,
+     "survivors": 19,
+     "committed_survivors": 5
+    },
+    "5": {
+     "dangerous": 1,
+     "forged_dangerous": 1,
+     "survivor_recall": 0.4737,
+     "survivors": 19,
+     "committed_survivors": 9
+    },
+    "6": {
+     "dangerous": 1,
+     "forged_dangerous": 1,
+     "survivor_recall": 0.2105,
+     "survivors": 19,
+     "committed_survivors": 4
+    },
+    "7": {
+     "dangerous": 2,
+     "forged_dangerous": 2,
+     "survivor_recall": 0.44,
+     "survivors": 25,
+     "committed_survivors": 11
+    },
+    "8": {
+     "dangerous": 4,
+     "forged_dangerous": 3,
+     "survivor_recall": 0.5556,
+     "survivors": 18,
+     "committed_survivors": 10
+    },
+    "9": {
+     "dangerous": 2,
+     "forged_dangerous": 1,
+     "survivor_recall": 0.3684,
+     "survivors": 19,
+     "committed_survivors": 7
+    },
+    "10": {
+     "dangerous": 4,
+     "forged_dangerous": 2,
+     "survivor_recall": 0.4737,
+     "survivors": 19,
+     "committed_survivors": 9
+    },
+    "11": {
+     "dangerous": 1,
+     "forged_dangerous": 1,
+     "survivor_recall": 0.3182,
+     "survivors": 22,
+     "committed_survivors": 7
+    },
+    "12": {
+     "dangerous": 2,
+     "forged_dangerous": 2,
+     "survivor_recall": 0.381,
+     "survivors": 21,
+     "committed_survivors": 8
+    },
+    "13": {
+     "dangerous": 4,
+     "forged_dangerous": 3,
+     "survivor_recall": 0.1111,
+     "survivors": 18,
+     "committed_survivors": 2
+    },
+    "14": {
+     "dangerous": 2,
+     "forged_dangerous": 1,
+     "survivor_recall": 0.2963,
+     "survivors": 27,
+     "committed_survivors": 8
+    },
+    "15": {
+     "dangerous": 3,
+     "forged_dangerous": 3,
+     "survivor_recall": 0.3333,
+     "survivors": 18,
+     "committed_survivors": 6
+    },
+    "16": {
+     "dangerous": 1,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.2857,
+     "survivors": 21,
+     "committed_survivors": 6
+    },
+    "17": {
+     "dangerous": 3,
+     "forged_dangerous": 3,
+     "survivor_recall": 0.35,
+     "survivors": 20,
+     "committed_survivors": 7
+    },
+    "18": {
+     "dangerous": 2,
+     "forged_dangerous": 2,
+     "survivor_recall": 0.4286,
+     "survivors": 21,
+     "committed_survivors": 9
+    },
+    "19": {
+     "dangerous": 1,
+     "forged_dangerous": 1,
+     "survivor_recall": 0.2273,
+     "survivors": 22,
+     "committed_survivors": 5
+    }
+   },
+   "pooled": {
+    "dangerous": 42,
+    "forged_dangerous": 33,
+    "survivor_recall": 0.3275
+   }
+  },
+  "D": {
+   "per_seed": {
+    "0": {
+     "dangerous": 2,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.3636,
+     "survivors": 22,
+     "committed_survivors": 8
+    },
+    "1": {
+     "dangerous": 0,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.3571,
+     "survivors": 14,
+     "committed_survivors": 5
+    },
+    "2": {
+     "dangerous": 0,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.2941,
+     "survivors": 17,
+     "committed_survivors": 5
+    },
+    "3": {
+     "dangerous": 0,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.3684,
+     "survivors": 19,
+     "committed_survivors": 7
+    },
+    "4": {
+     "dangerous": 0,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.3158,
+     "survivors": 19,
+     "committed_survivors": 6
+    },
+    "5": {
+     "dangerous": 0,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.5789,
+     "survivors": 19,
+     "committed_survivors": 11
+    },
+    "6": {
+     "dangerous": 0,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.4211,
+     "survivors": 19,
+     "committed_survivors": 8
+    },
+    "7": {
+     "dangerous": 1,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.56,
+     "survivors": 25,
+     "committed_survivors": 14
+    },
+    "8": {
+     "dangerous": 1,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.6667,
+     "survivors": 18,
+     "committed_survivors": 12
+    },
+    "9": {
+     "dangerous": 2,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.5789,
+     "survivors": 19,
+     "committed_survivors": 11
+    },
+    "10": {
+     "dangerous": 2,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.5789,
+     "survivors": 19,
+     "committed_survivors": 11
+    },
+    "11": {
+     "dangerous": 0,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.4545,
+     "survivors": 22,
+     "committed_survivors": 10
+    },
+    "12": {
+     "dangerous": 0,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.5714,
+     "survivors": 21,
+     "committed_survivors": 12
+    },
+    "13": {
+     "dangerous": 2,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.2222,
+     "survivors": 18,
+     "committed_survivors": 4
+    },
+    "14": {
+     "dangerous": 1,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.3704,
+     "survivors": 27,
+     "committed_survivors": 10
+    },
+    "15": {
+     "dangerous": 0,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.4444,
+     "survivors": 18,
+     "committed_survivors": 8
+    },
+    "16": {
+     "dangerous": 1,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.4286,
+     "survivors": 21,
+     "committed_survivors": 9
+    },
+    "17": {
+     "dangerous": 2,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.6,
+     "survivors": 20,
+     "committed_survivors": 12
+    },
+    "18": {
+     "dangerous": 2,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.619,
+     "survivors": 21,
+     "committed_survivors": 13
+    },
+    "19": {
+     "dangerous": 1,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.4545,
+     "survivors": 22,
+     "committed_survivors": 10
+    }
+   },
+   "pooled": {
+    "dangerous": 17,
+    "forged_dangerous": 0,
+    "survivor_recall": 0.465
+   }
+  }
+ },
+ "holdout": {
+  "A": {
+   "per_seed": {
+    "100": {
+     "dangerous": 5,
+     "forged_dangerous": 5,
+     "survivor_recall": 0.5652,
+     "survivors": 23,
+     "committed_survivors": 13
+    },
+    "101": {
+     "dangerous": 9,
+     "forged_dangerous": 9,
+     "survivor_recall": 0.52,
+     "survivors": 25,
+     "committed_survivors": 13
+    },
+    "102": {
+     "dangerous": 6,
+     "forged_dangerous": 6,
+     "survivor_recall": 0.5455,
+     "survivors": 22,
+     "committed_survivors": 12
+    },
+    "103": {
+     "dangerous": 12,
+     "forged_dangerous": 12,
+     "survivor_recall": 0.4286,
+     "survivors": 14,
+     "committed_survivors": 6
+    },
+    "104": {
+     "dangerous": 9,
+     "forged_dangerous": 9,
+     "survivor_recall": 0.4737,
+     "survivors": 19,
+     "committed_survivors": 9
+    },
+    "105": {
+     "dangerous": 15,
+     "forged_dangerous": 13,
+     "survivor_recall": 0.375,
+     "survivors": 16,
+     "committed_survivors": 6
+    },
+    "106": {
+     "dangerous": 10,
+     "forged_dangerous": 10,
+     "survivor_recall": 0.5217,
+     "survivors": 23,
+     "committed_survivors": 12
+    },
+    "107": {
+     "dangerous": 10,
+     "forged_dangerous": 10,
+     "survivor_recall": 0.5,
+     "survivors": 22,
+     "committed_survivors": 11
+    },
+    "108": {
+     "dangerous": 5,
+     "forged_dangerous": 5,
+     "survivor_recall": 0.5238,
+     "survivors": 21,
+     "committed_survivors": 11
+    },
+    "109": {
+     "dangerous": 6,
+     "forged_dangerous": 5,
+     "survivor_recall": 0.5,
+     "survivors": 22,
+     "committed_survivors": 11
+    }
+   },
+   "pooled": {
+    "dangerous": 87,
+    "forged_dangerous": 84,
+    "survivor_recall": 0.5024
+   }
+  },
+  "B": {
+   "per_seed": {
+    "100": {
+     "dangerous": 2,
+     "forged_dangerous": 2,
+     "survivor_recall": 0.5652,
+     "survivors": 23,
+     "committed_survivors": 13
+    },
+    "101": {
+     "dangerous": 0,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.52,
+     "survivors": 25,
+     "committed_survivors": 13
+    },
+    "102": {
+     "dangerous": 1,
+     "forged_dangerous": 1,
+     "survivor_recall": 0.5455,
+     "survivors": 22,
+     "committed_survivors": 12
+    },
+    "103": {
+     "dangerous": 2,
+     "forged_dangerous": 2,
+     "survivor_recall": 0.4286,
+     "survivors": 14,
+     "committed_survivors": 6
+    },
+    "104": {
+     "dangerous": 2,
+     "forged_dangerous": 2,
+     "survivor_recall": 0.4737,
+     "survivors": 19,
+     "committed_survivors": 9
+    },
+    "105": {
+     "dangerous": 7,
+     "forged_dangerous": 5,
+     "survivor_recall": 0.375,
+     "survivors": 16,
+     "committed_survivors": 6
+    },
+    "106": {
+     "dangerous": 2,
+     "forged_dangerous": 2,
+     "survivor_recall": 0.5217,
+     "survivors": 23,
+     "committed_survivors": 12
+    },
+    "107": {
+     "dangerous": 3,
+     "forged_dangerous": 3,
+     "survivor_recall": 0.5,
+     "survivors": 22,
+     "committed_survivors": 11
+    },
+    "108": {
+     "dangerous": 1,
+     "forged_dangerous": 1,
+     "survivor_recall": 0.5238,
+     "survivors": 21,
+     "committed_survivors": 11
+    },
+    "109": {
+     "dangerous": 3,
+     "forged_dangerous": 2,
+     "survivor_recall": 0.5,
+     "survivors": 22,
+     "committed_survivors": 11
+    }
+   },
+   "pooled": {
+    "dangerous": 23,
+    "forged_dangerous": 20,
+    "survivor_recall": 0.5024
+   }
+  },
+  "C": {
+   "per_seed": {
+    "100": {
+     "dangerous": 2,
+     "forged_dangerous": 2,
+     "survivor_recall": 0.5217,
+     "survivors": 23,
+     "committed_survivors": 12
+    },
+    "101": {
+     "dangerous": 0,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.44,
+     "survivors": 25,
+     "committed_survivors": 11
+    },
+    "102": {
+     "dangerous": 1,
+     "forged_dangerous": 1,
+     "survivor_recall": 0.5,
+     "survivors": 22,
+     "committed_survivors": 11
+    },
+    "103": {
+     "dangerous": 2,
+     "forged_dangerous": 2,
+     "survivor_recall": 0.3571,
+     "survivors": 14,
+     "committed_survivors": 5
+    },
+    "104": {
+     "dangerous": 0,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.3684,
+     "survivors": 19,
+     "committed_survivors": 7
+    },
+    "105": {
+     "dangerous": 5,
+     "forged_dangerous": 4,
+     "survivor_recall": 0.3125,
+     "survivors": 16,
+     "committed_survivors": 5
+    },
+    "106": {
+     "dangerous": 1,
+     "forged_dangerous": 1,
+     "survivor_recall": 0.3043,
+     "survivors": 23,
+     "committed_survivors": 7
+    },
+    "107": {
+     "dangerous": 3,
+     "forged_dangerous": 3,
+     "survivor_recall": 0.4091,
+     "survivors": 22,
+     "committed_survivors": 9
+    },
+    "108": {
+     "dangerous": 1,
+     "forged_dangerous": 1,
+     "survivor_recall": 0.4762,
+     "survivors": 21,
+     "committed_survivors": 10
+    },
+    "109": {
+     "dangerous": 1,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.5,
+     "survivors": 22,
+     "committed_survivors": 11
+    }
+   },
+   "pooled": {
+    "dangerous": 16,
+    "forged_dangerous": 14,
+    "survivor_recall": 0.4251
+   }
+  },
+  "D": {
+   "per_seed": {
+    "100": {
+     "dangerous": 1,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.5652,
+     "survivors": 23,
+     "committed_survivors": 13
+    },
+    "101": {
+     "dangerous": 0,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.52,
+     "survivors": 25,
+     "committed_survivors": 13
+    },
+    "102": {
+     "dangerous": 0,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.5455,
+     "survivors": 22,
+     "committed_survivors": 12
+    },
+    "103": {
+     "dangerous": 0,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.4286,
+     "survivors": 14,
+     "committed_survivors": 6
+    },
+    "104": {
+     "dangerous": 0,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.4737,
+     "survivors": 19,
+     "committed_survivors": 9
+    },
+    "105": {
+     "dangerous": 5,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.375,
+     "survivors": 16,
+     "committed_survivors": 6
+    },
+    "106": {
+     "dangerous": 0,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.5217,
+     "survivors": 23,
+     "committed_survivors": 12
+    },
+    "107": {
+     "dangerous": 2,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.5,
+     "survivors": 22,
+     "committed_survivors": 11
+    },
+    "108": {
+     "dangerous": 0,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.5238,
+     "survivors": 21,
+     "committed_survivors": 11
+    },
+    "109": {
+     "dangerous": 1,
+     "forged_dangerous": 0,
+     "survivor_recall": 0.5,
+     "survivors": 22,
+     "committed_survivors": 11
+    }
+   },
+   "pooled": {
+    "dangerous": 9,
+    "forged_dangerous": 0,
+    "survivor_recall": 0.5024
+   }
+  }
+ }
+}

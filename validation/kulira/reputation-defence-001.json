@@ -1,0 +1,37 @@
+{
+ "experiment": "reputation-defence",
+ "simulation": true,
+ "preregistration": "docs/experiments/reputation-defence-preregistration.md",
+ "dev": {
+  "E": {
+   "dangerous_first": 37,
+   "dangerous_second": 36,
+   "mean_recall": 0.4865,
+   "rep_colluders": 0.136,
+   "rep_honest": 0.752
+  },
+  "REP": {
+   "dangerous_first": 39,
+   "dangerous_second": 19,
+   "mean_recall": 0.4133,
+   "rep_colluders": 0.136,
+   "rep_honest": 0.752
+  }
+ },
+ "holdout": {
+  "E": {
+   "dangerous_first": 15,
+   "dangerous_second": 30,
+   "mean_recall": 0.5344,
+   "rep_colluders": 0.16,
+   "rep_honest": 0.722
+  },
+  "REP": {
+   "dangerous_first": 20,
+   "dangerous_second": 10,
+   "mean_recall": 0.4545,
+   "rep_colluders": 0.16,
+   "rep_honest": 0.722
+  }
+ }
+}

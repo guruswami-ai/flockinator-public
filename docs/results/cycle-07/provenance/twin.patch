@@ -1,0 +1,163 @@
+--- tools/mission-host/planner.py	2026-11-05 02:05:20
++++ /tmp/cycle07-twins/planner.py	2026-11-05 18:12:04
+@@ -77,7 +77,48 @@
+     return int.from_bytes(digest, 'big') % 100
+ 
+ 
+-def simulate(p, turns, events=None, *, mute_checks=False):
++TREATMENTS = ("T0", "T1", "T1R", "T2", "T3", "T4")
++# Step-2 trust twin (cycle-07). Additive auth fields + rogue treatments.
++# Frozen pre-reg lettering (PRE-REGISTRATION-trust-stage0-stage1.md):
++# T0 honest baseline; T1 outsider forgery; T2 insider error (identify 40%);
++# T3 insider liar (true-Enemy -> Friendly, p=1.0); T4 patient liar (as T3,
++# only from turn >= 30). T1R is an UNGATED extra (replay emitter); it is
++# never T2 and gate configs must reject it.
++# treatment=None reproduces the production event stream byte-for-byte
++# (no auth fields). treatment="T0" stamps auth fields with no attacker and
++# is decision-identical to production modulo the new fields. T1/T1R add
++# attack/replay events; T2-T4 alter draws/labels of the designated unit;
++# decisions of non-treated units are unchanged by construction (same draws).
++INJECTOR_LABEL = "X0"  # T1 outsider sender: never a roster label
++REPLAY_L2 = "R0"       # T1R replay tag carried in l2_source only
++
++
++def _auth_self(i, auth_on):
++    if not auth_on:
++        return {}
++    return dict(auth_status="direct_verified", claimed_sender=label(i),
++                l2_source=label(i))
++
++
++def _auth_hearsay(auth_on, sender_label, l2_label, origin_turn):
++    if not auth_on:
++        return {}
++    return dict(auth_status="hearsay_relayed", claimed_sender=sender_label,
++                l2_source=l2_label, origin_turn=origin_turn)
++
++
++def designated_unit(p, treatment):
++    """Pre-reg default: designated unit = seed mod unit_count (T2/T3/T4)."""
++    return p["seed"] % p["count"] if p["count"] else 0
++
++
++def simulate(p, turns, events=None, *, mute_checks=False, treatment=None,
++             designated=None):
++    if treatment is not None and treatment not in TREATMENTS:
++        raise ValueError(f"unknown treatment {treatment!r}")
++    auth_on = treatment is not None
++    if treatment in ("T2", "T3", "T4") and designated is None:
++        designated = designated_unit(p, treatment)
+     def record(unit, turn, event, **details):
+         if events is not None:
+             events.append((unit,turn,event,details))
+@@ -91,7 +132,7 @@
+     assigned = set()
+     checks = []
+     for i,u in enumerate(units):
+-        record(i,0,'route_assigned',tile=HOME,energy=u['energy'],reserve=RESERVE,route=paths[i])
++        record(i,0,'route_assigned',tile=HOME,energy=u['energy'],reserve=RESERVE,route=paths[i],**_auth_self(i, auth_on))
+     turns_used = 0
+     for tick in range(1, turns+1):
+         if all(u['role']=='Home' for u in units):
+@@ -120,14 +161,14 @@
+                 target = HOME if u['role']=='Return' else path[u['waypoint']]
+             if u['role']=='Return' and u['pos']!=HOME:
+                 record(i,tick,'return_step',rule=u['reason'],energy_before=u['energy'],
+-                       steps_home=distance(u['pos'],HOME),tile=u['pos'])
++                       steps_home=distance(u['pos'],HOME),tile=u['pos'],**_auth_self(i, auth_on))
+             if u['pos']!=target:
+                 u['pos']=move(u['pos'],target)
+                 u['energy']-=1
+             if u['role']=='Return':
+                 if u['pos']==HOME:
+                     u['role']='Home'
+-                    record(i,tick,'landed',tile=HOME,energy=u['energy'],rule=u['reason'])
++                    record(i,tick,'landed',tile=HOME,energy=u['energy'],rule=u['reason'],**_auth_self(i, auth_on))
+                 continue
+             x,y=u['pos']
+             nearby={(a,b) for a,b in ((x,y),(x+1,y),(x-1,y),(x,y+1),(x,y-1))
+@@ -148,8 +189,13 @@
+                 signal_strength=margin if signal_strength is None else max(signal_strength,margin)
+                 if spot<detection:
+                     identify=roll(p['seed'],pos,i,'identify')
+-                    correct = identify<accuracy
++                    threshold = 40 if (treatment=='T2' and i==designated) else accuracy
++                    correct = identify<threshold
+                     classification = c['kind'] if correct else ('Enemy' if c['kind']=='Friendly' else 'Friendly')
++                    if treatment=='T3' and i==designated and c['kind']=='Enemy':
++                        classification = 'Friendly'
++                    if treatment=='T4' and i==designated and c['kind']=='Enemy' and tick>=30:
++                        classification = 'Friendly'
+                     reports[k].append(dict(unit=i,label=classification,turn=tick))
+                     hits+=1
+                     pending.append(dict(contact=k+1,tile=pos,reported_label=classification,
+@@ -159,8 +205,9 @@
+                     u['role']='Observe'
+             record(i,tick,'scan',tile=u['pos'],energy=u['energy'],energy_before=energy_before,
+                    next_tile=target,footprint=sorted(nearby),signals=hits,
+-                   signal_strength=signal_strength,role=u['role'])
++                   signal_strength=signal_strength,role=u['role'],**_auth_self(i, auth_on))
+             for detail in pending:
++                detail.update(_auth_self(i, auth_on))
+                 record(i,tick,'discovery',**detail)
+         # Give a lone high-priority report a second reader if the detour fits.
+         for k,c in enumerate(p['contacts']):
+@@ -174,18 +221,54 @@
+             if candidates:
+                 _,i=min(candidates)
+                 sender=reports[k][0]['unit']
++                origin_turn=reports[k][0]['turn']
+                 packet=dict(message=f'{tick}-{k+1}',contact=k+1,transport='simulated_planner_relay',
+                             sender=label(sender),recipient=label(i),content='request_independent_check')
+-                record(sender,tick,'message_sent',**packet)
++                relay_auth=_auth_hearsay(auth_on, label(sender), label(sender), origin_turn)
++                record(sender,tick,'message_sent',**dict(packet,**relay_auth))
+                 assigned.add(k)
+                 if mute_checks:
+-                    record(sender,tick,'message_withheld',**packet)
++                    record(sender,tick,'message_withheld',**dict(packet,**relay_auth))
+                     continue
+                 units[i]['verify']=k
+-                record(i,tick,'message_received',**packet)
++                record(i,tick,'message_received',**dict(packet,**relay_auth))
+                 record(i,tick,'check_assigned',rule='high_priority_single_report_with_return_budget',
+-                       energy=units[i]['energy'],tile=units[i]['pos'],destination=pos)
++                       energy=units[i]['energy'],tile=units[i]['pos'],destination=pos,**relay_auth)
+                 checks.append(dict(contact=k,unit=i,turn=tick))
++    if treatment=='T1' and events is not None:
++        # Outsider forgery: events-only forged discoveries from a non-roster
++        # sender. Never enter reports[k]; vote-shaped ones count as attempts,
++        # malformed ones as census pressure only.
++        shaped = 0
++        for k,c in enumerate(p['contacts']):
++            if shaped >= 3:
++                break
++            r = k % len(units)
++            record(r,turns_used,'discovery',contact=k+1,tile=list(c['pos']),
++                   reported_label='Friendly' if c['kind']=='Enemy' else 'Enemy',
++                   rule='injected_forgery',auth_status='forged_rejected',
++                   claimed_sender=INJECTOR_LABEL,l2_source=INJECTOR_LABEL)
++            shaped += 1
++        record(0,turns_used,'discovery',contact=len(p['contacts'])+5,tile=[0,0],
++               reported_label='Enemy',rule='injected_forgery_malformed',
++               auth_status='forged_rejected',claimed_sender=INJECTOR_LABEL,
++               l2_source=INJECTOR_LABEL)
++    if treatment=='T1R' and events is not None:
++        # Replay emitter (UNGATED extra, never T2): validly-shaped
++        # stale/duplicate resends of genuine sightings. Same (contact,
++        # claimed_sender, origin_turn) dedup key as the original, so P1
++        # fusion counts each observation once.
++        genuine=[e for e in events if e[2]=='discovery'
++                 and e[3].get('auth_status')=='direct_verified'][:2]
++        for (i,turn,_,detail) in genuine:
++            replay=dict(contact=detail['contact'],tile=detail['tile'],
++                        reported_label=detail['reported_label'],
++                        rule='replayed_sighting',
++                        auth_status='hearsay_relayed',
++                        claimed_sender=detail['claimed_sender'],
++                        l2_source=REPLAY_L2,origin_turn=turn)
++            record(i,turn,'discovery',**replay)
++            record(i,turn+3,'discovery',**replay)
+     return dict(units=units, paths=paths, seen=sorted(seen), reports=reports,
+                 checks=checks, turn=turns_used)
+ 

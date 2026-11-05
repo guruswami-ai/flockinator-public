@@ -1,0 +1,98 @@
+{
+ "experiment": "colluding-minorities",
+ "simulation": true,
+ "paired_by_seed": true,
+ "preregistration": "docs/experiments/colluding-minorities-preregistration.md",
+ "dev": {
+  "E": {
+   "0": {
+    "dangerous": 3,
+    "colluder_dangerous": 0,
+    "mean_recall": 0.2998
+   },
+   "1": {
+    "dangerous": 14,
+    "colluder_dangerous": 10,
+    "mean_recall": 0.3071
+   },
+   "2": {
+    "dangerous": 35,
+    "colluder_dangerous": 34,
+    "mean_recall": 0.3221
+   },
+   "3": {
+    "dangerous": 65,
+    "colluder_dangerous": 65,
+    "mean_recall": 0.3206
+   }
+  },
+  "E-M": {
+   "0": {
+    "dangerous": 0,
+    "colluder_dangerous": 0,
+    "mean_recall": 0.2185
+   },
+   "1": {
+    "dangerous": 10,
+    "colluder_dangerous": 8,
+    "mean_recall": 0.2288
+   },
+   "2": {
+    "dangerous": 29,
+    "colluder_dangerous": 29,
+    "mean_recall": 0.2426
+   },
+   "3": {
+    "dangerous": 53,
+    "colluder_dangerous": 53,
+    "mean_recall": 0.243
+   }
+  }
+ },
+ "holdout": {
+  "E": {
+   "0": {
+    "dangerous": 9,
+    "colluder_dangerous": 0,
+    "mean_recall": 0.377
+   },
+   "1": {
+    "dangerous": 12,
+    "colluder_dangerous": 5,
+    "mean_recall": 0.3507
+   },
+   "2": {
+    "dangerous": 29,
+    "colluder_dangerous": 25,
+    "mean_recall": 0.3546
+   },
+   "3": {
+    "dangerous": 43,
+    "colluder_dangerous": 38,
+    "mean_recall": 0.3547
+   }
+  },
+  "E-M": {
+   "0": {
+    "dangerous": 6,
+    "colluder_dangerous": 0,
+    "mean_recall": 0.3084
+   },
+   "1": {
+    "dangerous": 8,
+    "colluder_dangerous": 4,
+    "mean_recall": 0.2764
+   },
+   "2": {
+    "dangerous": 24,
+    "colluder_dangerous": 20,
+    "mean_recall": 0.2792
+   },
+   "3": {
+    "dangerous": 32,
+    "colluder_dangerous": 29,
+    "mean_recall": 0.2704
+   }
+  }
+ }
+}

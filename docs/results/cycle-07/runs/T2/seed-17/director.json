@@ -1,0 +1,79 @@
+{
+  "schema": 1,
+  "ruleset": "search-board-1",
+  "source": "planner_simulation",
+  "run": "cycle07-T2-seed-17",
+  "phase": "Complete",
+  "last_turn": 23,
+  "started_utc": "2023-11-14T22:13:20.000+00:00",
+  "units": [
+    "A1",
+    "B1",
+    "C1",
+    "D1",
+    "A2",
+    "B2",
+    "C2",
+    "D2"
+  ],
+  "scenario": {
+    "pattern": "Search grid",
+    "cover": "Patchy",
+    "count": 8,
+    "battery": 44,
+    "focus": [
+      9,
+      3
+    ],
+    "custom": {},
+    "seed": 17,
+    "phase": "Running",
+    "turn": 0,
+    "scenario_seed": 17,
+    "episode": "cycle07-T2-seed-17"
+  },
+  "ground_truth": [
+    {
+      "pos": [
+        0,
+        6
+      ],
+      "kind": "Friendly",
+      "priority": "High",
+      "outcome": "Unassessed"
+    },
+    {
+      "pos": [
+        5,
+        3
+      ],
+      "kind": "Friendly",
+      "priority": "High",
+      "outcome": "Unassessed"
+    },
+    {
+      "pos": [
+        8,
+        3
+      ],
+      "kind": "Friendly",
+      "priority": "Normal",
+      "outcome": "Unassessed"
+    },
+    {
+      "pos": [
+        9,
+        0
+      ],
+      "kind": "Enemy",
+      "priority": "Normal",
+      "outcome": "Unassessed"
+    }
+  ],
+  "clock_segments": [
+    [
+      0,
+      1700000000.0
+    ]
+  ]
+}

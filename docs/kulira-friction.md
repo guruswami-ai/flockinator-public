@@ -112,3 +112,5 @@ the swarm's trust norms are actually improving, generation over
 generation. That is the evolutionary loop Flockinator exists to run:
 isolated small models, an environment that pushes back intelligently,
 and sealed ground truth to judge who actually adapted.
+
+Measured results from this programme: [Kulira trust experiment series](experiments/kulira-trust-series.md).

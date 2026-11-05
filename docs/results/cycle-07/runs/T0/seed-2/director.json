@@ -1,0 +1,115 @@
+{
+  "schema": 1,
+  "ruleset": "search-board-1",
+  "source": "planner_simulation",
+  "run": "cycle07-T0-seed-2",
+  "phase": "Complete",
+  "last_turn": 13,
+  "started_utc": "2023-11-14T22:13:20.000+00:00",
+  "units": [
+    "A1",
+    "B1",
+    "C1",
+    "D1",
+    "A2",
+    "B2",
+    "C2",
+    "D2"
+  ],
+  "scenario": {
+    "pattern": "Tree-line fan",
+    "cover": "Open",
+    "count": 8,
+    "battery": 16,
+    "focus": [
+      5,
+      5
+    ],
+    "custom": {},
+    "seed": 2,
+    "phase": "Running",
+    "turn": 0,
+    "scenario_seed": 2,
+    "episode": "cycle07-T0-seed-2"
+  },
+  "ground_truth": [
+    {
+      "pos": [
+        4,
+        6
+      ],
+      "kind": "Friendly",
+      "priority": "High",
+      "outcome": "Unassessed"
+    },
+    {
+      "pos": [
+        13,
+        0
+      ],
+      "kind": "Friendly",
+      "priority": "High",
+      "outcome": "Unassessed"
+    },
+    {
+      "pos": [
+        0,
+        9
+      ],
+      "kind": "Friendly",
+      "priority": "High",
+      "outcome": "Unassessed"
+    },
+    {
+      "pos": [
+        12,
+        5
+      ],
+      "kind": "Friendly",
+      "priority": "Normal",
+      "outcome": "Unassessed"
+    },
+    {
+      "pos": [
+        14,
+        7
+      ],
+      "kind": "Enemy",
+      "priority": "Normal",
+      "outcome": "Unassessed"
+    },
+    {
+      "pos": [
+        3,
+        4
+      ],
+      "kind": "Friendly",
+      "priority": "Normal",
+      "outcome": "Unassessed"
+    },
+    {
+      "pos": [
+        9,
+        3
+      ],
+      "kind": "Friendly",
+      "priority": "Normal",
+      "outcome": "Unassessed"
+    },
+    {
+      "pos": [
+        13,
+        8
+      ],
+      "kind": "Enemy",
+      "priority": "High",
+      "outcome": "Unassessed"
+    }
+  ],
+  "clock_segments": [
+    [
+      0,
+      1700000000.0
+    ]
+  ]
+}

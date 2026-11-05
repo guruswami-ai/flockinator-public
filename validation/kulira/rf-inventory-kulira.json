@@ -1,21 +1,21 @@
 {
  "usb_serial": [
   {
-   "path": "/dev/cu.usbserial-10310",
+   "path": "/dev/cu.usbserial-EXAMPLE1",
    "kind": "usb-serial",
    "model": null,
    "status": "unidentified",
    "tx_authorised": false
   },
   {
-   "path": "/dev/cu.usbserial-1032430",
+   "path": "/dev/cu.usbserial-EXAMPLE2",
    "kind": "usb-serial",
    "model": null,
    "status": "unidentified",
    "tx_authorised": false
   },
   {
-   "path": "/dev/cu.usbserial-10330",
+   "path": "/dev/cu.usbserial-EXAMPLE3",
    "kind": "usb-serial",
    "model": null,
    "status": "unidentified",

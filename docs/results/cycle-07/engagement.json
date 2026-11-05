@@ -1,0 +1,907 @@
+{
+ "T0": {
+  "pooled": {
+   "degraded_sightings": 0,
+   "designated_sightings": 0,
+   "designated_true_enemy_opportunities": 0,
+   "early_flips": 0,
+   "flips_applied": 0,
+   "forged_emitted": 0,
+   "late_opportunities": 0
+  },
+  "seeds": {
+   "0": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 8
+   },
+   "1": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 4
+   },
+   "10": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 8
+   },
+   "11": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 16
+   },
+   "12": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 16
+   },
+   "13": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 16
+   },
+   "14": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 16
+   },
+   "15": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 16
+   },
+   "16": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 8
+   },
+   "17": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 8
+   },
+   "18": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 8
+   },
+   "19": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 4
+   },
+   "2": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 8
+   },
+   "3": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 16
+   },
+   "4": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 16
+   },
+   "5": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 8
+   },
+   "6": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 8
+   },
+   "7": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 16
+   },
+   "8": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 4
+   },
+   "9": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 4
+   }
+  }
+ },
+ "T1": {
+  "pooled": {
+   "degraded_sightings": 0,
+   "designated_sightings": 0,
+   "designated_true_enemy_opportunities": 0,
+   "early_flips": 0,
+   "flips_applied": 0,
+   "forged_emitted": 61,
+   "late_opportunities": 0
+  },
+  "seeds": {
+   "0": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 4,
+    "units": 8
+   },
+   "1": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 4,
+    "units": 4
+   },
+   "10": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 4,
+    "units": 8
+   },
+   "11": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 4,
+    "units": 16
+   },
+   "12": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 4,
+    "units": 16
+   },
+   "13": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 2,
+    "units": 16
+   },
+   "14": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 1,
+    "units": 16
+   },
+   "15": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 2,
+    "units": 16
+   },
+   "16": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 4,
+    "units": 8
+   },
+   "17": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 4,
+    "units": 8
+   },
+   "18": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 3,
+    "units": 8
+   },
+   "19": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 4,
+    "units": 4
+   },
+   "2": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 4,
+    "units": 8
+   },
+   "3": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 1,
+    "units": 16
+   },
+   "4": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 2,
+    "units": 16
+   },
+   "5": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 4,
+    "units": 8
+   },
+   "6": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 4,
+    "units": 8
+   },
+   "7": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 1,
+    "units": 16
+   },
+   "8": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 1,
+    "units": 4
+   },
+   "9": {
+    "designated": null,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 4,
+    "units": 4
+   }
+  }
+ },
+ "T2": {
+  "pooled": {
+   "degraded_sightings": 15,
+   "designated_sightings": 15,
+   "designated_true_enemy_opportunities": 10,
+   "early_flips": 0,
+   "flips_applied": 0,
+   "forged_emitted": 0,
+   "late_opportunities": 0
+  },
+  "seeds": {
+   "0": {
+    "degraded_sightings": 1,
+    "designated": 0,
+    "designated_sightings": 1,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 8
+   },
+   "1": {
+    "degraded_sightings": 2,
+    "designated": 1,
+    "designated_sightings": 2,
+    "designated_true_enemy_opportunities": 1,
+    "forged_emitted": 0,
+    "units": 4
+   },
+   "10": {
+    "degraded_sightings": 3,
+    "designated": 2,
+    "designated_sightings": 3,
+    "designated_true_enemy_opportunities": 2,
+    "forged_emitted": 0,
+    "units": 8
+   },
+   "11": {
+    "degraded_sightings": 3,
+    "designated": 11,
+    "designated_sightings": 3,
+    "designated_true_enemy_opportunities": 2,
+    "forged_emitted": 0,
+    "units": 16
+   },
+   "12": {
+    "degraded_sightings": 1,
+    "designated": 12,
+    "designated_sightings": 1,
+    "designated_true_enemy_opportunities": 1,
+    "forged_emitted": 0,
+    "units": 16
+   },
+   "13": {
+    "degraded_sightings": 0,
+    "designated": 13,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 16
+   },
+   "14": {
+    "degraded_sightings": 0,
+    "designated": 14,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 16
+   },
+   "15": {
+    "degraded_sightings": 0,
+    "designated": 15,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 16
+   },
+   "16": {
+    "degraded_sightings": 1,
+    "designated": 0,
+    "designated_sightings": 1,
+    "designated_true_enemy_opportunities": 1,
+    "forged_emitted": 0,
+    "units": 8
+   },
+   "17": {
+    "degraded_sightings": 1,
+    "designated": 1,
+    "designated_sightings": 1,
+    "designated_true_enemy_opportunities": 1,
+    "forged_emitted": 0,
+    "units": 8
+   },
+   "18": {
+    "degraded_sightings": 0,
+    "designated": 2,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 8
+   },
+   "19": {
+    "degraded_sightings": 1,
+    "designated": 3,
+    "designated_sightings": 1,
+    "designated_true_enemy_opportunities": 1,
+    "forged_emitted": 0,
+    "units": 4
+   },
+   "2": {
+    "degraded_sightings": 1,
+    "designated": 2,
+    "designated_sightings": 1,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 8
+   },
+   "3": {
+    "degraded_sightings": 0,
+    "designated": 3,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 16
+   },
+   "4": {
+    "degraded_sightings": 0,
+    "designated": 4,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 16
+   },
+   "5": {
+    "degraded_sightings": 0,
+    "designated": 5,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 8
+   },
+   "6": {
+    "degraded_sightings": 0,
+    "designated": 6,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 8
+   },
+   "7": {
+    "degraded_sightings": 0,
+    "designated": 7,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 16
+   },
+   "8": {
+    "degraded_sightings": 0,
+    "designated": 0,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "forged_emitted": 0,
+    "units": 4
+   },
+   "9": {
+    "degraded_sightings": 1,
+    "designated": 1,
+    "designated_sightings": 1,
+    "designated_true_enemy_opportunities": 1,
+    "forged_emitted": 0,
+    "units": 4
+   }
+  }
+ },
+ "T3": {
+  "pooled": {
+   "degraded_sightings": 0,
+   "designated_sightings": 15,
+   "designated_true_enemy_opportunities": 10,
+   "early_flips": 0,
+   "flips_applied": 10,
+   "forged_emitted": 0,
+   "late_opportunities": 0
+  },
+  "seeds": {
+   "0": {
+    "designated": 0,
+    "designated_sightings": 1,
+    "designated_true_enemy_opportunities": 0,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 8
+   },
+   "1": {
+    "designated": 1,
+    "designated_sightings": 2,
+    "designated_true_enemy_opportunities": 1,
+    "early_flips": 0,
+    "flips_applied": 1,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 4
+   },
+   "10": {
+    "designated": 2,
+    "designated_sightings": 3,
+    "designated_true_enemy_opportunities": 2,
+    "early_flips": 0,
+    "flips_applied": 2,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 8
+   },
+   "11": {
+    "designated": 11,
+    "designated_sightings": 3,
+    "designated_true_enemy_opportunities": 2,
+    "early_flips": 0,
+    "flips_applied": 2,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 16
+   },
+   "12": {
+    "designated": 12,
+    "designated_sightings": 1,
+    "designated_true_enemy_opportunities": 1,
+    "early_flips": 0,
+    "flips_applied": 1,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 16
+   },
+   "13": {
+    "designated": 13,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 16
+   },
+   "14": {
+    "designated": 14,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 16
+   },
+   "15": {
+    "designated": 15,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 16
+   },
+   "16": {
+    "designated": 0,
+    "designated_sightings": 1,
+    "designated_true_enemy_opportunities": 1,
+    "early_flips": 0,
+    "flips_applied": 1,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 8
+   },
+   "17": {
+    "designated": 1,
+    "designated_sightings": 1,
+    "designated_true_enemy_opportunities": 1,
+    "early_flips": 0,
+    "flips_applied": 1,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 8
+   },
+   "18": {
+    "designated": 2,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 8
+   },
+   "19": {
+    "designated": 3,
+    "designated_sightings": 1,
+    "designated_true_enemy_opportunities": 1,
+    "early_flips": 0,
+    "flips_applied": 1,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 4
+   },
+   "2": {
+    "designated": 2,
+    "designated_sightings": 1,
+    "designated_true_enemy_opportunities": 0,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 8
+   },
+   "3": {
+    "designated": 3,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 16
+   },
+   "4": {
+    "designated": 4,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 16
+   },
+   "5": {
+    "designated": 5,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 8
+   },
+   "6": {
+    "designated": 6,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 8
+   },
+   "7": {
+    "designated": 7,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 16
+   },
+   "8": {
+    "designated": 0,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 4
+   },
+   "9": {
+    "designated": 1,
+    "designated_sightings": 1,
+    "designated_true_enemy_opportunities": 1,
+    "early_flips": 0,
+    "flips_applied": 1,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 4
+   }
+  }
+ },
+ "T4": {
+  "pooled": {
+   "degraded_sightings": 0,
+   "designated_sightings": 15,
+   "designated_true_enemy_opportunities": 10,
+   "early_flips": 3,
+   "flips_applied": 0,
+   "forged_emitted": 0,
+   "late_opportunities": 0
+  },
+  "seeds": {
+   "0": {
+    "designated": 0,
+    "designated_sightings": 1,
+    "designated_true_enemy_opportunities": 0,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 8
+   },
+   "1": {
+    "designated": 1,
+    "designated_sightings": 2,
+    "designated_true_enemy_opportunities": 1,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 4
+   },
+   "10": {
+    "designated": 2,
+    "designated_sightings": 3,
+    "designated_true_enemy_opportunities": 2,
+    "early_flips": 1,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 8
+   },
+   "11": {
+    "designated": 11,
+    "designated_sightings": 3,
+    "designated_true_enemy_opportunities": 2,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 16
+   },
+   "12": {
+    "designated": 12,
+    "designated_sightings": 1,
+    "designated_true_enemy_opportunities": 1,
+    "early_flips": 1,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 16
+   },
+   "13": {
+    "designated": 13,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 16
+   },
+   "14": {
+    "designated": 14,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 16
+   },
+   "15": {
+    "designated": 15,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 16
+   },
+   "16": {
+    "designated": 0,
+    "designated_sightings": 1,
+    "designated_true_enemy_opportunities": 1,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 8
+   },
+   "17": {
+    "designated": 1,
+    "designated_sightings": 1,
+    "designated_true_enemy_opportunities": 1,
+    "early_flips": 1,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 8
+   },
+   "18": {
+    "designated": 2,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 8
+   },
+   "19": {
+    "designated": 3,
+    "designated_sightings": 1,
+    "designated_true_enemy_opportunities": 1,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 4
+   },
+   "2": {
+    "designated": 2,
+    "designated_sightings": 1,
+    "designated_true_enemy_opportunities": 0,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 8
+   },
+   "3": {
+    "designated": 3,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 16
+   },
+   "4": {
+    "designated": 4,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 16
+   },
+   "5": {
+    "designated": 5,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 8
+   },
+   "6": {
+    "designated": 6,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 8
+   },
+   "7": {
+    "designated": 7,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 16
+   },
+   "8": {
+    "designated": 0,
+    "designated_sightings": 0,
+    "designated_true_enemy_opportunities": 0,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 4
+   },
+   "9": {
+    "designated": 1,
+    "designated_sightings": 1,
+    "designated_true_enemy_opportunities": 1,
+    "early_flips": 0,
+    "flips_applied": 0,
+    "forged_emitted": 0,
+    "late_opportunities": 0,
+    "units": 4
+   }
+  }
+ }
+}

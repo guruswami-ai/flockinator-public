@@ -16,3 +16,7 @@ node_modules/
 *.map
 .DS_Store
 ._*
+# real credential manifests (only *.example.json is committed)
+credential-references.json
+**/credentials.json
+*.log

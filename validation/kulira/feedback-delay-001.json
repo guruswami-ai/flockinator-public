@@ -1,0 +1,79 @@
+{
+ "experiment": "feedback-delay",
+ "simulation": true,
+ "preregistration": "docs/experiments/feedback-delay-preregistration.md",
+ "dev": {
+  "d0-m0.0": {
+   "dangerous": 62,
+   "hazards": 285,
+   "mean_recall": 0.919,
+   "discounted_seeds": 20,
+   "median_discount_contacts": 2
+  },
+  "d5-m0.0": {
+   "dangerous": 85,
+   "hazards": 285,
+   "mean_recall": 0.9059,
+   "discounted_seeds": 20,
+   "median_discount_contacts": 7
+  },
+  "d5-m0.5": {
+   "dangerous": 95,
+   "hazards": 285,
+   "mean_recall": 0.9098,
+   "discounted_seeds": 20,
+   "median_discount_contacts": 10
+  },
+  "d15-m0.0": {
+   "dangerous": 155,
+   "hazards": 285,
+   "mean_recall": 0.9066,
+   "discounted_seeds": 20,
+   "median_discount_contacts": 17
+  },
+  "d15-m0.5": {
+   "dangerous": 171,
+   "hazards": 285,
+   "mean_recall": 0.8838,
+   "discounted_seeds": 20,
+   "median_discount_contacts": 20
+  }
+ },
+ "holdout": {
+  "d0-m0.0": {
+   "dangerous": 41,
+   "hazards": 164,
+   "mean_recall": 0.9221,
+   "discounted_seeds": 10,
+   "median_discount_contacts": 2
+  },
+  "d5-m0.0": {
+   "dangerous": 55,
+   "hazards": 164,
+   "mean_recall": 0.9285,
+   "discounted_seeds": 10,
+   "median_discount_contacts": 7
+  },
+  "d5-m0.5": {
+   "dangerous": 61,
+   "hazards": 164,
+   "mean_recall": 0.9265,
+   "discounted_seeds": 10,
+   "median_discount_contacts": 11
+  },
+  "d15-m0.0": {
+   "dangerous": 96,
+   "hazards": 164,
+   "mean_recall": 0.9134,
+   "discounted_seeds": 10,
+   "median_discount_contacts": 17
+  },
+  "d15-m0.5": {
+   "dangerous": 105,
+   "hazards": 164,
+   "mean_recall": 0.9487,
+   "discounted_seeds": 10,
+   "median_discount_contacts": 21
+  }
+ }
+}

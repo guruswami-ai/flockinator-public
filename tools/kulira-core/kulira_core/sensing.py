@@ -27,7 +27,13 @@ def _anomalous(r: Reading) -> bool:
     return abs(r.value - r.baseline) >= THRESHOLDS.get(r.modality, float("inf"))
 
 def assess_contact(readings, min_modalities: int = 2) -> dict:
-    hits = [r for r in readings if _anomalous(r)]
+    # one sighting_id is one sighting, wherever it is re-reported from:
+    # a relabelled copy must never add a modality or a node
+    seen = set(); unique = []
+    for r in readings:
+        if r.sighting_id not in seen:
+            seen.add(r.sighting_id); unique.append(r)
+    hits = [r for r in unique if _anomalous(r)]
     modalities = sorted({r.modality for r in hits})
     nodes = sorted({r.node for r in hits})
     kind = "survivor_candidate" if any(m in SURVIVOR_MODALITIES for m in modalities) else "unknown"

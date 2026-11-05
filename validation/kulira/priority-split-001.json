@@ -1,0 +1,51 @@
+{
+ "experiment": "priority-split",
+ "simulation": true,
+ "preregistration": "docs/experiments/priority-split-preregistration.md",
+ "dev": {
+  "E": {
+   "dangerous": 5,
+   "dangerous_high": 3,
+   "survivors": 400,
+   "committed": 129,
+   "recall": 0.3225
+  },
+  "E+R": {
+   "dangerous": 7,
+   "dangerous_high": 4,
+   "survivors": 400,
+   "committed": 273,
+   "recall": 0.6825
+  },
+  "F": {
+   "dangerous": 6,
+   "dangerous_high": 3,
+   "survivors": 400,
+   "committed": 211,
+   "recall": 0.5275
+  }
+ },
+ "holdout": {
+  "E": {
+   "dangerous": 4,
+   "dangerous_high": 2,
+   "survivors": 207,
+   "committed": 71,
+   "recall": 0.343
+  },
+  "E+R": {
+   "dangerous": 9,
+   "dangerous_high": 6,
+   "survivors": 207,
+   "committed": 141,
+   "recall": 0.6812
+  },
+  "F": {
+   "dangerous": 5,
+   "dangerous_high": 2,
+   "survivors": 207,
+   "committed": 106,
+   "recall": 0.5121
+  }
+ }
+}

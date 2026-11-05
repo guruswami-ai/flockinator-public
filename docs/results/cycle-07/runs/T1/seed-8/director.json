@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "ruleset": "search-board-1",
+  "source": "planner_simulation",
+  "run": "cycle07-T1-seed-8",
+  "phase": "Complete",
+  "last_turn": 12,
+  "started_utc": "2023-11-14T22:13:20.000+00:00",
+  "units": [
+    "A1",
+    "B1",
+    "C1",
+    "D1"
+  ],
+  "scenario": {
+    "pattern": "Search grid",
+    "cover": "Patchy",
+    "count": 4,
+    "battery": 16,
+    "focus": [
+      6,
+      1
+    ],
+    "custom": {},
+    "seed": 8,
+    "phase": "Running",
+    "turn": 0,
+    "scenario_seed": 8,
+    "episode": "cycle07-T1-seed-8"
+  },
+  "ground_truth": [],
+  "clock_segments": [
+    [
+      0,
+      1700000000.0
+    ]
+  ]
+}

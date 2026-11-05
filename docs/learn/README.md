@@ -8,9 +8,10 @@ decisions that fast - our senses overload following even one or two
 birds. Flockinator rebuilds that puzzle with sixteen small robot
 panels so we can slow it down, measure it, attack it, and learn how
 groups become smarter than their members - and how that smartness
-can be stolen.
+can be stolen. The same channels that make a group capable also
+make it attackable; that is why trust is tested, not assumed.
 
-## The six ideas
+## The seven ideas
 
 1. **[Why groups look intelligent](why-groups-look-intelligent.md)**
    Simple local rules, repeated across many neighbours, create
@@ -36,10 +37,17 @@ can be stolen.
 5. **[Why search and rescue first](why-search-and-rescue.md)** - lost
    children, downed aircraft, thermal and CO2 scouts, and why
    agent-to-agent trust is a new frontier.
-6. **[How Flockinator tests all this](how-we-test.md)**
+6. **[Optimisation in nature](optimisation-in-nature.md)** - gradient descent without a gradient; survivors, not the smartest.
+7. **[How Flockinator tests all this](how-we-test.md)**
    The playground: sixteen glowing nodes, a search-and-rescue
    mission, an adversary whose job is to lie to them, and a
    scorekeeper with the hidden truth.
+
+## Going deeper
+
+**[A microscope for emergent behaviour](microscope-for-emergence.md)** -
+why the swarm lives on a wall of glowing panels at all: human
+eyes and ears, used as scientific instruments.
 
 ## Watch first
 
@@ -48,4 +56,5 @@ can be stolen.
 The illustrated mission: [search-and-rescue survey guide](../scenarios/quadcopter-survey/README.md).
 The moving preview: [recon HUD](../../previews/recon-hud/README.md).
 Ready for the method? [Experimental methodology](../experiments.md).
+Ready for the scoreboard? [Results lab book](../results/README.md).
 Ready for the attacks? [Attack taxonomy](../attack-taxonomy.md).

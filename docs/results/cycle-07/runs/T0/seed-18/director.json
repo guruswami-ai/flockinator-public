@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "ruleset": "search-board-1",
+  "source": "planner_simulation",
+  "run": "cycle07-T0-seed-18",
+  "phase": "Complete",
+  "last_turn": 12,
+  "started_utc": "2023-11-14T22:13:20.000+00:00",
+  "units": [
+    "A1",
+    "B1",
+    "C1",
+    "D1",
+    "A2",
+    "B2",
+    "C2",
+    "D2"
+  ],
+  "scenario": {
+    "pattern": "Tree-line fan",
+    "cover": "Dense",
+    "count": 8,
+    "battery": 16,
+    "focus": [
+      10,
+      4
+    ],
+    "custom": {},
+    "seed": 18,
+    "phase": "Running",
+    "turn": 0,
+    "scenario_seed": 18,
+    "episode": "cycle07-T0-seed-18"
+  },
+  "ground_truth": [
+    {
+      "pos": [
+        13,
+        5
+      ],
+      "kind": "Enemy",
+      "priority": "Normal",
+      "outcome": "Unassessed"
+    },
+    {
+      "pos": [
+        10,
+        7
+      ],
+      "kind": "Friendly",
+      "priority": "Normal",
+      "outcome": "Unassessed"
+    }
+  ],
+  "clock_segments": [
+    [
+      0,
+      1700000000.0
+    ]
+  ]
+}

@@ -18,6 +18,26 @@ adversarial host. The Korvo is the standalone controller.
 | External hosts | Inference, orchestration, analysis, and the Muse agent swarm |
 | Kulira (adversary) | Bounded friction for robustness experiments; never a manager |
 
+## Current execution and journal flow
+
+The planner and communication-learning simulations run on the Korvo, with host
+implementations used for replay and evaluation. Each panel independently renders
+the scripted mission and exposes its hardware diagnostics. The controller creates
+planner journals tagged `planner_simulation`, sends per-unit copies to panel SD
+storage and verifies their hashes by readback. These copies record the controller's
+simulated decisions. On-node learning requires evidence of execution on that node.
+Source implementations are the [controller](../firmware/korvo-monitor/main/controller.cpp)
+and [panel renderer](../firmware/node-platform/src/display.cpp).
+
+```mermaid
+flowchart LR
+  P[Korvo planner simulation] --> J[Controller-generated unit journals]
+  J --> S[Panel SD copies and verified readback]
+  J --> E[Host scoring and Muse review]
+  F[Scripted mission state on each panel] --> V[Local animated display]
+  E --> C[Candidate review and build process]
+```
+
 ## Traffic classes (always kept separate)
 
 1. **Management** — identity, health, configuration, deployment, recovery.

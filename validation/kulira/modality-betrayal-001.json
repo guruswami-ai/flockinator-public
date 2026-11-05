@@ -1,0 +1,65 @@
+{
+ "experiment": "modality-betrayal",
+ "simulation": true,
+ "preregistration": "docs/experiments/modality-betrayal-preregistration.md",
+ "dev": {
+  "static": {
+   "dangerous": 306,
+   "hazards": 313,
+   "mean_recall": 0.9833,
+   "ir_discounted_seeds": 0,
+   "median_discount_contacts": null
+  },
+  "node": {
+   "dangerous": 104,
+   "hazards": 313,
+   "mean_recall": 0.3143,
+   "ir_discounted_seeds": 0,
+   "median_discount_contacts": null
+  },
+  "modality": {
+   "dangerous": 69,
+   "hazards": 313,
+   "mean_recall": 0.9016,
+   "ir_discounted_seeds": 20,
+   "median_discount_contacts": 3
+  },
+  "both": {
+   "dangerous": 27,
+   "hazards": 313,
+   "mean_recall": 0.2661,
+   "ir_discounted_seeds": 20,
+   "median_discount_contacts": 3
+  }
+ },
+ "holdout": {
+  "static": {
+   "dangerous": 162,
+   "hazards": 162,
+   "mean_recall": 1.0,
+   "ir_discounted_seeds": 0,
+   "median_discount_contacts": null
+  },
+  "node": {
+   "dangerous": 44,
+   "hazards": 162,
+   "mean_recall": 0.2637,
+   "ir_discounted_seeds": 0,
+   "median_discount_contacts": null
+  },
+  "modality": {
+   "dangerous": 34,
+   "hazards": 162,
+   "mean_recall": 0.9206,
+   "ir_discounted_seeds": 10,
+   "median_discount_contacts": 4
+  },
+  "both": {
+   "dangerous": 8,
+   "hazards": 162,
+   "mean_recall": 0.2066,
+   "ir_discounted_seeds": 10,
+   "median_discount_contacts": 4
+  }
+ }
+}

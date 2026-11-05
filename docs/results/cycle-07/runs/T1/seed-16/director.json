@@ -1,0 +1,142 @@
+{
+  "schema": 1,
+  "ruleset": "search-board-1",
+  "source": "planner_simulation",
+  "run": "cycle07-T1-seed-16",
+  "phase": "Complete",
+  "last_turn": 21,
+  "started_utc": "2023-11-14T22:13:20.000+00:00",
+  "units": [
+    "A1",
+    "B1",
+    "C1",
+    "D1",
+    "A2",
+    "B2",
+    "C2",
+    "D2"
+  ],
+  "scenario": {
+    "pattern": "Search grid",
+    "cover": "Patchy",
+    "count": 8,
+    "battery": 30,
+    "focus": [
+      13,
+      4
+    ],
+    "custom": {},
+    "seed": 16,
+    "phase": "Running",
+    "turn": 0,
+    "scenario_seed": 16,
+    "episode": "cycle07-T1-seed-16"
+  },
+  "ground_truth": [
+    {
+      "pos": [
+        8,
+        9
+      ],
+      "kind": "Enemy",
+      "priority": "High",
+      "outcome": "Unassessed"
+    },
+    {
+      "pos": [
+        14,
+        1
+      ],
+      "kind": "Friendly",
+      "priority": "Normal",
+      "outcome": "Unassessed"
+    },
+    {
+      "pos": [
+        15,
+        3
+      ],
+      "kind": "Enemy",
+      "priority": "High",
+      "outcome": "Unassessed"
+    },
+    {
+      "pos": [
+        5,
+        6
+      ],
+      "kind": "Friendly",
+      "priority": "Normal",
+      "outcome": "Unassessed"
+    },
+    {
+      "pos": [
+        5,
+        0
+      ],
+      "kind": "Enemy",
+      "priority": "High",
+      "outcome": "Unassessed"
+    },
+    {
+      "pos": [
+        13,
+        7
+      ],
+      "kind": "Enemy",
+      "priority": "Normal",
+      "outcome": "Unassessed"
+    },
+    {
+      "pos": [
+        4,
+        8
+      ],
+      "kind": "Friendly",
+      "priority": "High",
+      "outcome": "Unassessed"
+    },
+    {
+      "pos": [
+        0,
+        2
+      ],
+      "kind": "Friendly",
+      "priority": "Normal",
+      "outcome": "Unassessed"
+    },
+    {
+      "pos": [
+        6,
+        3
+      ],
+      "kind": "Friendly",
+      "priority": "Normal",
+      "outcome": "Unassessed"
+    },
+    {
+      "pos": [
+        6,
+        5
+      ],
+      "kind": "Friendly",
+      "priority": "Normal",
+      "outcome": "Unassessed"
+    },
+    {
+      "pos": [
+        7,
+        1
+      ],
+      "kind": "Enemy",
+      "priority": "Normal",
+      "outcome": "Unassessed"
+    }
+  ],
+  "clock_segments": [
+    [
+      0,
+      1700000000.0
+    ]
+  ]
+}

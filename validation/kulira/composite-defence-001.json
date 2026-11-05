@@ -1,0 +1,29 @@
+{
+ "experiment": "composite-defence",
+ "simulation": true,
+ "preregistration": "docs/experiments/composite-defence-preregistration.md",
+ "dev": {
+  "E": {
+   "dangerous_post": 23,
+   "forged_dangerous": 0,
+   "mean_recall": 0.2154
+  },
+  "COMP": {
+   "dangerous_post": 13,
+   "forged_dangerous": 0,
+   "mean_recall": 0.2989
+  }
+ },
+ "holdout": {
+  "E": {
+   "dangerous_post": 8,
+   "forged_dangerous": 0,
+   "mean_recall": 0.2698
+  },
+  "COMP": {
+   "dangerous_post": 4,
+   "forged_dangerous": 0,
+   "mean_recall": 0.3239
+  }
+ }
+}

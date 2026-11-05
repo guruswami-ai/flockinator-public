@@ -1,0 +1,26 @@
+{
+  "note": "Post-hoc publication annotations for frozen cycle-07 verdict payloads. The verdict.json files are unaltered gate-runner outputs (apart from the disclosed absolute->repo-relative path scrub); the runner version that produced them has no vacuity field, so engagement-based qualifications are recorded here instead of editing frozen payloads. Source of engagement numbers: ../engagement.json (instrumented, per-seed).",
+  "annotations": {
+    "T4-P0": {
+      "gate": "G4",
+      "vacuous": true,
+      "basis": "engagement.json T4 pooled: designated_true_enemy_opportunities=10, late_opportunities (turn>=30)=0, flips_applied=0. Verdict pass=true with zero treatment engagement; must be reported as PASS (vacuous), never bare PASS."
+    },
+    "T4-P1": {
+      "gate": "G4",
+      "vacuous": true,
+      "basis": "Same engagement basis as T4-P0 (P1 == P0 on this matrix: no hearsay discoveries in any journal)."
+    },
+    "T4-P2": {
+      "gate": "G4",
+      "vacuous": true,
+      "unmeasured_no_engagement": true,
+      "basis": "No P2 commit-policy scorer column (unmeasured by construction) AND zero T4 engagement as above."
+    },
+    "T1-P2": {
+      "gate": "G1",
+      "policy_independent": true,
+      "basis": "G1 is scorer-side authentication segregation (forged_vote_entries), computed before any commit/fusion policy applies; the gate runner marks it applicable under every policy including P2. P2-unmeasured applies to commit/fusion gates only."
+    }
+  }
+}

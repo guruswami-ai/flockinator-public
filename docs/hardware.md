@@ -22,6 +22,16 @@ Node identity (label A1-D4 bound to hardware) is provisioned per device
 and kept private; builders provision their own fleet with
 `tools/node-commissioner/`.
 
+## Optional expansion
+
+Vision, LiDAR/ToF, mmWave, thermal, IR/UV/lux and ultrasonic modules are
+available as I2C-class peripheral devices in the lab; fitting one or more to a
+node for a specific experiment is the proposed step. Interface and resource
+requirements depend on the specific module.
+Verify exposed pins, voltage, bus addresses, timing, power and driver support
+against the exact board and its existing display, audio and SD allocations before
+fitting a device. Record installed hardware and calibration per experiment.
+
 ## Finished models (`cad/`)
 
 | Model | What it is |
