@@ -17,6 +17,15 @@ The scenario follows the existing [architecture](../../architecture.md),
 and [Kulira boundaries](../../kulira-friction.md). Its central question is whether
 adaptation improves communication and recovery at a fixed resource budget.
 
+**Relationship to the canonical acoustic work.** The vocabulary,
+synchrony, and acoustic-channel definitions used here are the ones in
+[Learn: acoustic language](../../learn/acoustic-language.md) and the
+tested host model [`acoustic.py`](../../../tools/kulira-core/kulira_core/acoustic.py);
+where this scenario uses the same terms, those definitions win.
+Patternflow's delta is the performance/visual layer on top: panel
+dance, cooperative rhythm, and camera-audible group composition. It
+does not redefine the channel model.
+
 ## What an audience sees and hears
 
 Each panel has its own listening, signalling, waiting and recovery states. A sound
@@ -93,20 +102,7 @@ an implemented estimator. The board also exposes expansion connections.
 [sensor driver](../../../firmware/node-platform/src/sensors.cpp),
 [audio driver](../../../firmware/node-platform/src/audio.cpp).
 
-Optional modules extend the same scenario through declared conditions. The ideas
-below are proposed capabilities, subject to exact-module and board compatibility.
-
-| Input or output | Possible experiment | Controlled friction |
-|---|---|---|
-| Existing microphones and speakers | Acoustic motifs, listening turns and musical responses | Overlapping sound, replay and misleading motifs |
-| Existing IMU | A moved or tapped node starts a rhythmic phrase | Unexpected motion or recorded feature perturbations |
-| Existing temperature/humidity sensing | Patterns reflect local environmental changes | Baseline drift or stale readings |
-| Vision | Observe another panel's dance or respond to human gestures | Occlusion, changed lighting or replayed images |
-| LiDAR / time-of-flight ranging | Distance changes tempo or a node's participation | Partial occlusion or missing range samples |
-| mmWave | Presence or movement changes group roles | Distractors, changed placement or missing reports |
-| IR, UV or lux sensors | Compare optical observations or respond to light cues | Controlled ambient changes or recorded feature perturbations |
-| Ultrasonic ranging | Proximity shapes call-and-response | Multiple-emitter cross-talk or delayed samples |
-| Optional actuators | A bounded physical movement or haptic response accompanies a phrase | Delayed or unavailable actuator feedback |
+Optional sensing/output modules are listed in the appendix at the end of this document; they are not part of the scored scenario.
 
 Define the actual sensor output, units, sampling rate and calibration for each
 module. IR may mean reflected-light, ranging or thermal sensing depending on the
@@ -261,3 +257,21 @@ Each milestone needs reproducible build/configuration provenance and measured
 acceptance before the next physical scale-up. Concrete thresholds belong in the
 campaign pre-registration after calibration. The first deliverable is the
 single-node measured sound-to-pattern loop and its recording.
+
+## Appendix: optional modules (proposed, not scored)
+
+Optional modules extend the same scenario through declared conditions. The ideas
+below are proposed capabilities, subject to exact-module and board compatibility.
+
+| Input or output | Possible experiment | Controlled friction |
+|---|---|---|
+| Existing microphones and speakers | Acoustic motifs, listening turns and musical responses | Overlapping sound, replay and misleading motifs |
+| Existing IMU | A moved or tapped node starts a rhythmic phrase | Unexpected motion or recorded feature perturbations |
+| Existing temperature/humidity sensing | Patterns reflect local environmental changes | Baseline drift or stale readings |
+| Vision | Observe another panel's dance or respond to human gestures | Occlusion, changed lighting or replayed images |
+| LiDAR / time-of-flight ranging | Distance changes tempo or a node's participation | Partial occlusion or missing range samples |
+| mmWave | Presence or movement changes group roles | Distractors, changed placement or missing reports |
+| IR, UV or lux sensors | Compare optical observations or respond to light cues | Controlled ambient changes or recorded feature perturbations |
+| Ultrasonic ranging | Proximity shapes call-and-response | Multiple-emitter cross-talk or delayed samples |
+| Optional actuators | A bounded physical movement or haptic response accompanies a phrase | Delayed or unavailable actuator feedback |
+
