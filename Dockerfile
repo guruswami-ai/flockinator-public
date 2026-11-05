@@ -1,6 +1,6 @@
 # Reproduce the flagship communication benchmark. Stdlib-only scientific code;
 # no dependencies to install, no network or credentials at runtime.
-FROM python:3.12-slim@sha256:31ba4539f4c926d93ebcc0d31a68f94797c5d76ede54698b75d5c1d87a12f2e7
+FROM python:3.12-slim@sha256:e695ab189fa2d082b1c61c69a6b888a5adeca61ceeccad107b1ed2a125721a9e
 WORKDIR /app
 COPY tools/mission-host/coordination_lab.py tools/mission-host/planner.py tools/mission-host/exercise_memory.py /app/mission-host-src/
 COPY tools/reproduce/run.py tools/reproduce/expected.json /app/reproduce/
