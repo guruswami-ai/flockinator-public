@@ -1,6 +1,6 @@
 # Kulira trust experiment series: what was measured
 
-Ten seeded lab-simulation experiments, each pre-registered in a
+Fifteen seeded lab-simulation experiments, each pre-registered in a
 first commit before any code ran, each with published evidence in
 `validation/kulira/`. Simulation only throughout: no hardware, no
 radio, no on-node inference. Seeds: dev 0-19, holdout 100-109
@@ -21,12 +21,18 @@ evaluated once per experiment.
 | 9 | Composite defence | Do the pieces compose under combined attack? | Dangerous 23->13 post-betrayal, recall **rises**, forged stays 0 - **gate passed** |
 | 10 | Reputation defence | Can behaviour suppress verified colluders? | Second-half dangerous ~halved (36->19); reputations separate 0.15 vs 0.74; **cold-start caveat**: slightly worse before history accrues |
 
+| 11 | Probationary reputation | Does probation fix the cold start? | **Falsified**: 81 vs 37 first-half dangerous; early discounts were signal |
+| 12 | Identity rotation | Fresh identity every R contacts? | Reputation inverts where IDs are free (28 vs 20 at R=5) |
+| 13 | Newcomer discount | Start unseen IDs at half weight? | **Falsified**: recall collapses to ~0.04; weights/thresholds share units |
+| 14 | Factorial isolation | Trust vs thresholds, attributed? | Learned trust active; loose thresholds alone triple dangerous |
+| 15 | Strict composite S | Safest factorial cell as policy? | **Gate passed** on fresh seeds; replaces loose composite for dangerous commits |
+
 ## Current recommended stack (each layer measured separately first)
 
 1. **Admission by provenance** - only `direct_verified` sightings
    may decide a commit; unverified and hearsay reports are
    advisory only (bridge Contract v1 auth status).
-2. **Commit by margin, abstain on close calls** - contested
+2. **Commit strictly, abstain on close calls** - strict rule under learned trust for irreversible commits (loose rule + second looks only where reversible); contested
    contacts stay explicitly Unassessed for an operator; bought
    second looks only where a commit is reversible.
 3. **Weight by learned modality trust** - distrust attaches to
