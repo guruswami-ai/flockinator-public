@@ -3,10 +3,13 @@
 ## A first experiment people can feel
 
 The quadcopter survey swarm was chosen as Flockinator's first
-experiment because the stakes are easy to imagine. Anyone can picture
-a human quadcopter pilot on a battlefield: limited battery, partial
-views, decisions in seconds, and a wrong call - friend or enemy,
-go or hold - that cannot be taken back.
+experiment because the stakes are easy to imagine. Picture a
+search-and-rescue commander sending scouts out to find a lost
+child, or a downed aircraft: limited battery, partial views,
+hazardous country and long distances degrading every radio link,
+decisions in seconds, and a wrong call - that shape is a survivor,
+that one is a hazard; search here, hold there - that cannot be
+taken back once the light or the battery is gone.
 
 Our sixteen panels pretend to be that swarm so the decisions become
 visible. When a false report wins, you do not read it in a log. You
@@ -14,10 +17,13 @@ watch the flock believe the wrong thing, together, in colour. That
 immediacy is the point: agent-to-agent (A2A) failure should be
 something a person can *see* before they are asked to trust it.
 
-The battlefield is the visualisation, not the whole story. The
-larger stakes are civilian: the same trust problem will arrive in
-clinics, shops, roads, and homes, carried by devices nobody thinks
-of as computers.
+Search and rescue is the lead story because it carries the full
+weight of the problem - a commander who must trust scouts she
+cannot supervise, in conditions that fight their communication -
+without reducing the work to weapons research. The same concept
+holds wherever the stakes are real: the battlefield case that
+inspired the scenario, and the civilian cases (clinics, shops,
+roads, homes) that embedded agents will actually fill.
 
 ## Where intelligence may actually live
 
