@@ -20,18 +20,34 @@ reimplements the simulation. Wall-replay data is a generated
 fixture from `kulira_core.composite`, with its provenance in the
 JSON.
 
+## Live
+
+Deployed 2026-11-06 (owner account): https://flockinator-sim.pages.dev
+
+Verified live after deploy: `/api/health` (simulation_only,
+`real_nodes: false`), `/api/benchmark` (canonical sha256
+`406549c3...`), `?seed=5` 200, `?seed=99` 422, `?seed=abc` 400,
+`/` and `/data/replay.json` 200.
+
 ## Deploy (owner account)
 
 ```sh
 cd cloudflare
 npx wrangler login          # owner Cloudflare account, once
-npx wrangler pages deploy site --project-name flockinator-sim
+npx wrangler pages project create flockinator-sim --production-branch main  # first time only
+npx wrangler pages deploy --branch main
 ```
 
-Pages Functions in `functions/` deploy with the project when the
-project root is this directory (`wrangler.toml` sets the output
-dir). Verify after deploy: `/api/health`, `/api/benchmark`,
+Run deploy from this directory so `wrangler.toml` sets the output
+dir (`site/`) and Pages Functions in `functions/` deploy with the
+project. `--branch main` targets production; without it, wrangler
+uses the current git branch name and creates a preview deployment.
+Verify after deploy: `/api/health`, `/api/benchmark`,
 `/api/benchmark?seed=99` (expect 422), and the wall replay.
+Rollback: redeploy the previous commit, or delete the deployment
+in the Cloudflare dashboard (Pages -> flockinator-sim ->
+Deployments). No data or state is stored, so rollback is a pure
+static redeploy.
 
 ## Local preview
 
