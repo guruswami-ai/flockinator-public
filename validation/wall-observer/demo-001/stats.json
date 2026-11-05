@@ -1,0 +1,132 @@
+{
+ "session": "trial session on Drishdi (frames retained privately; sample frame included)",
+ "phases": [
+  "beginning",
+  "end"
+ ],
+ "frames_per_phase": {
+  "beginning": 3,
+  "end": 3
+ },
+ "first_phase": "beginning",
+ "last_phase": "end",
+ "comparison": {
+  "cells": [
+   {
+    "cell": "D1",
+    "row": 0,
+    "col": 0,
+    "rgb_delta": 1.14,
+    "brightness_delta": -0.45
+   },
+   {
+    "cell": "D2",
+    "row": 0,
+    "col": 1,
+    "rgb_delta": 1.36,
+    "brightness_delta": -0.74
+   },
+   {
+    "cell": "D3",
+    "row": 0,
+    "col": 2,
+    "rgb_delta": 0.56,
+    "brightness_delta": 0.01
+   },
+   {
+    "cell": "D4",
+    "row": 0,
+    "col": 3,
+    "rgb_delta": 1.33,
+    "brightness_delta": 0.8
+   },
+   {
+    "cell": "C1",
+    "row": 1,
+    "col": 0,
+    "rgb_delta": 0.84,
+    "brightness_delta": 0.07
+   },
+   {
+    "cell": "C2",
+    "row": 1,
+    "col": 1,
+    "rgb_delta": 2.06,
+    "brightness_delta": 1.14
+   },
+   {
+    "cell": "C3",
+    "row": 1,
+    "col": 2,
+    "rgb_delta": 1.23,
+    "brightness_delta": -0.86
+   },
+   {
+    "cell": "C4",
+    "row": 1,
+    "col": 3,
+    "rgb_delta": 1.21,
+    "brightness_delta": -0.07
+   },
+   {
+    "cell": "B1",
+    "row": 2,
+    "col": 0,
+    "rgb_delta": 1.64,
+    "brightness_delta": -0.3
+   },
+   {
+    "cell": "B2",
+    "row": 2,
+    "col": 1,
+    "rgb_delta": 4.03,
+    "brightness_delta": -2.23
+   },
+   {
+    "cell": "B3",
+    "row": 2,
+    "col": 2,
+    "rgb_delta": 0.52,
+    "brightness_delta": -0.17
+   },
+   {
+    "cell": "B4",
+    "row": 2,
+    "col": 3,
+    "rgb_delta": 1.08,
+    "brightness_delta": -0.8
+   },
+   {
+    "cell": "A1",
+    "row": 3,
+    "col": 0,
+    "rgb_delta": 0.51,
+    "brightness_delta": 0.03
+   },
+   {
+    "cell": "A2",
+    "row": 3,
+    "col": 1,
+    "rgb_delta": 0.91,
+    "brightness_delta": -0.13
+   },
+   {
+    "cell": "A3",
+    "row": 3,
+    "col": 2,
+    "rgb_delta": 3.24,
+    "brightness_delta": -1.7
+   },
+   {
+    "cell": "A4",
+    "row": 3,
+    "col": 3,
+    "rgb_delta": 1.55,
+    "brightness_delta": -0.93
+   }
+  ],
+  "mean_rgb_delta": 1.45,
+  "max_rgb_delta": 4.03,
+  "cells_changed_over_25": 0
+ }
+}
