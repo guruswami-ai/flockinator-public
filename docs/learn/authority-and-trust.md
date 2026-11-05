@@ -29,5 +29,12 @@ Trust in an autonomous swarm is not a feeling. It is evidence,
 collected under friendly *and* hostile conditions, that the group
 does its duty when nobody can supervise it moment to moment.
 
+One difference matters. A soldier can refuse an unlawful order
+and can share responsibility for what the platoon does. A node
+can do neither in any meaningful sense. Trust transfers from the
+platoon analogy; blame does not - it stays with the commander
+and the designers, more concentrated, not less. That asymmetry
+is itself an argument for hostile testing before deployment.
+
 The swarm must be smarter together. It must also, node by node,
 still be good enough alone. We test both.

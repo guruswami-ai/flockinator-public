@@ -33,7 +33,11 @@ can be stolen.
    decisions alone, the group must make better ones together, and
    that trust is earned by testing - friendly and hostile - long
    before deployment.
-5. **[How Flockinator tests all this](how-we-test.md)**
+5. **[Why quadcopters first - and why A2A is a new frontier](why-quadcopters-and-a2a.md)**
+   High-stakes decisions people can relate to, tiny embedded
+   agents everywhere, machine-speed attackers, and the end of
+   protection by obscurity.
+6. **[How Flockinator tests all this](how-we-test.md)**
    The playground: sixteen glowing nodes, a simulated drone
    mission, an adversary whose job is to lie to them, and a
    scorekeeper with the hidden truth.
