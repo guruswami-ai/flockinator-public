@@ -25,6 +25,12 @@ holds wherever the stakes are real: the battlefield case that
 inspired the scenario, and the civilian cases (clinics, shops,
 roads, homes) that embedded agents will actually fill.
 
+In the technical results you will see the labels *Friendly* and
+*Enemy* - the scenario's original military shorthand. Read them
+in the rescue story as *survivor* and *hazard*: the unforgivable
+error, in either story, is the swarm confidently committing to
+the dangerous misidentification.
+
 ## Where intelligence may actually live
 
 Today's famous AI is monolithic: very large models, rented by
