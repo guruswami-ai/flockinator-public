@@ -1,0 +1,38 @@
+name: reproduce-benchmark
+on:
+  pull_request:
+    paths: ["tools/reproduce/**", "tools/mission-host/coordination_lab.py", "tools/mission-host/planner.py", "tools/mission-host/exercise_memory.py", "Dockerfile", ".github/workflows/reproduce.yml"]
+  push:
+    branches: [main]
+    paths: ["tools/reproduce/**", "tools/mission-host/coordination_lab.py", "Dockerfile"]
+jobs:
+  native:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Verify canonical benchmark (regression check, not new confirmation)
+        run: python3 tools/reproduce/run.py --verify
+      - name: Run to output dir and show summary
+        run: |
+          python3 tools/reproduce/run.py --out /tmp/flockinator-repro
+          cat /tmp/flockinator-repro/summary.txt
+      - name: Corrupt-expected failure check (CI must fail loudly)
+        run: |
+          cp tools/reproduce/expected.json /tmp/expected.bak
+          python3 -c "import json; p='tools/reproduce/expected.json'; d=json.load(open(p)); d['scientific_content']['pooled']['clear']['recoveries']+=1; json.dump(d,open(p,'w'))"
+          if python3 tools/reproduce/run.py --verify; then echo "ERROR: verify passed on corrupted expected" >&2; exit 1; else echo "corruption detected as required"; fi
+          cp /tmp/expected.bak tools/reproduce/expected.json
+  container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker build -t flockinator-reproduce .
+      - name: Run offline as unprivileged user
+        run: |
+          mkdir -p /tmp/flockinator-repro-container
+          docker run --rm --network none -v /tmp/flockinator-repro-container:/tmp/out flockinator-reproduce
+          cat /tmp/flockinator-repro-container/summary.txt
+          grep -q "72.949%" /tmp/flockinator-repro-container/summary.txt
