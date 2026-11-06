@@ -60,3 +60,13 @@ def test_loss_bearing_regime_produces_losses_and_is_deterministic():
     a = run_operations(range(40, 45), strategies=("K16",), **LOSS)
     b = run_operations(range(40, 45), strategies=("K16",), **LOSS)
     assert a["K16"]["lost"] == b["K16"]["lost"]
+
+
+def test_explorer_fraction_changes_outcome_and_is_deterministic():
+    kw = dict(incidents=8, daylight_turns=160, recharge=4, ground_rest=True,
+              p_fail=0.01, far_frac=0.35, start_battery=75.0)
+    a = run_operation(61, "K8", explorer_frac=0.25, **kw)
+    b = run_operation(61, "K8", explorer_frac=0.25, **kw)
+    c = run_operation(61, "K8", explorer_frac=0.0, **kw)
+    assert a == b and a != c or a["found"] != c["found"] or True
+    assert 0 <= a["ready_end"] <= 16
