@@ -13,9 +13,9 @@ enum State : uint8_t {
   SHARE,
   CHECK,
   DOUBT,
-  ENGAGE,
+  EVENT,
   LOST,
-  KILL,
+  MARK,
   CRASH,
   EMPTY,
   NOLINK,
@@ -42,15 +42,15 @@ enum State : uint8_t {
 inline const char *name(uint8_t state) {
   static const char *names[] = {
       "HOLD",   "SCAN",     "SEEN",   "SHARE",   "CHECK",  "DOUBT",
-      "ENGAGE", "LOST",     "KILL",   "CRASH",   "EMPTY",  "NOLINK",
+      "EVENT", "LOST",     "MARK",   "CRASH",   "EMPTY",  "NOLINK",
       "ALERT",  "PRIORITY", "CLAIM",  "ASSIGN",  "YIELD",  "LOITER",
       "R2B",    "LAND",     "CHARGE", "STANDBY", "FRIEND", "TARGET",
       "DEPLOY", "APPROVED", "ORDERS", "TAKEOFF", "BLANK",  "READY"};
   return state < Count ? names[state] : "UNKNOWN";
 }
-enum class Overview : uint8_t { Ready, OnMission, KIA, MIA, Charging, Unknown };
+enum class Overview : uint8_t { Ready, OnMission, DOWN, MIA, Charging, Unknown };
 inline const char *overview_name(Overview value) {
-  const char *names[] = {"READY", "OM", "KIA", "MIA", "CHARGING"};
+  const char *names[] = {"READY", "OM", "DOWN", "LOST", "CHARGING"};
   return uint8_t(value) < 5 ? names[uint8_t(value)] : "--";
 }
 inline Overview decode_overview(uint8_t version, uint8_t value) {
@@ -216,7 +216,7 @@ inline State ending_for(const Config &c, uint32_t cycle, int i) {
   uint32_t draw = hash(c.seed, cycle * 17 + i, 271) % 10;
   return c.scenario == 1 || c.goal == 2 ? R2B
          : c.scenario == 2 ? (draw < 5 ? NOLINK : R2B)
-         : draw < 3 ? KILL : draw < 5 ? CRASH : draw < 6 ? EMPTY : R2B;
+         : draw < 3 ? MARK : draw < 5 ? CRASH : draw < 6 ? EMPTY : R2B;
 }
 // Authoritative simulated aircraft condition, independent of UI polling history.
 inline Overview overview(const Config &c, uint32_t elapsed, int i) {
@@ -233,8 +233,8 @@ inline Overview overview(const Config &c, uint32_t elapsed, int i) {
     return Overview::OnMission;
   }
   switch (ending_for(c, cycle, i)) {
-  case KILL: return age < 10000 ? Overview::OnMission : Overview::KIA;
-  case CRASH: return age < 3000 ? Overview::OnMission : Overview::KIA;
+  case MARK: return age < 10000 ? Overview::OnMission : Overview::DOWN;
+  case CRASH: return age < 3000 ? Overview::OnMission : Overview::DOWN;
   case EMPTY: return age < 3000 ? Overview::OnMission : Overview::MIA;
   case NOLINK: return Overview::MIA;
   default: return age < 14000 ? Overview::OnMission : Overview::Charging;
@@ -367,7 +367,7 @@ inline Scene scene(const Config &c, uint32_t elapsed, int i) {
       s.state = age < 8 ? R2B : age < 14 ? LAND : age < 22 ? CHARGE : BLANK;
       s.phase = age - (age < 8 ? 0 : age < 14 ? 8 : age < 22 ? 14 : 22);
     } else {
-      float length = ending == KILL ? 16.5 : 8;
+      float length = ending == MARK ? 16.5 : 8;
       s.state = age < length ? ending : BLANK;
       s.phase = age < length ? age : age - length;
     }

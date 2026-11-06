@@ -93,10 +93,10 @@ inline void render(node::Frame &f, node::Frame &scratch, const Scene &s,
   char id[3], str[32], peer[3];
   label(index, id);
   label(s.peer % 16, peer);
-  bool approach = state == KILL && phase < 10;
+  bool approach = state == MARK && phase < 10;
   auto border = [&]() {
     if (approach || (s.direction && pulse(s.commAge))) {
-      uint16_t c = approach           ? red
+      uint16_t c = approach           ? warn
                    : s.direction == 1 ? rgb(0xff8a24)
                                       : rgb(0x32ed70);
       p.line(0, 0, 63, 0, c);
@@ -140,11 +140,10 @@ inline void render(node::Frame &f, node::Frame &scratch, const Scene &s,
     }
     return;
   }
-  if (state == KILL && phase >= 10 && phase < 11.5) {
-    f.clear();
-    return;
-  }
-  if ((state == KILL && phase >= 11.5) || (state == CRASH && phase >= 3)) {
+  // MARK holds the marked-site view past the ETA countdown (rescue hold,
+  // TARGET CONFIRMED): no blank gap, no static feed-lost. CRASH keeps the
+  // honest-failure static branch below.
+  if (state == CRASH && phase >= 3) {
     constexpr uint16_t shades[] = {rgb(0x101315), rgb(0x22272a), rgb(0x343a3d),
                                    rgb(0x4b5357), rgb(0x697175)};
     for (int y = 0; y < 64; y++)
@@ -218,7 +217,7 @@ inline void render(node::Frame &f, node::Frame &scratch, const Scene &s,
   if(background) heading=int(std::lround(mod(worldHeading,360)))%360;
   float launch = state == LAND ? 1 - smooth(phase / 6) : s.launch;
   float at = state == TAKEOFF ? 6 + index * 1.71f + m.offset
-             : state == KILL || state == LAND
+             : state == MARK || state == LAND
                  ? s.motion - phase + index * 1.71f + m.offset
                  : t;
   float bank = (m.bank + std::sin(at * .32f * m.rate) * m.sway) * launch,
@@ -299,10 +298,10 @@ inline void render(node::Frame &f, node::Frame &scratch, const Scene &s,
   }
   int gap = state == SCAN || state == LOST
                 ? 5 + std::lround((std::sin(t * 1.8f) + 1) * 2)
-            : state == ENGAGE ? std::max(2, 7 - int(mp * 4))
+            : state == EVENT ? std::max(2, 7 - int(mp * 4))
                               : 5;
   uint16_t cross =
-      state == DOUBT || state == ENGAGE || state == LOST ? warn : ink;
+      state == DOUBT || state == EVENT || state == LOST ? warn : ink;
   p.line(28 - gap, 30, 32 - gap, 30, cross);
   p.line(32 + gap, 30, 36 + gap, 30, cross);
   p.line(32, 26 - gap, 32, 30 - gap, cross);
@@ -318,23 +317,23 @@ inline void render(node::Frame &f, node::Frame &scratch, const Scene &s,
         p.pixel(x, sweep, dim);
   }
   if (state == SEEN || state == SHARE || state == CHECK || state == DOUBT ||
-      state == ENGAGE || state == KILL || state == TARGET) {
-    bool centred = state == KILL || state == ENGAGE;
+      state == EVENT || state == MARK || state == TARGET) {
+    bool centred = state == MARK || state == EVENT;
     int bx = centred
                  ? 32
                  : 32 + std::lround(std::sin(t * .55f * v.rate + index) * v.tx),
         by =
             centred ? 30 : 31 + std::lround(std::cos(t * .42f * v.rate) * v.ty);
-    float zoom = state == KILL
+    float zoom = state == MARK
                      ? 1 + (v.zoomMax - 1) *
                                std::pow(std::min(phase, 10.f) / 10, v.zoomPower)
                      : 1;
     int size = std::lround(3 * zoom),
-        radius = state == ENGAGE ? std::max(5, 11 - int(mp * 4))
+        radius = state == EVENT ? std::max(5, 11 - int(mp * 4))
                                  : std::min(18, int(std::lround(7 * zoom)));
     p.rect(bx - size / 2, by - size / 2, size, size, ink);
-    if (state == ENGAGE || state == KILL || state == TARGET)
-      p.square(bx, by, radius, red);
+    if (state == EVENT || state == MARK || state == TARGET)
+      p.square(bx, by, radius, state == TARGET ? red : accent);
     else
       p.corners(bx, by, radius, state == CHECK ? warn : accent);
     if (state == CHECK)
@@ -412,7 +411,7 @@ inline void render(node::Frame &f, node::Frame &scratch, const Scene &s,
     }
   }
   if (s.friendly && state != CRASH && state != EMPTY && state != NOLINK &&
-      state != KILL) {
+      state != MARK) {
     p.square(20, 28, 5, blue);
     p.rect(2, 42, 40, 8, bg);
     char source[3];
@@ -472,7 +471,7 @@ inline void render(node::Frame &f, node::Frame &scratch, const Scene &s,
   p.line(1, 50, 62, 50, dim);
   p.text(2, 52, name(state),
          state == DOUBT ? conflict
-         : state == CHECK || state == ENGAGE || state == LOST ||
+         : state == CHECK || state == EVENT || state == LOST ||
                  state == CRASH || state == EMPTY || state == NOLINK
              ? warn
              : ink);
@@ -511,15 +510,19 @@ inline void render(node::Frame &f, node::Frame &scratch, const Scene &s,
   case TARGET:
     detail = "CONFIRMED";
     break;
-  case ENGAGE:
+  case EVENT:
     detail = "SIM EVENT";
     break;
   case LOST:
     detail = "SEARCH";
     break;
-  case KILL:
-    snprintf(str, sizeof(str), "00:%02d",
-             std::max(0, int(std::ceil(10 - phase))));
+  case MARK:
+    // Rescue-team arrival countdown, then hold the marked-site view.
+    if (phase < 10)
+      snprintf(str, sizeof(str), "ETA 00:%02d",
+               std::max(0, int(std::ceil(10 - phase))));
+    else
+      detail = "TARGET CONFIRMED";
     break;
   case CRASH:
     detail = "FEED HELD";

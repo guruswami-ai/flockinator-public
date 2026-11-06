@@ -243,11 +243,11 @@ void overview_requires_fresh_authoritative_status() {
     Node n{1, Health::Healthy, true, 100}; n.mission_capable=true;
     TEST_ASSERT_EQUAL_STRING("--", overview_label(n, 101));
     n.mission_overview=recon::decode_overview(1,2);
-    TEST_ASSERT_EQUAL_STRING("KIA", overview_label(n, 6099));
+    TEST_ASSERT_EQUAL_STRING("DOWN", overview_label(n, 6099));
     TEST_ASSERT_EQUAL_STRING("--", overview_label(n, 6100));
     TEST_ASSERT_EQUAL(Health::Stale,overview_health(n,6100));
     n.last_seen_ms=6200;
-    TEST_ASSERT_EQUAL_STRING("KIA", overview_label(n,6201));
+    TEST_ASSERT_EQUAL_STRING("DOWN", overview_label(n,6201));
     n.mission_overview=recon::decode_overview(2,0);
     TEST_ASSERT_EQUAL_STRING("--", overview_label(n,6201));
     TEST_ASSERT_EQUAL(recon::Overview::Unknown,recon::decode_overview(1,5));

@@ -21,7 +21,7 @@ inline world::Pose pose(int index,float elapsed,const recon::Scene& s){
 }
 inline bool airborne(const recon::Scene& s){
  switch(s.state){case recon::READY:case recon::APPROVED:case recon::ORDERS:case recon::STANDBY:case recon::CHARGE:case recon::BLANK:return false;default:break;}
- return !(s.state==recon::KILL&&s.phase>=10)&&!(s.state==recon::CRASH&&s.phase>=2)&&!(s.state==recon::EMPTY&&s.phase>=3);
+ return !(s.state==recon::MARK&&s.phase>=10)&&!(s.state==recon::CRASH&&s.phase>=2)&&!(s.state==recon::EMPTY&&s.phase>=3);
 }
 inline world::Sensor sensor(uint8_t s){return s==recon::CAM?world::Cam:s==recon::WH?world::WhiteHot:s==recon::BH?world::BlackHot:s==recon::IR?world::IR:world::Night;}
 inline world::Sample render(node::Frame& f,node::Frame& scratch,const recon::Runtime& runtime,uint32_t now,int index){
@@ -30,7 +30,7 @@ inline world::Sample render(node::Frame& f,node::Frame& scratch,const recon::Run
  world::Sample sample{pose(index,t,s),uint32_t(t*1000),0,world::Air,world::Live};
  if(s.state==recon::CRASH){sample.age=s.phase*1000;sample.stage=s.phase>=2?world::Ground:world::Impact;}
  if(!airborne(s)&&s.state!=recon::CRASH){recon::render(f,scratch,s,index);return sample;}
- if(s.state==recon::KILL){recon::render(f,scratch,s,index);return sample;}
+ if(s.state==recon::MARK){recon::render(f,scratch,s,index);return sample;}
  world::Peer peers[16]{};int count=0;
  for(int id=0;id<16;id++)if(id!=index){auto peer=runtime.frame(now,id);if(airborne(peer))peers[count++]={id,pose(id,t,peer).position};}
  world::render(scratch,sample,index,sensor(s.sensor),peers,count);
