@@ -10,19 +10,25 @@ Module: `tools/kulira-core/kulira_core/operations.py`
 
 | Strategy | Find rate | Mean turns to find | Ready at end | Ready battery | Damaged events | Lost | Unattempted |
 |---|---|---|---|---|---|---|---|
-| K1 launch 1 | 0.463 | 33.0 | 15.90 | 91.9 | 5 | 0 | 0 |
-| K2 launch 2 | 0.813 | 28.7 | 15.95 | 89.8 | 6 | 0 | 0 |
-| K4 launch 4 | 0.963 | 17.7 | 15.80 | 92.2 | 13 | 0 | 0 |
-| K8 launch 8 | 0.988 | 10.2 | 15.60 | 94.1 | 14 | 0 | 0 |
-| K8R launch 8, rotate | 0.988 | 10.2 | 15.60 | 93.4 | 14 | 0 | 0 |
-| K14 park 2 (current) | 1.000 | 7.5 | 15.85 | 91.2 | 8 | 0 | 0 |
-| K16 launch all | 1.000 | 5.7 | 15.70 | 93.9 | 14 | 0 | 0 |
-| ESC 4 then +8 | 1.000 | 17.8 | 15.50 | 90.7 | 19 | 0 | 0 |
+| K1 launch 1 | 0.413 | 37.8 | 15.85 | 91.2 | 6 | 0 | 0 |
+| K2 launch 2 | 0.813 | 28.7 | 15.70 | 90.4 | 12 | 0 | 0 |
+| K4 launch 4 | 0.913 | 17.8 | 15.70 | 89.7 | 18 | 0 | 0 |
+| K8 launch 8 | 0.988 | 12.3 | 15.75 | 91.6 | 14 | 0 | 0 |
+| K8R launch 8, rotate | 0.988 | 12.3 | 15.75 | 90.5 | 14 | 0 | 0 |
+| K14 park 2 (current) | 1.000 | 7.4 | 15.70 | 87.6 | 13 | 0 | 0 |
+| K16 launch all | 1.000 | 5.9 | 15.65 | 90.8 | 16 | 0 | 0 |
+| ESC 4 then +8 | 1.000 | 18.7 | 15.75 | 91.0 | 13 | 0 | 0 |
 
-Pareto frontier (find rate vs ready at end): **K14 and K2**
-(K2 is the low-commitment extreme: fewer finds, marginally most
-aircraft left). K14 weakly dominates K16: same finds, slightly
-more ready aircraft, at a cost of ~1.8 turns slower discovery.
+Pareto frontier (find rate vs ready at end): **ESC and K1**
+(the two extremes). K14 matches K16 on finds with marginally more
+ready aircraft, at a cost of ~1.5 turns slower discovery.
+
+**Correction (independent review, pre-merge):** the first run
+applied forced-landing outcomes only when battery went negative,
+and skipped energy/failure cost on the discovery turn. Both are
+fixed to match the pre-registration; the table above and the
+evidence JSON are the corrected re-run on the same seeds. Findings
+below are unchanged in direction; several point estimates moved.
 
 ## Hypotheses
 
@@ -33,10 +39,9 @@ more ready aircraft, at a cost of ~1.8 turns slower discovery.
   aircraft. The feared mission-level cost of parking 2 does not
   appear at these parameters.
 - **H3 escalation: passes the Pareto test, fails the clock.** ESC
-  matches K14 finds and readiness, but is far slower to find
-  (17.8 vs 7.5 turns) because the first wave is small, and it
-  records the most damage events. For a survivor, time is the
-  metric escalation sacrifices.
+  sits on the frontier and matches K14 finds, but is far slower
+  to find (18.7 vs 7.4 turns) because the first wave is small.
+  For a survivor, time is the metric escalation sacrifices.
 - **H4 rotation: no measurable effect.** K8R is identical to K8
   on finds and readiness; roster rotation neither helps nor hurts
   when recharge is this generous.
@@ -54,11 +59,12 @@ because the world is kind.
 
 The sensitivity sweeps show where the question starts to bite:
 
-- At `p_fail = 0.006` (3x mechanical failure), K14 ends with 15.35
-  ready vs K16 14.95 and K8 14.90, with equal-or-better finds;
-  small commitments collapse (K1 find rate 0.34).
-- At `p_detect = 0.5`, the knee shifts right: K8 0.95, K14 0.99,
-  K16 1.00 - commitment buys real discovery when sensing is poor.
+- At `p_fail = 0.006` (3x mechanical failure), all large
+  commitments still find everything but readiness erodes (K14
+  14.4, K16 14.8, ESC 15.1 ready); small commitments collapse
+  (K1 find rate 0.33).
+- At `p_detect = 0.5`, the knee shifts right: K8 0.96, K14 0.99,
+  K16 0.96 - commitment buys real discovery when sensing is poor.
 - At 25% sweep overlap, K1 collapses (0.29) while K8+ stay at 1.00.
 - Far-survivor fraction 0.35 changes little at baseline failure
   rates.

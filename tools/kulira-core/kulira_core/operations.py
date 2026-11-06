@@ -43,23 +43,28 @@ def _new_fleet():
 
 def run_operation(seed: int, strategy: str, p_detect: float = 0.7,
                   p_fail: float = 0.002, far_frac: float = 0.15,
-                  overlap: float = 0.0) -> dict:
+                  overlap: float = 0.0, incidents: int = MAX_INCIDENTS,
+                  daylight_turns: int = DAYLIGHT, recharge: int = RECHARGE,
+                  ground_rest: bool = False) -> dict:
     k0, esc_k, rotate = STRATEGIES[strategy]
     rng = random.Random(seed)
     fleet = _new_fleet()
-    daylight = DAYLIGHT
+    daylight = daylight_turns
     found = attempted = unattempted = 0
+    ready_before_5th = None
     find_turns = []
     damaged_events = lost = 0
     ready_before_2nd = None
 
-    for inc in range(MAX_INCIDENTS):
+    for inc in range(incidents):
         for a in fleet:  # repairs complete at incident boundary
             if a["state"] == "damaged" and inc >= a["repair_at"]:
                 a["state"], a["battery"] = "ready", 60.0
         ready = [a for a in fleet if a["state"] == "ready"]
         if inc == 1:
             ready_before_2nd = len(ready)
+        if inc == 4:
+            ready_before_5th = len(ready)
         if not ready or daylight <= 0:
             unattempted += 1
             continue
@@ -96,14 +101,12 @@ def run_operation(seed: int, strategy: str, p_detect: float = 0.7,
                     found_this = True
                     break
                 frontier -= AREA  # missed pass; re-sweep next pass
-            if found_this:
-                break
             survivors = []
             for a in airborne:
                 a["battery"] -= 1.1
                 if rng.random() < p_fail:
                     a["state"] = "damaged"
-                    a["repair_at"] = inc + 2
+                    a["repair_at"] = incidents + 1 if ground_rest else inc + 2
                     damaged_events += 1
                     continue
                 if a["battery"] - RETURN_COST[dist] < TACTICAL_RESERVE:
@@ -116,7 +119,7 @@ def run_operation(seed: int, strategy: str, p_detect: float = 0.7,
                             continue
                         if roll < 0.6:
                             a["state"] = "damaged"
-                            a["repair_at"] = inc + 2
+                            a["repair_at"] = incidents + 1 if ground_rest else inc + 2
                             damaged_events += 1
                             continue
                         a["battery"] = 0.0
@@ -124,6 +127,8 @@ def run_operation(seed: int, strategy: str, p_detect: float = 0.7,
                     continue
                 survivors.append(a)
             airborne = survivors
+            if found_this:
+                break
         for a in airborne:  # found / daylight end: everyone still up lands
             a["battery"] = max(0.0, a["battery"] - RETURN_COST[dist])
             a["state"] = "ready"
@@ -132,7 +137,7 @@ def run_operation(seed: int, strategy: str, p_detect: float = 0.7,
             find_turns.append(turn)
         for a in fleet:  # inter-incident recharge
             if a["state"] == "ready":
-                a["battery"] = min(100.0, a["battery"] + RECHARGE)
+                a["battery"] = min(100.0, a["battery"] + recharge)
 
     ready_end = [a for a in fleet if a["state"] == "ready"]
     return {
@@ -143,6 +148,7 @@ def run_operation(seed: int, strategy: str, p_detect: float = 0.7,
         "mean_ready_battery": round(sum(a["battery"] for a in ready_end) / len(ready_end), 1) if ready_end else 0.0,
         "damaged_events": damaged_events, "lost": lost,
         "ready_before_2nd": ready_before_2nd,
+        "ready_before_5th": ready_before_5th,
         "daylight_left": daylight,
     }
 
@@ -152,7 +158,7 @@ def run_operations(seeds, strategies=tuple(STRATEGIES), **params) -> dict:
     for name in strategies:
         rows = [run_operation(s, name, **params) for s in seeds]
         n = len(rows)
-        inc = MAX_INCIDENTS * n
+        inc = sum(r["attempted"] + r["unattempted"] for r in rows)
         out[name] = {
             "per_seed": rows,
             "mean_found": round(sum(r["found"] for r in rows) / n, 3),
@@ -162,6 +168,10 @@ def run_operations(seeds, strategies=tuple(STRATEGIES), **params) -> dict:
             "mean_ready_battery": round(sum(r["mean_ready_battery"] for r in rows) / n, 1),
             "damaged_events": sum(r["damaged_events"] for r in rows),
             "lost": sum(r["lost"] for r in rows),
+            "mean_ready_before_2nd": round(
+                sum(r["ready_before_2nd"] or 0 for r in rows) / n, 2),
+            "mean_ready_before_5th": round(
+                sum(r["ready_before_5th"] or 0 for r in rows) / n, 2),
             "mean_find_turns": round(
                 sum(r["mean_find_turns"] for r in rows if r["mean_find_turns"] is not None)
                 / max(1, sum(1 for r in rows if r["mean_find_turns"] is not None)), 2),

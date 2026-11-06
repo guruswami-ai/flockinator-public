@@ -15,21 +15,23 @@
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
+     "ready_before_5th": null,
      "daylight_left": 0
     },
     {
      "strategy": "K1",
      "seed": 1,
-     "found": 1,
+     "found": 2,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 11.0,
+     "mean_find_turns": 6.0,
      "ready_end": 16,
-     "mean_ready_battery": 88.5,
+     "mean_ready_battery": 92.3,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 16
+     "ready_before_5th": null,
+     "daylight_left": 92
     },
     {
      "strategy": "K1",
@@ -39,136 +41,146 @@
      "unattempted": 0,
      "mean_find_turns": 72.0,
      "ready_end": 16,
-     "mean_ready_battery": 89.2,
+     "mean_ready_battery": 89.4,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
+     "ready_before_5th": null,
      "daylight_left": 0
     },
     {
      "strategy": "K1",
      "seed": 3,
-     "found": 1,
+     "found": 2,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 8.0,
+     "mean_find_turns": 21.0,
      "ready_end": 16,
-     "mean_ready_battery": 89.2,
+     "mean_ready_battery": 91.9,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 10
+     "ready_before_5th": null,
+     "daylight_left": 53
     },
     {
      "strategy": "K1",
      "seed": 4,
-     "found": 4,
+     "found": 2,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 29.75,
+     "mean_find_turns": 41.0,
      "ready_end": 16,
-     "mean_ready_battery": 96.4,
+     "mean_ready_battery": 89.1,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 121
+     "ready_before_5th": null,
+     "daylight_left": 13
     },
     {
      "strategy": "K1",
      "seed": 5,
-     "found": 1,
+     "found": 2,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 36.0,
+     "mean_find_turns": 47.0,
      "ready_end": 16,
-     "mean_ready_battery": 89.5,
+     "mean_ready_battery": 90.5,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 31
+     "ready_before_5th": null,
+     "daylight_left": 50
     },
     {
      "strategy": "K1",
      "seed": 6,
-     "found": 2,
+     "found": 1,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 19.0,
+     "mean_find_turns": 16.0,
      "ready_end": 16,
-     "mean_ready_battery": 94.9,
+     "mean_ready_battery": 91.2,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 128
+     "ready_before_5th": null,
+     "daylight_left": 76
     },
     {
      "strategy": "K1",
      "seed": 7,
-     "found": 3,
+     "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 18.0,
+     "mean_find_turns": 29.5,
      "ready_end": 16,
-     "mean_ready_battery": 95.8,
+     "mean_ready_battery": 97.3,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 121
+     "ready_before_5th": null,
+     "daylight_left": 122
     },
     {
      "strategy": "K1",
      "seed": 8,
-     "found": 2,
+     "found": 3,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 34.5,
+     "mean_find_turns": 47.0,
      "ready_end": 16,
      "mean_ready_battery": 91.1,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 23
+     "ready_before_5th": null,
+     "daylight_left": 25
     },
     {
      "strategy": "K1",
      "seed": 9,
-     "found": 3,
+     "found": 2,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 42.0,
+     "mean_find_turns": 51.0,
      "ready_end": 16,
-     "mean_ready_battery": 94.0,
+     "mean_ready_battery": 90.7,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 89
+     "ready_before_5th": null,
+     "daylight_left": 40
     },
     {
      "strategy": "K1",
      "seed": 10,
-     "found": 3,
+     "found": 1,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 28.67,
+     "mean_find_turns": 39.0,
      "ready_end": 16,
-     "mean_ready_battery": 95.2,
+     "mean_ready_battery": 89.3,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 83
+     "ready_before_5th": null,
+     "daylight_left": 0
     },
     {
      "strategy": "K1",
      "seed": 11,
-     "found": 2,
+     "found": 1,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 65.0,
+     "mean_find_turns": 68.0,
      "ready_end": 16,
-     "mean_ready_battery": 90.1,
+     "mean_ready_battery": 89.8,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
+     "ready_before_5th": null,
      "daylight_left": 0
     },
     {
@@ -177,13 +189,14 @@
      "found": 2,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 41.5,
+     "mean_find_turns": 35.0,
      "ready_end": 16,
-     "mean_ready_battery": 90.8,
+     "mean_ready_battery": 91.5,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 9
+     "ready_before_5th": null,
+     "daylight_left": 22
     },
     {
      "strategy": "K1",
@@ -191,13 +204,14 @@
      "found": 3,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 28.0,
+     "mean_find_turns": 46.33,
      "ready_end": 16,
-     "mean_ready_battery": 94.1,
+     "mean_ready_battery": 90.8,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 82
+     "ready_before_5th": null,
+     "daylight_left": 27
     },
     {
      "strategy": "K1",
@@ -207,39 +221,42 @@
      "unattempted": 0,
      "mean_find_turns": 8.0,
      "ready_end": 15,
-     "mean_ready_battery": 93.9,
+     "mean_ready_battery": 93.8,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
+     "ready_before_5th": null,
      "daylight_left": 70
     },
     {
      "strategy": "K1",
      "seed": 15,
-     "found": 3,
+     "found": 2,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 17.33,
+     "mean_find_turns": 6.0,
      "ready_end": 16,
-     "mean_ready_battery": 94.0,
+     "mean_ready_battery": 91.6,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 114
+     "ready_before_5th": null,
+     "daylight_left": 89
     },
     {
      "strategy": "K1",
      "seed": 16,
-     "found": 2,
+     "found": 1,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 28.0,
-     "ready_end": 16,
-     "mean_ready_battery": 92.3,
-     "damaged_events": 0,
+     "mean_find_turns": 35.0,
+     "ready_end": 15,
+     "mean_ready_battery": 92.9,
+     "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 39
+     "ready_before_5th": null,
+     "daylight_left": 15
     },
     {
      "strategy": "K1",
@@ -253,6 +270,7 @@
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
+     "ready_before_5th": null,
      "daylight_left": 0
     },
     {
@@ -261,13 +279,14 @@
      "found": 2,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 43.5,
+     "mean_find_turns": 49.5,
      "ready_end": 16,
-     "mean_ready_battery": 89.9,
+     "mean_ready_battery": 89.8,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 5
+     "ready_before_5th": null,
+     "daylight_left": 0
     },
     {
      "strategy": "K1",
@@ -277,37 +296,41 @@
      "unattempted": 0,
      "mean_find_turns": 63.0,
      "ready_end": 16,
-     "mean_ready_battery": 88.3,
+     "mean_ready_battery": 88.9,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
+     "ready_before_5th": null,
      "daylight_left": 0
     }
    ],
-   "mean_found": 1.85,
-   "find_rate": 0.4625,
+   "mean_found": 1.65,
+   "find_rate": 0.4125,
    "unattempted": 0,
-   "mean_ready_end": 15.9,
-   "mean_ready_battery": 91.9,
-   "damaged_events": 5,
+   "mean_ready_end": 15.85,
+   "mean_ready_battery": 91.2,
+   "damaged_events": 6,
    "lost": 0,
-   "mean_find_turns": 32.96
+   "mean_ready_before_2nd": 15.9,
+   "mean_ready_before_5th": 0.0,
+   "mean_find_turns": 37.8
   },
   "K2": {
    "per_seed": [
     {
      "strategy": "K2",
      "seed": 0,
-     "found": 2,
+     "found": 3,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 36.0,
+     "mean_find_turns": 30.33,
      "ready_end": 16,
-     "mean_ready_battery": 81.6,
+     "mean_ready_battery": 89.9,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 23
+     "ready_before_5th": null,
+     "daylight_left": 78
     },
     {
      "strategy": "K2",
@@ -315,55 +338,59 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 27.0,
-     "ready_end": 16,
-     "mean_ready_battery": 91.3,
-     "damaged_events": 0,
+     "mean_find_turns": 17.5,
+     "ready_end": 15,
+     "mean_ready_battery": 96.9,
+     "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 132
+     "ready_before_5th": null,
+     "daylight_left": 170
     },
     {
      "strategy": "K2",
      "seed": 2,
-     "found": 4,
+     "found": 3,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 20.5,
-     "ready_end": 16,
-     "mean_ready_battery": 94.8,
-     "damaged_events": 0,
+     "mean_find_turns": 23.0,
+     "ready_end": 15,
+     "mean_ready_battery": 91.3,
+     "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 158
+     "ready_before_5th": null,
+     "daylight_left": 106
     },
     {
      "strategy": "K2",
      "seed": 3,
-     "found": 3,
+     "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 29.33,
+     "mean_find_turns": 47.5,
      "ready_end": 16,
-     "mean_ready_battery": 88.7,
+     "mean_ready_battery": 85.6,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 78
+     "ready_before_5th": null,
+     "daylight_left": 50
     },
     {
      "strategy": "K2",
      "seed": 4,
-     "found": 4,
+     "found": 3,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 19.75,
-     "ready_end": 16,
-     "mean_ready_battery": 95.7,
-     "damaged_events": 0,
+     "mean_find_turns": 27.33,
+     "ready_end": 15,
+     "mean_ready_battery": 88.2,
+     "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 161
+     "ready_before_5th": null,
+     "daylight_left": 84
     },
     {
      "strategy": "K2",
@@ -371,55 +398,59 @@
      "found": 2,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 16.5,
-     "ready_end": 16,
-     "mean_ready_battery": 86.1,
-     "damaged_events": 1,
+     "mean_find_turns": 38.5,
+     "ready_end": 14,
+     "mean_ready_battery": 88.3,
+     "damaged_events": 3,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 65
+     "ready_before_5th": null,
+     "daylight_left": 31
     },
     {
      "strategy": "K2",
      "seed": 6,
-     "found": 3,
+     "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 30.67,
+     "mean_find_turns": 30.25,
      "ready_end": 16,
-     "mean_ready_battery": 85.5,
+     "mean_ready_battery": 88.9,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 77
+     "ready_before_5th": null,
+     "daylight_left": 119
     },
     {
      "strategy": "K2",
      "seed": 7,
-     "found": 4,
+     "found": 3,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 31.5,
+     "mean_find_turns": 18.0,
      "ready_end": 15,
-     "mean_ready_battery": 93.5,
+     "mean_ready_battery": 93.7,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 114
+     "ready_before_5th": null,
+     "daylight_left": 115
     },
     {
      "strategy": "K2",
      "seed": 8,
-     "found": 3,
+     "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 38.67,
+     "mean_find_turns": 30.0,
      "ready_end": 16,
-     "mean_ready_battery": 86.2,
+     "mean_ready_battery": 94.5,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 50
+     "ready_before_5th": null,
+     "daylight_left": 120
     },
     {
      "strategy": "K2",
@@ -427,27 +458,29 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 28.0,
+     "mean_find_turns": 23.0,
      "ready_end": 16,
-     "mean_ready_battery": 94.5,
-     "damaged_events": 0,
+     "mean_ready_battery": 96.1,
+     "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 128
+     "ready_before_5th": null,
+     "daylight_left": 148
     },
     {
      "strategy": "K2",
      "seed": 10,
-     "found": 3,
+     "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 35.0,
+     "mean_find_turns": 32.75,
      "ready_end": 16,
-     "mean_ready_battery": 87.8,
+     "mean_ready_battery": 91.2,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 61
+     "ready_before_5th": null,
+     "daylight_left": 109
     },
     {
      "strategy": "K2",
@@ -455,13 +488,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 34.25,
+     "mean_find_turns": 24.0,
      "ready_end": 16,
-     "mean_ready_battery": 89.7,
+     "mean_ready_battery": 97.4,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 103
+     "ready_before_5th": null,
+     "daylight_left": 144
     },
     {
      "strategy": "K2",
@@ -469,27 +503,29 @@
      "found": 2,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 22.5,
+     "mean_find_turns": 36.0,
      "ready_end": 16,
-     "mean_ready_battery": 86.7,
+     "mean_ready_battery": 82.2,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 56
+     "ready_before_5th": null,
+     "daylight_left": 29
     },
     {
      "strategy": "K2",
      "seed": 13,
-     "found": 4,
+     "found": 3,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 12.25,
+     "mean_find_turns": 27.0,
      "ready_end": 16,
-     "mean_ready_battery": 100.0,
+     "mean_ready_battery": 86.3,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 191
+     "ready_before_5th": null,
+     "daylight_left": 85
     },
     {
      "strategy": "K2",
@@ -503,49 +539,53 @@
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
+     "ready_before_5th": null,
      "daylight_left": 0
     },
     {
      "strategy": "K2",
      "seed": 15,
-     "found": 4,
+     "found": 3,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 22.5,
+     "mean_find_turns": 5.33,
      "ready_end": 16,
-     "mean_ready_battery": 92.5,
+     "mean_ready_battery": 91.9,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 150
+     "ready_before_5th": null,
+     "daylight_left": 159
     },
     {
      "strategy": "K2",
      "seed": 16,
-     "found": 4,
+     "found": 3,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 25.5,
+     "mean_find_turns": 33.67,
      "ready_end": 16,
-     "mean_ready_battery": 96.3,
+     "mean_ready_battery": 88.1,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 138
+     "ready_before_5th": null,
+     "daylight_left": 65
     },
     {
      "strategy": "K2",
      "seed": 17,
-     "found": 3,
+     "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 39.33,
+     "mean_find_turns": 29.25,
      "ready_end": 16,
-     "mean_ready_battery": 83.9,
+     "mean_ready_battery": 93.2,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 51
+     "ready_before_5th": null,
+     "daylight_left": 123
     },
     {
      "strategy": "K2",
@@ -553,13 +593,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 37.0,
+     "mean_find_turns": 34.5,
      "ready_end": 16,
-     "mean_ready_battery": 91.4,
+     "mean_ready_battery": 93.0,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 92
+     "ready_before_5th": null,
+     "daylight_left": 102
     },
     {
      "strategy": "K2",
@@ -567,39 +608,43 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 39.5,
+     "mean_find_turns": 37.5,
      "ready_end": 16,
-     "mean_ready_battery": 89.6,
+     "mean_ready_battery": 91.4,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 82
+     "ready_before_5th": null,
+     "daylight_left": 90
     }
    ],
    "mean_found": 3.25,
    "find_rate": 0.8125,
    "unattempted": 0,
-   "mean_ready_end": 15.95,
-   "mean_ready_battery": 89.8,
-   "damaged_events": 6,
+   "mean_ready_end": 15.7,
+   "mean_ready_battery": 90.4,
+   "damaged_events": 12,
    "lost": 0,
-   "mean_find_turns": 28.72
+   "mean_ready_before_2nd": 15.85,
+   "mean_ready_before_5th": 0.0,
+   "mean_find_turns": 28.71
   },
   "K4": {
    "per_seed": [
     {
      "strategy": "K4",
      "seed": 0,
-     "found": 4,
+     "found": 3,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 22.75,
+     "mean_find_turns": 26.0,
      "ready_end": 16,
-     "mean_ready_battery": 92.2,
-     "damaged_events": 1,
+     "mean_ready_battery": 85.9,
+     "damaged_events": 2,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 149
+     "ready_before_5th": null,
+     "daylight_left": 88
     },
     {
      "strategy": "K4",
@@ -607,13 +652,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 13.75,
+     "mean_find_turns": 22.25,
      "ready_end": 16,
-     "mean_ready_battery": 88.5,
+     "mean_ready_battery": 82.2,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 185
+     "ready_before_5th": null,
+     "daylight_left": 151
     },
     {
      "strategy": "K4",
@@ -621,13 +667,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 8.75,
-     "ready_end": 15,
-     "mean_ready_battery": 99.4,
-     "damaged_events": 1,
+     "mean_find_turns": 15.75,
+     "ready_end": 16,
+     "mean_ready_battery": 91.4,
+     "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 205
+     "ready_before_5th": null,
+     "daylight_left": 177
     },
     {
      "strategy": "K4",
@@ -635,27 +682,29 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 9.5,
-     "ready_end": 16,
-     "mean_ready_battery": 100.0,
-     "damaged_events": 0,
-     "lost": 0,
-     "ready_before_2nd": 16,
-     "daylight_left": 202
-    },
-    {
-     "strategy": "K4",
-     "seed": 4,
-     "found": 4,
-     "attempted": 4,
-     "unattempted": 0,
-     "mean_find_turns": 11.25,
+     "mean_find_turns": 13.75,
      "ready_end": 16,
      "mean_ready_battery": 96.8,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 195
+     "ready_before_5th": null,
+     "daylight_left": 185
+    },
+    {
+     "strategy": "K4",
+     "seed": 4,
+     "found": 2,
+     "attempted": 4,
+     "unattempted": 0,
+     "mean_find_turns": 5.0,
+     "ready_end": 15,
+     "mean_ready_battery": 72.1,
+     "damaged_events": 1,
+     "lost": 0,
+     "ready_before_2nd": 16,
+     "ready_before_5th": null,
+     "daylight_left": 91
     },
     {
      "strategy": "K4",
@@ -663,13 +712,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 27.75,
-     "ready_end": 16,
-     "mean_ready_battery": 90.9,
-     "damaged_events": 1,
+     "mean_find_turns": 36.5,
+     "ready_end": 15,
+     "mean_ready_battery": 81.0,
+     "damaged_events": 4,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 129
+     "ready_before_5th": null,
+     "daylight_left": 94
     },
     {
      "strategy": "K4",
@@ -677,13 +727,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 23.75,
+     "mean_find_turns": 13.25,
      "ready_end": 16,
-     "mean_ready_battery": 86.4,
+     "mean_ready_battery": 93.9,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 145
+     "ready_before_5th": null,
+     "daylight_left": 187
     },
     {
      "strategy": "K4",
@@ -691,13 +742,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 22.0,
-     "ready_end": 16,
-     "mean_ready_battery": 90.1,
-     "damaged_events": 1,
+     "mean_find_turns": 24.25,
+     "ready_end": 15,
+     "mean_ready_battery": 89.3,
+     "damaged_events": 2,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 152
+     "ready_before_5th": null,
+     "daylight_left": 143
     },
     {
      "strategy": "K4",
@@ -705,13 +757,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 24.25,
+     "mean_find_turns": 14.75,
      "ready_end": 16,
-     "mean_ready_battery": 93.0,
+     "mean_ready_battery": 98.8,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 143
+     "ready_before_5th": null,
+     "daylight_left": 181
     },
     {
      "strategy": "K4",
@@ -719,13 +772,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 22.5,
+     "mean_find_turns": 18.25,
      "ready_end": 16,
-     "mean_ready_battery": 91.7,
+     "mean_ready_battery": 92.7,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 150
+     "ready_before_5th": null,
+     "daylight_left": 167
     },
     {
      "strategy": "K4",
@@ -733,13 +787,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 27.5,
+     "mean_find_turns": 20.0,
      "ready_end": 16,
-     "mean_ready_battery": 83.1,
+     "mean_ready_battery": 94.2,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 130
+     "ready_before_5th": null,
+     "daylight_left": 160
     },
     {
      "strategy": "K4",
@@ -747,13 +802,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 12.0,
+     "mean_find_turns": 11.5,
      "ready_end": 16,
-     "mean_ready_battery": 98.8,
+     "mean_ready_battery": 99.0,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 192
+     "ready_before_5th": null,
+     "daylight_left": 194
     },
     {
      "strategy": "K4",
@@ -761,13 +817,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 16.75,
+     "mean_find_turns": 12.75,
      "ready_end": 16,
-     "mean_ready_battery": 99.3,
+     "mean_ready_battery": 98.7,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 173
+     "ready_before_5th": null,
+     "daylight_left": 189
     },
     {
      "strategy": "K4",
@@ -775,13 +832,14 @@
      "found": 2,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 5.5,
+     "mean_find_turns": 6.5,
      "ready_end": 15,
-     "mean_ready_battery": 78.3,
+     "mean_ready_battery": 79.7,
      "damaged_events": 3,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 81
+     "ready_before_5th": null,
+     "daylight_left": 79
     },
     {
      "strategy": "K4",
@@ -789,27 +847,29 @@
      "found": 3,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 25.0,
-     "ready_end": 16,
-     "mean_ready_battery": 82.9,
-     "damaged_events": 1,
+     "mean_find_turns": 28.0,
+     "ready_end": 15,
+     "mean_ready_battery": 79.8,
+     "damaged_events": 2,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 91
+     "ready_before_5th": null,
+     "daylight_left": 82
     },
     {
      "strategy": "K4",
      "seed": 15,
-     "found": 4,
+     "found": 3,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 11.75,
+     "mean_find_turns": 15.33,
      "ready_end": 16,
-     "mean_ready_battery": 93.5,
+     "mean_ready_battery": 81.3,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 193
+     "ready_before_5th": null,
+     "daylight_left": 120
     },
     {
      "strategy": "K4",
@@ -817,13 +877,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 16.5,
-     "ready_end": 14,
-     "mean_ready_battery": 97.6,
-     "damaged_events": 2,
+     "mean_find_turns": 9.25,
+     "ready_end": 15,
+     "mean_ready_battery": 100.0,
+     "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 174
+     "ready_before_5th": null,
+     "daylight_left": 203
     },
     {
      "strategy": "K4",
@@ -831,13 +892,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 14.75,
+     "mean_find_turns": 19.0,
      "ready_end": 16,
-     "mean_ready_battery": 94.3,
+     "mean_ready_battery": 93.8,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 181
+     "ready_before_5th": null,
+     "daylight_left": 164
     },
     {
      "strategy": "K4",
@@ -845,13 +907,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 24.25,
+     "mean_find_turns": 31.5,
      "ready_end": 16,
-     "mean_ready_battery": 92.5,
+     "mean_ready_battery": 83.4,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 143
+     "ready_before_5th": null,
+     "daylight_left": 114
     },
     {
      "strategy": "K4",
@@ -859,23 +922,26 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 13.5,
+     "mean_find_turns": 13.0,
      "ready_end": 16,
-     "mean_ready_battery": 95.1,
+     "mean_ready_battery": 99.5,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 186
+     "ready_before_5th": null,
+     "daylight_left": 188
     }
    ],
-   "mean_found": 3.85,
-   "find_rate": 0.9625,
+   "mean_found": 3.65,
+   "find_rate": 0.9125,
    "unattempted": 0,
-   "mean_ready_end": 15.8,
-   "mean_ready_battery": 92.2,
-   "damaged_events": 13,
+   "mean_ready_end": 15.7,
+   "mean_ready_battery": 89.7,
+   "damaged_events": 18,
    "lost": 0,
-   "mean_find_turns": 17.69
+   "mean_ready_before_2nd": 15.75,
+   "mean_ready_before_5th": 0.0,
+   "mean_find_turns": 17.83
   },
   "K8": {
    "per_seed": [
@@ -885,13 +951,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 12.5,
+     "mean_find_turns": 11.0,
      "ready_end": 16,
-     "mean_ready_battery": 98.9,
+     "mean_ready_battery": 98.3,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 190
+     "ready_before_5th": null,
+     "daylight_left": 196
     },
     {
      "strategy": "K8",
@@ -899,13 +966,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 9.5,
-     "ready_end": 15,
-     "mean_ready_battery": 89.5,
+     "mean_find_turns": 12.0,
+     "ready_end": 16,
+     "mean_ready_battery": 93.5,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 202
+     "ready_before_5th": null,
+     "daylight_left": 192
     },
     {
      "strategy": "K8",
@@ -913,13 +981,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 4.0,
+     "mean_find_turns": 7.25,
      "ready_end": 16,
-     "mean_ready_battery": 100.0,
+     "mean_ready_battery": 93.8,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 224
+     "ready_before_5th": null,
+     "daylight_left": 211
     },
     {
      "strategy": "K8",
@@ -927,13 +996,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 14.25,
+     "mean_find_turns": 15.5,
      "ready_end": 16,
-     "mean_ready_battery": 95.9,
+     "mean_ready_battery": 88.6,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 183
+     "ready_before_5th": null,
+     "daylight_left": 178
     },
     {
      "strategy": "K8",
@@ -941,13 +1011,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 3.5,
+     "mean_find_turns": 4.75,
      "ready_end": 16,
      "mean_ready_battery": 100.0,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 226
+     "ready_before_5th": null,
+     "daylight_left": 221
     },
     {
      "strategy": "K8",
@@ -955,13 +1026,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 7.0,
+     "mean_find_turns": 14.0,
      "ready_end": 16,
-     "mean_ready_battery": 97.7,
+     "mean_ready_battery": 93.6,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 212
+     "ready_before_5th": null,
+     "daylight_left": 184
     },
     {
      "strategy": "K8",
@@ -971,10 +1043,11 @@
      "unattempted": 0,
      "mean_find_turns": 10.75,
      "ready_end": 16,
-     "mean_ready_battery": 91.6,
+     "mean_ready_battery": 94.8,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 15,
+     "ready_before_5th": null,
      "daylight_left": 197
     },
     {
@@ -983,13 +1056,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 13.0,
+     "mean_find_turns": 14.0,
      "ready_end": 15,
-     "mean_ready_battery": 87.3,
-     "damaged_events": 1,
+     "mean_ready_battery": 89.5,
+     "damaged_events": 2,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 188
+     "ready_before_5th": null,
+     "daylight_left": 184
     },
     {
      "strategy": "K8",
@@ -997,13 +1071,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 16.25,
-     "ready_end": 15,
-     "mean_ready_battery": 92.4,
-     "damaged_events": 1,
+     "mean_find_turns": 7.0,
+     "ready_end": 16,
+     "mean_ready_battery": 98.0,
+     "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 175
+     "ready_before_5th": null,
+     "daylight_left": 212
     },
     {
      "strategy": "K8",
@@ -1011,13 +1086,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 3.5,
+     "mean_find_turns": 11.0,
      "ready_end": 16,
-     "mean_ready_battery": 100.0,
-     "damaged_events": 0,
+     "mean_ready_battery": 94.0,
+     "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 226
+     "ready_before_5th": null,
+     "daylight_left": 196
     },
     {
      "strategy": "K8",
@@ -1025,13 +1101,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 6.0,
+     "mean_find_turns": 17.5,
      "ready_end": 16,
-     "mean_ready_battery": 98.5,
+     "mean_ready_battery": 88.9,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 216
+     "ready_before_5th": null,
+     "daylight_left": 170
     },
     {
      "strategy": "K8",
@@ -1039,13 +1116,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 6.75,
+     "mean_find_turns": 22.0,
      "ready_end": 16,
-     "mean_ready_battery": 99.0,
+     "mean_ready_battery": 78.3,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 213
+     "ready_before_5th": null,
+     "daylight_left": 152
     },
     {
      "strategy": "K8",
@@ -1059,6 +1137,7 @@
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
+     "ready_before_5th": null,
      "daylight_left": 204
     },
     {
@@ -1067,13 +1146,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 20.25,
-     "ready_end": 13,
-     "mean_ready_battery": 87.5,
-     "damaged_events": 3,
+     "mean_find_turns": 14.75,
+     "ready_end": 15,
+     "mean_ready_battery": 93.7,
+     "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 159
+     "ready_before_5th": null,
+     "daylight_left": 181
     },
     {
      "strategy": "K8",
@@ -1081,13 +1161,14 @@
      "found": 3,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 8.0,
+     "mean_find_turns": 8.67,
      "ready_end": 16,
-     "mean_ready_battery": 77.4,
+     "mean_ready_battery": 72.7,
      "damaged_events": 2,
      "lost": 0,
      "ready_before_2nd": 14,
-     "daylight_left": 142
+     "ready_before_5th": null,
+     "daylight_left": 140
     },
     {
      "strategy": "K8",
@@ -1095,13 +1176,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 3.25,
+     "mean_find_turns": 6.25,
      "ready_end": 16,
-     "mean_ready_battery": 100.0,
+     "mean_ready_battery": 96.3,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 227
+     "ready_before_5th": null,
+     "daylight_left": 215
     },
     {
      "strategy": "K8",
@@ -1109,13 +1191,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 9.75,
+     "mean_find_turns": 11.25,
      "ready_end": 15,
-     "mean_ready_battery": 99.0,
+     "mean_ready_battery": 98.5,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 201
+     "ready_before_5th": null,
+     "daylight_left": 195
     },
     {
      "strategy": "K8",
@@ -1123,13 +1206,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 23.5,
-     "ready_end": 15,
-     "mean_ready_battery": 71.9,
-     "damaged_events": 1,
+     "mean_find_turns": 16.0,
+     "ready_end": 16,
+     "mean_ready_battery": 80.7,
+     "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 146
+     "ready_before_5th": null,
+     "daylight_left": 176
     },
     {
      "strategy": "K8",
@@ -1137,13 +1221,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 17.0,
-     "ready_end": 16,
-     "mean_ready_battery": 95.8,
-     "damaged_events": 0,
+     "mean_find_turns": 24.5,
+     "ready_end": 14,
+     "mean_ready_battery": 79.0,
+     "damaged_events": 2,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 172
+     "ready_before_5th": null,
+     "daylight_left": 142
     },
     {
      "strategy": "K8",
@@ -1151,23 +1236,26 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 6.75,
+     "mean_find_turns": 8.0,
      "ready_end": 16,
-     "mean_ready_battery": 100.0,
+     "mean_ready_battery": 99.1,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 213
+     "ready_before_5th": null,
+     "daylight_left": 208
     }
    ],
    "mean_found": 3.95,
    "find_rate": 0.9875,
    "unattempted": 0,
-   "mean_ready_end": 15.6,
-   "mean_ready_battery": 94.1,
+   "mean_ready_end": 15.75,
+   "mean_ready_battery": 91.6,
    "damaged_events": 14,
    "lost": 0,
-   "mean_find_turns": 10.22
+   "mean_ready_before_2nd": 15.7,
+   "mean_ready_before_5th": 0.0,
+   "mean_find_turns": 12.26
   },
   "K8R": {
    "per_seed": [
@@ -1177,13 +1265,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 12.5,
+     "mean_find_turns": 11.0,
      "ready_end": 16,
-     "mean_ready_battery": 93.1,
+     "mean_ready_battery": 95.7,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 190
+     "ready_before_5th": null,
+     "daylight_left": 196
     },
     {
      "strategy": "K8R",
@@ -1191,13 +1280,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 9.5,
-     "ready_end": 15,
-     "mean_ready_battery": 89.5,
+     "mean_find_turns": 12.0,
+     "ready_end": 16,
+     "mean_ready_battery": 93.3,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 202
+     "ready_before_5th": null,
+     "daylight_left": 192
     },
     {
      "strategy": "K8R",
@@ -1205,13 +1295,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 4.0,
+     "mean_find_turns": 7.25,
      "ready_end": 16,
-     "mean_ready_battery": 100.0,
+     "mean_ready_battery": 93.8,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 224
+     "ready_before_5th": null,
+     "daylight_left": 211
     },
     {
      "strategy": "K8R",
@@ -1219,13 +1310,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 14.25,
+     "mean_find_turns": 15.5,
      "ready_end": 16,
-     "mean_ready_battery": 95.9,
+     "mean_ready_battery": 88.6,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 183
+     "ready_before_5th": null,
+     "daylight_left": 178
     },
     {
      "strategy": "K8R",
@@ -1233,13 +1325,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 3.5,
+     "mean_find_turns": 4.75,
      "ready_end": 16,
      "mean_ready_battery": 100.0,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 226
+     "ready_before_5th": null,
+     "daylight_left": 221
     },
     {
      "strategy": "K8R",
@@ -1247,13 +1340,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 7.0,
+     "mean_find_turns": 14.0,
      "ready_end": 16,
-     "mean_ready_battery": 97.2,
+     "mean_ready_battery": 93.6,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 212
+     "ready_before_5th": null,
+     "daylight_left": 184
     },
     {
      "strategy": "K8R",
@@ -1263,10 +1357,11 @@
      "unattempted": 0,
      "mean_find_turns": 10.75,
      "ready_end": 16,
-     "mean_ready_battery": 91.6,
+     "mean_ready_battery": 94.5,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 15,
+     "ready_before_5th": null,
      "daylight_left": 197
     },
     {
@@ -1275,13 +1370,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 13.0,
+     "mean_find_turns": 14.0,
      "ready_end": 15,
-     "mean_ready_battery": 87.3,
-     "damaged_events": 1,
+     "mean_ready_battery": 84.1,
+     "damaged_events": 2,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 188
+     "ready_before_5th": null,
+     "daylight_left": 184
     },
     {
      "strategy": "K8R",
@@ -1289,13 +1385,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 16.25,
-     "ready_end": 15,
-     "mean_ready_battery": 92.4,
-     "damaged_events": 1,
+     "mean_find_turns": 7.0,
+     "ready_end": 16,
+     "mean_ready_battery": 98.0,
+     "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 175
+     "ready_before_5th": null,
+     "daylight_left": 212
     },
     {
      "strategy": "K8R",
@@ -1303,13 +1400,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 3.5,
+     "mean_find_turns": 11.0,
      "ready_end": 16,
-     "mean_ready_battery": 100.0,
-     "damaged_events": 0,
+     "mean_ready_battery": 93.8,
+     "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 226
+     "ready_before_5th": null,
+     "daylight_left": 196
     },
     {
      "strategy": "K8R",
@@ -1317,13 +1415,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 6.0,
+     "mean_find_turns": 17.5,
      "ready_end": 16,
-     "mean_ready_battery": 98.5,
+     "mean_ready_battery": 88.9,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 216
+     "ready_before_5th": null,
+     "daylight_left": 170
     },
     {
      "strategy": "K8R",
@@ -1331,13 +1430,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 6.75,
+     "mean_find_turns": 22.0,
      "ready_end": 16,
-     "mean_ready_battery": 98.4,
+     "mean_ready_battery": 78.3,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 213
+     "ready_before_5th": null,
+     "daylight_left": 152
     },
     {
      "strategy": "K8R",
@@ -1351,6 +1451,7 @@
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
+     "ready_before_5th": null,
      "daylight_left": 204
     },
     {
@@ -1359,13 +1460,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 20.25,
-     "ready_end": 13,
-     "mean_ready_battery": 86.5,
-     "damaged_events": 3,
+     "mean_find_turns": 14.75,
+     "ready_end": 15,
+     "mean_ready_battery": 91.4,
+     "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 159
+     "ready_before_5th": null,
+     "daylight_left": 181
     },
     {
      "strategy": "K8R",
@@ -1373,13 +1475,14 @@
      "found": 3,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 8.0,
+     "mean_find_turns": 8.67,
      "ready_end": 16,
-     "mean_ready_battery": 77.4,
+     "mean_ready_battery": 72.7,
      "damaged_events": 2,
      "lost": 0,
      "ready_before_2nd": 14,
-     "daylight_left": 142
+     "ready_before_5th": null,
+     "daylight_left": 140
     },
     {
      "strategy": "K8R",
@@ -1387,13 +1490,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 3.25,
+     "mean_find_turns": 6.25,
      "ready_end": 16,
-     "mean_ready_battery": 100.0,
+     "mean_ready_battery": 96.3,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 227
+     "ready_before_5th": null,
+     "daylight_left": 215
     },
     {
      "strategy": "K8R",
@@ -1401,13 +1505,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 9.75,
+     "mean_find_turns": 11.25,
      "ready_end": 15,
-     "mean_ready_battery": 99.0,
+     "mean_ready_battery": 96.1,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 201
+     "ready_before_5th": null,
+     "daylight_left": 195
     },
     {
      "strategy": "K8R",
@@ -1415,13 +1520,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 23.5,
-     "ready_end": 15,
-     "mean_ready_battery": 69.9,
-     "damaged_events": 1,
+     "mean_find_turns": 16.0,
+     "ready_end": 16,
+     "mean_ready_battery": 80.7,
+     "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 146
+     "ready_before_5th": null,
+     "daylight_left": 176
     },
     {
      "strategy": "K8R",
@@ -1429,13 +1535,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 17.0,
-     "ready_end": 16,
-     "mean_ready_battery": 91.0,
-     "damaged_events": 0,
+     "mean_find_turns": 24.5,
+     "ready_end": 14,
+     "mean_ready_battery": 71.9,
+     "damaged_events": 2,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 172
+     "ready_before_5th": null,
+     "daylight_left": 142
     },
     {
      "strategy": "K8R",
@@ -1443,23 +1550,26 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 6.75,
+     "mean_find_turns": 8.0,
      "ready_end": 16,
-     "mean_ready_battery": 100.0,
+     "mean_ready_battery": 99.1,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 213
+     "ready_before_5th": null,
+     "daylight_left": 208
     }
    ],
    "mean_found": 3.95,
    "find_rate": 0.9875,
    "unattempted": 0,
-   "mean_ready_end": 15.6,
-   "mean_ready_battery": 93.4,
+   "mean_ready_end": 15.75,
+   "mean_ready_battery": 90.5,
    "damaged_events": 14,
    "lost": 0,
-   "mean_find_turns": 10.22
+   "mean_ready_before_2nd": 15.7,
+   "mean_ready_before_5th": 0.0,
+   "mean_find_turns": 12.26
   },
   "K14": {
    "per_seed": [
@@ -1469,13 +1579,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 9.75,
+     "mean_find_turns": 6.75,
      "ready_end": 16,
-     "mean_ready_battery": 87.3,
-     "damaged_events": 2,
+     "mean_ready_battery": 88.0,
+     "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 201
+     "ready_before_5th": null,
+     "daylight_left": 213
     },
     {
      "strategy": "K14",
@@ -1483,13 +1594,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 4.25,
+     "mean_find_turns": 2.25,
      "ready_end": 16,
-     "mean_ready_battery": 100.0,
+     "mean_ready_battery": 93.8,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 223
+     "ready_before_5th": null,
+     "daylight_left": 231
     },
     {
      "strategy": "K14",
@@ -1497,13 +1609,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 3.5,
+     "mean_find_turns": 6.25,
      "ready_end": 16,
-     "mean_ready_battery": 100.0,
+     "mean_ready_battery": 85.8,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 226
+     "ready_before_5th": null,
+     "daylight_left": 215
     },
     {
      "strategy": "K14",
@@ -1511,13 +1624,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 4.0,
-     "ready_end": 16,
-     "mean_ready_battery": 100.0,
-     "damaged_events": 0,
+     "mean_find_turns": 8.5,
+     "ready_end": 15,
+     "mean_ready_battery": 84.6,
+     "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 224
+     "ready_before_5th": null,
+     "daylight_left": 206
     },
     {
      "strategy": "K14",
@@ -1525,13 +1639,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 4.75,
-     "ready_end": 16,
-     "mean_ready_battery": 99.3,
-     "damaged_events": 0,
+     "mean_find_turns": 6.75,
+     "ready_end": 15,
+     "mean_ready_battery": 93.6,
+     "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 221
+     "ready_before_5th": null,
+     "daylight_left": 213
     },
     {
      "strategy": "K14",
@@ -1539,13 +1654,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 8.75,
+     "mean_find_turns": 7.75,
      "ready_end": 16,
-     "mean_ready_battery": 88.8,
-     "damaged_events": 1,
+     "mean_ready_battery": 88.2,
+     "damaged_events": 2,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 205
+     "ready_before_5th": null,
+     "daylight_left": 209
     },
     {
      "strategy": "K14",
@@ -1553,13 +1669,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 4.5,
-     "ready_end": 16,
-     "mean_ready_battery": 93.6,
-     "damaged_events": 0,
+     "mean_find_turns": 13.5,
+     "ready_end": 15,
+     "mean_ready_battery": 57.9,
+     "damaged_events": 2,
      "lost": 0,
-     "ready_before_2nd": 16,
-     "daylight_left": 222
+     "ready_before_2nd": 15,
+     "ready_before_5th": null,
+     "daylight_left": 186
     },
     {
      "strategy": "K14",
@@ -1567,13 +1684,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 2.0,
-     "ready_end": 16,
-     "mean_ready_battery": 97.3,
-     "damaged_events": 0,
+     "mean_find_turns": 6.0,
+     "ready_end": 15,
+     "mean_ready_battery": 95.1,
+     "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 232
+     "ready_before_5th": null,
+     "daylight_left": 216
     },
     {
      "strategy": "K14",
@@ -1581,13 +1699,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 10.0,
+     "mean_find_turns": 2.5,
      "ready_end": 16,
-     "mean_ready_battery": 72.2,
+     "mean_ready_battery": 100.0,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 200
+     "ready_before_5th": null,
+     "daylight_left": 230
     },
     {
      "strategy": "K14",
@@ -1595,13 +1714,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 6.75,
-     "ready_end": 15,
-     "mean_ready_battery": 93.1,
+     "mean_find_turns": 6.0,
+     "ready_end": 16,
+     "mean_ready_battery": 88.3,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 213
+     "ready_before_5th": null,
+     "daylight_left": 216
     },
     {
      "strategy": "K14",
@@ -1609,13 +1729,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 8.25,
+     "mean_find_turns": 12.5,
      "ready_end": 16,
-     "mean_ready_battery": 92.6,
+     "mean_ready_battery": 80.1,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 207
+     "ready_before_5th": null,
+     "daylight_left": 190
     },
     {
      "strategy": "K14",
@@ -1623,13 +1744,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 11.25,
+     "mean_find_turns": 9.25,
      "ready_end": 16,
-     "mean_ready_battery": 89.8,
+     "mean_ready_battery": 76.5,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 195
+     "ready_before_5th": null,
+     "daylight_left": 203
     },
     {
      "strategy": "K14",
@@ -1637,13 +1759,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 10.5,
+     "mean_find_turns": 5.25,
      "ready_end": 16,
-     "mean_ready_battery": 91.8,
+     "mean_ready_battery": 100.0,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 198
+     "ready_before_5th": null,
+     "daylight_left": 219
     },
     {
      "strategy": "K14",
@@ -1651,13 +1774,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 6.75,
+     "mean_find_turns": 5.0,
      "ready_end": 16,
-     "mean_ready_battery": 99.4,
+     "mean_ready_battery": 89.8,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 213
+     "ready_before_5th": null,
+     "daylight_left": 220
     },
     {
      "strategy": "K14",
@@ -1665,13 +1789,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 5.75,
+     "mean_find_turns": 13.0,
      "ready_end": 16,
-     "mean_ready_battery": 94.8,
-     "damaged_events": 0,
+     "mean_ready_battery": 68.4,
+     "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 217
+     "ready_before_5th": null,
+     "daylight_left": 188
     },
     {
      "strategy": "K14",
@@ -1679,13 +1804,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 8.0,
+     "mean_find_turns": 6.5,
      "ready_end": 16,
-     "mean_ready_battery": 94.3,
+     "mean_ready_battery": 92.0,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 208
+     "ready_before_5th": null,
+     "daylight_left": 214
     },
     {
      "strategy": "K14",
@@ -1693,13 +1819,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 13.5,
+     "mean_find_turns": 5.5,
      "ready_end": 15,
-     "mean_ready_battery": 66.5,
-     "damaged_events": 2,
+     "mean_ready_battery": 93.0,
+     "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 186
+     "ready_before_5th": null,
+     "daylight_left": 218
     },
     {
      "strategy": "K14",
@@ -1707,13 +1834,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 5.5,
+     "mean_find_turns": 8.5,
      "ready_end": 16,
-     "mean_ready_battery": 89.6,
+     "mean_ready_battery": 87.8,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 218
+     "ready_before_5th": null,
+     "daylight_left": 206
     },
     {
      "strategy": "K14",
@@ -1721,13 +1849,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 8.75,
-     "ready_end": 16,
-     "mean_ready_battery": 97.0,
-     "damaged_events": 0,
+     "mean_find_turns": 10.0,
+     "ready_end": 15,
+     "mean_ready_battery": 89.4,
+     "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 205
+     "ready_before_5th": null,
+     "daylight_left": 200
     },
     {
      "strategy": "K14",
@@ -1735,23 +1864,26 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 13.5,
-     "ready_end": 15,
-     "mean_ready_battery": 77.0,
-     "damaged_events": 1,
+     "mean_find_turns": 6.75,
+     "ready_end": 16,
+     "mean_ready_battery": 99.2,
+     "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 186
+     "ready_before_5th": null,
+     "daylight_left": 213
     }
    ],
    "mean_found": 4.0,
    "find_rate": 1.0,
    "unattempted": 0,
-   "mean_ready_end": 15.85,
-   "mean_ready_battery": 91.2,
-   "damaged_events": 8,
+   "mean_ready_end": 15.7,
+   "mean_ready_battery": 87.6,
+   "damaged_events": 13,
    "lost": 0,
-   "mean_find_turns": 7.5
+   "mean_ready_before_2nd": 15.8,
+   "mean_ready_before_5th": 0.0,
+   "mean_find_turns": 7.42
   },
   "K16": {
    "per_seed": [
@@ -1763,10 +1895,11 @@
      "unattempted": 0,
      "mean_find_turns": 9.0,
      "ready_end": 16,
-     "mean_ready_battery": 91.0,
-     "damaged_events": 1,
+     "mean_ready_battery": 75.9,
+     "damaged_events": 2,
      "lost": 0,
      "ready_before_2nd": 15,
+     "ready_before_5th": null,
      "daylight_left": 204
     },
     {
@@ -1775,13 +1908,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 3.5,
-     "ready_end": 16,
-     "mean_ready_battery": 100.0,
-     "damaged_events": 0,
+     "mean_find_turns": 10.0,
+     "ready_end": 15,
+     "mean_ready_battery": 63.4,
+     "damaged_events": 2,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 226
+     "ready_before_5th": null,
+     "daylight_left": 200
     },
     {
      "strategy": "K16",
@@ -1789,13 +1923,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 4.5,
+     "mean_find_turns": 1.75,
      "ready_end": 15,
      "mean_ready_battery": 100.0,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 222
+     "ready_before_5th": null,
+     "daylight_left": 233
     },
     {
      "strategy": "K16",
@@ -1803,13 +1938,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 5.5,
+     "mean_find_turns": 4.25,
      "ready_end": 15,
      "mean_ready_battery": 100.0,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 218
+     "ready_before_5th": null,
+     "daylight_left": 223
     },
     {
      "strategy": "K16",
@@ -1817,13 +1953,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 4.75,
-     "ready_end": 16,
-     "mean_ready_battery": 98.6,
-     "damaged_events": 0,
+     "mean_find_turns": 11.25,
+     "ready_end": 15,
+     "mean_ready_battery": 68.7,
+     "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 221
+     "ready_before_5th": null,
+     "daylight_left": 195
     },
     {
      "strategy": "K16",
@@ -1831,13 +1968,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 3.5,
+     "mean_find_turns": 1.75,
      "ready_end": 16,
-     "mean_ready_battery": 97.6,
+     "mean_ready_battery": 94.8,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 226
+     "ready_before_5th": null,
+     "daylight_left": 233
     },
     {
      "strategy": "K16",
@@ -1845,13 +1983,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 7.5,
-     "ready_end": 15,
-     "mean_ready_battery": 78.7,
+     "mean_find_turns": 5.25,
+     "ready_end": 16,
+     "mean_ready_battery": 96.9,
      "damaged_events": 1,
      "lost": 0,
-     "ready_before_2nd": 16,
-     "daylight_left": 210
+     "ready_before_2nd": 15,
+     "ready_before_5th": null,
+     "daylight_left": 219
     },
     {
      "strategy": "K16",
@@ -1859,13 +1998,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 8.5,
+     "mean_find_turns": 5.75,
      "ready_end": 16,
-     "mean_ready_battery": 86.8,
+     "mean_ready_battery": 95.0,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 206
+     "ready_before_5th": null,
+     "daylight_left": 217
     },
     {
      "strategy": "K16",
@@ -1873,13 +2013,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 8.0,
+     "mean_find_turns": 3.0,
      "ready_end": 16,
-     "mean_ready_battery": 97.6,
+     "mean_ready_battery": 100.0,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 208
+     "ready_before_5th": null,
+     "daylight_left": 228
     },
     {
      "strategy": "K16",
@@ -1887,13 +2028,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 4.0,
+     "mean_find_turns": 4.5,
      "ready_end": 16,
-     "mean_ready_battery": 98.4,
+     "mean_ready_battery": 98.0,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 224
+     "ready_before_5th": null,
+     "daylight_left": 222
     },
     {
      "strategy": "K16",
@@ -1901,13 +2043,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 8.25,
+     "mean_find_turns": 5.5,
      "ready_end": 16,
-     "mean_ready_battery": 96.1,
+     "mean_ready_battery": 100.0,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 207
+     "ready_before_5th": null,
+     "daylight_left": 218
     },
     {
      "strategy": "K16",
@@ -1915,13 +2058,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 6.75,
+     "mean_find_turns": 5.75,
      "ready_end": 16,
-     "mean_ready_battery": 91.4,
+     "mean_ready_battery": 90.1,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 213
+     "ready_before_5th": null,
+     "daylight_left": 217
     },
     {
      "strategy": "K16",
@@ -1929,13 +2073,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 4.0,
+     "mean_find_turns": 5.75,
      "ready_end": 16,
-     "mean_ready_battery": 92.3,
+     "mean_ready_battery": 95.3,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 224
+     "ready_before_5th": null,
+     "daylight_left": 217
     },
     {
      "strategy": "K16",
@@ -1943,13 +2088,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 3.5,
+     "mean_find_turns": 7.0,
      "ready_end": 16,
      "mean_ready_battery": 100.0,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 226
+     "ready_before_5th": null,
+     "daylight_left": 212
     },
     {
      "strategy": "K16",
@@ -1957,13 +2103,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 8.0,
-     "ready_end": 16,
-     "mean_ready_battery": 82.1,
-     "damaged_events": 3,
+     "mean_find_turns": 9.25,
+     "ready_end": 14,
+     "mean_ready_battery": 72.3,
+     "damaged_events": 2,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 208
+     "ready_before_5th": null,
+     "daylight_left": 203
     },
     {
      "strategy": "K16",
@@ -1971,13 +2118,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 3.25,
+     "mean_find_turns": 3.0,
      "ready_end": 16,
      "mean_ready_battery": 100.0,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 227
+     "ready_before_5th": null,
+     "daylight_left": 228
     },
     {
      "strategy": "K16",
@@ -1985,13 +2133,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 6.75,
-     "ready_end": 13,
-     "mean_ready_battery": 93.7,
-     "damaged_events": 3,
+     "mean_find_turns": 8.75,
+     "ready_end": 15,
+     "mean_ready_battery": 82.2,
+     "damaged_events": 2,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 213
+     "ready_before_5th": null,
+     "daylight_left": 205
     },
     {
      "strategy": "K16",
@@ -2001,10 +2150,11 @@
      "unattempted": 0,
      "mean_find_turns": 3.0,
      "ready_end": 16,
-     "mean_ready_battery": 92.7,
+     "mean_ready_battery": 100.0,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
+     "ready_before_5th": null,
      "daylight_left": 228
     },
     {
@@ -2013,13 +2163,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 6.5,
+     "mean_find_turns": 7.25,
      "ready_end": 16,
-     "mean_ready_battery": 93.8,
+     "mean_ready_battery": 86.1,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 214
+     "ready_before_5th": null,
+     "daylight_left": 211
     },
     {
      "strategy": "K16",
@@ -2027,23 +2178,26 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 5.0,
+     "mean_find_turns": 6.0,
      "ready_end": 16,
-     "mean_ready_battery": 86.4,
+     "mean_ready_battery": 98.1,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 220
+     "ready_before_5th": null,
+     "daylight_left": 216
     }
    ],
    "mean_found": 4.0,
    "find_rate": 1.0,
    "unattempted": 0,
-   "mean_ready_end": 15.7,
-   "mean_ready_battery": 93.9,
-   "damaged_events": 14,
+   "mean_ready_end": 15.65,
+   "mean_ready_battery": 90.8,
+   "damaged_events": 16,
    "lost": 0,
-   "mean_find_turns": 5.69
+   "mean_ready_before_2nd": 15.75,
+   "mean_ready_before_5th": 0.0,
+   "mean_find_turns": 5.89
   },
   "ESC": {
    "per_seed": [
@@ -2053,13 +2207,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 20.5,
+     "mean_find_turns": 21.25,
      "ready_end": 15,
-     "mean_ready_battery": 95.9,
+     "mean_ready_battery": 93.5,
      "damaged_events": 2,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 158
+     "ready_before_5th": null,
+     "daylight_left": 155
     },
     {
      "strategy": "ESC",
@@ -2067,13 +2222,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 10.25,
+     "mean_find_turns": 13.0,
      "ready_end": 16,
-     "mean_ready_battery": 87.5,
+     "mean_ready_battery": 94.9,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 199
+     "ready_before_5th": null,
+     "daylight_left": 188
     },
     {
      "strategy": "ESC",
@@ -2081,13 +2237,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 8.75,
-     "ready_end": 15,
-     "mean_ready_battery": 99.4,
-     "damaged_events": 1,
+     "mean_find_turns": 14.75,
+     "ready_end": 16,
+     "mean_ready_battery": 92.5,
+     "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 205
+     "ready_before_5th": null,
+     "daylight_left": 181
     },
     {
      "strategy": "ESC",
@@ -2095,13 +2252,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 23.0,
+     "mean_find_turns": 24.75,
      "ready_end": 16,
-     "mean_ready_battery": 91.8,
+     "mean_ready_battery": 80.8,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 148
+     "ready_before_5th": null,
+     "daylight_left": 141
     },
     {
      "strategy": "ESC",
@@ -2109,13 +2267,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 11.25,
+     "mean_find_turns": 12.0,
      "ready_end": 16,
-     "mean_ready_battery": 96.8,
+     "mean_ready_battery": 96.0,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 195
+     "ready_before_5th": null,
+     "daylight_left": 192
     },
     {
      "strategy": "ESC",
@@ -2123,13 +2282,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 25.75,
-     "ready_end": 15,
-     "mean_ready_battery": 81.4,
-     "damaged_events": 2,
+     "mean_find_turns": 22.75,
+     "ready_end": 16,
+     "mean_ready_battery": 83.2,
+     "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 137
+     "ready_before_5th": null,
+     "daylight_left": 149
     },
     {
      "strategy": "ESC",
@@ -2137,13 +2297,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 20.25,
-     "ready_end": 15,
-     "mean_ready_battery": 84.1,
-     "damaged_events": 2,
+     "mean_find_turns": 12.25,
+     "ready_end": 16,
+     "mean_ready_battery": 94.7,
+     "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 159
+     "ready_before_5th": null,
+     "daylight_left": 191
     },
     {
      "strategy": "ESC",
@@ -2151,13 +2312,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 21.0,
+     "mean_find_turns": 18.25,
      "ready_end": 15,
-     "mean_ready_battery": 77.4,
+     "mean_ready_battery": 92.5,
      "damaged_events": 2,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 156
+     "ready_before_5th": null,
+     "daylight_left": 167
     },
     {
      "strategy": "ESC",
@@ -2165,13 +2327,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 20.25,
+     "mean_find_turns": 14.75,
      "ready_end": 16,
-     "mean_ready_battery": 96.1,
+     "mean_ready_battery": 98.8,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 159
+     "ready_before_5th": null,
+     "daylight_left": 181
     },
     {
      "strategy": "ESC",
@@ -2179,13 +2342,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 21.0,
+     "mean_find_turns": 22.25,
      "ready_end": 16,
-     "mean_ready_battery": 89.9,
+     "mean_ready_battery": 90.7,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 156
+     "ready_before_5th": null,
+     "daylight_left": 151
     },
     {
      "strategy": "ESC",
@@ -2193,13 +2357,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 10.5,
+     "mean_find_turns": 21.25,
      "ready_end": 16,
-     "mean_ready_battery": 99.8,
+     "mean_ready_battery": 91.6,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 198
+     "ready_before_5th": null,
+     "daylight_left": 155
     },
     {
      "strategy": "ESC",
@@ -2207,13 +2372,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 22.5,
+     "mean_find_turns": 24.25,
      "ready_end": 16,
-     "mean_ready_battery": 76.9,
+     "mean_ready_battery": 86.1,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 150
+     "ready_before_5th": null,
+     "daylight_left": 143
     },
     {
      "strategy": "ESC",
@@ -2221,13 +2387,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 16.25,
+     "mean_find_turns": 15.5,
      "ready_end": 16,
-     "mean_ready_battery": 99.3,
+     "mean_ready_battery": 99.5,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 175
+     "ready_before_5th": null,
+     "daylight_left": 178
     },
     {
      "strategy": "ESC",
@@ -2235,13 +2402,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 32.75,
-     "ready_end": 14,
-     "mean_ready_battery": 65.0,
-     "damaged_events": 3,
+     "mean_find_turns": 21.0,
+     "ready_end": 15,
+     "mean_ready_battery": 95.8,
+     "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 109
+     "ready_before_5th": null,
+     "daylight_left": 156
     },
     {
      "strategy": "ESC",
@@ -2249,13 +2417,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 18.25,
+     "mean_find_turns": 25.0,
      "ready_end": 16,
-     "mean_ready_battery": 96.4,
+     "mean_ready_battery": 78.2,
      "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 167
+     "ready_before_5th": null,
+     "daylight_left": 140
     },
     {
      "strategy": "ESC",
@@ -2263,13 +2432,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 9.75,
+     "mean_find_turns": 16.0,
      "ready_end": 16,
-     "mean_ready_battery": 95.7,
+     "mean_ready_battery": 93.5,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 201
+     "ready_before_5th": null,
+     "daylight_left": 176
     },
     {
      "strategy": "ESC",
@@ -2277,13 +2447,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 17.75,
-     "ready_end": 13,
-     "mean_ready_battery": 94.6,
-     "damaged_events": 4,
+     "mean_find_turns": 16.75,
+     "ready_end": 15,
+     "mean_ready_battery": 95.6,
+     "damaged_events": 2,
      "lost": 0,
      "ready_before_2nd": 15,
-     "daylight_left": 169
+     "ready_before_5th": null,
+     "daylight_left": 173
     },
     {
      "strategy": "ESC",
@@ -2291,13 +2462,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 14.75,
+     "mean_find_turns": 9.25,
      "ready_end": 16,
-     "mean_ready_battery": 93.3,
+     "mean_ready_battery": 100.0,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 181
+     "ready_before_5th": null,
+     "daylight_left": 203
     },
     {
      "strategy": "ESC",
@@ -2305,13 +2477,14 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 17.75,
-     "ready_end": 16,
-     "mean_ready_battery": 96.8,
-     "damaged_events": 0,
+     "mean_find_turns": 26.0,
+     "ready_end": 15,
+     "mean_ready_battery": 71.8,
+     "damaged_events": 1,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 169
+     "ready_before_5th": null,
+     "daylight_left": 136
     },
     {
      "strategy": "ESC",
@@ -2319,28 +2492,31 @@
      "found": 4,
      "attempted": 4,
      "unattempted": 0,
-     "mean_find_turns": 13.0,
+     "mean_find_turns": 22.0,
      "ready_end": 16,
-     "mean_ready_battery": 95.1,
+     "mean_ready_battery": 91.3,
      "damaged_events": 0,
      "lost": 0,
      "ready_before_2nd": 16,
-     "daylight_left": 188
+     "ready_before_5th": null,
+     "daylight_left": 152
     }
    ],
    "mean_found": 4.0,
    "find_rate": 1.0,
    "unattempted": 0,
-   "mean_ready_end": 15.5,
-   "mean_ready_battery": 90.7,
-   "damaged_events": 19,
+   "mean_ready_end": 15.75,
+   "mean_ready_battery": 91.0,
+   "damaged_events": 13,
    "lost": 0,
-   "mean_find_turns": 17.76
+   "mean_ready_before_2nd": 15.65,
+   "mean_ready_before_5th": 0.0,
+   "mean_find_turns": 18.65
   }
  },
  "pareto": [
-  "K14",
-  "K2"
+  "ESC",
+  "K1"
  ],
  "sensitivity": {
   "p_detect_0.5": {
@@ -2350,61 +2526,61 @@
     "lost": 0
    },
    "K2": {
-    "find_rate": 0.625,
-    "mean_ready_end": 15.95,
+    "find_rate": 0.6375,
+    "mean_ready_end": 15.65,
     "lost": 0
    },
    "K4": {
     "find_rate": 0.825,
-    "mean_ready_end": 15.5,
+    "mean_ready_end": 15.55,
     "lost": 0
    },
    "K8": {
-    "find_rate": 0.95,
-    "mean_ready_end": 15.35,
+    "find_rate": 0.9625,
+    "mean_ready_end": 15.7,
     "lost": 0
    },
    "K8R": {
     "find_rate": 0.9625,
-    "mean_ready_end": 15.3,
+    "mean_ready_end": 15.7,
     "lost": 0
    },
    "K14": {
     "find_rate": 0.9875,
-    "mean_ready_end": 15.35,
+    "mean_ready_end": 15.6,
     "lost": 0
    },
    "K16": {
-    "find_rate": 1.0,
+    "find_rate": 0.9625,
     "mean_ready_end": 15.0,
     "lost": 0
    },
    "ESC": {
-    "find_rate": 0.9625,
-    "mean_ready_end": 15.35,
+    "find_rate": 0.9875,
+    "mean_ready_end": 15.45,
     "lost": 0
    }
   },
   "p_detect_0.5_pareto": [
+   "K1",
    "K14",
-   "K16",
-   "K2",
-   "K4"
+   "K8",
+   "K8R"
   ],
   "p_detect_0.9": {
    "K1": {
-    "find_rate": 0.6375,
+    "find_rate": 0.6,
     "mean_ready_end": 15.9,
     "lost": 0
    },
    "K2": {
-    "find_rate": 0.9375,
-    "mean_ready_end": 15.95,
+    "find_rate": 0.9125,
+    "mean_ready_end": 15.85,
     "lost": 0
    },
    "K4": {
     "find_rate": 0.9875,
-    "mean_ready_end": 15.8,
+    "mean_ready_end": 15.9,
     "lost": 0
    },
    "K8": {
@@ -2419,7 +2595,7 @@
    },
    "K14": {
     "find_rate": 1.0,
-    "mean_ready_end": 15.7,
+    "mean_ready_end": 15.75,
     "lost": 0
    },
    "K16": {
@@ -2429,20 +2605,16 @@
    },
    "ESC": {
     "find_rate": 1.0,
-    "mean_ready_end": 15.85,
+    "mean_ready_end": 15.95,
     "lost": 0
    }
   },
   "p_detect_0.9_pareto": [
-   "ESC",
-   "K16",
-   "K2",
-   "K8",
-   "K8R"
+   "ESC"
   ],
   "p_fail_0": {
    "K1": {
-    "find_rate": 0.4875,
+    "find_rate": 0.475,
     "mean_ready_end": 16.0,
     "lost": 0
    },
@@ -2452,7 +2624,7 @@
     "lost": 0
    },
    "K4": {
-    "find_rate": 0.9875,
+    "find_rate": 0.9625,
     "mean_ready_end": 16.0,
     "lost": 0
    },
@@ -2491,128 +2663,83 @@
   ],
   "p_fail_0.006": {
    "K1": {
-    "find_rate": 0.3375,
-    "mean_ready_end": 15.7,
+    "find_rate": 0.325,
+    "mean_ready_end": 15.5,
     "lost": 0
    },
    "K2": {
-    "find_rate": 0.7125,
-    "mean_ready_end": 15.55,
+    "find_rate": 0.6875,
+    "mean_ready_end": 15.25,
     "lost": 0
    },
    "K4": {
-    "find_rate": 0.975,
-    "mean_ready_end": 15.3,
+    "find_rate": 0.9375,
+    "mean_ready_end": 15.35,
     "lost": 0
    },
    "K8": {
     "find_rate": 1.0,
-    "mean_ready_end": 14.9,
+    "mean_ready_end": 15.25,
     "lost": 0
    },
    "K8R": {
     "find_rate": 1.0,
-    "mean_ready_end": 14.9,
+    "mean_ready_end": 15.25,
     "lost": 0
    },
    "K14": {
     "find_rate": 1.0,
-    "mean_ready_end": 15.35,
+    "mean_ready_end": 14.4,
     "lost": 0
    },
    "K16": {
-    "find_rate": 0.9875,
-    "mean_ready_end": 14.95,
+    "find_rate": 1.0,
+    "mean_ready_end": 14.8,
     "lost": 0
    },
    "ESC": {
-    "find_rate": 0.9875,
-    "mean_ready_end": 14.45,
+    "find_rate": 1.0,
+    "mean_ready_end": 15.1,
     "lost": 0
    }
   },
   "p_fail_0.006_pareto": [
    "K1",
-   "K14",
-   "K2"
+   "K4",
+   "K8",
+   "K8R"
   ],
   "far_0.35": {
    "K1": {
-    "find_rate": 0.475,
-    "mean_ready_end": 15.85,
+    "find_rate": 0.4375,
+    "mean_ready_end": 15.9,
     "lost": 0
    },
    "K2": {
-    "find_rate": 0.775,
-    "mean_ready_end": 15.95,
+    "find_rate": 0.7875,
+    "mean_ready_end": 15.7,
     "lost": 0
    },
    "K4": {
-    "find_rate": 0.9625,
-    "mean_ready_end": 15.8,
+    "find_rate": 0.9125,
+    "mean_ready_end": 15.7,
     "lost": 0
    },
    "K8": {
     "find_rate": 0.9875,
-    "mean_ready_end": 15.6,
+    "mean_ready_end": 15.75,
     "lost": 0
    },
    "K8R": {
     "find_rate": 0.9875,
-    "mean_ready_end": 15.6,
+    "mean_ready_end": 15.75,
     "lost": 0
    },
    "K14": {
-    "find_rate": 1.0,
-    "mean_ready_end": 15.85,
-    "lost": 0
-   },
-   "K16": {
     "find_rate": 1.0,
     "mean_ready_end": 15.7,
     "lost": 0
    },
-   "ESC": {
-    "find_rate": 1.0,
-    "mean_ready_end": 15.5,
-    "lost": 0
-   }
-  },
-  "far_0.35_pareto": [
-   "K14",
-   "K2"
-  ],
-  "overlap_0.25": {
-   "K1": {
-    "find_rate": 0.2875,
-    "mean_ready_end": 15.8,
-    "lost": 0
-   },
-   "K2": {
-    "find_rate": 0.725,
-    "mean_ready_end": 15.65,
-    "lost": 0
-   },
-   "K4": {
-    "find_rate": 0.9375,
-    "mean_ready_end": 15.65,
-    "lost": 0
-   },
-   "K8": {
-    "find_rate": 1.0,
-    "mean_ready_end": 15.6,
-    "lost": 0
-   },
-   "K8R": {
-    "find_rate": 1.0,
-    "mean_ready_end": 15.6,
-    "lost": 0
-   },
-   "K14": {
-    "find_rate": 1.0,
-    "mean_ready_end": 15.4,
-    "lost": 0
-   },
    "K16": {
     "find_rate": 1.0,
     "mean_ready_end": 15.65,
@@ -2620,13 +2747,62 @@
    },
    "ESC": {
     "find_rate": 1.0,
-    "mean_ready_end": 15.4,
+    "mean_ready_end": 15.75,
+    "lost": 0
+   }
+  },
+  "far_0.35_pareto": [
+   "ESC",
+   "K1"
+  ],
+  "overlap_0.25": {
+   "K1": {
+    "find_rate": 0.2875,
+    "mean_ready_end": 15.75,
+    "lost": 0
+   },
+   "K2": {
+    "find_rate": 0.725,
+    "mean_ready_end": 15.75,
+    "lost": 0
+   },
+   "K4": {
+    "find_rate": 0.925,
+    "mean_ready_end": 15.6,
+    "lost": 0
+   },
+   "K8": {
+    "find_rate": 1.0,
+    "mean_ready_end": 15.7,
+    "lost": 0
+   },
+   "K8R": {
+    "find_rate": 1.0,
+    "mean_ready_end": 15.7,
+    "lost": 0
+   },
+   "K14": {
+    "find_rate": 1.0,
+    "mean_ready_end": 15.7,
+    "lost": 0
+   },
+   "K16": {
+    "find_rate": 1.0,
+    "mean_ready_end": 15.25,
+    "lost": 0
+   },
+   "ESC": {
+    "find_rate": 1.0,
+    "mean_ready_end": 15.7,
     "lost": 0
    }
   },
   "overlap_0.25_pareto": [
-   "K1",
-   "K16"
+   "ESC",
+   "K14",
+   "K2",
+   "K8",
+   "K8R"
   ]
  }
 }

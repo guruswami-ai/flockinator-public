@@ -37,3 +37,16 @@ def test_escalation_differs_from_fixed_small():
     a = run_operation(2, "ESC")
     b = run_operation(2, "K4")
     assert a["strategy"] != b["strategy"]
+
+
+BINDING = dict(incidents=8, daylight_turns=160, recharge=4, ground_rest=True)
+
+
+def test_binding_regime_is_deterministic():
+    assert run_operation(21, "K14", **BINDING) == run_operation(21, "K14", **BINDING)
+
+
+def test_binding_regime_records_readiness_metrics():
+    r = run_operation(21, "ESC", **BINDING)
+    assert r["ready_before_2nd"] is not None
+    assert r["attempted"] + r["unattempted"] == 8
