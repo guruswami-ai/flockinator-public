@@ -27,10 +27,17 @@ import hashlib
 import json
 import re
 import shutil
+import subprocess
 import time
 from pathlib import Path
 
 from .wall_observer import file_sha256, utc_iso, verify_session
+
+# Publication derivatives: verification media only needs timeline
+# legibility and synchronisation with the manifest timestamps, not
+# full sensor resolution. Originals stay in frames/ untouched.
+WEB_VIDEO_WIDTH = 854
+WEB_STILL_WIDTH = 1280
 
 _IPV4 = re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b")
 _MAC = re.compile(r"\b(?:[0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}\b")
@@ -78,8 +85,27 @@ def scan_text(text: str) -> list[str]:
     return findings
 
 
+def _derivative(src: Path, dest: Path, width: int, is_video: bool):
+    """Downscale one media file with ffmpeg; None if unavailable/failed."""
+    ffmpeg = shutil.which("ffmpeg")
+    if not ffmpeg:
+        return None
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    cmd = [ffmpeg, "-y", "-v", "error", "-i", str(src)]
+    if is_video:
+        cmd += ["-vf", f"scale={width}:-2", "-c:v", "libx264",
+                "-crf", "28", "-preset", "veryfast", "-an"]
+    else:
+        cmd += ["-vf", f"scale={width}:-2", "-q:v", "4"]
+    cmd.append(str(dest))
+    r = subprocess.run(cmd, capture_output=True, text=True, timeout=1200)
+    if r.returncode != 0 or not dest.exists():
+        return None
+    return dest
+
+
 def build_dataset(session_dir, telemetry_dir, out_dir, mission_id: str,
-                  entry_point: str = "cli") -> dict:
+                  entry_point: str = "cli", derivatives: bool = True) -> dict:
     session, out = Path(session_dir), Path(out_dir)
     verify_session(session)  # hash chain + frame hashes, or raise
     entries = [json.loads(line) for line in
@@ -105,10 +131,27 @@ def build_dataset(session_dir, telemetry_dir, out_dir, mission_id: str,
         else:
             shutil.copyfile(src, dest)
             stripped = bool(p.get("audio_stripped"))
-        files.append({"path": f"frames/{dest_name}", "source": p["file"],
-                      "sha256": file_sha256(dest), "bytes": dest.stat().st_size,
-                      "phase": p.get("phase"), "kind_media": p.get("kind_media"),
-                      "metadata_stripped": stripped})
+        entry = {"path": f"frames/{dest_name}", "source": p["file"],
+                 "sha256": file_sha256(dest), "bytes": dest.stat().st_size,
+                 "phase": p.get("phase"), "kind_media": p.get("kind_media"),
+                 "metadata_stripped": stripped}
+        if derivatives:
+            is_vid = p.get("kind_media") == "video"
+            web = out / "web" / (dest.stem + ".web" +
+                                 (".mp4" if is_vid else ".jpg"))
+            made = _derivative(dest, web,
+                               WEB_VIDEO_WIDTH if is_vid else WEB_STILL_WIDTH,
+                               is_vid)
+            if made is not None:
+                entry["web_derivative"] = {
+                    "path": f"web/{web.name}", "sha256": file_sha256(web),
+                    "bytes": web.stat().st_size,
+                    "sync_note": "same seq/phase and manifest timestamps "
+                                 "as the original; resolution reduced "
+                                 "for publication only"}
+            else:
+                entry["web_derivative"] = None
+        files.append(entry)
 
     telemetry_copied = []
     if telemetry_dir:
@@ -156,6 +199,12 @@ def verify_dataset(dataset_dir) -> dict:
         p = d / f["path"]
         if not p.exists() or file_sha256(p) != f["sha256"]:
             raise DatasetError(f"dataset file missing or tampered: {f['path']}")
+        web = f.get("web_derivative")
+        if web:
+            wp = d / web["path"]
+            if not wp.exists() or file_sha256(wp) != web["sha256"]:
+                raise DatasetError(
+                    f"web derivative missing or tampered: {web['path']}")
     return {"files": len(manifest["files"]),
             "telemetry": len(manifest["telemetry"]),
             "skipped": len(manifest["skipped"]), "verified": True}
