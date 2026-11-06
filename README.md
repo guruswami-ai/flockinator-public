@@ -26,7 +26,7 @@ wall at all: [a microscope for emergent behaviour](docs/learn/microscope-for-eme
 [Results dashboard](https://guruswami-ai.github.io/flockinator-public/results/) ·
 [Judging guide: five minutes to the evidence](JUDGING.md)
 
-![Flockinator working setup with illuminated swarm panels, controllers and host displays](docs/images/flockinator-working-stack.png)
+![The physical 4×4 Flockinator wall displaying simulated rescue mission states, including marked sites, return-to-base, standby and signal loss](cloudflare/site/media/wall-retheme-end.jpg)
 
 ## What is built
 
