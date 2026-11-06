@@ -57,3 +57,15 @@ def test_distribution_sweep_tracks_analytic():
     for level, d in out.items():
         for name in ("SEARCH", "DOUBLE_CHECK", "WAIT"):
             assert abs(d["empirical"][name] - d["expected"][name]) < 0.05
+
+
+def test_parity_joint_agreement_and_identity():
+    rows = run_twin(7, 100, p_loss=0.0)
+    altered = [dict(r) for r in rows]
+    altered[50]["decision"] = (altered[50]["decision"] + 1) % 3
+    out = parity(rows, altered)
+    assert out["parity"] == 0.99 and out["decision_mismatches"] == 1
+    altered2 = [dict(r) for r in rows]
+    altered2[10]["seed"] = 999
+    out2 = parity(rows, altered2)
+    assert out2["identity_mismatches"] == 1 and out2["parity"] == 0.99

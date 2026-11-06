@@ -76,7 +76,7 @@ class Reassembler:
 
     def __init__(self):
         self.tick, self.parts, self.mask, self.prev_hash = None, {}, 0, 0
-        self.run_id, self.gaps = None, 0
+        self.run_id, self.gaps = None, 0  # context tuple once set
 
     def feed(self, header, payload):
         if header["kind"] not in (SNAP_FRAG, RESYNC_REPLY):
@@ -87,9 +87,12 @@ class Reassembler:
         if total != FRAG_N or idx >= FRAG_N:
             return None
         tick = header["tick"]
-        if header["run_id"] != self.run_id:
+        context = (header["run_id"], header["seed"], header["cycle"])
+        if context != self.run_id:
+            if self.tick is not None and context[0] == (self.run_id or (None,))[0]:
+                return None  # same run, mixed seed/cycle at live tick: reject
             self.tick, self.parts, self.mask = None, {}, 0
-            self.run_id = header["run_id"]
+            self.run_id = context
         if self.tick is not None and tick < self.tick:
             return None  # stale frag, never merged across ticks
         if tick != self.tick:
