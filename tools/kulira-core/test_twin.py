@@ -1,12 +1,14 @@
 from kulira_core.twin import (DOUBLE_CHECK, SEARCH, WAIT, decide,
-                              input_hash, parity, run_twin, to_csv)
+                              expected_distribution, input_hash, parity,
+                              run_twin, to_csv)
 
 
 def test_decide_priority_order():
-    assert decide(0.9, obstacle=False, pkt_loss=True) == WAIT
-    assert decide(0.9, obstacle=True, pkt_loss=False) == WAIT
-    assert decide(0.9, obstacle=False, pkt_loss=False) == DOUBLE_CHECK
-    assert decide(0.2, obstacle=False, pkt_loss=False) == SEARCH
+    assert decide(900, obstacle=False, pkt_loss=True) == WAIT
+    assert decide(900, obstacle=True, pkt_loss=False) == WAIT
+    assert decide(900, obstacle=False, pkt_loss=False) == DOUBLE_CHECK
+    assert decide(699, obstacle=False, pkt_loss=False) == SEARCH
+    assert decide(700, obstacle=False, pkt_loss=False) == DOUBLE_CHECK
 
 
 def test_determinism_byte_identical():
@@ -34,3 +36,16 @@ def test_loss_forces_wait():
 def test_schema_header():
     assert to_csv(run_twin(1, 2)).splitlines()[0] == \
         "tick,seed,input_hash,decision,latency_us"
+
+
+def test_parity_length_mismatch_is_failure_not_one():
+    rows = run_twin(7, 100, p_loss=0.0)
+    out = parity(rows, rows[:90])
+    assert out["length_mismatch"] and out["parity"] is None
+
+
+def test_expected_distribution_sums_to_one():
+    for p in (0.0, 0.05, 0.10, 0.20):
+        d = expected_distribution(p)
+        assert abs(sum(d.values()) - 1.0) < 0.001
+    assert expected_distribution(0.0)["WAIT"] == 0.10
