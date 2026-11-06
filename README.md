@@ -2,6 +2,9 @@
 
 **Meta Global AI Developer Hackathon 2026 · Indie Developer · Push the Frontier**
 
+**[Flockinator documentation & overview](https://flockinator.guruswami.ai/)** —
+illustrated build guides, experiment concepts, recordings and ways to contribute.
+
 Sixteen display nodes replaying host-simulated missions in sound, light, and
 language on a wall, so humans can spot what emerges between agents - then
 prove or refute the spot against sealed evidence.
