@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>No hardware? Run the virtual wall - Flockinator</title>
+<meta name="description" content="No hardware? Run the virtual wall: a Flockinator tutorial page. Simulation and published evidence only; no real nodes are controlled here.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+<h1>Flockinator <span class="sub">- a microscope for emergent behaviour</span></h1>
+<nav class="site-nav" aria-label="Site"><a href="index.html">Overview & live simulation</a><a href="build.html">Build a panel node</a><a href="swarm.html">Swarms & emergence</a><a href="method.html">Experimental method</a><a href="scenarios.html">Scenario catalogue</a><a href="interfaces.html">The panel interface</a><a href="loop.html">How an experiment runs</a><a href="container.html" aria-current="page">Virtual wall (no hardware)</a><a href="thanks.html">Thank you, Meta</a><a href="https://github.com/guruswami-ai/flockinator-public">Source repository</a></nav>
+</header>
+<main>
+<h2 class="page-title">No hardware? Run the virtual wall</h2>
+<p>You can try the whole rescue exercise without soldering, wiring, or buying panels.</p>
+<p>The virtual wall is a software-only version that runs on your laptop. It shows the same panel animations, the same shared rescue scene, and the same team scores you would see on the physical wall. It is useful for learning how coordination breaks down, for checking a published dataset, and for preparing before you build.</p>
+<h2>What you get</h2>
+<p>With only a computer you can:</p>
+<ul>
+<li>run the container / reproduce tooling to check your setup</li>
+<li>run host simulation of a rescue drill</li>
+<li>preview panel animations in a browser</li>
+<li>replay published datasets on screen</li>
+</ul>
+<p>You do not need LED panels, controllers, power supplies, or printed parts for any of this.</p>
+<h2>What is simulation here</h2>
+<p>Be clear about this: the virtual wall is simulation.</p>
+<p>The quadcopter scenario is a visualisation on a shared virtual world plus the panel wall. It is not a flying aircraft. The scored results are host replay, not on-node measurement.</p>
+<p>When a result says <code>verified</code>, that means label segregation, not crypto proof. In plain terms: the checking system keeps test labels separate so scores are not mixed. No planner has passed full gates yet.</p>
+<p>This honesty matters because rescue work depends on trust. What looks smooth on screen may still struggle with real light, sound, and radio friction.</p>
+<h2>What you can do software-only</h2>
+<ol>
+<li><strong>Check the reproduce path.</strong> This confirms your Python, container, and files match.</li>
+<li><strong>Run host simulation.</strong> This steps through a seeded rescue drill on your computer.</li>
+<li><strong>Watch panels in your browser.</strong> This shows the 64x64 animations as the web page would show them.</li>
+<li><strong>Replay a dataset.</strong> This replays sealed journals and scores from the 15 pre-registered experiments, including clear messages at 72.9% team success, silence / private at 56.6%, and corrupted at 33.6%.</li>
+</ol>
+<p>Datasets are hash-linked, redaction-scanned, and shareable. The loop is the same each time: run a seeded drill, save sealed journals and scores, review in lanes, change the setup, and re-run. Hypotheses are written down first, scoring is held out, and failures are published.</p>
+<h2>What still needs real hardware</h2>
+<p>The virtual wall cannot show you:</p>
+<ul>
+<li><strong>Panel light.</strong> The real node uses a Waveshare ESP32-S3-RGB-Matrix board, N32R16 with 32MB flash and 16MB PSRAM, driving a P2.5 64x64 RGB LED panel, 160x160mm. Brightness, viewing angle, and diffusers change what rescuers actually see. Printed diffusers and mounts are in <code>cad/</code>.</li>
+<li><strong>Sound in a room.</strong> Each real node has perimeter speakers in printed carriers, plus onboard mics. A laptop speaker does not behave the same.</li>
+<li><strong>Real sensing and time.</strong> Real nodes carry microSD per node, SHTC3 for temperature and humidity, QMI8658 IMU, and PCF85063 RTC.</li>
+<li><strong>Real radio friction.</strong> Lost packets, delay, and interference only appear with real radios and real placement.</li>
+<li><strong>Controllers and power.</strong> The full wall uses an ESP32-S3 Korvo for display, touch, web host, planner sim and learning lab, a LilyGo T5 4.7in ESP32-S3 handheld, and a MEAN WELL LRS-350-5 5V supply.</li>
+</ul>
+<p>If you later build, node firmware builds with:</p>
+<p><code>pio run --project-dir firmware/node-platform -e waveshare-s3</code></p>
+<p>Check the repo docs for handheld and Korvo build flags. Korvo uses pinned ESP-IDF 6.1. Use Python via uv only. Identity is provisioned per device privately with tools/node-commissioner.</p>
+<h2>Start in three steps</h2>
+<p>You need only a recent computer with container support and uv for Python.</p>
+<ol>
+<li><strong>Verify your setup</strong></li>
+</ol>
+<p>   Run:</p>
+<p>   <code>tools/reproduce/run.py --verify</code></p>
+<p>   Run it through uv. This is the starting check. It tells you if files, Python packages, and the reproduce container are ready. Fix any message it shows before you continue.</p>
+<ol>
+<li><strong>Open the browser preview</strong></li>
+</ol>
+<p>   Start the node-commissioner preview. It serves on <code>127.0.0.1:8766</code>.</p>
+<p>   Open <code>http://127.0.0.1:8766</code> in your browser. You should see panel animations and the shared scene. This is simulation on your host, not light from a physical panel.</p>
+<ol>
+<li><strong>Run a seeded host drill</strong></li>
+</ol>
+<p>   Pick one seeded drill from the preview page and run it end to end. Save the journal and score files it produces. Keep them sealed, meaning do not edit them by hand after the run.</p>
+<p>Check the repo docs for exact launch flags for your system.</p>
+<h2>Replay a published dataset on screen</h2>
+<ol>
+<li>Download one shareable dataset link from the results page.</li>
+<li>Load it in the preview server at <code>127.0.0.1:8766</code>.</li>
+<li>Watch the same steps the rescue team took: messages sent, pauses, retries, and final outcome.</li>
+<li>Compare your replayed score to the published score. They should match, because this is host replay.</li>
+<li>Read the pre-registered hypothesis for that run, then look at failures too, not only successes.</li>
+</ol>
+<p>This is how to use the headline numbers responsibly. They came from host simulation replay, not from on-node testing.</p>
+<h2>How to read what you see</h2>
+<ul>
+<li>If animations look clear in the browser, that means the logic is clear. It does not mean the LEDs will look clear across a smoky hall.</li>
+<li>If team success drops from 72.9% to 33.6% when messages are corrupted, that shows how much rescue coordination depends on clear wording.</li>
+<li>If a planner does well in replay, that is interesting, but remember: no planner passed full gates yet.</li>
+</ul>
+<p>Use the virtual wall to learn, to ask better questions, and to decide if building the physical wall is worth it for you.</p>
+<h2>Source in the repo</h2>
+<ul>
+<li><code>tools/reproduce/run.py</code> - verify script and reproduce entry point</li>
+<li><code>tools/node-commissioner</code> - private identity provisioning and browser preview at 127.0.0.1:8766, check the repo docs for flags</li>
+<li><code>firmware/node-platform</code> - node build, check the repo docs for handheld and Korvo guides</li>
+<li><code>cad/</code> - finished printed models for diffusers, carriers, and mounts</li>
+<li>check the repo docs for dataset links, pre-registration sheets, and full build guides</li>
+</ul>
+</main>
+<footer><p><a href="index.html">Back to the live simulation</a> - Flockinator tutorial site. Content drafted with Meta Muse models and reviewed against the repository; repo docs are the source of truth.</p></footer>
+</body>
+</html>

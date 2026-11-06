@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The experimental method - Flockinator</title>
+<meta name="description" content="The experimental method: a Flockinator tutorial page. Simulation and published evidence only; no real nodes are controlled here.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+<h1>Flockinator <span class="sub">- a microscope for emergent behaviour</span></h1>
+<nav class="site-nav" aria-label="Site"><a href="index.html">Overview & live simulation</a><a href="build.html">Build a panel node</a><a href="swarm.html">Swarms & emergence</a><a href="method.html" aria-current="page">Experimental method</a><a href="scenarios.html">Scenario catalogue</a><a href="interfaces.html">The panel interface</a><a href="loop.html">How an experiment runs</a><a href="container.html">Virtual wall (no hardware)</a><a href="thanks.html">Thank you, Meta</a><a href="https://github.com/guruswami-ai/flockinator-public">Source repository</a></nav>
+</header>
+<main>
+<h2 class="page-title">The experimental method</h2>
+<p>When a rescue team enters a damaged building, radios crackle, lights flicker, and information arrives out of order. This project recreates that kind of confusion in a small, repeatable way, so we can study how teams share what they see and decide what to do next.</p>
+<p>It does not test people. It tests coordination methods under controlled confusion.</p>
+<h2>Why human perception counts as an instrument</h2>
+<p>Computers are good at logging every message. People are good at noticing when something feels wrong.</p>
+<p>Human senses are shaped by biology for pattern matching and quick intuition. We spot a pause that is too long, a voice that sounds unsure, two reports that do not fit together. No log file flags those moments on its own.</p>
+<p>So we use people as detectors first, and measurement second:</p>
+<ol>
+<li>Put the shared situation where everyone can see it.</li>
+<li>Create narrow points where the team must come together.</li>
+<li>Let people notice strangeness.</li>
+<li>Then let recorded data decide whether that hunch holds up.</li>
+</ol>
+<p>A hunch starts the inquiry. It does not settle it.</p>
+<h2>What the room looks like in practice</h2>
+<p>Imagine a search for missing occupants after a partial collapse. Each helper is represented in a shared virtual world, shown together on a wall of light panels.</p>
+<p>That wall is made of P2.5 64x64 RGB LED panels, 160x160mm each, driven by small computer nodes around the room. Each node also has microphones, temperature and humidity sensing, motion sensing, a clock, a memory card, and small speakers in printed carriers. Together the panels form one large, low-resolution picture everyone can watch.</p>
+<p>The quadcopter view in this setup is a visualisation in that shared virtual world plus the panel wall. It is not a flying aircraft in the room.</p>
+<p>Checkpoints are built into the rescue task. For example, the team must regroup at a stairwell to compare notes, or pass findings through one relay person. At those bottlenecks, missing updates, duplicated warnings, or corrupted locations become visible. People often see the problem first — “we never heard back from the basement team” — and then we check the logs to confirm what happened.</p>
+<h2>The loop: flash to re-run</h2>
+<p>Every test follows the same seven steps. The wording is plain on purpose, so any run can be repeated.</p>
+<ol>
+<li><strong>Flash firmware.</strong> Load the same software onto each wall node.</li>
+<li><strong>Run a seeded rescue task.</strong> A fixed starting number sets the order of events, delays, and message problems. Same seed means same confusion.</li>
+<li><strong>Collect.</strong> Nodes save sound levels, sensor readings, timing, and message records to microSD. Journals and scores are sealed at the end of the run so they cannot be edited afterward.</li>
+<li><strong>Score.</strong> Results are scored on a separate host computer by frozen scoring code that does not change between compared runs. This is called held-out scoring.</li>
+<li><strong>Multi-model critique.</strong> Separate Muse Wonder and Spark lanes help build the setup, review the design, and run assessors. They read the sealed records and point out flaws, alternative explanations, and missing checks.</li>
+<li><strong>Refine firmware.</strong> Change one thing at a time based on that critique.</li>
+<li><strong>Re-run.</strong> Run again with the same seed, plus a new seed to check that the fix was not a one-off.</li>
+</ol>
+<p>The coordinator for this work ran for days across many cycles to keep the sequence consistent.</p>
+<h2>How we keep the test fair</h2>
+<p>Before a run counts, we write down what we expect to see and what would prove us wrong.</p>
+<ul>
+<li><strong>Pre-registration.</strong> We record the plan, seed, software version, and success measure in advance. For background on exact files and forms, check the repo docs.</li>
+<li><strong>Falsifiable hypotheses.</strong> Each claim is stated so it can fail. Example: “If relay notes are private, team success will be lower than with open notes.”</li>
+<li><strong>Seeded replication.</strong> Anyone should be able to re-enter the same seed and get the same event order.</li>
+<li><strong>Held-out frozen scoring.</strong> The scoring program is locked before test data is opened.</li>
+<li><strong>Sealed truth.</strong> Correct locations and timings are kept separate from the team during the run. Here, ‘verified’ means careful label segregation, not cryptographic proof.</li>
+<li><strong>Publish failures.</strong> Runs that fail still get kept and described. No planner has passed all full gates yet.</li>
+<li><strong>Share and scrutinise datasets.</strong> Datasets are hash-linked so changes are detectable, scanned for private information before sharing, and made available for others to check. For current dataset locations, check the repo docs.</li>
+</ul>
+<p>Illustrations for this work were made with Muse Image, and SAM 3.1 was tested as one of the analysis options. Those tools help explain and check, they do not decide the score.</p>
+<h2>What we have seen so far</h2>
+<p>All scored numbers below are host simulation replay, not on-node measurement on the wall itself.</p>
+<p>Across 15 pre-registered experiments:</p>
+<ul>
+<li>clear messages: 72.9% team success</li>
+<li>silence and private notes: 56.6% team success</li>
+<li>corrupted locations and cut-off messages: 33.6% team success</li>
+</ul>
+<p>In plain terms: when everyone could see the same clear updates, teams finished the search task most often. When updates were silent or kept private, success fell. When messages were damaged, success fell further.</p>
+<p>These are early patterns, not proof that one method is always best. Failed runs and edge cases are kept with the same care as successful ones.</p>
+<h2>What this runs on</h2>
+<p>The wall nodes use a Waveshare ESP32-S3-RGB-Matrix board (N32R16, 32MB flash, 16MB PSRAM) with SHTC3 for temperature and humidity, QMI8658 for motion, PCF85063 for time, onboard microphones, microSD per node, and perimeter speakers.</p>
+<p>A separate ESP32-S31 Korvo board provides display, touch, web hosting, rescue planner simulation, and learning lab functions. A LilyGo T5 4.7in ESP32-S3 unit works as a handheld display. Power is from a MEAN WELL LRS-350-5 5V supply. Diffusers, carriers, and mounts are printed in Bambu PLA, with finished CAD models in <code>cad/</code>.</p>
+<p>Build notes:</p>
+<ul>
+<li>node: <code>pio run --project-dir firmware/node-platform -e waveshare-s3</code></li>
+<li>handheld: check the repo docs for the <code>lilygo-s3</code> environment name and flags</li>
+<li>Korvo: ESP-IDF 6.1 pinned</li>
+<li>Python only via <code>uv</code></li>
+<li>Each device gets its own private identity with <code>tools/node-commissioner</code></li>
+</ul>
+<h2>Source in the repo</h2>
+<ul>
+<li><code>firmware/node-platform</code> — node build, use <code>-e waveshare-s3</code></li>
+<li><code>tools/node-commissioner</code> — private per-device identity setup</li>
+<li><code>cad/</code> — finished models for diffusers, carriers, mounts</li>
+<li>check the repo docs for pre-registration forms, frozen scoring scripts, sealed journals, hash-linked datasets, and full run histories</li>
+</ul>
+</main>
+<footer><p><a href="index.html">Back to the live simulation</a> - Flockinator tutorial site. Content drafted with Meta Muse models and reviewed against the repository; repo docs are the source of truth.</p></footer>
+</body>
+</html>

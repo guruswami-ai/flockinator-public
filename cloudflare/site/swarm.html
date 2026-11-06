@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Swarms and emergent behaviour - Flockinator</title>
+<meta name="description" content="Swarms and emergent behaviour: a Flockinator tutorial page. Simulation and published evidence only; no real nodes are controlled here.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+<h1>Flockinator <span class="sub">- a microscope for emergent behaviour</span></h1>
+<nav class="site-nav" aria-label="Site"><a href="index.html">Overview & live simulation</a><a href="build.html">Build a panel node</a><a href="swarm.html" aria-current="page">Swarms & emergence</a><a href="method.html">Experimental method</a><a href="scenarios.html">Scenario catalogue</a><a href="interfaces.html">The panel interface</a><a href="loop.html">How an experiment runs</a><a href="container.html">Virtual wall (no hardware)</a><a href="thanks.html">Thank you, Meta</a><a href="https://github.com/guruswami-ai/flockinator-public">Source repository</a></nav>
+</header>
+<main>
+<h2 class="page-title">Swarms and emergent behaviour</h2>
+<h2>Learn: Swarms and Emergent Behaviour</h2>
+<p>Imagine a valley after a flood. Roads are blocked, phones are down, and people need help in different places. One rescuer cannot check every house. A group that spreads out, shares what it finds, and calls others over can cover more ground.</p>
+<p>This page explains that group idea, step by step. You can read it while you watch the wall of lights.</p>
+<h2>What you are looking at</h2>
+<p>Each square on the wall is a node: a Waveshare ESP32-S3-RGB-Matrix (N32R16, 32MB flash, 16MB PSRAM) with a P2.5 64x64 RGB LED panel, 160x160mm. Each node also has microSD storage per node, onboard mics, an SHTC3 temperature/humidity sensor, a QMI8658 IMU, a PCF85063 RTC, and perimeter speakers in printed carriers.</p>
+<p>The wider system uses an ESP32-S31 Korvo for display/touch, web host, planner sim and learning lab, and a LilyGo T5 4.7in ESP32-S3 handheld. Power is MEAN WELL LRS-350-5 5V. Diffusers, carriers and mounts are Bambu PLA, with finished models in <code>cad/</code>.</p>
+<p>The quadcopter rescue scene is a visualisation on a shared virtual world plus the panel wall. Scored results are host replay, not on-node measurement.</p>
+<h2>1. What a swarm is</h2>
+<p>A swarm is many small units following simple local rules. No single unit sees the whole valley or tells the others what to do. They sense nearby, share short notes, and act. Useful group behaviour — spreading out, gathering where help is needed — appears from those local choices.</p>
+<p><strong>What to watch on the wall:</strong> look for patches of colour that spread, split, and rejoin without all panels changing at once.</p>
+<p><strong>One experiment that tests it:</strong></p>
+<ol>
+<li>Run the same rescue task with 4, 8, then more simulated helpers.</li>
+<li>Keep the rules the same, change only the count.</li>
+<li>Compare area checked and time to first find. Check the repo docs for exact seed settings.</li>
+</ol>
+<h2>2. Extra-node intelligence</h2>
+<p>Extra-node intelligence means the knowledge is not inside one helper. It lives between them, in who trusts whom and what was last shared. One node may hold temperature, another may hold a sound clue, another may remember which path was already checked. Together they can act as if they remember the whole valley.</p>
+<p><strong>What to watch:</strong> watch two panels change after they exchange light pulses, even though neither had the full picture alone.</p>
+<p><strong>One experiment that tests it:</strong></p>
+<ol>
+<li>Run a rescue task with clear messages allowed.</li>
+<li>Re-run with silence/private notes only.</li>
+<li>Re-run with corrupted messages. In host simulation replay we saw 72.9% team success with clear messages, 56.6% with silence/private, and 33.6% with corrupted — check the repo docs for method and limits.</li>
+</ol>
+<h2>3. Why groups look intelligent</h2>
+<p>Groups can look clever when three things line up: many tries at once, quick sharing of what worked, and forgetting what did not work. No one plans the smart move. Good finds get copied, poor paths fade away, and the group drifts toward help.</p>
+<p><strong>What to watch:</strong> watch one bright find attract neighbours, while dim areas go quiet.</p>
+<p><strong>One experiment that tests it:</strong></p>
+<ol>
+<li>Start all helpers with the same simple rule.</li>
+<li>Turn sharing off, then on.</li>
+<li>See if finds cluster faster with sharing on. Check the repo docs for scoring details.</li>
+</ol>
+<h2>4. Acoustic language and pheromone harmonics</h2>
+<p>Helpers need a simple shared language. Here that means short sound signals through mics and speakers, plus a shared map of markers that rise and fall over time, like scent trails. The term harmonics just means repeated signals can add up or cancel out — check the repo docs for exact signal design.</p>
+<p><strong>What to watch:</strong> listen for short chirps from the carriers and see matching ripples or trails build on the panels.</p>
+<p><strong>One experiment that tests it:</strong></p>
+<ol>
+<li>Run with sound markers on.</li>
+<li>Run with markers off or scrambled.</li>
+<li>Compare time to gather at a test site. Check the repo docs for marker lifetimes.</li>
+</ol>
+<h2>5. Explorer minority</h2>
+<p>It is safer if most helpers stay on known good paths while a few scout new ground. If everyone wanders, the group loses what it found. If no one wanders, the group misses people further away. A small scouting share often balances care and coverage.</p>
+<p><strong>What to watch:</strong> watch most panels hold steady while one or two probe the edges, then call others if they find something.</p>
+<p><strong>One experiment that tests it:</strong></p>
+<ol>
+<li>Set 0 scouts, then a small scout share, then many scouts.</li>
+<li>Keep all else equal.</li>
+<li>Compare finds kept versus new ground covered. Check the repo docs for tested ratios.</li>
+</ol>
+<h2>How we test fairly</h2>
+<p>We work in a loop so results can be checked, not just admired:</p>
+<ol>
+<li>Flash firmware.</li>
+<li>Run a seeded rescue task.</li>
+<li>Save sealed journals and scores.</li>
+<li>Let separate review lanes critique the run.</li>
+<li>Build new firmware and re-run.</li>
+</ol>
+<p>We pre-register falsifiable hypotheses, use held-out scoring, publish failures, hash-link datasets, and redaction-scan before sharing. Muse Wonder/Spark lanes build, review, and run assessors. SAM 3.1 was tested. Muse Image made illustrations. The coordinator ran for days across 15 pre-registered experiments.</p>
+<p>Build notes, for reference: node with <code>pio run --project-dir firmware/node-platform -e waveshare-s3</code>, handheld with lilygo-s3, Korvo on ESP-IDF 6.1 pinned. Python via uv only. Identity is provisioned per device privately with <code>tools/node-commissioner</code>.</p>
+<p>Be clear on limits: <code>verified</code> means label segregation, not crypto proof. No planner has passed full gates yet.</p>
+<h2>Source in the repo</h2>
+<ul>
+<li><code>firmware/node-platform/</code></li>
+<li><code>tools/node-commissioner/</code></li>
+<li><code>cad/</code></li>
+<li>check the repo docs for mission seeds, journals, scoring, and acoustic/pheromone specs</li>
+</ul>
+</main>
+<footer><p><a href="index.html">Back to the live simulation</a> - Flockinator tutorial site. Content drafted with Meta Muse models and reviewed against the repository; repo docs are the source of truth.</p></footer>
+</body>
+</html>

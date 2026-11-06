@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thank you, Meta - Flockinator</title>
+<meta name="description" content="Thank you, Meta: a Flockinator tutorial page. Simulation and published evidence only; no real nodes are controlled here.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+<h1>Flockinator <span class="sub">- a microscope for emergent behaviour</span></h1>
+<nav class="site-nav" aria-label="Site"><a href="index.html">Overview & live simulation</a><a href="build.html">Build a panel node</a><a href="swarm.html">Swarms & emergence</a><a href="method.html">Experimental method</a><a href="scenarios.html">Scenario catalogue</a><a href="interfaces.html">The panel interface</a><a href="loop.html">How an experiment runs</a><a href="container.html">Virtual wall (no hardware)</a><a href="thanks.html" aria-current="page">Thank you, Meta</a><a href="https://github.com/guruswami-ai/flockinator-public">Source repository</a></nav>
+</header>
+<main>
+<h2 class="page-title">Thank you, Meta</h2>
+<p>Thank you to Meta and the hackathon organisers. This project — a wall of small rescue-team nodes that practice working together — was built with the models, tools, and time you provided. We want to name what helped, plainly, and show what other builders can try next.</p>
+<h2>What you shared</h2>
+<p>You gave us access to Muse Wonder and Muse Spark models, SAM 3.1 for testing, Muse Image for illustrations, and API credits to run real work.</p>
+<p>That combination mattered. We did not use one model for one job. We used different models side by side: to write and check firmware, to look over rescue-trial plans, and to assess the sealed records afterward. The credits meant we could re-run trials instead of guessing once.</p>
+<h2>One coordinator that kept going</h2>
+<p>For several days we kept a coordinator model running to help line up swarms of software agents doing build, check, and record-keeping work.</p>
+<p>In practical terms, it kept the queue sorted, handed the next clear task to the next free agent, and kept notes so a trial started on Monday could still be understood on Thursday.</p>
+<p>And the honest sentence: in our experience it stayed coherent over days of experiment coordination.</p>
+<p>We note that as experience, not a promise. Check the repo docs for the logs and limits we saw.</p>
+<h2>Builders, reviewers, and assessors</h2>
+<p>The models worked in three lanes:</p>
+<ol>
+<li>Builders drafted firmware changes and small test scripts.</li>
+<li>Reviewers in other lanes critiqued those changes against the written rescue task and the failure history.</li>
+<li>Assessors read the sealed journals and scores after a run, without knowing which approach they were scoring.</li>
+</ol>
+<p>Our loop stayed the same throughout:</p>
+<ol>
+<li>Flash firmware to the nodes.</li>
+<li>Run a seeded rescue task with the same start conditions.</li>
+<li>Save sealed journals and scores.</li>
+<li>Ask separate review lanes to critique what happened.</li>
+<li>Write new firmware and run again.</li>
+</ol>
+<p>We pre-registered each trial, wrote falsifiable hypotheses in advance, used held-out scoring, and published failures alongside successes. Datasets were hash-linked, redaction-scanned, and shareable.</p>
+<h2>A fleet of models, a wall of nodes</h2>
+<p>The fleet-of-models idea mirrored the node wall itself.</p>
+<p>No single model did everything. Small, focused models checked each other, much as our small nodes have to share what they hear and see to act as a team.</p>
+<p>The wall is made of identical rescue practice nodes. Each node is a Waveshare ESP32-S3-RGB-Matrix (N32R16, 32MB flash, 16MB PSRAM) driving a P2.5 64x64 RGB LED panel, 160x160mm, with microSD storage per node, onboard microphones, an SHTC3 temperature and humidity sensor, a QMI8658 motion sensor, a PCF85063 clock, and perimeter speakers in printed carriers.</p>
+<p>A Korvo ESP32-S3 board hosts the web view, touch display, planner simulation, and learning lab. A LilyGo T5 4.7in ESP32-S3 board works as a handheld view. Power comes from a MEAN WELL LRS-350-5 5V supply. Diffusers, carriers, and mounts are printed in Bambu PLA, with finished CAD models in <code>cad/</code>.</p>
+<h2>What that work let us check</h2>
+<p>With that setup we ran 15 pre-registered experiments about team communication during rescue practice.</p>
+<p>In host simulation replay, NOT on-node, teams with clear shared messages reached 72.9% team success, compared with 56.6% with silence or private notes only, and 33.6% with corrupted messages.</p>
+<p>To stay clear about honesty rules: the quadcopter scenario is visualisation on a shared virtual world plus the panel wall. Scored results are host replay. When we say verified, we mean label segregation, not crypto proof. No planner has passed full gates yet.</p>
+<p>SAM 3.1 was tested as part of this checking work, and Muse Image was used for illustrations.</p>
+<h2>If you build with these models</h2>
+<p>If you have access to the same models, here is the pattern we would try again:</p>
+<ol>
+<li>Give one model the coordinator role, with a short written brief and a shared task list.</li>
+<li>Give Wonder and Spark lanes separate jobs — one to build, one to review — and keep their notes apart until scoring.</li>
+<li>Ask for small, testable rescue tasks first. Flash with <code>pio run --project-dir firmware/node-platform -e waveshare-s3</code> for a node, and the <code>lilygo-s3</code> setting for the handheld. The Korvo build uses pinned ESP-IDF 6.1. Use Python via uv only.</li>
+<li>Provision identity per device privately with <code>tools/node-commissioner</code> before you record shared trials.</li>
+<li>Pre-register the hypothesis, seal the journals, then let a fresh assessor lane score without labels.</li>
+</ol>
+<p>Warm thanks again for making room to work this way — many models, many small nodes, and careful records of what did and did not help a rescue team stay together.</p>
+<h2>Source in the repo</h2>
+<ul>
+<li><code>firmware/node-platform</code> — node build, use <code>-e waveshare-s3</code> — check the repo docs for readme path</li>
+<li><code>firmware/</code> handheld setting <code>lilygo-s3</code> — check the repo docs for readme path</li>
+<li><code>tools/node-commissioner</code> — per-device private identity provisioning</li>
+<li><code>cad/</code> — finished Bambu PLA diffuser, carrier, and mount models</li>
+<li>Host replay scores and 15 pre-registered experiment records — check the repo docs for dataset path</li>
+<li>Sealed journals, review lanes, and assessor notes — check the repo docs for lab path</li>
+</ul>
+</main>
+<footer><p><a href="index.html">Back to the live simulation</a> - Flockinator tutorial site. Content drafted with Meta Muse models and reviewed against the repository; repo docs are the source of truth.</p></footer>
+</body>
+</html>

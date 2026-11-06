@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Build one panel node - Flockinator</title>
+<meta name="description" content="Build one panel node: a Flockinator tutorial page. Simulation and published evidence only; no real nodes are controlled here.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+<h1>Flockinator <span class="sub">- a microscope for emergent behaviour</span></h1>
+<nav class="site-nav" aria-label="Site"><a href="index.html">Overview & live simulation</a><a href="build.html" aria-current="page">Build a panel node</a><a href="swarm.html">Swarms & emergence</a><a href="method.html">Experimental method</a><a href="scenarios.html">Scenario catalogue</a><a href="interfaces.html">The panel interface</a><a href="loop.html">How an experiment runs</a><a href="container.html">Virtual wall (no hardware)</a><a href="thanks.html">Thank you, Meta</a><a href="https://github.com/guruswami-ai/flockinator-public">Source repository</a></nav>
+</header>
+<main>
+<h2 class="page-title">Build one panel node</h2>
+<p>Think of one node as one rescue signpost that can light up, make sound, and remember what it showed. Build one well, and you can repeat it to make a wall that helps teams practice rescue signals.</p>
+<p>This guide builds a single working node. Read it end to end before you plug anything in.</p>
+<h2>What One Node Is</h2>
+<p>One node is a small controller board paired with one square light panel.</p>
+<p>The controller handles the picture, sound cues, and local sensing. The panel is what people across the room see. Each node also has its own memory card, so it can work as part of a larger shared display later.</p>
+<p>In the full system, many panels join to show a shared virtual world for practice quadcopter visualisation. The scored research results are host replay, not measured on the panel itself.</p>
+<h2>Parts You Need</h2>
+<p>One complete node uses the parts below. Use exactly these types. For sellers, cable lengths, and card size, check the repo docs.</p>
+<table>
+<tr><td>Part</td><td>Verified spec</td></tr>
+<tr><td>Controller board</td><td>Waveshare ESP32-S3-RGB-Matrix, N32R16, 32MB flash, 16MB PSRAM</td></tr>
+<tr><td>Light panel</td><td>P2.5 64x64 RGB LED panel, 160 x 160 mm</td></tr>
+<tr><td>Storage</td><td>microSD card, one per node</td></tr>
+<tr><td>Sensing and timekeeping</td><td>onboard mics, SHTC3 temp/humidity, QMI8658 IMU, PCF85063 RTC</td></tr>
+<tr><td>Sound and housing</td><td>perimeter speakers in printed carriers; Bambu PLA diffusers, carriers, mounts</td></tr>
+<tr><td>Bench power</td><td>MEAN WELL LRS-350-5, 5V</td></tr>
+</table>
+<p>Related system parts, not part of this one-node build:</p>
+<ul>
+<li>Controller hub: ESP32-S31 Korvo with display/touch, for web host and practice sim</li>
+<li>Handheld viewer: LilyGo T5 4.7in ESP32-S3</li>
+</ul>
+<p>CAD finished models for printed parts are in <code>cad/</code>.</p>
+<h2>Tools</h2>
+<p>For software, use Python via <code>uv</code> only, plus PlatformIO for the node build. The Korvo hub uses pinned ESP-IDF 6.1.</p>
+<p>For hand tools, wire, and bench setup, check the repo docs. Do not substitute a different supply voltage.</p>
+<h2>Assemble the Node</h2>
+<p>Work with power off and give yourself clear table space.</p>
+<ol>
+<li><strong>Prepare the printed parts.</strong> Find the diffuser, speaker carriers, and mounts for one node. Check the repo docs for which finished model in <code>cad/</code> matches your panel.</li>
+<li><strong>Fit controller to panel.</strong> Place the Waveshare board at the back of the 160 x 160 mm panel in the orientation shown in the docs. Check the repo docs for connector seating and fastener positions.</li>
+<li><strong>Insert the microSD card.</strong> Use one card per node. Push it fully into the node slot until it clicks. Check the repo docs for formatting and file layout.</li>
+<li><strong>Fit the speaker carriers.</strong> Place the perimeter speakers in their printed carriers around the edge. Check the repo docs for routing so wires stay clear of the panel back.</li>
+<li><strong>Check the fit.</strong> The panel should sit flat, the diffuser should sit even, and nothing should press on the controller. Check the repo docs for clearance photos.</li>
+</ol>
+<p>Leave power disconnected until the power check below is done.</p>
+<h2>Power Safety</h2>
+<p>This system is 5V only.</p>
+<ul>
+<li>Use the MEAN WELL LRS-350-5 5V supply for bench power.</li>
+<li>Wire polarity correctly before first power-on. Check the repo docs for the wiring diagram.</li>
+<li>Plan for full-white brightness as your ceiling. Measure at brightness ceiling and keep within the documented limits — check the repo docs for test points and limits.</li>
+<li>If anything smells hot, looks dim in patches, or resets when brightness rises, switch off and recheck wiring. Check the repo docs for safe re-test steps.</li>
+</ul>
+<h2>Flash Node Firmware</h2>
+<p>Flashing loads the node program onto the controller.</p>
+<ol>
+<li>Install Python tooling via <code>uv</code> only. Check the repo docs for the exact setup sequence.</li>
+<li>From the repo root, run the node build:</li>
+</ol>
+<p>   ```</p>
+<p>   pio run --project-dir firmware/node-platform -e waveshare-s3</p>
+<p>   ```</p>
+<ol>
+<li>Connect the Waveshare board over USB and flash using the documented upload target. Check the repo docs for the upload and monitor commands.</li>
+<li>Wait for a clean finish with no errors before unplugging.</li>
+</ol>
+<p>Notes:</p>
+<ul>
+<li>Handheld builds use <code>lilygo-s3</code>. Check the repo docs if you are building that separately.</li>
+<li>Korvo hub builds use pinned ESP-IDF 6.1. Check the repo docs for that separate flow.</li>
+</ul>
+<h2>Provision Identity</h2>
+<p>Each device gets its own private identity so logs and later reviews can tell nodes apart.</p>
+<ol>
+<li>Run the provision tool privately, one device at a time:</li>
+</ol>
+<p>   - tool path: <code>tools/node-commissioner</code></p>
+<ol>
+<li>Follow the prompts to create the per-device identity. Check the repo docs for where identities are stored and what to keep private.</li>
+<li>Label the physical node to match its identity. Check the repo docs for the naming pattern.</li>
+</ol>
+<p>Do not copy one node&#x27;s identity to another node.</p>
+<h2>First-Light Test: READY</h2>
+<p>This confirms panel, controller, card, and power are working together.</p>
+<ol>
+<li>Confirm wiring matches the 5V diagram. Check the repo docs for the final checklist.</li>
+<li>Switch on the 5V supply.</li>
+<li>Watch the 64x64 panel. A good first build shows <code>READY</code>.</li>
+<li>Listen for speaker output if your test image enables sound. Check the repo docs for which test enables audio.</li>
+<li>Switch off, then add the diffuser and recheck brightness. Measure at brightness ceiling again after any housing change.</li>
+</ol>
+<p>If you do not see <code>READY</code>, leave power off and use the next section.</p>
+<h2>Common Failures</h2>
+<p>Fix one thing at a time. For exact photos and meter points, check the repo docs.</p>
+<ul>
+<li><strong>Panel stays dark:</strong> recheck 5V wiring, seating, and firmware target — check the repo docs.</li>
+<li><strong><code>READY</code> never appears but board lights respond:</strong> recheck microSD seating and firmware flash logs — check the repo docs.</li>
+<li><strong>Resets at high brightness:</strong> supply or wiring is at its limit, measure at brightness ceiling — check the repo docs.</li>
+<li><strong>No sound or rattling sound:</strong> recheck speaker carriers and seating — check the repo docs.</li>
+<li><strong>Wrong device name in logs:</strong> re-run identity provisioning privately with <code>tools/node-commissioner</code> — check the repo docs.</li>
+</ul>
+<h2>Scaling From 1 to 16</h2>
+<p>Once one node reliably shows <code>READY</code>, you can repeat the build to form a panel wall.</p>
+<ul>
+<li>Plan a regular grid of up to 16 identical nodes.</li>
+<li>Pitch candidates under review are 250 mm and 199.8 mm. Check the repo docs for which drawings, mounts, and diffuser spacing match each pitch.</li>
+<li>Split power into branches rather than daisy-chaining everything from one point. Check the repo docs for branch layout for the MEAN WELL LRS-350-5 5V supply.</li>
+<li>Provision identity separately for each new node with <code>tools/node-commissioner</code>.</li>
+<li>Re-run the <code>READY</code> test node by node, then as a group. Check the repo docs for group test order and brightness ceiling measurements.</li>
+</ul>
+<h2>Source in the repo</h2>
+<ul>
+<li><code>firmware/node-platform</code> — node firmware and <code>waveshare-s3</code> build environment</li>
+<li><code>tools/node-commissioner</code> — per-device private identity provisioning</li>
+<li><code>cad/</code> — finished models for Bambu PLA diffusers, carriers, and mounts</li>
+</ul>
+</main>
+<footer><p><a href="index.html">Back to the live simulation</a> - Flockinator tutorial site. Content drafted with Meta Muse models and reviewed against the repository; repo docs are the source of truth.</p></footer>
+</body>
+</html>
