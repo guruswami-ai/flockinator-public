@@ -1,0 +1,25 @@
+{
+ "split": "seeds 100-119",
+ "regime": {
+  "incidents": 8,
+  "daylight_turns": 160,
+  "recharge": 4,
+  "ground_rest": true,
+  "p_fail": 0.01,
+  "far_frac": 0.35,
+  "start_battery": 75.0
+ },
+ "f0": {
+  "find_rate": 0.8,
+  "mean_find_turns": 11.74,
+  "ready_end": 10.25,
+  "lost": 2
+ },
+ "f1": {
+  "find_rate": 0.6438,
+  "mean_find_turns": 11.89,
+  "ready_end": 9.95,
+  "lost": 3
+ },
+ "paired_turns_diff": 0.142
+}
