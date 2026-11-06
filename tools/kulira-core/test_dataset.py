@@ -47,6 +47,8 @@ def test_build_and_verify_dataset(tmp_path):
     (tel / "score.json").write_text('{"seed": 0, "recall": 0.5}')
     manifest = build_dataset(tmp_path / "sess", tel, tmp_path / "ds", "m1")
     assert manifest["files"][0]["metadata_stripped"] is True
+    # derivative attempted (None when ffmpeg cannot read the fixture)
+    assert "web_derivative" in manifest["files"][0]
     assert verify_dataset(tmp_path / "ds")["verified"]
 
 
