@@ -35,8 +35,14 @@ def fnv1a(data: bytes) -> int:
     return h
 
 
+KINDS = (SNAP_FRAG, INTENT, EVENT, RESYNC_REQ, RESYNC_REPLY)
+
+
 def pack_frame(key, kind, sender, tick, run_id: bytes, seed, cycle, payload: bytes) -> bytes:
-    assert len(run_id) == 16 and len(payload) <= MTU - HDR.size - TAG_LEN
+    if len(run_id) != 16 or len(payload) > MTU - HDR.size - TAG_LEN:
+        raise ValueError("run_id must be 16B and payload must fit MTU")
+    if kind not in KINDS:
+        raise ValueError("unknown sim kind")
     hdr = HDR.pack(MAGIC, VERSION, kind, sender, tick, run_id, seed, cycle)
     return hdr + payload + _tag(key, hdr + payload)
 
@@ -49,7 +55,7 @@ def unpack_frame(key, frame: bytes):
     if not hmac.compare_digest(tag, _tag(key, hdr + payload)):
         return None
     magic, version, kind, sender, tick, run_id, seed, cycle = HDR.unpack(hdr)
-    if magic != MAGIC or version != VERSION:
+    if magic != MAGIC or version != VERSION or kind not in KINDS:
         return None
     return ({"kind": kind, "sender": sender, "tick": tick,
              "run_id": run_id, "seed": seed, "cycle": cycle}, payload)
@@ -70,13 +76,20 @@ class Reassembler:
 
     def __init__(self):
         self.tick, self.parts, self.mask, self.prev_hash = None, {}, 0, 0
-        self.gaps = 0
+        self.run_id, self.gaps = None, 0
 
     def feed(self, header, payload):
         if header["kind"] not in (SNAP_FRAG, RESYNC_REPLY):
             return None
+        if len(payload) != 6 + FRAG_BYTES:
+            return None
         total, idx, prev_hash = struct.unpack("<BBI", payload[:6])
+        if total != FRAG_N or idx >= FRAG_N:
+            return None
         tick = header["tick"]
+        if header["run_id"] != self.run_id:
+            self.tick, self.parts, self.mask = None, {}, 0
+            self.run_id = header["run_id"]
         if self.tick is not None and tick < self.tick:
             return None  # stale frag, never merged across ticks
         if tick != self.tick:
@@ -84,10 +97,13 @@ class Reassembler:
                 self.gaps += 1  # previous tick dropped partial
             self.tick, self.parts, self.mask = tick, {}, 0
             self.prev_hash = prev_hash
+        elif prev_hash != self.prev_hash:
+            return None  # same-tick fork: reject
         self.parts[idx] = payload[6:6 + FRAG_BYTES]
         self.mask |= 1 << idx
         if self.mask == 0xF:
             world = b"".join(self.parts[i] for i in range(FRAG_N))
+            self.tick, self.parts, self.mask = None, {}, 0  # apply-once
             return world if len(world) == WORLD_BYTES else None
         return None
 
@@ -108,16 +124,23 @@ class IntentGate:
     def for_tick(self, node, tick):
         got = self.pending.get(node)
         if got and got[0] <= tick - 2:
+            del self.pending[node]  # single-use: never replayed
+            if tick - got[0] > 50:
+                return b"\x00\x00"  # expired: HOLD
             return got[1]
         return b"\x00\x00"  # HOLD: vx=vy=0, mode/sensor unchanged
 
 
 class EventTracker:
+    WINDOW = 100
+
     def __init__(self):
         self.applied = set()
 
     def apply(self, event_id, apply_tick, tick) -> bool:
-        if event_id in self.applied or tick < apply_tick:
+        if event_id in self.applied:
             return False
+        if tick < apply_tick or tick > apply_tick + self.WINDOW:
+            return False  # not yet due, or late beyond the apply window
         self.applied.add(event_id)
         return True
