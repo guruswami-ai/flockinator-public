@@ -36,8 +36,8 @@ STRATEGIES = {
 ESCALATE_TURN = 20
 
 
-def _new_fleet():
-    return [{"id": i, "battery": 100.0, "state": "ready",
+def _new_fleet(start_battery: float = 100.0):
+    return [{"id": i, "battery": start_battery, "state": "ready",
              "repair_at": -1, "last_flown": -1} for i in range(FLEET)]
 
 
@@ -45,10 +45,11 @@ def run_operation(seed: int, strategy: str, p_detect: float = 0.7,
                   p_fail: float = 0.002, far_frac: float = 0.15,
                   overlap: float = 0.0, incidents: int = MAX_INCIDENTS,
                   daylight_turns: int = DAYLIGHT, recharge: int = RECHARGE,
-                  ground_rest: bool = False) -> dict:
+                  ground_rest: bool = False,
+                  start_battery: float = 100.0) -> dict:
     k0, esc_k, rotate = STRATEGIES[strategy]
     rng = random.Random(seed)
-    fleet = _new_fleet()
+    fleet = _new_fleet(start_battery)
     daylight = daylight_turns
     found = attempted = unattempted = 0
     ready_before_5th = None
