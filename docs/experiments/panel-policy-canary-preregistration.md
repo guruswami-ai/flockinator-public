@@ -16,15 +16,10 @@ Status: **pre-registered, not yet run.** Adapted by the supervisor from a contri
 * **SIM broadcast (scored input):** Unreliable broadcast @ 5Hz. Payload per tick: `tick, seed, robot_pose, signal, conf, obstacle, rx_hash`. No ACK, no retry.
 * **MGMT unicast (control only):** Authenticated per-device frames, fixed **160B payload**. Pre-shared key + nonce. Commands only: `ASSIGN_SEED / START / STOP / REPORT_HASH`. No sim data here. Not scored.
 
-**DUT rule (runs locally on panel):**
-```
-if no SIM packet for >500ms: WAIT (dropped_flag=1)
-elif conf > 0.70: SEARCH
-elif conf > 0.40: DOUBLE-CHECK
-else: WAIT
-```
-
-**Twin:** Offline Python `twin.py` with identical rule. Runs on analysis machine after run, replaying SD inputs. Not on controller.
+**DUT rule:** governed by [canary-contract-v1.md](canary-contract-v1.md),
+which supersedes the rule text in the contributor draft below
+(threshold direction, enums 0=SEARCH/1=DOUBLE_CHECK/2=WAIT,
+integer compares, timeout counts as packet loss).
 
 **Clock:** No fleet clock sync. **Simulation `tick` is the clock.** Ordering disputes resolved by `tick`. Panel `millis()/micros()` used only for `latency_ms` diagnostic.
 

@@ -33,6 +33,20 @@ fixed constant, and judge strategies on operational metrics
 (finds over the whole window, readiness for the next incident,
 losses) rather than single-mission speed.
 
+## Two simulator families - read together, do not conflate
+
+This series (`operations.py`: daylight window, multiple
+incidents, recharge +4/+12, no launch-energy floor) is *not* the
+earlier commitment model (`commitment.py`: up to twelve sorties,
+launch-energy floor, assumed overlap penalty). Rotation is a
+small/null effect in every operations regime above, while the
+commitment model reports a same-count rotation benefit. That is
+an apparent contradiction only if the models are conflated:
+they differ in energy accounting, overlap, and what rotation is
+allowed to change. Reconciling them - same scenario in both
+models, matched controls - is an open research question, and
+neither result should be quoted without naming its simulator.
+
 ## Honest limits
 
 All parameters (detect probability, failure rates, recharge,

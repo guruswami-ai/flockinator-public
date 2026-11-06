@@ -93,3 +93,12 @@ def test_pack_frame_rejects_oversize():
     import pytest
     with pytest.raises(ValueError):
         pack_frame(KEY, INTENT, 1, 0, RUN, 1, 1, b"x" * 200)
+
+
+def test_reassembler_rejects_mixed_context_same_tick():
+    r = Reassembler()
+    f_a = snapshot_frames(KEY, 5, RUN, 42, 1, WORLD, 123)
+    f_b = snapshot_frames(KEY, 5, RUN, 43, 1, WORLD, 123)  # different seed
+    hdr, pay = unpack_frame(KEY, f_a[0]); assert r.feed(hdr, pay) is None
+    hdr, pay = unpack_frame(KEY, f_b[1]); assert r.feed(hdr, pay) is None
+    assert r.mask == 0b0001  # only the first context's frag held

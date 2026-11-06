@@ -94,13 +94,20 @@ def parity(host_rows, device_rows) -> dict:
     """
     mismatch = len(host_rows) != len(device_rows)
     n = min(len(host_rows), len(device_rows))
+    id_bad = sum(1 for i in range(n)
+                 if host_rows[i]["tick"] != device_rows[i]["tick"]
+                 or host_rows[i]["seed"] != device_rows[i]["seed"])
     hash_bad = sum(1 for i in range(n)
                    if host_rows[i]["input_hash"] != device_rows[i]["input_hash"])
     dec_bad = sum(1 for i in range(n)
                   if host_rows[i]["decision"] != device_rows[i]["decision"])
-    agree = n - max(hash_bad, dec_bad) if not mismatch else 0
-    return {"compared": n, "agree": agree if not mismatch else 0,
+    agree = sum(1 for i in range(n)
+                if host_rows[i]["tick"] == device_rows[i]["tick"]
+                and host_rows[i]["seed"] == device_rows[i]["seed"]
+                and host_rows[i]["input_hash"] == device_rows[i]["input_hash"]
+                and host_rows[i]["decision"] == device_rows[i]["decision"])
+    return {"compared": n, "agree": 0 if mismatch else agree,
             "parity": None if mismatch or not n else round(agree / n, 4),
-            "length_mismatch": mismatch,
+            "length_mismatch": mismatch, "identity_mismatches": id_bad,
             "hash_mismatches": hash_bad, "decision_mismatches": dec_bad,
             "host_rows": len(host_rows), "device_rows": len(device_rows)}
