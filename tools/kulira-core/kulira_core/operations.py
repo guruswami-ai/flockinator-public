@@ -32,6 +32,7 @@ STRATEGIES = {
     "K14": (14, None, False),
     "K16": (16, None, False),
     "ESC": (4, 8, False),
+    "ADAPT": (8, None, False),  # tops up to 14 on far incidents (see below)
 }
 ESCALATE_TURN = 20
 
@@ -88,6 +89,12 @@ def run_operation(seed: int, strategy: str, p_detect: float = 0.7,
         r = rng.random()
         # distance mix: near 55%, far = far_frac, mid = remainder
         dist = "near" if r < 0.55 else ("far" if r > 1.0 - far_frac else "mid")
+        if strategy == "ADAPT" and dist == "far":
+            spare = [a for a in fleet if a["state"] == "ready"]
+            spare.sort(key=lambda a: (-a["battery"], a["id"]))
+            for a in spare[:max(0, 14 - len(airborne))]:
+                a["state"], a["last_flown"] = "airborne", inc
+                airborne.append(a)
         pos = rng.randrange(AREA)
         frontier = 0.0
         turn = 0
