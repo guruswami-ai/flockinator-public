@@ -75,7 +75,7 @@ loadBenchmark(null);
 const wall = document.getElementById("wall");
 const nodes = ["A1","A2","A3","A4","B1","B2","B3","B4","C1","C2","C3","C4","D1","D2","D3","D4"];
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const PANEL = { idle: "scan", survivor: "share", hazard: "hold", forged: "hold" };
+const PANEL = { idle: "scan", survivor: "share", hazard: "check", forged: "doubt" };
 function panelSrc(kind) { return "panels/" + PANEL[kind] + (reduceMotion ? ".png" : ".gif"); }
 wall.replaceChildren(...nodes.map(n => {
   const d = el("div", undefined, "node"); d.id = "node-" + n;
