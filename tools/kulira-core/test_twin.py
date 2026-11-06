@@ -1,5 +1,6 @@
 from kulira_core.twin import (DOUBLE_CHECK, SEARCH, WAIT, decide,
-                              expected_distribution, input_hash, parity,
+                              distribution_sweep, expected_distribution,
+                              input_hash, parity,
                               run_twin, to_csv)
 
 
@@ -49,3 +50,10 @@ def test_expected_distribution_sums_to_one():
         d = expected_distribution(p)
         assert abs(sum(d.values()) - 1.0) < 0.001
     assert expected_distribution(0.0)["WAIT"] == 0.10
+
+
+def test_distribution_sweep_tracks_analytic():
+    out = distribution_sweep(3, ticks=2000)
+    for level, d in out.items():
+        for name in ("SEARCH", "DOUBLE_CHECK", "WAIT"):
+            assert abs(d["empirical"][name] - d["expected"][name]) < 0.05

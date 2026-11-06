@@ -72,6 +72,20 @@ def to_csv(rows) -> str:
     return "\n".join(out) + "\n"
 
 
+def distribution_sweep(seed: int, ticks: int = 2000,
+                         losses=(0.0, 0.05, 0.10, 0.20)) -> dict:
+    """Empirical vs analytic decision distribution per loss level."""
+    out = {}
+    for p in losses:
+        rows = run_twin(seed, ticks, p_loss=p)
+        n = len(rows)
+        emp = {name: round(sum(1 for r in rows if r["decision"] == code) / n, 4)
+               for name, code in (("SEARCH", SEARCH), ("DOUBLE_CHECK", DOUBLE_CHECK),
+                                  ("WAIT", WAIT))}
+        out[str(p)] = {"empirical": emp, "expected": expected_distribution(p)}
+    return out
+
+
 def parity(host_rows, device_rows) -> dict:
     """Compare host twin vs device journal rows (latency ignored).
 
