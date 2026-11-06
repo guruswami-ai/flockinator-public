@@ -74,21 +74,31 @@ loadBenchmark(null);
 // Wall replay
 const wall = document.getElementById("wall");
 const nodes = ["A1","A2","A3","A4","B1","B2","B3","B4","C1","C2","C3","C4","D1","D2","D3","D4"];
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const PANEL = { idle: "scan", survivor: "share", hazard: "hold", forged: "hold" };
+function panelSrc(kind) { return "panels/" + PANEL[kind] + (reduceMotion ? ".png" : ".gif"); }
 wall.replaceChildren(...nodes.map(n => {
   const d = el("div", undefined, "node"); d.id = "node-" + n;
-  d.appendChild(el("strong", n)); d.appendChild(el("span", "idle"));
+  const img = document.createElement("img");
+  img.src = panelSrc("idle"); img.alt = ""; img.loading = "lazy"; img.className = "panel-gif";
+  d.appendChild(img);
+  d.appendChild(el("strong", n)); d.appendChild(el("span", "scanning"));
   return d;
 }));
+if (reduceMotion) document.querySelectorAll("img[data-still]").forEach(i => { i.src = i.dataset.still; });
 let replay = null, idx = 0, timer = null, truthRevealed = false;
 fetch("data/replay.json").then(r => r.json()).then(d => { replay = d; step(); });
 function renderContact() {
   const pol = document.getElementById("policy").value;
   const c = replay.contacts[idx];
   nodes.forEach(n => { const elm = document.getElementById("node-" + n);
-    elm.className = "node"; elm.querySelector("span").textContent = "idle"; });
+    elm.className = "node"; elm.querySelector("span").textContent = "scanning";
+    elm.querySelector("img").src = panelSrc("idle"); });
   c.reports.forEach(rep => {
     const elm = document.getElementById("node-" + rep.node); if (!elm) return;
-    elm.classList.add(rep.forged ? "forged" : (rep.label === "survivor" ? "survivor" : "hazard"));
+    const kind = rep.forged ? "forged" : (rep.label === "survivor" ? "survivor" : "hazard");
+    elm.classList.add(kind);
+    elm.querySelector("img").src = panelSrc(kind);
     elm.querySelector("span").textContent = rep.forged ? "FORGED " + rep.modality : rep.modality + ": " + rep.label;
   });
   const decision = c[pol];

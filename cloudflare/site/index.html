@@ -13,6 +13,12 @@
   <p class="lede">Sixteen embodied agents, staged in sound, light, and language on a wall of
   nodes, so humans can spot what emerges between agents - then prove or refute the spot
   against sealed evidence.</p>
+  <p><strong>Why this is useful:</strong> we experiment with intelligent agents to identify
+  emergent behaviour — what a group does that no single agent was programmed to do. The point
+  is practical: edge devices such as search-and-rescue quadcopters must act autonomously in the
+  real world, where communications fail and sensors lie. A swarm that has learned when to trust,
+  when to corroborate, and when to abstain is safer to deploy than one that has only ever flown
+  in friendly conditions.</p>
   <p class="badge" role="note">Interactive simulation only. Nothing here controls real hardware.</p>
   <figure>
     <img src="demo/rescue-swarm.jpg" alt="Illustration of a small drone swarm searching earthquake rubble, one drone spotlighting a survivor" width="720">
@@ -51,6 +57,10 @@
     <select id="policy"><option value="E">E: verified + abstain</option><option value="COMP">COMP: + modality trust</option></select>
     <span id="contact-label" aria-live="polite"></span>
   </div>
+  <figure>
+    <img src="panels/wall-montage.gif" data-still="panels/wall-montage.png" alt="Animated montage of the sixteen real panel displays in flight-simulation mode" width="440" loading="lazy">
+    <figcaption>The actual panel animations the physical nodes play (flight-simulation display set, reduced for the web). Each replay cell below uses the same animation family: scanning, sharing a report, or holding for confirmation.</figcaption>
+  </figure>
   <div id="wall" class="wall" role="img" aria-label="4 by 4 grid of simulated nodes"></div>
   <p id="verdict" aria-live="polite"></p>
 </section>
