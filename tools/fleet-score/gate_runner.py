@@ -171,6 +171,12 @@ def validate_evidence(run_dir):
         for line in path.read_text().splitlines():
             if line.strip():
                 events.append(json.loads(line))
+    # Auth segregation mirrors the frozen scorer: events carrying an
+    # auth_status other than direct_verified are not fleet evidence
+    # and must not trip fleet-state validation (review P2, PR #127).
+    def _scoring(ev):
+        return "auth_status" not in ev or ev["auth_status"] == "direct_verified"
+    events = [ev for ev in events if _scoring(ev)]
     seen, dup = set(), 0
     for ev in events:
         if ev.get("event") == "discovery":

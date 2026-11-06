@@ -495,3 +495,13 @@ class WfMeasurementFixesTest(unittest.TestCase):
             (d / "events.jsonl").write_text(_json.dumps(ev) + "\n")
             with self.assertRaises(ValueError):
                 validate_evidence(d)
+
+    def test_validate_evidence_ignores_rejected_outsider_events(self):
+        import json as _json, pathlib, tempfile
+        with tempfile.TemporaryDirectory() as td:
+            d = pathlib.Path(td)
+            landed = {"unit": "X9", "event": "landed", "turn": 9,
+                      "tile": [0, 6], "energy": 10,
+                      "auth_status": "forged_rejected"}
+            (d / "events.jsonl").write_text(_json.dumps(landed) + "\n")
+            validate_evidence(d)  # must not raise: not fleet evidence
