@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: astral-sh/setup-uv@v5
+      - uses: astral-sh/setup-uv@v7
       - name: Scorer v4 + gate-runner suite
         run: uv run --project tools/fleet-score python -m pytest tools/fleet-score -q
       - name: Frozen baseline reproduces (recall 0.2141)
@@ -42,6 +42,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: astral-sh/setup-uv@v5
+      - uses: astral-sh/setup-uv@v7
       - name: Kulira adversary suite
         run: uv run --project tools/kulira-core python -m pytest tools/kulira-core -q
