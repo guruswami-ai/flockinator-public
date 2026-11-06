@@ -52,6 +52,7 @@ def run_operation(seed: int, strategy: str, p_detect: float = 0.7,
     daylight = daylight_turns
     found = attempted = unattempted = 0
     ready_before_5th = None
+    ready_before_5th = None
     find_turns = []
     damaged_events = lost = 0
     ready_before_2nd = None
@@ -63,6 +64,8 @@ def run_operation(seed: int, strategy: str, p_detect: float = 0.7,
         ready = [a for a in fleet if a["state"] == "ready"]
         if inc == 1:
             ready_before_2nd = len(ready)
+        if inc == 4:
+            ready_before_5th = len(ready)
         if inc == 4:
             ready_before_5th = len(ready)
         if not ready or daylight <= 0:
@@ -149,6 +152,7 @@ def run_operation(seed: int, strategy: str, p_detect: float = 0.7,
         "damaged_events": damaged_events, "lost": lost,
         "ready_before_2nd": ready_before_2nd,
         "ready_before_5th": ready_before_5th,
+        "ready_before_5th": ready_before_5th,
         "daylight_left": daylight,
     }
 
@@ -168,6 +172,10 @@ def run_operations(seeds, strategies=tuple(STRATEGIES), **params) -> dict:
             "mean_ready_battery": round(sum(r["mean_ready_battery"] for r in rows) / n, 1),
             "damaged_events": sum(r["damaged_events"] for r in rows),
             "lost": sum(r["lost"] for r in rows),
+            "mean_ready_before_2nd": round(
+                sum(r["ready_before_2nd"] or 0 for r in rows) / n, 2),
+            "mean_ready_before_5th": round(
+                sum(r["ready_before_5th"] or 0 for r in rows) / n, 2),
             "mean_ready_before_2nd": round(
                 sum(r["ready_before_2nd"] or 0 for r in rows) / n, 2),
             "mean_ready_before_5th": round(
