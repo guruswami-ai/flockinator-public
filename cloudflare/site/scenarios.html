@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scenario catalogue - Flockinator</title>
+<meta name="description" content="Scenario catalogue: a Flockinator tutorial page. Simulation and published evidence only; no real nodes are controlled here.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+<h1>Flockinator <span class="sub">- a microscope for emergent behaviour</span></h1>
+<nav class="site-nav" aria-label="Site"><a href="index.html">Overview & live simulation</a><a href="build.html">Build a panel node</a><a href="swarm.html">Swarms & emergence</a><a href="method.html">Experimental method</a><a href="scenarios.html" aria-current="page">Scenario catalogue</a><a href="interfaces.html">The panel interface</a><a href="loop.html">How an experiment runs</a><a href="container.html">Virtual wall (no hardware)</a><a href="thanks.html">Thank you, Meta</a><a href="https://github.com/guruswami-ai/flockinator-public">Source repository</a></nav>
+</header>
+<main>
+<h2 class="page-title">Scenario catalogue</h2>
+<h2>Why rescue comes first</h2>
+<p>We start with search and rescue because it is easy to picture and hard to do well.</p>
+<p>Small helpers need to split up an area, share what they find, and keep helping when messages are late, quiet, or wrong.</p>
+<p>Our quadcopter work is a visualisation on a shared virtual world shown on a panel wall, not outdoor flights — check the repo docs for exact maps and limits.</p>
+<h2>What you see in the room</h2>
+<p>Each wall node is a Waveshare ESP32-S3-RGB-Matrix (N32R16, 32MB flash, 16MB PSRAM) with a P2.5 64x64 RGB LED panel, 160x160mm, plus microSD, onboard mics, SHTC3 for temp/humidity, QMI8658 IMU, PCF85063 RTC, and perimeter speakers in printed carriers.</p>
+<p>A Korvo ESP32-S31 hosts the display, touch, web host, planner sim and learning lab, with a LilyGo T5 4.7in ESP32-S3 as handheld.</p>
+<p>Power is MEAN WELL LRS-350-5 5V, and diffusers, carriers and mounts are Bambu PLA with finished models in <code>cad/</code> — check the repo docs for wiring and assembly.</p>
+<h2>How a scenario runs</h2>
+<ol>
+<li>Flash firmware: node with <code>pio run --project-dir firmware/node-platform -e waveshare-s3</code>, handheld lilygo-s3, Korvo on pinned ESP-IDF 6.1. Python via <code>uv</code> only.</li>
+<li>Provision identity per device privately with <code>tools/node-commissioner</code>.</li>
+<li>Run a seeded run in the shared virtual world, shown live across panels.</li>
+<li>Save sealed journals and scores, with datasets hash-linked, redaction-scanned, and shareable.</li>
+<li>Send results to review lanes where Muse Wonder/Spark lanes build, review, and run assessors, with SAM 3.1 tested in some runs. The coordinator ran for days over 15 pre-registered experiments.</li>
+<li>Pre-register the next falsifiable hypothesis, publish failures too, then update firmware and re-run with held-out scoring.</li>
+</ol>
+<h2>Search-and-rescue quadcopters</h2>
+<p>A team of virtual quadcopters looks for people in need across a shared map and calls out likely spots to teammates. Helpers with different views must agree where to go next without doubling up or missing corners.</p>
+<p>What it tests: sharing, coverage, and staying useful when links fail.</p>
+<p>Tag: practical.</p>
+<h2>Earthquake and thermal scouts</h2>
+<p>Small scouts move through a model of broken streets and warm and cool spots that may mean people sheltering. They combine heat, sound hints, and teammate reports to pick the next place to check.</p>
+<p>What it tests: fusing simple sensors and asking for help at the right time.</p>
+<p>Tag: practical.</p>
+<h2>Flood and CO2 watch</h2>
+<p>Low helpers track rising water and pockets of bad air in homes and halls after a flood. They pass short updates along so the group keeps a live picture of where it is still safe to enter.</p>
+<p>What it tests: steady reporting, safe routing, and handling stale data.</p>
+<p>Tag: practical.</p>
+<h2>Medical-device helpers</h2>
+<p>Bedside helpers watch trends and remind people and carers what needs attention, without taking over choices. They must explain in plain words and stay quiet when things are stable.</p>
+<p>What it tests: clear messages, restraint, and handing off to people.</p>
+<p>Tag: practical — check the repo docs for safety limits and what is out of scope.</p>
+<h2>Shop and factory trust</h2>
+<p>Shelf and machine helpers track stock, heat, and comings and goings to flag spills, jams, or lost items. They learn normal patterns and ask a person to confirm before acting on odd cases.</p>
+<p>What it tests: telling normal from unusual, and earning trust over time.</p>
+<p>Tag: practical — check the repo docs for exact sensors and test sites.</p>
+<h2>Music and dance nodes</h2>
+<p>Wall panels and speakers turn movement and sound into light and rhythm that people can follow and join. Groups clap, step, or hum, and nodes answer in ways that keep time together.</p>
+<p>What it tests: listening, timing, and keeping a group in sync.</p>
+<p>Tag: exploratory.</p>
+<h2>Fruit-fly neurons making music</h2>
+<p>This takes a real wiring map from fruit-fly larval neurons and borrows it as a pattern for making sound sequences. It sounds silly, but the question is serious: can a borrowed connectome suggest new ways to coordinate timing.</p>
+<p>What it tests: whether biology-inspired patterns help with timing and variety — check the repo docs for methods.</p>
+<p>Tag: exploratory.</p>
+<h2>ESP-MOSAICO changing challenge</h2>
+<p>This run keeps changing the rules, noise, and message delays while the team is working. Helpers that did well at first must notice the shift and find a new way to share and search.</p>
+<p>What it tests: noticing change, adapting plans, and avoiding stuck habits.</p>
+<p>Tag: exploratory — check the repo docs for challenge settings.</p>
+<h2>What scores mean so far</h2>
+<p>Scored results are host replay, not on-node, and no planner has passed full gates yet.</p>
+<p>In replay: clear messages 72.9% team success, silence/private 56.6%, corrupted 33.6%.</p>
+<p>Here <code>verified</code> means label segregation, not crypto proof. Muse Image made illustrations for review.</p>
+<h2>Source in the repo</h2>
+<ul>
+<li><code>firmware/node-platform</code> — node build, <code>-e waveshare-s3</code></li>
+<li><code>cad/</code> — finished PLA diffusers, carriers, mounts</li>
+<li><code>tools/node-commissioner</code> — private per-device identity</li>
+<li>check the repo docs for scenario maps, pre-registrations, journals, and full score tables</li>
+</ul>
+</main>
+<footer><p><a href="index.html">Back to the live simulation</a> - Flockinator tutorial site. Content drafted with Meta Muse models and reviewed against the repository; repo docs are the source of truth.</p></footer>
+</body>
+</html>

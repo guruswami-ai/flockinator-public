@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The panel interface, explained - Flockinator</title>
+<meta name="description" content="The panel interface, explained: a Flockinator tutorial page. Simulation and published evidence only; no real nodes are controlled here.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+<h1>Flockinator <span class="sub">- a microscope for emergent behaviour</span></h1>
+<nav class="site-nav" aria-label="Site"><a href="index.html">Overview & live simulation</a><a href="build.html">Build a panel node</a><a href="swarm.html">Swarms & emergence</a><a href="method.html">Experimental method</a><a href="scenarios.html">Scenario catalogue</a><a href="interfaces.html" aria-current="page">The panel interface</a><a href="loop.html">How an experiment runs</a><a href="container.html">Virtual wall (no hardware)</a><a href="thanks.html">Thank you, Meta</a><a href="https://github.com/guruswami-ai/flockinator-public">Source repository</a></nav>
+</header>
+<main>
+<h2 class="page-title">The panel interface, explained</h2>
+<p>Think of each panel as a rescue post on a hillside. In our test setup, a small flying camera spots clues and shares what it sees. Each physical panel shows what one member of that search team is doing and thinking, moment by moment.</p>
+<p>The scored results you read about elsewhere come from host simulation replay, not from calculations on the panels themselves. The wall is a way to see the shared virtual world.</p>
+<h2>What one node is made of</h2>
+<p>Each node is the same:</p>
+<p>A Waveshare ESP32-S3-RGB-Matrix board (N32R16, 32MB flash, 16MB PSRAM) driving a P2.5 64x64 RGB LED panel, 160x160mm. Each node also has its own microSD card, onboard mics, SHTC3 temperature/humidity sensor, QMI8658 IMU, PCF85063 RTC, and perimeter speakers in printed carriers.</p>
+<p>The wider setup uses an ESP32-S31 Korvo board as controller/display, web host, planner sim, and learning lab, plus a LilyGo T5 4.7in ESP32-S3 handheld. Power is a MEAN WELL LRS-350-5 5V supply. Diffusers, carriers, and mounts are Bambu PLA prints — check the repo docs for print settings, with finished models in <code>cad/</code>.</p>
+<h2>How to read a single panel</h2>
+<p>Every 64x64 display keeps the same layout, so you only have to learn it once. For exact pixel maps and fonts, check the repo docs.</p>
+<p>Top line: node id, from A1 to D4 across the 16-panel wall.</p>
+<p>Second line: SIM label. This tells you the panel is showing a host replay, not live on-node sensing.</p>
+<p>Middle: one large state word and simple animation.</p>
+<p>Bottom or corner: battery indicator.</p>
+<p>Small icons: sensor mode — IR / NV / CAM.</p>
+<p>If you can read the middle word and the id, you have enough.</p>
+<h2>The six states, in plain rescue terms</h2>
+<ol>
+<li><strong>READY / REMOTE START</strong></li>
+</ol>
+<p>What you see: the panel holds at READY until the controller starts the run.</p>
+<p>What it means: the team is at the trailhead, waiting for the go-ahead. Tied to the start/end slates described below.</p>
+<ol>
+<li><strong>SCAN</strong></li>
+</ol>
+<p>What you see: a searching animation — check the repo docs for exact frames.</p>
+<p>What it means: “I am looking around my area.” This is the baseline for all 15 pre-registered trust experiments.</p>
+<ol>
+<li><strong>SHARE REPORT</strong></li>
+</ol>
+<p>What you see: the node shows it is sending what it found.</p>
+<p>What it means: “I saw something and I am telling the team clearly.” This matches the clear-messages test condition, which reached 72.9% team success in host replay.</p>
+<ol>
+<li><strong>CHECK VERIFY</strong></li>
+</ol>
+<p>What you see: the node shows it is pausing to cross-check.</p>
+<p>What it means: “I heard a report, let me confirm before I act.” Here ‘verified’ means label segregation, not crypto proof. The system keeps messages with different labels separate so a bad report does not spread unchecked.</p>
+<ol>
+<li><strong>DOUBT</strong></li>
+</ol>
+<p>What you see: the node flags uncertainty — check the repo docs for exact icon.</p>
+<p>What it means: “This report looks damaged or does not line up.” This matches the corrupted-messages condition, which dropped to 33.6% team success in host replay.</p>
+<ol>
+<li><strong>HOLD</strong></li>
+</ol>
+<p>What you see: the node waits quietly.</p>
+<p>What it means: “I have nothing solid to share, so I will stay put rather than mislead.” This matches the silence/private condition, at 56.6% team success in host replay.</p>
+<p>No planner has passed full gates yet. The states make that visible instead of hiding it.</p>
+<h2>Sensor modes: IR / NV / CAM</h2>
+<p>The small IR / NV / CAM marker tells you which camera view the visualisation is using for that moment:</p>
+<ul>
+<li><strong>CAM:</strong> normal daylight view.</li>
+<li><strong>NV:</strong> low-light view.</li>
+<li><strong>IR:</strong> heat view.</li>
+</ul>
+<p>These are animations on the shared virtual world plus panel wall. They show which sensor the simulated rescue flight is pretending to use. For exact animation patterns, check the repo docs.</p>
+<h2>How to read a wall of 16 at a glance</h2>
+<p>You do not read 16 panels word by word. You scan for pattern.</p>
+<ol>
+<li>Stand back and find the ids A1–D4. A-row is top, D-row is bottom.</li>
+<li>Look for the odd one out. Fifteen SCAN and one DOUBT means one member is unsure. Many HOLD means the team has gone quiet.</li>
+<li>Check the SIM labels and battery row. If SIM is on, you are watching replay. If a battery icon is low, ignore odd behavior from that node.</li>
+<li>Watch changes, not stills. SCAN → SHARE REPORT → CHECK VERIFY is healthy sharing. Sudden jumps to DOUBT across many nodes suggest a corrupted report is moving through the team.</li>
+</ol>
+<h2>The wall as one distributed display</h2>
+<p>At start and end, the 16 panels act as one big screen:</p>
+<ul>
+<li><strong>Task slate:</strong> all tiles together show the task name and seed.</li>
+<li><strong>FLOCK checksum + QR:</strong> the wall shows a short checksum and a QR code so a phone can capture exactly which run and dataset version this was. Datasets are hash-linked, redaction-scanned, and shareable.</li>
+<li><strong>Whole-wall tiles:</strong> simple large patterns across all panels mark start, end, and scoring boundaries, so video of the wall can be lined up with sealed journals and scores.</li>
+</ul>
+<p>The loop around this is always the same: flash firmware, run a seeded task, seal journals/scores, let multi-model review lanes critique, build new firmware, and re-run. Hypotheses are pre-registered and falsifiable, with held-out scoring, and failures are published.</p>
+<p>Build notes, for reference: node build is <code>pio run --project-dir firmware/node-platform -e waveshare-s3</code>; handheld is lilygo-s3; Korvo uses pinned ESP-IDF 6.1. Python via uv only. Identity is provisioned per device privately with <code>tools/node-commissioner</code>. Models: Muse Wonder/Spark lanes build, review, and run assessors; SAM 3.1 tested; Muse Image illustrations.</p>
+<h2>Source in the repo</h2>
+<ul>
+<li><code>firmware/node-platform/</code> — node display states, sensor animations, battery/id/SIM layout</li>
+<li><code>tools/node-commissioner/</code> — private per-device identity provisioning</li>
+<li><code>cad/</code> — finished models for diffusers, carriers, mounts</li>
+<li>Check the repo docs for: exact 64x64 bitmaps for SCAN, SHARE REPORT, CHECK VERIFY, DOUBT, HOLD, READY/REMOTE START, IR/NV/CAM animations, slate/QR/FLOCK format, and the 15 experiment definitions and replay scores</li>
+</ul>
+</main>
+<footer><p><a href="index.html">Back to the live simulation</a> - Flockinator tutorial site. Content drafted with Meta Muse models and reviewed against the repository; repo docs are the source of truth.</p></footer>
+</body>
+</html>

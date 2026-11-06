@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How an experiment runs, end to end - Flockinator</title>
+<meta name="description" content="How an experiment runs, end to end: a Flockinator tutorial page. Simulation and published evidence only; no real nodes are controlled here.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+<h1>Flockinator <span class="sub">- a microscope for emergent behaviour</span></h1>
+<nav class="site-nav" aria-label="Site"><a href="index.html">Overview & live simulation</a><a href="build.html">Build a panel node</a><a href="swarm.html">Swarms & emergence</a><a href="method.html">Experimental method</a><a href="scenarios.html">Scenario catalogue</a><a href="interfaces.html">The panel interface</a><a href="loop.html" aria-current="page">How an experiment runs</a><a href="container.html">Virtual wall (no hardware)</a><a href="thanks.html">Thank you, Meta</a><a href="https://github.com/guruswami-ai/flockinator-public">Source repository</a></nav>
+</header>
+<main>
+<h2 class="page-title">How an experiment runs, end to end</h2>
+<h2>How an experiment runs, end to end</h2>
+<p>This page follows one full cycle of our rescue-team testbed. Small helper devices practise sharing short rescue notes across a wall of lights and a matching computer twin. We show each step, what we keep, and where we fail. The aim is rigour you can check, with datasets others can scrutinise.</p>
+<h2>Why work in cycles</h2>
+<p>Each change is tested in a closed loop:</p>
+<ol>
+<li>Flash firmware</li>
+<li>Run a seeded rescue run</li>
+<li>Seal journals and scores</li>
+<li>Multi-model review lanes critique the run</li>
+<li>Build new firmware</li>
+<li>Re-run</li>
+</ol>
+<p>We pre-register falsifiable hypotheses, use held-out scoring, and publish failures. Datasets are hash-linked, redaction-scanned, and shareable.</p>
+<p>For exact forms and current file names, check the repo docs.</p>
+<h2>1. Write the guess down first</h2>
+<p>Before any code runs, we write what we expect and what would prove us wrong. For example: clear messages will help the team finish more searches than silence or corrupted messages.</p>
+<p>The guess is frozen with a seed number that controls the layout. Later runs must use the same seed, so no one can pick an easy layout after the fact.</p>
+<h2>2. Build and flash the helpers</h2>
+<p>Our wall nodes are Waveshare ESP32-S3-RGB-Matrix boards (N32R16, 32MB flash, 16MB PSRAM) each driving a P2.5 64x64 RGB LED panel, 160x160mm. Each node has microSD storage, onboard mics, an SHTC3 temp/humidity sensor, a QMI8658 IMU, a PCF85063 RTC, and perimeter speakers in printed carriers.</p>
+<p>The controller is an ESP32-S31 Korvo with display and touch, web host, planner sim, and learning lab. The handheld is a LilyGo T5 4.7in ESP32-S3. Power is a MEAN WELL LRS-350-5 5V supply. Diffusers, carriers, and mounts are Bambu PLA prints; finished CAD models live in <code>cad/</code>.</p>
+<p>To prepare software:</p>
+<ol>
+<li>Build node firmware with <code>pio run --project-dir firmware/node-platform -e waveshare-s3</code></li>
+<li>Build the handheld variant with environment <code>lilygo-s3</code>. Build the Korvo controller with pinned ESP-IDF 6.1.</li>
+<li>Run Python tools with <code>uv</code> only. Provision identity per device privately with <code>tools/node-commissioner</code>.</li>
+</ol>
+<p>For full build flags and wiring notes, check the repo docs.</p>
+<h2>3. Run the rescue task on wall and twin</h2>
+<p>Each run uses the same seeded search layout. The quadcopter scenario is a visualisation on a shared virtual world plus the panel wall — lights stand in for helpers moving room to room. Scored results are host replay, not on-node scoring. The wall shows what is happening; the host twin records what counts.</p>
+<ol>
+<li>Flash the frozen firmware to all devices.</li>
+<li>Start the seeded rescue run from the controller.</li>
+<li>Let the helpers exchange notes while they search.</li>
+</ol>
+<h2>4. Collect everything, quietly</h2>
+<p>During the run we collect:</p>
+<ol>
+<li>Journals from each device, saved to microSD with timestamps from the onboard clock.</li>
+<li>Silent wall video, with no sound track.</li>
+<li>Host twin logs with matching timestamps and seeds.</li>
+</ol>
+<p>Journals are sealed at the end of the run so later review cannot edit them. For camera placement and log format, check the repo docs.</p>
+<h2>5. Score by fixed rules</h2>
+<p>Scoring uses a deterministic scorer on the host replay. The same inputs always give the same outputs. Scoring uses held-out checks that were not visible during building.</p>
+<p>Here, <code>verified</code> means label segregation, not crypto proof. In plain terms: data from different test conditions is kept in separate labelled folders during review, so clear, silent, and corrupted runs cannot be mixed by accident. For scorer settings, check the repo docs.</p>
+<h2>6. Review in separate lanes</h2>
+<p>Review is done by tiered model lanes plus a coordinator:</p>
+<ol>
+<li>Muse Wonder and Spark lanes build, review, and run assessors in separate passes.</li>
+<li>SAM 3.1 was tested as an additional lane. Muse Image was used for illustrations, not scoring.</li>
+<li>The coordinator collects critiques and suggests the next firmware change. The coordinator ran for days across cycles.</li>
+</ol>
+<p>Lanes do not see each other&#x27;s drafts until the critique step. That keeps disagreements visible instead of smoothing them over early.</p>
+<h2>7. Share honest results, including failures</h2>
+<p>No planner has passed full gates yet. We keep failures in the record.</p>
+<p>One example: the honest baseline failed its frozen floors in cycle-07. We did not move the floors. We fixed the code and re-ran. In cycle-08 the same baseline scored 9 PASS / 9 UNMEASURED / 0 FAIL.</p>
+<p>UNMEASURED means the check could not be applied to that run, not a hidden pass or fail. For gate definitions and per-cycle tables, check the repo docs.</p>
+<h2>8. What we have seen so far</h2>
+<p>From host simulation replay, NOT on-node, across 15 pre-registered experiments:</p>
+<ul>
+<li>clear messages: 72.9% team success</li>
+<li>silence / private: 56.6%</li>
+<li>corrupted: 33.6%</li>
+</ul>
+<p>These are replay scores for comparison, not claims about live radio performance. All runs, seeds, and journals are kept hash-linked so others can replay and scrutinise the same data.</p>
+<h2>Source in the repo</h2>
+<ul>
+<li><code>firmware/node-platform</code> — node build, environment <code>waveshare-s3</code></li>
+<li><code>cad/</code> — finished PLA models for diffusers, carriers, mounts</li>
+<li><code>tools/node-commissioner</code> — private per-device identity provisioning</li>
+<li>experiment records, deterministic scorer, hash-linked datasets, and gate tables — check the repo docs for current paths</li>
+</ul>
+</main>
+<footer><p><a href="index.html">Back to the live simulation</a> - Flockinator tutorial site. Content drafted with Meta Muse models and reviewed against the repository; repo docs are the source of truth.</p></footer>
+</body>
+</html>
