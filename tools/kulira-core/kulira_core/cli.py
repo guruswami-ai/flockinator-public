@@ -32,6 +32,9 @@ def main(argv=None) -> int:
     db.add_argument("--telemetry"); db.add_argument("--mission", required=True)
     db.add_argument("--out", required=True)
     dv = dsub.add_parser("verify"); dv.add_argument("--dataset", required=True)
+    wt = wsub.add_parser("tiles"); wt.add_argument("--image", required=True)
+    wt.add_argument("--out", required=True); wt.add_argument("--tile-px", type=int, default=64)
+    wt.add_argument("--no-flip", action="store_true")
     wr = wsub.add_parser("report"); wr.add_argument("--session", required=True)
     wr.add_argument("--out", required=True); wr.add_argument("--no-flip", action="store_true")
     args = p.parse_args(argv)
@@ -48,6 +51,12 @@ def main(argv=None) -> int:
         try:
             if args.sub == "verify":
                 print(json.dumps(verify_session(args.session))); return 0
+            if args.sub == "tiles":
+                from .tiles import split_graphic
+                print(json.dumps(split_graphic(args.image, args.out,
+                                               tile_px=args.tile_px,
+                                               flip_horizontal=not args.no_flip),
+                                 indent=1)); return 0
             if args.sub == "report":
                 from .wall_report import build_report
                 def loader(path):

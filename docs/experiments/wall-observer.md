@@ -81,6 +81,15 @@ clip separated from its manifest still identifies itself
   bundle (`web/slate.png`, `web/slate-start.mp4`, `web/slate-end.mp4`)
   by `kulira dataset build`; verified by an independent QR decode.
 
+Tile distribution (coordinator companion, implemented here):
+`kulira wall tiles --image <256x256 graphic> --out <dir>` splits any
+wall graphic into 16 addressed tiles (`flockinator-tiles/1`
+manifest: node, row/col, offset, per-tile sha256, and the horizontal
+flip the rear-facing camera requires, recorded not assumed). A
+node can verify its tile against the manifest before displaying it.
+Proven end to end: a slate QR tiled, reassembled as the camera sees
+it, and decoded back to the identical checksum.
+
 Panel-side spec (firmware owner, tracked in the slate issue): at
 mission start and end, hold a slate on the wall for at least 3 s -
 mission text across the top tiles, the date beneath it, and ONE QR
