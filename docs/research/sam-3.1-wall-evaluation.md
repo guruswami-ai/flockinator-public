@@ -118,9 +118,10 @@ The wall is fixed: 16 panels in a 4x4 grid, fixed camera. One homography + 16 fi
   (confidence 0.85-0.95, best single-cell box IoU 0.067).
 - But given the grid's 16 boxes as object prompts, SAM returns all
   16, mean box IoU 0.921 (min 0.868) against the calibrated cells.
-  That confirms the one-off role: an excellent ROI bootstrap /
-  calibration verifier if the grid is ever lost — not a per-frame
-  replacement for it, and not a panel finder.
+  That supports a narrower one-off role: a calibration verifier
+  for boxes already approximately known (our test boxes came from
+  the grid itself, so this does not prove discovery of lost
+  geometry) — not a per-frame replacement, and not a panel finder.
 
 ### (b) Tagging state changes on the displays — SAM: not suited
 
@@ -204,7 +205,8 @@ per-cell RGB delta 1.45, max 4.03.
 
 Verdict, now measured rather than inferred: SAM cannot discover
 the 16 panels and cannot read their state, so it is not the wall
-pipeline. Given known boxes it refines them superbly (IoU 0.921),
+pipeline. Given known boxes it refines them well (IoU 0.921 on
+this one image; n=1 image, 16 prompted boxes),
 which makes it a genuine one-off calibration bootstrap/verifier —
 the role section (a) predicted. The fixed grid remains the
 runtime answer: exact cell identity, deterministic, CPU-only.
