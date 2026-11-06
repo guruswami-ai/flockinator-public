@@ -1,5 +1,9 @@
 # A microscope for emergent behaviour
 
+![A human watching a 4x4 wall of teal panels, one panel glowing red and out of sync](microscope.jpg)
+
+*Illustration by Meta `muse-image-1.0`: fifteen panels in unison, one out of sync — the kind of strangeness a human spots in a blink and a log search misses. Seen, then checked: measurement decides.*
+
 Why build a wall of glowing robots at all? A computer could run
 the same swarm invisibly, a thousand times faster, and keep
 perfect logs. True - and mostly useless for discovery.

@@ -1,5 +1,9 @@
 # Optimisation in nature: survival, not smartest
 
+![Dotted trails crossing rough ground toward a gate beside a cliff; survivors gather on a wide hill, not the tall peak](optimisation.jpg)
+
+*Illustration by Meta `muse-image-1.0`: many blind paths, filtered by what must never happen. The survivors end on the survivable hill, not the brilliant peak.*
+
 It is tempting to imagine the swarm *learning its way downhill*
 to the best possible behaviour, the way a training program
 improves a model step by step. Nature does something related -
