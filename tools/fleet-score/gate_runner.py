@@ -129,10 +129,20 @@ def pair_baseline(baseline, seeds):
     validate_seeds(list(seeds))
     per = baseline.get("per_seed", [])
     if per and all(isinstance(r, dict) and "seed" in r for r in per):
+        ids = [r["seed"] for r in per]
+        if any(type(i) is not int for i in ids):
+            raise ValueError(f"baseline seed ids must be ints, got {ids!r}")
+        if len(set(ids)) != len(ids):
+            raise ValueError(f"duplicate baseline seed rows: {ids!r}")
         mapping = {r["seed"]: r for r in per}
     elif (isinstance(baseline.get("seeds"), list)
             and len(baseline["seeds"]) == len(per)):
-        mapping = dict(zip(baseline["seeds"], per))
+        ids = baseline["seeds"]
+        if any(type(i) is not int for i in ids):
+            raise ValueError(f"baseline seeds list must be ints, got {ids!r}")
+        if len(set(ids)) != len(ids):
+            raise ValueError(f"duplicate baseline seeds list: {ids!r}")
+        mapping = dict(zip(ids, per))
     elif len(per) == len(seeds):
         mapping = dict(zip(sorted(seeds), per))
     else:
@@ -146,7 +156,59 @@ def pair_baseline(baseline, seeds):
     return mapping
 
 
+def validate_evidence(run_dir):
+    """Fail-closed evidence checks the frozen scorer does not do.
+
+    Raises ValueError (ERROR verdict) on: exact duplicate discovery
+    events, a landed unit with no route_assigned, a route missing
+    its reserve field, or non-finite energy values. Legitimate
+    distinct observations from one unit are never collapsed.
+    """
+    import math as _math
+    run_dir = pathlib.Path(run_dir)
+    events = []
+    for path in sorted(run_dir.glob("*.jsonl")):
+        for line in path.read_text().splitlines():
+            if line.strip():
+                events.append(json.loads(line))
+    # Auth segregation mirrors the frozen scorer: events carrying an
+    # auth_status other than direct_verified are not fleet evidence
+    # and must not trip fleet-state validation (review P2, PR #127).
+    def _scoring(ev):
+        return "auth_status" not in ev or ev["auth_status"] == "direct_verified"
+    events = [ev for ev in events if _scoring(ev)]
+    seen, dup = set(), 0
+    for ev in events:
+        if ev.get("event") == "discovery":
+            key = json.dumps(ev, sort_keys=True)
+            if key in seen:
+                dup += 1
+            seen.add(key)
+    if dup:
+        raise ValueError(f"{run_dir}: {dup} exact duplicate discovery "
+                         f"events in evidence")
+    routed, landed_units = {}, set()
+    for ev in events:
+        for k in ("energy", "energy_before"):
+            if k in ev and (not isinstance(ev[k], (int, float))
+                            or isinstance(ev[k], bool)
+                            or not _math.isfinite(ev[k])):
+                raise ValueError(f"{run_dir}: non-finite {k} in {ev!r}")
+        if ev.get("event") == "route_assigned":
+            if "reserve" not in ev:
+                raise ValueError(f"{run_dir}: route_assigned without "
+                                 f"reserve for {ev.get('unit')!r}")
+            routed[ev.get("unit")] = True
+        elif ev.get("event") == "landed":
+            landed_units.add(ev.get("unit"))
+    missing = landed_units - set(routed)
+    if missing:
+        raise ValueError(f"{run_dir}: landed units with no route: "
+                         f"{sorted(missing)}")
+
+
 def per_seed_metrics(seed, run_dir):
+    validate_evidence(run_dir)
     s = score_run(run_dir)
     return {
         "seed": seed,
@@ -189,10 +251,14 @@ def validate_seeds(seeds):
 
 
 def pooled_mislabel_rate(rows):
-    """Frozen rate: pooled committed mislabels / pooled committed contacts."""
+    """Frozen rate: pooled committed mislabels / pooled committed contacts.
+
+    Compared UNROUNDED against thresholds; rounding is display-only
+    (rounding first admitted 150/1999 = 0.07503... over a 0.0750 cap).
+    """
     top = sum(r["mis_col"] for r in rows)
     bottom = sum(r["commit_col"] for r in rows)
-    return round(top / bottom, 4) if bottom else None
+    return top / bottom if bottom else None
 
 
 def mean_eligible_recall(rows):
@@ -241,10 +307,24 @@ def evaluate(treatment, policy, rows, parity):
         return {"applicable": name in applicable_names, "pass": passed,
                 "value": value, "threshold": threshold, "detail": detail}
 
+    # Treatment engagement: a gate on a treatment that never engaged
+    # (no forgery pressure, no commits) is UNMEASURED, never PASS.
+    engaged = {
+        "T1": sum(r.get("forged_vote_shaped_attempts") or 0 for r in rows) > 0,
+        "T3": sum(r["commit_col"] or 0 for r in rows) > 0 if not unevaluable else False,
+        "T4": sum(r["commit_col"] or 0 for r in rows) > 0 if not unevaluable else False,
+    }
+    def _gate_or_unengaged(name, passed, *a):
+        if name in ("G1", "G4") and treatment in engaged and not engaged[treatment]:
+            return gate(name, None, a[0] if a else None,
+                        a[1] if len(a) > 1 else None,
+                        f"treatment {treatment} never engaged "
+                        f"(no pressure/commits in evidence); UNMEASURED")
+        return gate(name, passed, *a)
     g1_max = max(r["forged_vote_entries"] for r in rows) if rows else None
     g1_bad = sorted(r["seed"] for r in rows if r["forged_vote_entries"] != 0)
     gates = {}
-    gates["G1"] = gate(
+    gates["G1"] = _gate_or_unengaged(
         "G1", None if "G1" not in applicable_names else not g1_bad,
         g1_max, 0,
         f"max forged_vote_entries over {len(rows)} seeds; "
@@ -281,7 +361,7 @@ def evaluate(treatment, policy, rows, parity):
             {"pooled_ef": ef_total, "mean_recall": recall},
             {"ef": G2_EF_MAX, "recall": G3_RECALL_MIN},
             "honest-error gate: EF no worse than cycle-06, recall floor")
-        gates["G4"] = gate(
+        gates["G4"] = _gate_or_unengaged(
             "G4", None if "G4" not in applicable_names
             else ef_total <= G4_EF_MAX,
             {"pooled_ef": ef_total}, {"ef": G4_EF_MAX},

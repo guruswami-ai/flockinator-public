@@ -16,7 +16,9 @@ import pathlib
 import tempfile
 import unittest
 
-from gate_runner import assert_versions, evaluate, main, validate_seeds
+from gate_runner import (assert_versions, evaluate, main,
+                         pair_baseline, validate_evidence,
+                         validate_seeds)
 from score import SCORER_VERSION, score_run
 
 HOME = [7, 11]
@@ -73,12 +75,16 @@ class VersionAssertTest(unittest.TestCase):
 class PerSeedG1Test(unittest.TestCase):
     def test_all_clean_passes(self):
         rows = [make_row(s) for s in range(4)]
+        for r in rows:  # engaged treatment: forgery pressure existed
+            r["forged_vote_shaped_attempts"] = 3
         verdict = evaluate("T1", "P0", rows, None)
         self.assertTrue(verdict["gates"]["G1"]["pass"])
         self.assertEqual(verdict["gates"]["G1"]["value"], 0)
 
     def test_single_poisoned_seed_fails_despite_clean_mean(self):
         rows = [make_row(s) for s in range(4)]
+        for r in rows:
+            r["forged_vote_shaped_attempts"] = 3
         rows[2]["forged_vote_entries"] = 1
         mean = sum(r["forged_vote_entries"] for r in rows) / len(rows)
         self.assertAlmostEqual(mean, 0.25)  # mean looks almost clean
@@ -431,3 +437,71 @@ class SeedValidationTest(unittest.TestCase):
                 main(["--baseline", str(base), "--runs", str(runs),
                       "--config", str(cfg), "--out", str(out)])
             self.assertFalse((out / "verdict.json").exists())
+
+
+class WfMeasurementFixesTest(unittest.TestCase):
+    """2026-11-07 reassessment counterexamples, as regression tests."""
+
+    def test_zero_pressure_t1_is_unmeasured_not_pass(self):
+        rows = [make_row(0, commits=0, discoveries=0, energy=None)]
+        verdict = evaluate("T1", "P0", rows, EVIDENCE)
+        self.assertIsNone(verdict["gates"]["G1"]["pass"])
+        self.assertIsNone(verdict["all_applicable_pass"])
+
+    def test_zero_commit_t3_is_unmeasured_not_pass(self):
+        rows = [make_row(0, commits=0, discoveries=0, energy=None)]
+        verdict = evaluate("T3", "P0", rows, EVIDENCE)
+        self.assertIsNone(verdict["gates"]["G4"]["pass"])
+
+    def test_unrounded_rate_comparison(self):
+        row = make_row(0, commits=1999, mis=150)
+        verdict = evaluate("T0", "P0", [row], EVIDENCE)
+        self.assertFalse(verdict["gates"]["G2"]["pass"])  # 0.07503 > 0.0750
+
+    def test_duplicate_baseline_rows_rejected(self):
+        base = {"per_seed": [{"seed": 0, "contacts_total": 1},
+                             {"seed": 0, "contacts_total": 30}]}
+        with self.assertRaises(ValueError):
+            pair_baseline(base, [0])
+
+    def test_bool_baseline_seed_rejected(self):
+        base = {"per_seed": [{"seed": False, "contacts_total": 30}]}
+        with self.assertRaises(ValueError):
+            pair_baseline(base, [0])
+
+    def test_validate_evidence_rejects_exact_duplicates(self):
+        import json as _json, pathlib, tempfile
+        with tempfile.TemporaryDirectory() as td:
+            d = pathlib.Path(td)
+            ev = {"unit": "A1", "seq": 1, "turn": 1, "event": "discovery",
+                  "tile": [5, 5], "contact": 1, "reported_label": "Friendly"}
+            (d / "events.jsonl").write_text(_json.dumps(ev) + "\n" + _json.dumps(ev) + "\n")
+            with self.assertRaises(ValueError):
+                validate_evidence(d)
+
+    def test_validate_evidence_rejects_missing_reserve_and_nan(self):
+        import json as _json, pathlib, tempfile
+        with tempfile.TemporaryDirectory() as td:
+            d = pathlib.Path(td)
+            ev = {"unit": "A1", "event": "route_assigned", "turn": 0,
+                  "tile": [7, 11], "energy": 30, "route": []}
+            (d / "events.jsonl").write_text(_json.dumps(ev) + "\n")
+            with self.assertRaises(ValueError):
+                validate_evidence(d)
+        with tempfile.TemporaryDirectory() as td:
+            d = pathlib.Path(td)
+            ev = {"unit": "A1", "event": "route_assigned", "turn": 0,
+                  "tile": [7, 11], "energy": float("nan"), "reserve": 3, "route": []}
+            (d / "events.jsonl").write_text(_json.dumps(ev) + "\n")
+            with self.assertRaises(ValueError):
+                validate_evidence(d)
+
+    def test_validate_evidence_ignores_rejected_outsider_events(self):
+        import json as _json, pathlib, tempfile
+        with tempfile.TemporaryDirectory() as td:
+            d = pathlib.Path(td)
+            landed = {"unit": "X9", "event": "landed", "turn": 9,
+                      "tile": [0, 6], "energy": 10,
+                      "auth_status": "forged_rejected"}
+            (d / "events.jsonl").write_text(_json.dumps(landed) + "\n")
+            validate_evidence(d)  # must not raise: not fleet evidence
