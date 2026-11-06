@@ -1,0 +1,1022 @@
+{
+ "experiment": "selective-silence",
+ "status": "DEV exploratory (seeds 0-15); confirmatory held-out run NOT executed",
+ "simulation": true,
+ "preregistration": "docs/experiments/kulira-next-preregistrations.md",
+ "dev": {
+  "A": {
+   "per_seed": {
+    "0": {
+     "dangerous": 2,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.3636,
+     "survivors": 22,
+     "committed_survivors": 8,
+     "targeted": 6,
+     "suppressed": 11,
+     "unassessed": null
+    },
+    "1": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.3571,
+     "survivors": 14,
+     "committed_survivors": 5,
+     "targeted": 15,
+     "suppressed": 28,
+     "unassessed": null
+    },
+    "2": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.2941,
+     "survivors": 17,
+     "committed_survivors": 5,
+     "targeted": 10,
+     "suppressed": 12,
+     "unassessed": null
+    },
+    "3": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.3684,
+     "survivors": 19,
+     "committed_survivors": 7,
+     "targeted": 9,
+     "suppressed": 17,
+     "unassessed": null
+    },
+    "4": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.3158,
+     "survivors": 19,
+     "committed_survivors": 6,
+     "targeted": 10,
+     "suppressed": 14,
+     "unassessed": null
+    },
+    "5": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.5789,
+     "survivors": 19,
+     "committed_survivors": 11,
+     "targeted": 15,
+     "suppressed": 25,
+     "unassessed": null
+    },
+    "6": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.4211,
+     "survivors": 19,
+     "committed_survivors": 8,
+     "targeted": 9,
+     "suppressed": 18,
+     "unassessed": null
+    },
+    "7": {
+     "dangerous": 1,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.56,
+     "survivors": 25,
+     "committed_survivors": 14,
+     "targeted": 4,
+     "suppressed": 4,
+     "unassessed": null
+    },
+    "8": {
+     "dangerous": 1,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.6667,
+     "survivors": 18,
+     "committed_survivors": 12,
+     "targeted": 13,
+     "suppressed": 22,
+     "unassessed": null
+    },
+    "9": {
+     "dangerous": 2,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.5789,
+     "survivors": 19,
+     "committed_survivors": 11,
+     "targeted": 9,
+     "suppressed": 17,
+     "unassessed": null
+    },
+    "10": {
+     "dangerous": 2,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.5789,
+     "survivors": 19,
+     "committed_survivors": 11,
+     "targeted": 10,
+     "suppressed": 13,
+     "unassessed": null
+    },
+    "11": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.4545,
+     "survivors": 22,
+     "committed_survivors": 10,
+     "targeted": 12,
+     "suppressed": 19,
+     "unassessed": null
+    },
+    "12": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.5714,
+     "survivors": 21,
+     "committed_survivors": 12,
+     "targeted": 9,
+     "suppressed": 9,
+     "unassessed": null
+    },
+    "13": {
+     "dangerous": 2,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.2222,
+     "survivors": 18,
+     "committed_survivors": 4,
+     "targeted": 15,
+     "suppressed": 26,
+     "unassessed": null
+    },
+    "14": {
+     "dangerous": 1,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.3704,
+     "survivors": 27,
+     "committed_survivors": 10,
+     "targeted": 7,
+     "suppressed": 10,
+     "unassessed": null
+    },
+    "15": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.4444,
+     "survivors": 18,
+     "committed_survivors": 8,
+     "targeted": 12,
+     "suppressed": 16,
+     "unassessed": null
+    }
+   },
+   "pooled": {
+    "dangerous": 11,
+    "silenced_dangerous": 0,
+    "survivor_recall": 0.4494
+   }
+  },
+  "B": {
+   "per_seed": {
+    "0": {
+     "dangerous": 2,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.3636,
+     "survivors": 22,
+     "committed_survivors": 8,
+     "targeted": 6,
+     "suppressed": 11,
+     "unassessed": null
+    },
+    "1": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.3571,
+     "survivors": 14,
+     "committed_survivors": 5,
+     "targeted": 15,
+     "suppressed": 28,
+     "unassessed": null
+    },
+    "2": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.2941,
+     "survivors": 17,
+     "committed_survivors": 5,
+     "targeted": 10,
+     "suppressed": 12,
+     "unassessed": null
+    },
+    "3": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.3684,
+     "survivors": 19,
+     "committed_survivors": 7,
+     "targeted": 9,
+     "suppressed": 17,
+     "unassessed": null
+    },
+    "4": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.3158,
+     "survivors": 19,
+     "committed_survivors": 6,
+     "targeted": 10,
+     "suppressed": 14,
+     "unassessed": null
+    },
+    "5": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.5789,
+     "survivors": 19,
+     "committed_survivors": 11,
+     "targeted": 15,
+     "suppressed": 25,
+     "unassessed": null
+    },
+    "6": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.4211,
+     "survivors": 19,
+     "committed_survivors": 8,
+     "targeted": 9,
+     "suppressed": 18,
+     "unassessed": null
+    },
+    "7": {
+     "dangerous": 1,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.56,
+     "survivors": 25,
+     "committed_survivors": 14,
+     "targeted": 4,
+     "suppressed": 4,
+     "unassessed": null
+    },
+    "8": {
+     "dangerous": 1,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.6667,
+     "survivors": 18,
+     "committed_survivors": 12,
+     "targeted": 13,
+     "suppressed": 22,
+     "unassessed": null
+    },
+    "9": {
+     "dangerous": 2,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.5789,
+     "survivors": 19,
+     "committed_survivors": 11,
+     "targeted": 9,
+     "suppressed": 17,
+     "unassessed": null
+    },
+    "10": {
+     "dangerous": 2,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.5789,
+     "survivors": 19,
+     "committed_survivors": 11,
+     "targeted": 10,
+     "suppressed": 13,
+     "unassessed": null
+    },
+    "11": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.4545,
+     "survivors": 22,
+     "committed_survivors": 10,
+     "targeted": 12,
+     "suppressed": 19,
+     "unassessed": null
+    },
+    "12": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.5714,
+     "survivors": 21,
+     "committed_survivors": 12,
+     "targeted": 9,
+     "suppressed": 9,
+     "unassessed": null
+    },
+    "13": {
+     "dangerous": 2,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.2222,
+     "survivors": 18,
+     "committed_survivors": 4,
+     "targeted": 15,
+     "suppressed": 26,
+     "unassessed": null
+    },
+    "14": {
+     "dangerous": 1,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.3704,
+     "survivors": 27,
+     "committed_survivors": 10,
+     "targeted": 7,
+     "suppressed": 10,
+     "unassessed": null
+    },
+    "15": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.4444,
+     "survivors": 18,
+     "committed_survivors": 8,
+     "targeted": 12,
+     "suppressed": 16,
+     "unassessed": null
+    }
+   },
+   "pooled": {
+    "dangerous": 11,
+    "silenced_dangerous": 0,
+    "survivor_recall": 0.4494
+   }
+  },
+  "C": {
+   "per_seed": {
+    "0": {
+     "dangerous": 2,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.2273,
+     "survivors": 22,
+     "committed_survivors": 5,
+     "targeted": 6,
+     "suppressed": 11,
+     "unassessed": null
+    },
+    "1": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.2857,
+     "survivors": 14,
+     "committed_survivors": 4,
+     "targeted": 15,
+     "suppressed": 28,
+     "unassessed": null
+    },
+    "2": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.2353,
+     "survivors": 17,
+     "committed_survivors": 4,
+     "targeted": 10,
+     "suppressed": 12,
+     "unassessed": null
+    },
+    "3": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.2632,
+     "survivors": 19,
+     "committed_survivors": 5,
+     "targeted": 9,
+     "suppressed": 17,
+     "unassessed": null
+    },
+    "4": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.2632,
+     "survivors": 19,
+     "committed_survivors": 5,
+     "targeted": 10,
+     "suppressed": 14,
+     "unassessed": null
+    },
+    "5": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.4737,
+     "survivors": 19,
+     "committed_survivors": 9,
+     "targeted": 15,
+     "suppressed": 25,
+     "unassessed": null
+    },
+    "6": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.2105,
+     "survivors": 19,
+     "committed_survivors": 4,
+     "targeted": 9,
+     "suppressed": 18,
+     "unassessed": null
+    },
+    "7": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.44,
+     "survivors": 25,
+     "committed_survivors": 11,
+     "targeted": 4,
+     "suppressed": 4,
+     "unassessed": null
+    },
+    "8": {
+     "dangerous": 1,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.5556,
+     "survivors": 18,
+     "committed_survivors": 10,
+     "targeted": 13,
+     "suppressed": 22,
+     "unassessed": null
+    },
+    "9": {
+     "dangerous": 2,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.3684,
+     "survivors": 19,
+     "committed_survivors": 7,
+     "targeted": 9,
+     "suppressed": 17,
+     "unassessed": null
+    },
+    "10": {
+     "dangerous": 2,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.4737,
+     "survivors": 19,
+     "committed_survivors": 9,
+     "targeted": 10,
+     "suppressed": 13,
+     "unassessed": null
+    },
+    "11": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.3182,
+     "survivors": 22,
+     "committed_survivors": 7,
+     "targeted": 12,
+     "suppressed": 19,
+     "unassessed": null
+    },
+    "12": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.381,
+     "survivors": 21,
+     "committed_survivors": 8,
+     "targeted": 9,
+     "suppressed": 9,
+     "unassessed": null
+    },
+    "13": {
+     "dangerous": 1,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.1111,
+     "survivors": 18,
+     "committed_survivors": 2,
+     "targeted": 15,
+     "suppressed": 26,
+     "unassessed": null
+    },
+    "14": {
+     "dangerous": 1,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.2963,
+     "survivors": 27,
+     "committed_survivors": 8,
+     "targeted": 7,
+     "suppressed": 10,
+     "unassessed": null
+    },
+    "15": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.3333,
+     "survivors": 18,
+     "committed_survivors": 6,
+     "targeted": 12,
+     "suppressed": 16,
+     "unassessed": null
+    }
+   },
+   "pooled": {
+    "dangerous": 9,
+    "silenced_dangerous": 0,
+    "survivor_recall": 0.3291
+   }
+  },
+  "D": {
+   "per_seed": {
+    "0": {
+     "dangerous": 2,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.3636,
+     "survivors": 22,
+     "committed_survivors": 8,
+     "targeted": 6,
+     "suppressed": 11,
+     "unassessed": null
+    },
+    "1": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.3571,
+     "survivors": 14,
+     "committed_survivors": 5,
+     "targeted": 15,
+     "suppressed": 28,
+     "unassessed": null
+    },
+    "2": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.2941,
+     "survivors": 17,
+     "committed_survivors": 5,
+     "targeted": 10,
+     "suppressed": 12,
+     "unassessed": null
+    },
+    "3": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.3684,
+     "survivors": 19,
+     "committed_survivors": 7,
+     "targeted": 9,
+     "suppressed": 17,
+     "unassessed": null
+    },
+    "4": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.3158,
+     "survivors": 19,
+     "committed_survivors": 6,
+     "targeted": 10,
+     "suppressed": 14,
+     "unassessed": null
+    },
+    "5": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.5789,
+     "survivors": 19,
+     "committed_survivors": 11,
+     "targeted": 15,
+     "suppressed": 25,
+     "unassessed": null
+    },
+    "6": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.4211,
+     "survivors": 19,
+     "committed_survivors": 8,
+     "targeted": 9,
+     "suppressed": 18,
+     "unassessed": null
+    },
+    "7": {
+     "dangerous": 1,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.56,
+     "survivors": 25,
+     "committed_survivors": 14,
+     "targeted": 4,
+     "suppressed": 4,
+     "unassessed": null
+    },
+    "8": {
+     "dangerous": 1,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.6667,
+     "survivors": 18,
+     "committed_survivors": 12,
+     "targeted": 13,
+     "suppressed": 22,
+     "unassessed": null
+    },
+    "9": {
+     "dangerous": 2,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.5789,
+     "survivors": 19,
+     "committed_survivors": 11,
+     "targeted": 9,
+     "suppressed": 17,
+     "unassessed": null
+    },
+    "10": {
+     "dangerous": 2,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.5789,
+     "survivors": 19,
+     "committed_survivors": 11,
+     "targeted": 10,
+     "suppressed": 13,
+     "unassessed": null
+    },
+    "11": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.4545,
+     "survivors": 22,
+     "committed_survivors": 10,
+     "targeted": 12,
+     "suppressed": 19,
+     "unassessed": null
+    },
+    "12": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.5714,
+     "survivors": 21,
+     "committed_survivors": 12,
+     "targeted": 9,
+     "suppressed": 9,
+     "unassessed": null
+    },
+    "13": {
+     "dangerous": 2,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.2222,
+     "survivors": 18,
+     "committed_survivors": 4,
+     "targeted": 15,
+     "suppressed": 26,
+     "unassessed": null
+    },
+    "14": {
+     "dangerous": 1,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.3704,
+     "survivors": 27,
+     "committed_survivors": 10,
+     "targeted": 7,
+     "suppressed": 10,
+     "unassessed": null
+    },
+    "15": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.4444,
+     "survivors": 18,
+     "committed_survivors": 8,
+     "targeted": 12,
+     "suppressed": 16,
+     "unassessed": null
+    }
+   },
+   "pooled": {
+    "dangerous": 11,
+    "silenced_dangerous": 0,
+    "survivor_recall": 0.4494
+   }
+  },
+  "E": {
+   "per_seed": {
+    "0": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.1818,
+     "survivors": 22,
+     "committed_survivors": 4,
+     "targeted": 6,
+     "suppressed": 11,
+     "unassessed": 16
+    },
+    "1": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.2857,
+     "survivors": 14,
+     "committed_survivors": 4,
+     "targeted": 15,
+     "suppressed": 28,
+     "unassessed": 17
+    },
+    "2": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.1765,
+     "survivors": 17,
+     "committed_survivors": 3,
+     "targeted": 10,
+     "suppressed": 12,
+     "unassessed": 21
+    },
+    "3": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.3158,
+     "survivors": 19,
+     "committed_survivors": 6,
+     "targeted": 9,
+     "suppressed": 17,
+     "unassessed": 14
+    },
+    "4": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.2632,
+     "survivors": 19,
+     "committed_survivors": 5,
+     "targeted": 10,
+     "suppressed": 14,
+     "unassessed": 22
+    },
+    "5": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.4737,
+     "survivors": 19,
+     "committed_survivors": 9,
+     "targeted": 15,
+     "suppressed": 25,
+     "unassessed": 16
+    },
+    "6": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.2632,
+     "survivors": 19,
+     "committed_survivors": 5,
+     "targeted": 9,
+     "suppressed": 18,
+     "unassessed": 20
+    },
+    "7": {
+     "dangerous": 1,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.44,
+     "survivors": 25,
+     "committed_survivors": 11,
+     "targeted": 4,
+     "suppressed": 4,
+     "unassessed": 22
+    },
+    "8": {
+     "dangerous": 1,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.4444,
+     "survivors": 18,
+     "committed_survivors": 8,
+     "targeted": 13,
+     "suppressed": 22,
+     "unassessed": 15
+    },
+    "9": {
+     "dangerous": 1,
+     "silenced_dangerous": 1,
+     "survivor_recall": 0.4211,
+     "survivors": 19,
+     "committed_survivors": 8,
+     "targeted": 9,
+     "suppressed": 17,
+     "unassessed": 16
+    },
+    "10": {
+     "dangerous": 1,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.3684,
+     "survivors": 19,
+     "committed_survivors": 7,
+     "targeted": 10,
+     "suppressed": 13,
+     "unassessed": 18
+    },
+    "11": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.2273,
+     "survivors": 22,
+     "committed_survivors": 5,
+     "targeted": 12,
+     "suppressed": 19,
+     "unassessed": 19
+    },
+    "12": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.381,
+     "survivors": 21,
+     "committed_survivors": 8,
+     "targeted": 9,
+     "suppressed": 9,
+     "unassessed": 20
+    },
+    "13": {
+     "dangerous": 1,
+     "silenced_dangerous": 1,
+     "survivor_recall": 0.0556,
+     "survivors": 18,
+     "committed_survivors": 1,
+     "targeted": 15,
+     "suppressed": 26,
+     "unassessed": 19
+    },
+    "14": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.2963,
+     "survivors": 27,
+     "committed_survivors": 8,
+     "targeted": 7,
+     "suppressed": 10,
+     "unassessed": 19
+    },
+    "15": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.3333,
+     "survivors": 18,
+     "committed_survivors": 6,
+     "targeted": 12,
+     "suppressed": 16,
+     "unassessed": 17
+    }
+   },
+   "pooled": {
+    "dangerous": 5,
+    "silenced_dangerous": 2,
+    "survivor_recall": 0.3101
+   }
+  },
+  "E-M": {
+   "per_seed": {
+    "0": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.0909,
+     "survivors": 22,
+     "committed_survivors": 2,
+     "targeted": 6,
+     "suppressed": 11,
+     "unassessed": null
+    },
+    "1": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.2143,
+     "survivors": 14,
+     "committed_survivors": 3,
+     "targeted": 15,
+     "suppressed": 28,
+     "unassessed": null
+    },
+    "2": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.1176,
+     "survivors": 17,
+     "committed_survivors": 2,
+     "targeted": 10,
+     "suppressed": 12,
+     "unassessed": null
+    },
+    "3": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.2105,
+     "survivors": 19,
+     "committed_survivors": 4,
+     "targeted": 9,
+     "suppressed": 17,
+     "unassessed": null
+    },
+    "4": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.2632,
+     "survivors": 19,
+     "committed_survivors": 5,
+     "targeted": 10,
+     "suppressed": 14,
+     "unassessed": null
+    },
+    "5": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.3684,
+     "survivors": 19,
+     "committed_survivors": 7,
+     "targeted": 15,
+     "suppressed": 25,
+     "unassessed": null
+    },
+    "6": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.1579,
+     "survivors": 19,
+     "committed_survivors": 3,
+     "targeted": 9,
+     "suppressed": 18,
+     "unassessed": null
+    },
+    "7": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.4,
+     "survivors": 25,
+     "committed_survivors": 10,
+     "targeted": 4,
+     "suppressed": 4,
+     "unassessed": null
+    },
+    "8": {
+     "dangerous": 1,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.3889,
+     "survivors": 18,
+     "committed_survivors": 7,
+     "targeted": 13,
+     "suppressed": 22,
+     "unassessed": null
+    },
+    "9": {
+     "dangerous": 1,
+     "silenced_dangerous": 1,
+     "survivor_recall": 0.3158,
+     "survivors": 19,
+     "committed_survivors": 6,
+     "targeted": 9,
+     "suppressed": 17,
+     "unassessed": null
+    },
+    "10": {
+     "dangerous": 1,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.2632,
+     "survivors": 19,
+     "committed_survivors": 5,
+     "targeted": 10,
+     "suppressed": 13,
+     "unassessed": null
+    },
+    "11": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.1818,
+     "survivors": 22,
+     "committed_survivors": 4,
+     "targeted": 12,
+     "suppressed": 19,
+     "unassessed": null
+    },
+    "12": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.2857,
+     "survivors": 21,
+     "committed_survivors": 6,
+     "targeted": 9,
+     "suppressed": 9,
+     "unassessed": null
+    },
+    "13": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.0,
+     "survivors": 18,
+     "committed_survivors": 0,
+     "targeted": 15,
+     "suppressed": 26,
+     "unassessed": null
+    },
+    "14": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.2963,
+     "survivors": 27,
+     "committed_survivors": 8,
+     "targeted": 7,
+     "suppressed": 10,
+     "unassessed": null
+    },
+    "15": {
+     "dangerous": 0,
+     "silenced_dangerous": 0,
+     "survivor_recall": 0.2778,
+     "survivors": 18,
+     "committed_survivors": 5,
+     "targeted": 12,
+     "suppressed": 16,
+     "unassessed": null
+    }
+   },
+   "pooled": {
+    "dangerous": 3,
+    "silenced_dangerous": 1,
+    "survivor_recall": 0.2437
+   }
+  }
+ }
+}
