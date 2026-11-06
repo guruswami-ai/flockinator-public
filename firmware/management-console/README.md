@@ -1,5 +1,12 @@
 # Flockinator LilyGo remote — live integration prototype
 
+> **Status: LEGACY / RECOVERY-ONLY (deprecated, advisory).** The Korvo
+> controller plus the host commissioner over authenticated Wi-Fi is the
+> management route of record. This handheld prototype is retained only
+> as an ESP-NOW recovery route for a node whose Wi-Fi is broken. Do not
+> build new features on it; the notes below describe the retained
+> prototype as it was, including historical release claims.
+
 Current deployed release: **0.3.3-missions**. Open **Missions** for scenario,
 goal, survey duration, repeat, Launch and Stop all. Touch alignment is now under
 Diagnostics. Overview displays READY / OM / KIA / MIA / CHARGING with separate

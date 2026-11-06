@@ -14,7 +14,7 @@ adversarial host. The Korvo is the standalone controller.
 |---|---|
 | 16x node (A1-D4) | ESP32-S3 body: 64x64 panel, sensors, audio, SD, health, OTA |
 | Korvo controller | ESP32-S31 standalone host: fleet controls, planner, learning lab, archives |
-| LilyGo handheld | Portable management remote and firmware-image store |
+| LilyGo handheld (legacy/recovery-only) | Retired prototype; retained only for ESP-NOW recovery of a node whose Wi-Fi is broken |
 | External hosts | Inference, orchestration, analysis, and the Muse agent swarm |
 | Kulira (adversary) | Bounded friction for robustness experiments; never a manager |
 
@@ -64,12 +64,22 @@ radio is not deployment readiness.
 | `flock-network` | Discovery, messaging, connectivity, communication events (planned; commissioning subset in `firmware/shared/`) |
 | `agent-runtime` | Local/remote/hybrid brains and body/brain bindings (planned) |
 | `cluster-deployment` | Manifests, transport, activation, recovery (in `tools/` + firmware receivers) |
-| `management-console` | Handheld and web management interfaces |
+| `management-console` (legacy/recovery-only) | Retired handheld prototype; ESP-NOW recovery only |
 | `experiments` | Scenarios, observations, reproducible evaluation (in `tools/`, `previews/`, `docs/results/`) |
 | `kulira-core` (+ disrupt/spoof/deceive/observe, bridge, e2e, rf-inventory) | Adversarial friction and its measurement |
 
 Build order: `node-platform` -> `flock-network` -> `agent-runtime` and
-`cluster-deployment` -> `experiments` and `management-console`.
+`cluster-deployment` -> `experiments`. (`management-console` is
+legacy/recovery-only and outside the active build order.)
+
+Management route of record: the Korvo controller plus the host
+commissioner over authenticated Wi-Fi OTA, authorised by per-node keys
+generated at first flashing (see the commissioner README). The LilyGo
+path is deprecated on an advisory basis: it stays available only as an
+ESP-NOW recovery route for a node whose Wi-Fi is broken, and full
+removal waits on a recorded Korvo-route OTA canary and a later decision
+on that recovery function. Frozen release snapshots keep LilyGo-era
+results as historical evidence; they are not current claims.
 
 ## Invariants
 

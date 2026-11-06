@@ -5,11 +5,12 @@
 | Target | Build | Notes |
 |---|---|---|
 | Node | `pio run --project-dir firmware/node-platform -e waveshare-s3` | ESP-IDF; run PlatformIO jobs sequentially |
-| Handheld | `pio run --project-dir firmware/management-console -e lilygo-s3` | LilyGo T5 S3 |
+| Handheld (legacy/recovery-only) | `pio run --project-dir firmware/management-console -e lilygo-s3` | Retired LilyGo T5 prototype; ESP-NOW recovery use only, not an active target |
 | Korvo | ESP-IDF 6.1; see `firmware/korvo-monitor/README.md` | Needs pinned ESP-IDF + board SDK; build in a local copy on network-mounted workspaces |
 
-Native tests: `pio test --project-dir <target> -e native` for node and
-handheld; Korvo portable model checks are listed in its README.
+Native tests: `pio test --project-dir <target> -e native` for the node
+target (the handheld target is legacy/recovery-only); Korvo portable
+model checks are listed in its README.
 
 ## Host tools (`tools/`)
 
