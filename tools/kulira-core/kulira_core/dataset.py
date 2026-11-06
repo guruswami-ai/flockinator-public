@@ -172,8 +172,38 @@ def build_dataset(session_dir, telemetry_dir, out_dir, mission_id: str,
             shutil.copyfile(src, dest)
             telemetry_copied.append(str(rel))
 
+    # Mission slate: checksum frame identifying this bundle even if
+    # separated from dataset.json (see kulira_core.slate, format v1).
+    from .slate import (mission_checksum, qr_payload, render_slate_png,
+                        segno_matrix)
+    started = next((e["payload"].get("host_utc") for e in entries
+                    if e.get("kind") == "session_start"), "")
+    tel_hash = ""
+    if telemetry_copied:
+        hh = hashlib.sha256()
+        for rel in telemetry_copied:
+            hh.update(file_sha256(out / "telemetry" / rel).encode())
+        tel_hash = hh.hexdigest()
+    checksum = mission_checksum(
+        mission_id, started or "", tel_hash,
+        [f["sha256"] for f in files])
+    payload = qr_payload(mission_id, started or "", checksum, tel_hash)
+    slate_info = {"format": "flockinator-slate/1", "checksum": checksum,
+                  "started_utc": started, "qr_payload": payload,
+                  "image": None, "video_clips": []}
+    (out / "web").mkdir(exist_ok=True)
+    slate_png = out / "web" / "slate.png"
+    if render_slate_png(slate_png, mission_id, started or "", checksum,
+                        payload, matrix=segno_matrix(payload)):
+        slate_info["image"] = "web/slate.png"
+        for name in ("slate-start.mp4", "slate-end.mp4"):
+            dest = out / "web" / name
+            if _derivative(slate_png, dest, WEB_VIDEO_WIDTH, True) is not None:
+                slate_info["video_clips"].append(f"web/{name}")
+
     manifest = {
         "mission_id": mission_id, "entry_point": entry_point,
+        "slate": slate_info,
         "generated_utc": utc_iso(time.time()),
         "source_session": session.name,
         "files": files, "telemetry": telemetry_copied,

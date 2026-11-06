@@ -11,6 +11,7 @@ dependencies = []
 
 [project.optional-dependencies]
 report = ["pillow>=10"]
+slate = ["pillow>=10", "segno>=1.6"]
 
 [project.scripts]
 kulira = "kulira_core.cli:main"
