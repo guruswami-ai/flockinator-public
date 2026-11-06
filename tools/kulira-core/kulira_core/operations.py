@@ -47,7 +47,8 @@ def run_operation(seed: int, strategy: str, p_detect: float = 0.7,
                   daylight_turns: int = DAYLIGHT, recharge: int = RECHARGE,
                   ground_rest: bool = False,
                   start_battery: float = 100.0,
-                  explorer_frac: float = 0.0) -> dict:
+                  explorer_frac: float = 0.0,
+                  stall_release: int | None = None) -> dict:
     k0, esc_k, rotate = STRATEGIES[strategy]
     rng = random.Random(seed)
     fleet = _new_fleet(start_battery)
@@ -79,7 +80,7 @@ def run_operation(seed: int, strategy: str, p_detect: float = 0.7,
         else:
             ready.sort(key=lambda a: (-a["battery"], a["id"]))
         airborne = ready[:min(k0, len(ready))]
-        n_exp = min(len(airborne), round(explorer_frac * FLEET))
+        n_exp = 0 if stall_release else min(len(airborne), round(explorer_frac * FLEET))
         explorers = {a["id"] for a in airborne[:n_exp]}
         for a in airborne:
             a["state"], a["last_flown"] = "airborne", inc
@@ -95,6 +96,8 @@ def run_operation(seed: int, strategy: str, p_detect: float = 0.7,
         while daylight > 0 and airborne:
             turn += 1
             daylight -= 1
+            if stall_release and not explorers and turn >= stall_release:
+                explorers = {a["id"] for a in airborne[:2]}
             if esc_k and not escalated and turn >= ESCALATE_TURN:
                 escalated = True
                 spare = [a for a in fleet if a["state"] == "ready"]
