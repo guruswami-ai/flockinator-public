@@ -65,6 +65,33 @@ That is the visual noise floor. A real state change in a cell must
 beat it by an order of magnitude before we claim the wall changed —
 the same pre-registered discipline as the scored experiments.
 
+## Mission slate (checksum frame)
+
+Every published sequence carries a slate at its start and end, so a
+clip separated from its manifest still identifies itself
+(`kulira_core/slate.py`, format `flockinator-slate/1`):
+
+- Human text: `MISSION <id>`, UTC start, `FLOCK-<16 hex>` checksum.
+- One QR payload (compact JSON, v1, additive-only fields):
+  mission, UTC, checksum, telemetry-hash prefix. Decoders must run
+  `validate_qr_payload` and reject anything else.
+- The checksum is derived - sha256 over mission id, start UTC,
+  telemetry hash and the sorted frame hashes - so any holder of the
+  data can recompute it. Slates are generated into the dataset
+  bundle (`web/slate.png`, `web/slate-start.mp4`, `web/slate-end.mp4`)
+  by `kulira dataset build`; verified by an independent QR decode.
+
+Panel-side spec (firmware owner, tracked in the slate issue): at
+mission start and end, hold a slate on the wall for at least 3 s -
+mission text across the top tiles, the date beneath it, and ONE QR
+spanning all 16 tiles. The wall is a 256x256 canvas (16 tiles of
+64x64), so a QR of version 8 or below (49x49 modules plus quiet
+zone) keeps modules near 4 panel pixels and roughly 20 camera
+pixels in a 1080-wide capture. Per-tile QR codes are not viable at
+64x64; per-tile critical data (for example firmware version) belongs
+in a text line on that tile, which our captures already read
+reliably.
+
 ## Publishing rules
 
 Publishable by construction: simulated SIM panel states only; no raw
