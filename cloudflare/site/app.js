@@ -120,7 +120,7 @@ function step() { if (!replay) return; renderContact(); idx = (idx + 1) % replay
 document.getElementById("step").addEventListener("click", step);
 document.getElementById("policy").addEventListener("change", () => { idx = Math.max(0, idx - 1); renderContact(); idx = (idx + 1) % replay.contacts.length; });
 document.getElementById("play").addEventListener("click", (e) => {
-  if (timer) { clearInterval(timer); timer = null; e.target.textContent = "Play replay"; return; }
-  e.target.textContent = "Pause";
+  if (timer) { clearInterval(timer); timer = null; e.target.textContent = "Play replay"; e.target.setAttribute("aria-pressed", "false"); return; }
+  e.target.textContent = "Pause replay"; e.target.setAttribute("aria-pressed", "true");
   timer = setInterval(step, 1100);
 });
