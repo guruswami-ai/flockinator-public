@@ -126,6 +126,7 @@ def pair_baseline(baseline, seeds):
     the baseline ``seeds`` list, else positionally by config-seed index.
     Missing seeds, length mismatches, and absent ``per_seed`` all RAISE.
     """
+    validate_seeds(list(seeds))
     per = baseline.get("per_seed", [])
     if per and all(isinstance(r, dict) and "seed" in r for r in per):
         mapping = {r["seed"]: r for r in per}
@@ -170,6 +171,23 @@ def per_seed_metrics(seed, run_dir):
     }
 
 
+def validate_seeds(seeds):
+    """Config seeds must be a non-empty list of unique ints.
+
+    bool is rejected explicitly (bool is an int subclass); floats and
+    strings that merely look like seeds are config errors, not seeds.
+    An empty seed set must never reach the gates: it used to produce
+    vacuous PASS verdicts (all([]) is True) with zero rows.
+    """
+    if not isinstance(seeds, list) or not seeds:
+        raise ValueError("config seeds must be a non-empty list")
+    bad = [s for s in seeds if type(s) is not int]
+    if bad:
+        raise ValueError(f"config seeds must be ints, got {bad!r}")
+    if len(set(seeds)) != len(seeds):
+        raise ValueError(f"config seeds must be unique, got {seeds!r}")
+
+
 def pooled_mislabel_rate(rows):
     """Frozen rate: pooled committed mislabels / pooled committed contacts."""
     top = sum(r["mis_col"] for r in rows)
@@ -197,6 +215,8 @@ def evaluate(treatment, policy, rows, parity):
     contacts over all seeds. A treatment with no applicable gate raises
     instead of reporting vacuous success.
     """
+    if not rows:
+        raise ValueError("no rows to evaluate; refusing vacuous success")
     if treatment not in TREATMENTS:
         raise ValueError(f"unknown treatment {treatment!r}")
     if policy not in POLICIES:
@@ -236,6 +256,10 @@ def evaluate(treatment, policy, rows, parity):
     commit_sum = sum(r["commit_col"] for r in rows) \
         if not unevaluable else None
     energy = mean_eligible_energy(rows)
+    energy_unmeasured = any(
+        r["eligible"] and (r["total_energy_spent"] is None
+                           or r["total_energy_spent"] == 0)
+        for r in rows)
     all_home = all(r["units_landed_home"] == r["units"] for r in rows)
     no_viol = all(r["reserve_floor_violations"] == 0 for r in rows)
 
@@ -270,8 +294,9 @@ def evaluate(treatment, policy, rows, parity):
         g6_detail = (f"mean eligible energy {energy}, all_home {all_home}, "
                      f"no_reserve_violations {no_viol}, parity {parity}")
         gates["G6"] = gate(
-            "G6", None if "G6" not in applicable_names
-            else ((energy or 0) <= G6_ENERGY_MEAN_MAX and all_home and no_viol
+            "G6", None if "G6" not in applicable_names or energy_unmeasured
+            else (energy is not None and energy <= G6_ENERGY_MEAN_MAX
+                  and all_home and no_viol
                   and isinstance(parity, dict)
                   and parity.get("result") == "pass"
                   and isinstance(parity.get("evidence"), str)
@@ -344,8 +369,14 @@ def main(argv=None):
                          '"parity": {"result","evidence"}}')
     ap.add_argument("--out", required=True)
     args = ap.parse_args(argv)
+    # Any run attempt invalidates a previous verdict in --out, so a
+    # failed run can never leave a stale PASS behind.
+    stale = pathlib.Path(args.out) / "verdict.json"
+    if stale.exists():
+        stale.unlink()
     baseline = json.loads(pathlib.Path(args.baseline).read_text())
     config = json.loads(pathlib.Path(args.config).read_text())
+    validate_seeds(config.get("seeds"))
     treatment, policy, seeds = (config["treatment"], config["policy"],
                                sorted(config["seeds"]))
     parity = config.get("parity")

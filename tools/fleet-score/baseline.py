@@ -94,6 +94,10 @@ def parse_seeds(spec: str):
             seeds.extend(range(int(lo), int(hi) + 1))
         else:
             seeds.append(int(part))
+    if not seeds:
+        raise ValueError("no seeds parsed")
+    if len(set(seeds)) != len(seeds):
+        raise ValueError(f"duplicate seeds: {seeds}")
     return seeds
 
 
@@ -123,4 +127,8 @@ def main(argv=None):
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    try:
+        raise SystemExit(main())
+    except ValueError as exc:
+        print(f"baseline error: {exc}")
+        raise SystemExit(3)
