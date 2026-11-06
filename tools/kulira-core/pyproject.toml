@@ -9,6 +9,9 @@ description = "Kulira chaos orchestrator core (SPEC-kulira-core)"
 requires-python = ">=3.12"
 dependencies = []
 
+[project.optional-dependencies]
+report = ["pillow>=10"]
+
 [project.scripts]
 kulira = "kulira_core.cli:main"
 

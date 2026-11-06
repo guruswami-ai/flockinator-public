@@ -1,32 +1,49 @@
 "use strict";
 const out = document.getElementById("bench-out");
+function el(tag, text, cls) {
+  const n = document.createElement(tag);
+  if (text !== undefined) n.textContent = text;
+  if (cls) n.className = cls;
+  return n;
+}
 function bar(label, cls, rate, counts) {
-  const pct = (rate * 100).toFixed(1);
-  return `<div class="bar-row"><span>${label}</span><div class="bar ${cls}"><div style="width:${pct}%"></div></div><span>${pct}% <small>${counts}</small></span></div>`;
+  const row = el("div", undefined, "bar-row");
+  row.appendChild(el("span", label));
+  const barEl = el("div", undefined, "bar " + cls);
+  const fill = document.createElement("div");
+  fill.style.width = Math.round(rate * 100) + "%";
+  barEl.appendChild(fill);
+  row.appendChild(barEl);
+  const val = el("span", Math.round(rate * 100) + "% ");
+  val.appendChild(el("small", counts));
+  row.appendChild(val);
+  return row;
 }
 function renderPooled(d) {
   const p = d.pooled;
-  out.innerHTML =
-    bar("Clear messages", "", p.clear.rate, `${p.clear.recoveries}/${p.clear.tasks}`) +
-    bar("Private cues only", "private", p.private.rate, `${p.private.recoveries}/${p.private.tasks}`) +
-    bar("Scrambled messages", "scrambled", p.scrambled.rate, `${p.scrambled.recoveries}/${p.scrambled.tasks}`) +
-    `<p class="note">Canonical sha256: <code>${d.canonical_sha256.slice(0, 16)}...</code> - precomputed by the Python scientific code, served unchanged.</p>`;
+  out.replaceChildren(
+    bar("Clear messages", "", p.clear.rate, `${p.clear.recoveries}/${p.clear.tasks}`),
+    bar("Private cues only", "private", p.private.rate, `${p.private.recoveries}/${p.private.tasks}`),
+    bar("Scrambled messages", "scrambled", p.scrambled.rate, `${p.scrambled.recoveries}/${p.scrambled.tasks}`),
+  );
+  const note = el("p", "Canonical sha256: ", "note");
+  note.appendChild(el("code", d.canonical_sha256.slice(0, 16) + "..."));
+  note.appendChild(document.createTextNode(" - precomputed by the Python scientific code, served unchanged."));
+  out.appendChild(note);
 }
 function renderSeed(d) {
   const c = d.conditions;
-  out.innerHTML = `<p>Seed ${d.seed} (128 team tasks per condition)</p>` +
-    bar("Clear messages", "", c.clear.rate, `${c.clear.recoveries}/${c.clear.tasks}`) +
-    bar("Private cues only", "private", c.private.rate, `${c.private.recoveries}/${c.private.tasks}`) +
-    bar("Scrambled messages", "scrambled", c.scrambled.rate, `${c.scrambled.recoveries}/${c.scrambled.tasks}`);
+  out.replaceChildren(
+    el("p", `Seed ${d.seed} (128 team tasks per condition)`),
+    bar("Clear messages", "", c.clear.rate, `${c.clear.recoveries}/${c.clear.tasks}`),
+    bar("Private cues only", "private", c.private.rate, `${c.private.recoveries}/${c.private.tasks}`),
+    bar("Scrambled messages", "scrambled", c.scrambled.rate, `${c.scrambled.recoveries}/${c.scrambled.tasks}`),
+  );
 }
-async function load(path, render) {
-  out.innerHTML = "<p>Loading...</p>";
-  try {
-    const r = await fetch(path);
-    const d = await r.json();
-    if (!r.ok) { out.innerHTML = `<p role="alert">${d.error ? d.error.message : "Request failed"}</p>`; return; }
-    render(d);
-  } catch (e) { out.innerHTML = `<p role="alert">Benchmark data unavailable offline. Run tools/reproduce from the repository.</p>`; }
+function showError(msg) {
+  const p = el("p", msg);
+  p.setAttribute("role", "alert");
+  out.replaceChildren(p);
 }
 // Static fallback if Functions are not deployed: read the JSON directly.
 async function loadBenchmark(seed) {
@@ -36,13 +53,15 @@ async function loadBenchmark(seed) {
     if (r.ok) { const d = await r.json(); seed === null ? renderPooled(d) : renderSeed(d); return; }
     throw new Error("api");
   } catch (e) {
-    const r = await fetch("data/benchmark.json");
-    const d = await r.json();
-    if (seed === null) { renderPooled(d); return; }
-    const row = d.per_seed.find((x) => x.seed === seed);
-    if (!row) { out.innerHTML = `<p role="alert">Seed must be 0-15.</p>`; return; }
-    renderSeed({ seed, conditions: Object.fromEntries(["clear","scrambled","private"].map(k =>
-      [k, { recoveries: row[k+"_recoveries"], tasks: row[k+"_tasks"], rate: row[k+"_recoveries"]/row[k+"_tasks"] }])) });
+    try {
+      const r = await fetch("data/benchmark.json");
+      const d = await r.json();
+      if (seed === null) { renderPooled(d); return; }
+      const row = d.per_seed.find((x) => x.seed === seed);
+      if (!row) { showError("Seed must be 0-15."); return; }
+      renderSeed({ seed, conditions: Object.fromEntries(["clear","scrambled","private"].map(k =>
+        [k, { recoveries: row[k+"_recoveries"], tasks: row[k+"_tasks"], rate: row[k+"_recoveries"]/row[k+"_tasks"] }])) });
+    } catch (e2) { showError("Benchmark data unavailable offline. Run tools/reproduce from the repository."); }
   }
 }
 document.getElementById("run-pooled").addEventListener("click", () => loadBenchmark(null));
@@ -55,25 +74,33 @@ loadBenchmark(null);
 // Wall replay
 const wall = document.getElementById("wall");
 const nodes = ["A1","A2","A3","A4","B1","B2","B3","B4","C1","C2","C3","C4","D1","D2","D3","D4"];
-wall.innerHTML = nodes.map(n => `<div class="node" id="node-${n}"><strong>${n}</strong><span>idle</span></div>`).join("");
-let replay = null, idx = 0, timer = null;
+wall.replaceChildren(...nodes.map(n => {
+  const d = el("div", undefined, "node"); d.id = "node-" + n;
+  d.appendChild(el("strong", n)); d.appendChild(el("span", "idle"));
+  return d;
+}));
+let replay = null, idx = 0, timer = null, truthRevealed = false;
 fetch("data/replay.json").then(r => r.json()).then(d => { replay = d; step(); });
 function renderContact() {
   const pol = document.getElementById("policy").value;
   const c = replay.contacts[idx];
-  nodes.forEach(n => { const el = document.getElementById("node-" + n);
-    el.className = "node"; el.querySelector("span").textContent = "idle"; });
+  nodes.forEach(n => { const elm = document.getElementById("node-" + n);
+    elm.className = "node"; elm.querySelector("span").textContent = "idle"; });
   c.reports.forEach(rep => {
-    const el = document.getElementById("node-" + rep.node); if (!el) return;
-    el.classList.add(rep.forged ? "forged" : (rep.label === "survivor" ? "survivor" : "hazard"));
-    el.querySelector("span").textContent = rep.forged ? "FORGED " + rep.modality : rep.modality + ": " + rep.label;
+    const elm = document.getElementById("node-" + rep.node); if (!elm) return;
+    elm.classList.add(rep.forged ? "forged" : (rep.label === "survivor" ? "survivor" : "hazard"));
+    elm.querySelector("span").textContent = rep.forged ? "FORGED " + rep.modality : rep.modality + ": " + rep.label;
   });
   const decision = c[pol];
-  document.getElementById("contact-label").textContent = `Contact ${c.contact + 1}/24 - truth (sealed): ${c.truth}`;
+  const isLast = c.contact >= replay.contacts.length - 1;
+  if (isLast) truthRevealed = true;
+  document.getElementById("contact-label").textContent =
+    `Contact ${c.contact + 1}/${replay.contacts.length} - ` +
+    (truthRevealed ? `truth: ${c.truth}` : "truth: sealed until the final contact");
   document.getElementById("verdict").textContent =
     `Policy ${pol}: ${decision === "commit" ? "COMMIT survivor" : "ABSTAIN / no commit"}` +
     (c.contact >= 20 ? " - ir modality is betraying from contact 20" : "");
-  if (decision !== "commit") wall.querySelectorAll(".node").forEach(el => el.classList.add("abstain"));
+  if (decision !== "commit") wall.querySelectorAll(".node").forEach(elm => elm.classList.add("abstain"));
 }
 function step() { if (!replay) return; renderContact(); idx = (idx + 1) % replay.contacts.length; }
 document.getElementById("step").addEventListener("click", step);

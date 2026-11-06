@@ -41,7 +41,9 @@ cell by cell, and this tool measures by how much.
   before every recording because the setting does not persist
   across a CAMERA->VIDEO switch. Verified live: at 0.6x the
   recorded frame (1080x1920) contains all 16 panels, text legible
-  in every cell. Still bursts remain the higher-resolution record.
+  in every cell - see `validation/wall-observer/demo-001/sample-video-frame.jpg`
+  (extracted from a silent, audio-stripped zoom recording).
+  Still bursts remain the higher-resolution record.
 - **Video ships silent or not at all.** Household/lab audio is not
   publishable data. The stored video has its audio track stripped
   with ffmpeg at capture time and the manifest records
@@ -52,8 +54,9 @@ cell by cell, and this tool measures by how much.
 ## Calibration result (same-state noise floor)
 
 Two bursts of the unchanged all-`READY` wall, phases `beginning` and
-`end`, 3 frames each (trial `wall-observer-demo-001`, evidence in
-`validation/wall-observer/demo-001/`):
+`end`, 3 frames each (trial `wall-observer-demo-001`; summary in
+`validation/wall-observer/demo-001/` - frames are retained privately,
+so this calibration is not independently re-verifiable from the repo):
 
 - mean per-cell RGB change **1.45**, max **4.03**, 0 of 16 cells over
   delta 25; the 8 s video stored silent-only (`audio_stripped: true`).

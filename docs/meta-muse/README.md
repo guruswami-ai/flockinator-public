@@ -17,9 +17,10 @@ lanes in a 4x4 matrix, one lane per node, plus one coordinator:
 | d1-d4 | D1-D4 | `muse-spark-1.1` | low | Node evidence assessors |
 | coordinator | fleet | `muse-wonder-full-1.0` | - | Synthesis, experiment and release decisions |
 
-Credentials are injected by the launcher and never stored in this repository. Model IDs, effort, prompts, and
-request provenance are recorded with every assessment - a routing label
-alone is never treated as proof of which model answered.
+Credentials are injected by the launcher and never stored in this repository. Model IDs and effort are
+configured per lane above. Per-assessment request provenance is not yet
+published as a citable trace bundle (post-judging backlog), so a routing
+label alone is never treated as proof of which model answered.
 
 Why tiered rows: comparing reviewer tiers is itself an experiment. For
 evaluator-quality comparisons, identical sealed evidence and a common

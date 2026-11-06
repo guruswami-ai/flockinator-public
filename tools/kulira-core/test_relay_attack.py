@@ -28,7 +28,7 @@ def test_dedup_reduces_but_does_not_eliminate_forged_commits():
 def test_multimodal_rule_costs_bounded_recall():
     out = run_experiment(range(20))
     drop = out["B"]["pooled"]["survivor_recall"] - out["C"]["pooled"]["survivor_recall"]
-    assert drop <= 0.15 + 1e-9 or out["C"]["pooled"]["survivor_recall"] is not None  # H3 measured, asserted in results
+    assert drop <= 0.15 + 1e-9  # H3: multimodal rule costs bounded recall
 
 def test_single_forged_sighting_never_commits_under_b():
     trial = [{"contact": 0, "truth": "hazard", "forged_id": "forge-0",

@@ -6,6 +6,11 @@ Sixteen embodied agents, staged in sound, light, and language on a wall of
 nodes, so humans can spot what emerges between agents - then prove or refute
 the spot against sealed evidence.
 
+> **Read this first:** every scored result here is host planner-simulation
+> replay, not live on-node decision-making, and every planner candidate so
+> far was rejected by the frozen gates. Where trust results say "verified",
+> read label segregation in simulation - not cryptographic proof.
+
 Flockinator is a physical lab for studying how small agents share information,
 handle misleading reports and improve through measured experiments. Sixteen
 ESP32-S3 nodes display a simulated search-and-rescue swarm, making each role
