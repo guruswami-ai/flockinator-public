@@ -46,7 +46,8 @@ def run_operation(seed: int, strategy: str, p_detect: float = 0.7,
                   overlap: float = 0.0, incidents: int = MAX_INCIDENTS,
                   daylight_turns: int = DAYLIGHT, recharge: int = RECHARGE,
                   ground_rest: bool = False,
-                  start_battery: float = 100.0) -> dict:
+                  start_battery: float = 100.0,
+                  explorer_frac: float = 0.0) -> dict:
     k0, esc_k, rotate = STRATEGIES[strategy]
     rng = random.Random(seed)
     fleet = _new_fleet(start_battery)
@@ -78,6 +79,8 @@ def run_operation(seed: int, strategy: str, p_detect: float = 0.7,
         else:
             ready.sort(key=lambda a: (-a["battery"], a["id"]))
         airborne = ready[:min(k0, len(ready))]
+        n_exp = min(len(airborne), round(explorer_frac * FLEET))
+        explorers = {a["id"] for a in airborne[:n_exp]}
         for a in airborne:
             a["state"], a["last_flown"] = "airborne", inc
 
@@ -99,7 +102,8 @@ def run_operation(seed: int, strategy: str, p_detect: float = 0.7,
                 for a in spare[:esc_k]:
                     a["state"], a["last_flown"] = "airborne", inc
                     airborne.append(a)
-            frontier += len(airborne) * CELLS_PER_TURN * (1.0 - overlap)
+            frontier += sum(1.6 if a["id"] in explorers else 1.0
+                            for a in airborne) * CELLS_PER_TURN * (1.0 - overlap)
             while frontier >= pos + 1:
                 if rng.random() < p_detect:
                     found_this = True
@@ -107,14 +111,15 @@ def run_operation(seed: int, strategy: str, p_detect: float = 0.7,
                 frontier -= AREA  # missed pass; re-sweep next pass
             survivors = []
             for a in airborne:
-                a["battery"] -= 1.1
+                a["battery"] -= 2.0 if a["id"] in explorers else 1.1
                 if rng.random() < p_fail:
                     a["state"] = "damaged"
                     a["repair_at"] = incidents + 1 if ground_rest else inc + 2
                     damaged_events += 1
                     continue
-                if a["battery"] - RETURN_COST[dist] < TACTICAL_RESERVE:
-                    a["battery"] -= RETURN_COST[dist]
+                rcost = RETURN_COST[dist] + (4.0 if a["id"] in explorers else 0.0)
+                if a["battery"] - rcost < TACTICAL_RESERVE:
+                    a["battery"] -= rcost
                     if a["battery"] < 0:  # forced landing
                         roll = rng.random()
                         if roll < 0.1:
@@ -134,7 +139,8 @@ def run_operation(seed: int, strategy: str, p_detect: float = 0.7,
             if found_this:
                 break
         for a in airborne:  # found / daylight end: everyone still up lands
-            a["battery"] = max(0.0, a["battery"] - RETURN_COST[dist])
+            rcost = RETURN_COST[dist] + (4.0 if a["id"] in explorers else 0.0)
+            a["battery"] = max(0.0, a["battery"] - rcost)
             a["state"] = "ready"
         if found_this:
             found += 1
