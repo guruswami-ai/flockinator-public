@@ -25,6 +25,9 @@ input, select { background:var(--panel); color:var(--text); border:1px solid var
 .node.survivor { border-color:var(--teal); } .node.hazard { border-color:var(--red); }
 .node.forged { border-color:var(--red); color:var(--red); }
 .node.abstain { opacity:.55; }
+figure { margin:1rem 0; } figure img { max-width:100%; height:auto; border:1px solid var(--line); border-radius:var(--radius); }
+figcaption { color:var(--muted); font-size:.88rem; margin-top:.35rem; }
+.node img.panel-gif { width:100%; max-width:96px; aspect-ratio:1; object-fit:cover; border-radius:3px; image-rendering:pixelated; }
 a { color:var(--teal); }
 @media (max-width:640px){ .bar-row{grid-template-columns:110px 1fr 70px;} h1{font-size:1.35rem;} }
 @media (prefers-reduced-motion: reduce){ * { transition:none !important; } }
