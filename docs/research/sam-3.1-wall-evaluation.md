@@ -192,3 +192,24 @@ Keep the classical fixed-grid classifier as the wall pipeline. SAM 3.1 is a reas
   verdict above stands on the primary-source capability analysis:
   SAM cannot read panel state (b), and fixed geometry solves
   (a)/(c) exactly without it.
+
+## Access re-test with the project keys (2026-11-06, later)
+
+- Kulira `META_MUSE_API_KEY` and Drishdi `META_API_KEY` (each tested
+  in place, never printed or copied): `GET /v1/models` and
+  `POST /v1/responses` with model `sam-3.1` both return
+  `401 invalid_api_key` under Bearer, `x-api-key`, and `Api-Key`
+  headers. These are Muse keys; the Muse session itself
+  authenticates by OAuth subscription, a separate mechanism.
+- The same 401 covers every Model API model, including any audio
+  model: no Meta audio sample could be generated with these keys.
+- Grid side executed on the stored captures so the comparison is
+  half-run and waiting only on SAM: the calibrated fixed grid
+  measures all 16 cells on the demo wall captures with a same-state
+  noise floor of mean per-cell RGB delta 1.45, max 4.03
+  (`validation/wall-observer/demo-001/stats.json`) - any future SAM
+  mask must beat that determinism, not merely exist.
+- Unblock is a single owner action: create a Meta Model API key in
+  the Meta platform dashboard (separate from Muse keys), or
+  provide a CUDA host for the gated open weights. On either, the
+  specified IoU-per-cell comparison runs unchanged.
