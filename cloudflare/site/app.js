@@ -66,8 +66,10 @@ async function loadBenchmark(seed) {
 }
 document.getElementById("run-pooled").addEventListener("click", () => loadBenchmark(null));
 document.getElementById("run-seed").addEventListener("click", () => {
-  const v = Number(document.getElementById("seed").value);
-  loadBenchmark(Number.isInteger(v) ? v : -1);
+  const raw = document.getElementById("seed").value.trim();
+  const v = raw === "" ? NaN : Number(raw);
+  if (!Number.isInteger(v)) { showError("Seed must be an integer 0-15."); return; }
+  loadBenchmark(v);
 });
 loadBenchmark(null);
 
@@ -87,7 +89,9 @@ wall.replaceChildren(...nodes.map(n => {
 }));
 if (reduceMotion) document.querySelectorAll("img[data-still]").forEach(i => { i.src = i.dataset.still; });
 let replay = null, idx = 0, timer = null, truthRevealed = false;
-fetch("data/replay.json").then(r => r.json()).then(d => { replay = d; step(); });
+fetch("data/replay.json").then(r => { if (!r.ok) throw new Error("replay"); return r.json(); })
+  .then(d => { if (!d || !Array.isArray(d.contacts)) throw new Error("replay"); replay = d; step(); })
+  .catch(() => { document.getElementById("verdict").textContent = "Replay data unavailable."; });
 function renderContact() {
   const pol = document.getElementById("policy").value;
   const c = replay.contacts[idx];

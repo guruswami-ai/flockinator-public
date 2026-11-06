@@ -5,7 +5,7 @@ import data from "../../site/data/benchmark.json";
 
 function json(body, status = 200) {
   return new Response(JSON.stringify(body), {
-    status, headers: { "content-type": "application/json", "cache-control": "public, max-age=300" } });
+    status, headers: { "content-type": "application/json", "cache-control": "public, max-age=300", "x-content-type-options": "nosniff" } });
 }
 function err(code, message, status) {
   return json({ error: { code, message } }, status);

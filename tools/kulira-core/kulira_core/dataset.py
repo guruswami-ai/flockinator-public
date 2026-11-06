@@ -40,9 +40,17 @@ WEB_VIDEO_WIDTH = 854
 WEB_STILL_WIDTH = 1280
 
 _IPV4 = re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b")
+_IPV6_FULL = re.compile(r"\b(?:[0-9a-fA-F]{1,4}:){4,7}[0-9a-fA-F]{1,4}\b")
+_IPV6_COMPRESSED = re.compile(r"\b[0-9a-fA-F]{0,4}(?::[0-9a-fA-F]{0,4})*::[0-9a-fA-F:]+\b")
 _MAC = re.compile(r"\b(?:[0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}\b")
-_USERPATH = re.compile(r"/Users/[^/\s]+/")
+_MAC_DASH = re.compile(r"\b(?:[0-9a-fA-F]{2}-){5}[0-9a-fA-F]{2}\b")
+_MAC_DOT = re.compile(r"\b(?:[0-9a-fA-F]{4}\.){2}[0-9a-fA-F]{4}\b")
+_USERPATH = re.compile(r"(?:/Users/|/home/|C:\\Users\\)[^\s/\\]+")
+_LOCALHOSTNAME = re.compile(r"\b[a-zA-Z0-9-]+\.local\b")
 TELEMETRY_SUFFIXES = {".json", ".jsonl"}
+_SCANNERS = (("ipv4", _IPV4), ("ipv6", _IPV6_FULL), ("ipv6", _IPV6_COMPRESSED),
+             ("mac", _MAC), ("mac", _MAC_DASH), ("mac", _MAC_DOT),
+             ("user_path", _USERPATH), ("local_hostname", _LOCALHOSTNAME))
 
 
 class DatasetError(RuntimeError):
@@ -63,6 +71,13 @@ def strip_jpeg_metadata(data: bytes) -> bytes:
         if data[i] != 0xFF:
             raise DatasetError(f"JPEG marker expected at {i}")
         marker = data[i + 1]
+        if marker == 0xFF:  # padding fill byte before a marker
+            i += 1
+            continue
+        if marker == 0x01 or 0xD0 <= marker <= 0xD9:
+            out += data[i:i + 2]  # standalone marker, no length field
+            i += 2
+            continue
         if marker == 0xDA:  # SOS: rest is entropy data, copy verbatim
             out += data[i:]
             return bytes(out)
@@ -77,9 +92,33 @@ def strip_jpeg_metadata(data: bytes) -> bytes:
     raise DatasetError("JPEG ended before SOS")
 
 
+_PNG_DROP = {b"tEXt", b"zTXt", b"iTXt", b"eXIf"}
+
+
+def strip_png_metadata(data: bytes) -> bytes:
+    """Drop PNG text/EXIF chunks (tEXt/zTXt/iTXt/eXIf); keep the rest."""
+    sig = b"\x89PNG\r\n\x1a\n"
+    if not data.startswith(sig):
+        raise DatasetError("not a PNG (missing signature)")
+    out = bytearray(sig)
+    i = len(sig)
+    while i + 8 <= len(data):
+        length = int.from_bytes(data[i:i + 4], "big")
+        ctype = data[i + 4:i + 8]
+        end = i + 8 + length + 4
+        if end > len(data):
+            raise DatasetError("truncated PNG chunk")
+        if ctype not in _PNG_DROP:
+            out += data[i:end]
+        i = end
+        if ctype == b"IEND":
+            return bytes(out)
+    raise DatasetError("PNG ended before IEND")
+
+
 def scan_text(text: str) -> list[str]:
     findings = []
-    for name, rx in (("ipv4", _IPV4), ("mac", _MAC), ("user_path", _USERPATH)):
+    for name, rx in _SCANNERS:
         for m in rx.finditer(text):
             findings.append(f"{name}:{m.group(0)[:32]}")
     return findings
@@ -118,16 +157,24 @@ def build_dataset(session_dir, telemetry_dir, out_dir, mission_id: str,
         if e.get("kind") != "frame":
             continue
         p = e["payload"]
-        src = session / p["file"]
-        if p.get("kind_media") == "video" and not p.get("publishable"):
+        src = (session / p["file"]).resolve()
+        if not src.is_relative_to(session.resolve()) or src.is_symlink():
+            raise DatasetError(f"frame path escapes session: {p['file']}")
+        if p.get("kind_media") == "video" and p.get("publishable") is not True:
             skipped.append({"file": p["file"],
                             "reason": "video not silent (publishable=false)"})
             continue
         dest_name = f"{p['seq']:04d}_{src.name}"
         dest = out / "frames" / dest_name
+        if dest.exists():
+            raise DatasetError(f"duplicate frame destination: {dest_name}")
         if src.suffix.lower() in (".jpg", ".jpeg"):
             dest.write_bytes(strip_jpeg_metadata(src.read_bytes()))
             stripped = dest.stat().st_size != src.stat().st_size
+        elif src.suffix.lower() == ".png":
+            raw = src.read_bytes()
+            dest.write_bytes(strip_png_metadata(raw))
+            stripped = dest.stat().st_size != len(raw)
         else:
             shutil.copyfile(src, dest)
             stripped = bool(p.get("audio_stripped"))
@@ -158,6 +205,8 @@ def build_dataset(session_dir, telemetry_dir, out_dir, mission_id: str,
         tdir = Path(telemetry_dir)
         (out / "telemetry").mkdir(exist_ok=True)
         for src in sorted(tdir.rglob("*")):
+            if src.is_symlink():
+                raise DatasetError(f"telemetry symlink refused: {src}")
             if not src.is_file() or src.suffix.lower() not in TELEMETRY_SUFFIXES:
                 continue
             text = src.read_text(errors="strict")
@@ -209,7 +258,7 @@ def build_dataset(session_dir, telemetry_dir, out_dir, mission_id: str,
         "files": files, "telemetry": telemetry_copied,
         "skipped": skipped,
         "rules": ["silent-video-only", "jpeg-metadata-stripped",
-                  "telemetry scanned: ipv4/mac/user-paths fail the build",
+                  "telemetry scanned: ip/mac/hostname/user-paths fail the build",
                   "simulated SIM states only; no device identities"],
     }
     (out / "dataset.json").write_text(json.dumps(manifest, indent=1))
