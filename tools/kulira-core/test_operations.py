@@ -50,3 +50,13 @@ def test_binding_regime_records_readiness_metrics():
     r = run_operation(21, "ESC", **BINDING)
     assert r["ready_before_2nd"] is not None
     assert r["attempted"] + r["unattempted"] == 8
+
+
+LOSS = dict(incidents=8, daylight_turns=160, recharge=4, ground_rest=True,
+            p_fail=0.01, far_frac=0.35, start_battery=75.0)
+
+
+def test_loss_bearing_regime_produces_losses_and_is_deterministic():
+    a = run_operations(range(40, 45), strategies=("K16",), **LOSS)
+    b = run_operations(range(40, 45), strategies=("K16",), **LOSS)
+    assert a["K16"]["lost"] == b["K16"]["lost"]
