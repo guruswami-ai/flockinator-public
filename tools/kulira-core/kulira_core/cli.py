@@ -27,9 +27,23 @@ def main(argv=None) -> int:
     wc.add_argument("--telemetry", help="telemetry/journal file to hash-link")
     wc.add_argument("--out", required=True)
     wv = wsub.add_parser("verify"); wv.add_argument("--session", required=True)
+    ds = sub.add_parser("dataset"); dsub = ds.add_subparsers(dest="sub", required=True)
+    db = dsub.add_parser("build"); db.add_argument("--session", required=True)
+    db.add_argument("--telemetry"); db.add_argument("--mission", required=True)
+    db.add_argument("--out", required=True)
+    dv = dsub.add_parser("verify"); dv.add_argument("--dataset", required=True)
     wr = wsub.add_parser("report"); wr.add_argument("--session", required=True)
     wr.add_argument("--out", required=True); wr.add_argument("--no-flip", action="store_true")
     args = p.parse_args(argv)
+    if args.cmd == "dataset":
+        from .dataset import build_dataset, verify_dataset
+        try:
+            if args.sub == "build":
+                print(json.dumps(build_dataset(args.session, args.telemetry,
+                                               args.out, args.mission), indent=1)); return 0
+            print(json.dumps(verify_dataset(args.dataset))); return 0
+        except Exception as e:
+            print(f"error: {e}", file=sys.stderr); return 1
     if args.cmd == "wall":
         try:
             if args.sub == "verify":
