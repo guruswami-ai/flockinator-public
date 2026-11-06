@@ -8,6 +8,7 @@ then re-simulate to that turn collecting events, bundle with phase
 scorer. Deterministic: fixed synthetic clock, no wall time, sorted seeds.
 """
 
+import argparse
 import io
 import json
 import pathlib
@@ -15,8 +16,9 @@ import sys
 import zipfile
 
 CYCLE = pathlib.Path(__file__).resolve().parent
-sys.path.insert(0, str(CYCLE.parents[3] / "tools" / "fleet-score"))
-sys.path.insert(0, str(CYCLE.parents[3] / "tools" / "mission-host"))
+REPO = CYCLE.parents[2]
+sys.path.insert(0, str(REPO / "tools" / "fleet-score"))
+sys.path.insert(0, str(REPO / "tools" / "mission-host"))
 sys.path.insert(0, str(CYCLE / "provenance"))
 import planner as twin  # noqa: E402  (provenance twin, not production)
 import exercise_memory as mem  # noqa: E402
@@ -57,7 +59,13 @@ def engage(treatment, plan, designated, events):
     return out
 
 
-def main():
+def main(argv=None):
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--out", required=True,
+                    help="output root for runs/, scores/, engagement.json; "
+                         "the frozen cycle-07 archive is never written")
+    args = ap.parse_args(argv)
+    out_root = pathlib.Path(args.out)
     engagement = {}
     for treatment in TREATMENTS:
         engagement[treatment] = {"seeds": {}}
@@ -75,7 +83,7 @@ def main():
             ev = []
             s2 = twin.simulate(p, s1["turn"], ev, **kw)
             blob = mem.bundle(p, "Complete", s2, ev)
-            dest = CYCLE / "runs" / treatment / f"seed-{seed}"
+            dest = out_root / "runs" / treatment / f"seed-{seed}"
             dest.mkdir(parents=True, exist_ok=True)
             with zipfile.ZipFile(io.BytesIO(blob)) as z:
                 z.extractall(dest)
@@ -83,7 +91,7 @@ def main():
                 engage(treatment, p, designated, ev)
             scored = score_run(dest)
             scored["seed"] = seed
-            sdir = CYCLE / "scores" / treatment
+            sdir = out_root / "scores" / treatment
             sdir.mkdir(parents=True, exist_ok=True)
             (sdir / f"seed-{seed}.json").write_text(
                 json.dumps(scored, indent=1, sort_keys=True))
@@ -95,7 +103,8 @@ def main():
                 "flips_applied", "late_opportunities", "early_flips")
         engagement[treatment]["pooled"] = {
             k: sum(v.get(k, 0) for v in pool) for k in keys}
-    (CYCLE / "engagement.json").write_text(
+    out_root.mkdir(parents=True, exist_ok=True)
+    (out_root / "engagement.json").write_text(
         json.dumps(engagement, indent=1, sort_keys=True))
     print("wrote engagement.json")
 

@@ -383,3 +383,48 @@ class RelayDedupTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class SeedValidationTest(unittest.TestCase):
+    def test_empty_seeds_rejected(self):
+        from gate_runner import validate_seeds
+        with self.assertRaises(ValueError):
+            validate_seeds([])
+
+    def test_duplicate_seeds_rejected(self):
+        from gate_runner import validate_seeds
+        with self.assertRaises(ValueError):
+            validate_seeds([0, 0])
+
+    def test_bool_and_float_seeds_rejected(self):
+        from gate_runner import validate_seeds
+        for bad in ([True], [0.5], ["0"]):
+            with self.assertRaises(ValueError):
+                validate_seeds(bad)
+
+    def test_evaluate_empty_rows_refuses_vacuous_success(self):
+        with self.assertRaises(ValueError):
+            evaluate("T0", "P0", [], EVIDENCE)
+
+    def test_g6_missing_energy_fails_not_passes(self):
+        rows = [make_row(s, energy=None) for s in range(4)]
+        verdict = evaluate("T0", "P0", rows, EVIDENCE)
+        self.assertIs(verdict["gates"]["G6"]["pass"], False)
+
+    def test_stale_verdict_cleared_when_run_errors(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out = pathlib.Path(tmp) / "out"
+            out.mkdir()
+            (out / "verdict.json").write_text('{"all_applicable_pass": true}')
+            runs = pathlib.Path(tmp) / "runs"
+            tiny_run(runs / "seed-0", 1)
+            base = pathlib.Path(tmp) / "baseline.json"
+            base.write_text(json.dumps({"label": "x", "per_seed": [
+                {"seed": 0, "contacts_total": 1, "units": 4}]}))
+            cfg = pathlib.Path(tmp) / "config.json"
+            cfg.write_text(json.dumps({"treatment": "T9", "policy": "P0",
+                                       "seeds": [0], "parity": EVIDENCE}))
+            with self.assertRaises(ValueError):
+                main(["--baseline", str(base), "--runs", str(runs),
+                      "--config", str(cfg), "--out", str(out)])
+            self.assertFalse((out / "verdict.json").exists())

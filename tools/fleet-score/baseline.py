@@ -94,6 +94,10 @@ def parse_seeds(spec: str):
             seeds.extend(range(int(lo), int(hi) + 1))
         else:
             seeds.append(int(part))
+    if not seeds:
+        raise ValueError("no seeds parsed")
+    if len(set(seeds)) != len(seeds):
+        raise ValueError(f"duplicate seeds: {seeds}")
     return seeds
 
 
