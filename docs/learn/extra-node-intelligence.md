@@ -2,6 +2,10 @@
 
 ![Intelligence that lives between nodes](extra-node.svg)
 
+![Seven drones linked by glowing lines forming a map pin; one drone faded, the net intact](extra-node.jpg)
+
+*Illustration by Meta `muse-image-1.0`: the knowledge is in the links — one node can fade and the pattern survives. No central store.*
+
 Ask "where is the flock's knowledge?" and the honest answer is:
 not in any one bird.
 

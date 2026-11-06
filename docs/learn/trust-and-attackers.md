@@ -26,7 +26,7 @@ replay an old true message at a dangerous new moment, copy one
 false sighting until it looks like everyone agrees, delay the
 correction until after the decision, or simply stay silent when
 their honest report would have helped. Flockinator's adversary,
-[Kulira](../kulira-friction.md), exists to do exactly these things
+[Kulira](../kulira-friction.md) — the controlled adversary node that lies, impersonates, and disrupts on purpose — exists to do exactly these things
 in a safe lab, on purpose, with a scorekeeper watching.
 
 We cannot defend only against attacks we can list. The deeper

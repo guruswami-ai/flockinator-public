@@ -61,7 +61,7 @@ subscription, living in data centres. But intelligence is quietly
 moving into devices - medical sensors, supermarket cash registers,
 car navigation systems, and the flight controllers of quadcopters.
 These are small, cheap, specialised agents, embedded everywhere,
-talking to each other constantly. That is the **AIoT** world:
+talking to each other constantly. That is the Artificial Intelligence in the Internet of Things (**AIoT**) world:
 artificial intelligence in the Internet of Things.
 
 The future is not either/or. It is hybrid: large models design,
