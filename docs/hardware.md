@@ -12,7 +12,7 @@ parameters below, not shipped as trees of drafts.
 | P2.5 64x64 RGB LED panel, 160x160 mm x16 | One display per node; 25% brightness default, 50% ceiling |
 | microSD card per node (FAT32) | Node memory, media, journals, staged images |
 | ESP32-S31 Korvo-1 | Standalone controller: display/touch, web host, learning lab |
-| LilyGo T5 4.7-inch ESP32-S3 (V2.4) | Handheld management remote and image store |
+| LilyGo T5 4.7-inch ESP32-S3 (V2.4) (legacy/recovery-only) | Retired handheld prototype; not part of the active build |
 | Perimeter speakers + printed carriers | Per-node audio out (see `cad/perimeter-speakers/`) |
 | Onboard mics, SHTC3, QMI8658 IMU, PCF85063 RTC | Per-node sensing (temp/humidity, motion, time) |
 | MEAN WELL LRS-350-5 (5 V) + rear enclosure | Panel/controller power; measure demand at the brightness ceiling before sizing branches |

@@ -31,9 +31,11 @@ Each node has a 64×64 RGB panel, microphones, speaker output, environmental and
 motion sensors, and SD storage — fitted, but not used for scored results, which
 are host planner-simulation replay. The Korvo controller hosts web controls, the
 planner simulation and the learning lab. Panels render their scripted missions
-locally and can store controller-generated journal copies. The LilyGo handheld
-provides portable management. Execution locations and data flow are documented
-in the [architecture](docs/architecture.md).
+locally and can store controller-generated journal copies. Fleet management runs on the Korvo controller and the host
+commissioner over authenticated Wi-Fi. (The earlier LilyGo handheld prototype
+is retained as legacy/recovery-only; see the
+[architecture](docs/architecture.md).) Execution locations and data flow are
+documented there.
 
 Sixteen Meta Muse assessor lanes review per-node evidence under a Wonder Full
 coordinator. Candidate changes go through scoring, review and a controlled build

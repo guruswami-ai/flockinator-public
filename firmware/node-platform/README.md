@@ -1,5 +1,10 @@
 # Waveshare node diagnostic firmware
 
+> Management route of record: Korvo controller plus host commissioner
+> over authenticated Wi-Fi (per-node keys). LilyGo references in the
+> release notes below are historical: that path is legacy/recovery-only
+> (ESP-NOW recovery of a node whose Wi-Fi is broken).
+
 Release **0.10.1** combines the existing automatic mission presentation with
 shared terrain and relative peer positions. All sixteen nodes are deployed and
 running the repeating mission. It renders locally; no host bridge is needed.

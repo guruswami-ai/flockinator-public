@@ -1,6 +1,6 @@
 # Node commissioner
 
-Controller bring-up client for the approved node specification. The current release supports USB identity assignment, private Wi-Fi/key provisioning, authenticated Wi-Fi status, display paging, a short tone, evidence capture and application OTA. The `provision` command provides a resumable backup/flash/configuration/inventory transaction. Explicit SD inspection/reset/testing is available via authenticated Wi-Fi or the LilyGo ESP-NOW relay; see below.
+Controller bring-up client for the approved node specification. The current release supports USB identity assignment, private Wi-Fi/key provisioning, authenticated Wi-Fi status, display paging, a short tone, evidence capture and application OTA. The `provision` command provides a resumable backup/flash/configuration/inventory transaction. Explicit SD inspection/reset/testing is available via authenticated Wi-Fi or the legacy LilyGo ESP-NOW relay (recovery-only); see below.
 
 Run from the project root; see Linux setup.
 
@@ -72,7 +72,12 @@ Validation:
 uv run --project tools/node-commissioner python -m pytest tools/node-commissioner/tests -q
 ```
 
-## LilyGo remote management
+## LilyGo remote management (legacy / recovery-only)
+
+Deprecated (advisory): the active management route is this commissioner
+over authenticated Wi-Fi, driven from the Korvo solution. The LilyGo
+console client below is retained only for ESP-NOW recovery of a node
+whose Wi-Fi is broken.
 
 The separate `node_commissioner.console` client targets the identified LilyGo, whose factory/STA MAC is `00:11:22:33:44:55`. Set `FLOCKINATOR_LILYGO_PORT` to its verified USB port, distinct from a Waveshare node. Global options such as `--port`, `--mac` and `--output` go **before** the subcommand:
 

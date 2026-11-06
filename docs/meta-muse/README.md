@@ -68,7 +68,8 @@ Rules that keep the pipeline honest:
 ## How Muse models helped build Flockinator
 
 - **Building:** Muse lanes author and review firmware (ESP32-S3 nodes,
-  ESP32-S31 Korvo, LilyGo console), host tools, and tests under the
+  ESP32-S31 Korvo; the LilyGo console is retired to legacy/recovery-only),
+  host tools, and tests under the
   coordinator, through the isolated build executor above.
 - **3D modelling:** Muse assisted the CAD work in `cad/` - panel grid fit,
   acrylic node concept, perimeter speaker carriers, diffuser/print
