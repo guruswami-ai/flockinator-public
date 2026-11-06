@@ -18,7 +18,7 @@ void render_cycle(){
  for(unsigned t=0;t<127000;t+=500)for(int i=0;i<16;i++){
   mission_world::render(a,scratch,r,t,i);TEST_ASSERT_FALSE(a.clipped);
   auto scene=r.frame(t,i);
-  if(scene.state==recon::BLANK||scene.state==recon::KILL||scene.state==recon::STANDBY||scene.state==recon::APPROVED){
+  if(scene.state==recon::BLANK||scene.state==recon::MARK||scene.state==recon::STANDBY||scene.state==recon::APPROVED){
    recon::render(b,tmp,scene,i);TEST_ASSERT_EQUAL_MEMORY(a.pixels,b.pixels,sizeof(a.pixels));
   }
  }

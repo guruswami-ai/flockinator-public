@@ -1,5 +1,6 @@
 #include "recon_render.h"
 #include <unity.h>
+#include <cstring>
 using namespace recon;
 void setUp() {}
 void tearDown() {}
@@ -97,24 +98,35 @@ void stop_on_completion_and_fleet_gap() {
 void reverse_only_loopable_states() {
   TEST_ASSERT_FLOAT_WITHIN(.001, visual(SCAN, 2), visual(SCAN, 6));
   TEST_ASSERT_FLOAT_WITHIN(.001, 6, visual(TAKEOFF, 6));
-  TEST_ASSERT_FLOAT_WITHIN(.001, 6, visual(KILL, 6));
+  TEST_ASSERT_FLOAT_WITHIN(.001, 6, visual(MARK, 6));
   TEST_ASSERT_FLOAT_WITHIN(.001, 6, visual(LAND, 6));
 }
 void countdown_and_message_borders() {
   node::Frame f, scratch;
   Scene s;
-  s.state = KILL;
+  s.state = MARK;
   s.launch = 1;
   s.phase = 1;
   render(f, scratch, s, 0);
   for (int i = 0; i < 64; i++) {
-    TEST_ASSERT_EQUAL(red, f.pixels[i]);
-    TEST_ASSERT_EQUAL(red, f.pixels[63 * 64 + i]);
+    TEST_ASSERT_EQUAL(warn, f.pixels[i]);
+    TEST_ASSERT_EQUAL(warn, f.pixels[63 * 64 + i]);
   }
-  s.phase = 10.5;
-  render(f, scratch, s, 0);
-  for (auto p : f.pixels)
-    TEST_ASSERT_EQUAL(0, p);
+  // After the ETA countdown the panel holds the marked-site view
+  // (TARGET CONFIRMED): no blank gap, no static feed-lost, no red.
+  for (float ph : {10.5f, 12.0f, 15.0f}) {
+    s.phase = ph;
+    render(f, scratch, s, 0);
+    bool any_lit = false, any_red = false;
+    for (auto p : f.pixels) {
+      if (p != 0)
+        any_lit = true;
+      if (p == red)
+        any_red = true;
+    }
+    TEST_ASSERT_TRUE(any_lit);
+    TEST_ASSERT_FALSE(any_red);
+  }
   s.state = SCAN;
   s.direction = 1;
   s.commAge = .1;
@@ -157,10 +169,10 @@ void summary_tracks_aircraft_and_survives_blank_gap() {
         if (frame.state == STANDBY || frame.state == APPROVED || frame.state == ORDERS)
           TEST_ASSERT_EQUAL(Overview::Ready, status);
         else if (frame.state == CHARGE) TEST_ASSERT_EQUAL(Overview::Charging, status);
-        else if (frame.state == KILL)
-          TEST_ASSERT_EQUAL(frame.phase < 10 ? Overview::OnMission : Overview::KIA, status);
+        else if (frame.state == MARK)
+          TEST_ASSERT_EQUAL(frame.phase < 10 ? Overview::OnMission : Overview::DOWN, status);
         else if (frame.state == CRASH)
-          TEST_ASSERT_EQUAL(frame.phase < 3 ? Overview::OnMission : Overview::KIA, status);
+          TEST_ASSERT_EQUAL(frame.phase < 3 ? Overview::OnMission : Overview::DOWN, status);
         else if (frame.state == EMPTY)
           TEST_ASSERT_EQUAL(frame.phase < 3 ? Overview::OnMission : Overview::MIA, status);
         else if (frame.state == NOLINK) TEST_ASSERT_EQUAL(Overview::MIA, status);
@@ -173,6 +185,17 @@ void summary_tracks_aircraft_and_survives_blank_gap() {
     }
   }
   TEST_ASSERT_EQUAL(31, outcomes);
+}
+void ending_never_shows_kill_or_engage_names() {
+  // Rescue retheme: the default scenario's endings must never produce
+  // a state whose display name is KILL or ENGAGE.
+  Config c{1, 3456, 64, 0, 0, true};
+  for (uint32_t cycle = 0; cycle < 8; ++cycle)
+    for (int i = 0; i < 16; ++i) {
+      const char *n = name(ending_for(c, cycle, i));
+      TEST_ASSERT_NOT_EQUAL(0, std::strcmp(n, "KILL"));
+      TEST_ASSERT_NOT_EQUAL(0, std::strcmp(n, "ENGAGE"));
+    }
 }
 void summary_resets_on_stop_wait_and_restart() {
   Runtime r; Config c{1, 3456, 64, 0, 0, true};
@@ -196,6 +219,7 @@ int main() {
   RUN_TEST(stop_on_completion_and_fleet_gap);
   RUN_TEST(reverse_only_loopable_states);
   RUN_TEST(countdown_and_message_borders);
+  RUN_TEST(ending_never_shows_kill_or_engage_names);
   RUN_TEST(render_every_state_and_variant);
   return UNITY_END();
 }
