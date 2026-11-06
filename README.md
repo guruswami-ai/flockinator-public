@@ -2,9 +2,9 @@
 
 **Meta Global AI Developer Hackathon 2026 · Indie Developer · Push the Frontier**
 
-Sixteen embodied agents, staged in sound, light, and language on a wall of
-nodes, so humans can spot what emerges between agents - then prove or refute
-the spot against sealed evidence.
+Sixteen display nodes replaying host-simulated missions in sound, light, and
+language on a wall, so humans can spot what emerges between agents - then
+prove or refute the spot against sealed evidence.
 
 > **Read this first:** every scored result here is host planner-simulation
 > replay, not live on-node decision-making, and every planner candidate so
@@ -18,7 +18,7 @@ visible while Meta Muse models help build, review and refine the system. Why a
 wall at all: [a microscope for emergent behaviour](docs/learn/microscope-for-emergence.md)
 ([decision record](docs/decisions/ADR-001-human-perceptible-swarm.md)).
 
-**[Watch the narrated demo](https://www.youtube.com/watch?v=HaYNTBhXbu4)** ·
+**[Watch the narrated demo (replay, not live autonomy)](https://www.youtube.com/watch?v=HaYNTBhXbu4)** ·
 [Results and evidence](docs/results/README.md) ·
 [Results dashboard](https://guruswami-ai.github.io/flockinator-public/results/) ·
 [Judging guide: five minutes to the evidence](JUDGING.md)
@@ -28,7 +28,8 @@ wall at all: [a microscope for emergent behaviour](docs/learn/microscope-for-eme
 ## What is built
 
 Each node has a 64×64 RGB panel, microphones, speaker output, environmental and
-motion sensors, and SD storage. The Korvo controller hosts web controls, the
+motion sensors, and SD storage — fitted, but not used for scored results, which
+are host planner-simulation replay. The Korvo controller hosts web controls, the
 planner simulation and the learning lab. Panels render their scripted missions
 locally and can store controller-generated journal copies. The LilyGo handheld
 provides portable management. Execution locations and data flow are documented
