@@ -1,0 +1,95 @@
+{
+ "experiment": "sam-3.1 vs calibrated fixed grid, stored wall captures",
+ "date": "2026-11-06",
+ "model": "sam-3.1 via POST https://api.meta.ai/v1/responses (Meta Model API)",
+ "image": {
+  "path": "validation/wall-observer/demo-001/sample-beginning.jpg",
+  "size": [
+   1000,
+   750
+  ],
+  "note": "mirrored rear view, all 16 panels READY / REMOTE START; grid from wall_report.DEFAULT_CORNERS"
+ },
+ "concept_prompts_on_this_image": {
+  "screen": {
+   "objects": 1,
+   "boxes": {
+    "0": [
+     45,
+     16,
+     988,
+     749,
+     0.9024390578269958
+    ]
+   },
+   "interpretation": "single whole-wall object; best single grid-cell box IoU 0.067"
+  }
+ },
+ "concept_prompts_on_wall_idle_1920x1080": {
+  "LED panel": 0,
+  "monitor": 0,
+  "television": 0,
+  "screen": {
+   "objects": 1,
+   "box": [
+    142,
+    0,
+    1666,
+    1079
+   ],
+   "confidence": 0.953,
+   "interpretation": "whole wall as one screen"
+  },
+  "display": {
+   "objects": 1,
+   "confidence": 0.86
+  },
+  "LED screen": {
+   "objects": 1,
+   "confidence": 0.848
+  }
+ },
+ "object_prompts": {
+  "prompt": "16 axis-aligned boxes derived from the calibrated grid cells",
+  "returned": 16,
+  "per_cell_box_iou": {
+   "1": 0.904,
+   "2": 0.946,
+   "3": 0.936,
+   "4": 0.892,
+   "5": 0.882,
+   "6": 0.937,
+   "7": 0.948,
+   "8": 0.887,
+   "9": 0.915,
+   "10": 0.954,
+   "11": 0.968,
+   "12": 0.92,
+   "13": 0.868,
+   "14": 0.904,
+   "15": 0.933,
+   "16": 0.936
+  },
+  "mean_iou": 0.921,
+  "min_iou": 0.868,
+  "confidence_range": [
+   0.734,
+   0.91
+  ]
+ },
+ "repeatability": {
+  "concept_screen_second_run": "identical box (45,16,988,749), confidence 0.902439"
+ },
+ "grid_baseline": {
+  "cells_measured": 16,
+  "same_state_noise_floor_mean_rgb_delta": 1.45,
+  "max": 4.03,
+  "source": "validation/wall-observer/demo-001/stats.json"
+ },
+ "verdict": {
+  "panel_discovery": "SAM concept prompts do not discover the 16 panels (0 objects, or 1 whole-wall object)",
+  "given_grid_boxes": "SAM refines all 16 (mean box IoU 0.921) - strong one-off ROI bootstrap/verifier",
+  "state_reading": "output is box+mask+confidence only; no text/colour state - cannot tag panel state changes",
+  "runtime_pipeline": "calibrated fixed grid remains the runtime answer (exact identity, CPU, deterministic)"
+ }
+}

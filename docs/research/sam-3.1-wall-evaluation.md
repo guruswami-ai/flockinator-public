@@ -111,13 +111,16 @@ The wall is fixed: 16 panels in a 4x4 grid, fixed camera. One homography + 16 fi
 
 ### (a) Segmenting the 16 panels — SAM: usable bootstrap, not the runtime answer
 
-- Pro: the API's 16-objects-per-frame cap exactly matches the wall,
-  and one text prompt ("LED panel") should return all lit panels as
-  boxes+masks ([dev.meta.ai/docs/sam/segmenting](https://dev.meta.ai/docs/sam/segmenting)).
-- Con: for a static rig this re-derives known geometry every frame,
-  with run-to-run variance. A calibrated grid cannot drift, swap, or
-  drop a cell; SAM can (see failure modes). Use SAM once, offline, to
-  propose/verify ROIs if calibration is ever lost — not per frame.
+- Measured (2026-11-06, see Decisive comparison below): concept
+  prompts do **not** discover the panels — "LED panel", "monitor"
+  and "television" return zero objects; "screen", "display" and
+  "LED screen" return one object, the whole wall as a single screen
+  (confidence 0.85-0.95, best single-cell box IoU 0.067).
+- But given the grid's 16 boxes as object prompts, SAM returns all
+  16, mean box IoU 0.921 (min 0.868) against the calibrated cells.
+  That confirms the one-off role: an excellent ROI bootstrap /
+  calibration verifier if the grid is ever lost — not a per-frame
+  replacement for it, and not a panel finder.
 
 ### (b) Tagging state changes on the displays — SAM: not suited
 
@@ -175,41 +178,37 @@ The wall is fixed: 16 panels in a 4x4 grid, fixed camera. One homography + 16 fi
 
 Keep the classical fixed-grid classifier as the wall pipeline. SAM 3.1 is a reasonable one-off ROI-derivation tool and a strong general tracker, but it adds GPU/API cost, nondeterminism, and a 16-object ceiling to problems (a)-(c) that fixed geometry already solves exactly — and it cannot do (b) at all.
 
-## Access test on this project (2026-11-06, Kulira)
+## Decisive comparison, executed (2026-11-06)
 
-- Hosted API: `POST https://api.meta.ai/v1/responses`, model
-  `sam-3.1`, prompt "led panel" on a real 1100x825 wall capture.
-  The project's existing Meta credential (a Muse-models key)
-  returns `401 invalid_api_key` - the Meta Model API needs its own
-  key from the Meta platform dashboard. Not reachable today.
-- Open weights: require a CUDA GPU (see Hardware floor above).
-  Neither Kulira nor Drishdi (both Apple-silicon Macs) has one, and
-  the checkpoints are access-gated. Not runnable here today.
-- Therefore no mask comparison could be executed. The decisive
-  comparison (SAM boxes/masks vs the calibrated grid on the stored
-  wall captures, IoU per cell) is specified and ready to run the
-  day either a Model API key or a CUDA host exists; until then the
-  verdict above stands on the primary-source capability analysis:
-  SAM cannot read panel state (b), and fixed geometry solves
-  (a)/(c) exactly without it.
+Correction first: an earlier version of this page reported
+`401 invalid_api_key` for the project keys. That was a defect in
+our own probe script (its authorisation header was mangled before
+sending), not a Meta response. Re-tested correctly, both project
+keys authenticate, `sam-3.1` is listed, and the comparison below
+actually ran. Evidence: `validation/wall-observer/sam31-comparison-001.json`.
 
-## Access re-test with the project keys (2026-11-06, later)
+Setup: SAM 3.1 via `POST https://api.meta.ai/v1/responses`,
+`include_confidence=true`, on stored wall captures. Grid side: the
+calibrated fixed grid (`wall_report.DEFAULT_CORNERS`) on
+`validation/wall-observer/demo-001/sample-beginning.jpg` (1000x750,
+all 16 panels READY), whose same-state noise floor is mean
+per-cell RGB delta 1.45, max 4.03.
 
-- Kulira `META_MUSE_API_KEY` and Drishdi `META_API_KEY` (each tested
-  in place, never printed or copied): `GET /v1/models` and
-  `POST /v1/responses` with model `sam-3.1` both return
-  `401 invalid_api_key` under Bearer, `x-api-key`, and `Api-Key`
-  headers. These are Muse keys; the Muse session itself
-  authenticates by OAuth subscription, a separate mechanism.
-- The same 401 covers every Model API model, including any audio
-  model: no Meta audio sample could be generated with these keys.
-- Grid side executed on the stored captures so the comparison is
-  half-run and waiting only on SAM: the calibrated fixed grid
-  measures all 16 cells on the demo wall captures with a same-state
-  noise floor of mean per-cell RGB delta 1.45, max 4.03
-  (`validation/wall-observer/demo-001/stats.json`) - any future SAM
-  mask must beat that determinism, not merely exist.
-- Unblock is a single owner action: create a Meta Model API key in
-  the Meta platform dashboard (separate from Muse keys), or
-  provide a CUDA host for the gated open weights. On either, the
-  specified IoU-per-cell comparison runs unchanged.
+| Test | Result |
+|---|---|
+| Concept "LED panel" / "monitor" / "television" | 0 objects |
+| Concept "screen" / "display" / "LED screen" | 1 object: the whole wall (conf 0.85-0.95; best single-cell box IoU 0.067) |
+| Object prompts: the grid's 16 boxes | 16/16 returned, mean box IoU **0.921**, min 0.868, conf 0.73-0.91 |
+| Concept "screen", second identical run | Identical box and confidence |
+| Panel state (text/colour) in any output | None — box + mask + confidence only |
+
+Verdict, now measured rather than inferred: SAM cannot discover
+the 16 panels and cannot read their state, so it is not the wall
+pipeline. Given known boxes it refines them superbly (IoU 0.921),
+which makes it a genuine one-off calibration bootstrap/verifier —
+the role section (a) predicted. The fixed grid remains the
+runtime answer: exact cell identity, deterministic, CPU-only.
+
+Audio note: the same API lists `muse-voice-transcribe-1.0`
+(speech-to-text) but no speech-generation model, so generated
+mission-alert audio is not available on this API today.
