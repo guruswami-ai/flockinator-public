@@ -129,6 +129,16 @@ Tuning only on exploratory seeds. Final evaluation runs `run_reputation(held_out
 ---
 ## Pre-reg: Coalition with Fresh IDs vs Policy E
 
+> **Status update on review (2026-11-06): already executed.** This
+> experiment exists as
+> [colluding-minorities](colluding-minorities-preregistration.md) with
+> [results](colluding-minorities-results.md)
+> (`validation/kulira/colluding-minorities-001.json`): dangerous
+> commits under E rose 3 -> 65 as colluders went 0 -> 3; E-M reduced
+> but did not eliminate them. The text below is retained as the
+> fleet draft that independently re-derived the same design; do not
+> re-run it as a new experiment.
+
 **Hypothesis**
 H1: Reporter-independent counting falls to credentialed collusion. As colluders `k` 0→3 of 8 verified nodes lie, dangerous commits under Policy E rise monotonically.
 H2: Modality-diversity mitigates without killing recall. Policy E-M shows lower dangerous commits than E at same `k`, with mean survivor-recall loss <0.15.
