@@ -1,0 +1,107 @@
+{
+ "aggregate": {
+  "escalate-4-16": {
+   "found_by_4_rate": 0.2656,
+   "found_rate": 0.7344,
+   "mean_battery_serviceable_end": 46.428,
+   "mean_coverage_fraction": 0.6054,
+   "mean_damaged": 0.7422,
+   "mean_find_sortie_found_only": 6.351,
+   "mean_lost": 0.2109,
+   "mean_node_sorties": 60.4062,
+   "mean_readiness_6_or_end": 14.875,
+   "mean_serviceable_end": 15.0469,
+   "mean_utility": 54.4219,
+   "median_find_sortie_found_only": 6.0,
+   "seeds": 128
+  },
+  "escalate-4-16-far": {
+   "found_by_4_rate": 0.3438,
+   "found_rate": 0.8672,
+   "mean_battery_serviceable_end": 40.8213,
+   "mean_coverage_fraction": 0.621,
+   "mean_damaged": 1.1172,
+   "mean_find_sortie_found_only": 5.297,
+   "mean_lost": 0.4219,
+   "mean_node_sorties": 41.0859,
+   "mean_readiness_6_or_end": 8.7031,
+   "mean_serviceable_end": 14.4609,
+   "mean_utility": 69.7207,
+   "median_find_sortie_found_only": 5,
+   "seeds": 128
+  },
+  "fixed-14-hold": {
+   "found_by_4_rate": 0.2969,
+   "found_rate": 0.6016,
+   "mean_battery_serviceable_end": 32.7713,
+   "mean_coverage_fraction": 0.5381,
+   "mean_damaged": 0.7344,
+   "mean_find_sortie_found_only": 5.221,
+   "mean_lost": 0.3906,
+   "mean_node_sorties": 67.6641,
+   "mean_readiness_6_or_end": 12.7969,
+   "mean_serviceable_end": 14.875,
+   "mean_utility": 37.9121,
+   "median_find_sortie_found_only": 5,
+   "seeds": 128
+  },
+  "fixed-16-hold": {
+   "found_by_4_rate": 0.3203,
+   "found_rate": 0.6562,
+   "mean_battery_serviceable_end": 21.25,
+   "mean_coverage_fraction": 0.5297,
+   "mean_damaged": 0.8125,
+   "mean_find_sortie_found_only": 5.179,
+   "mean_lost": 0.375,
+   "mean_node_sorties": 74.8906,
+   "mean_readiness_6_or_end": 12.3672,
+   "mean_serviceable_end": 14.8125,
+   "mean_utility": 41.4648,
+   "median_find_sortie_found_only": 5.0,
+   "seeds": 128
+  },
+  "target-8-rotate": {
+   "found_by_4_rate": 0.3125,
+   "found_rate": 0.8438,
+   "mean_battery_serviceable_end": 63.2227,
+   "mean_coverage_fraction": 0.5946,
+   "mean_damaged": 0.7188,
+   "mean_find_sortie_found_only": 6.259,
+   "mean_lost": 0.25,
+   "mean_node_sorties": 56.9609,
+   "mean_readiness_6_or_end": 15.3359,
+   "mean_serviceable_end": 15.0312,
+   "mean_utility": 65.9785,
+   "median_find_sortie_found_only": 6.0,
+   "seeds": 128
+  }
+ },
+ "experiment": "commitment-strategy-confirmatory-001",
+ "n": 128,
+ "paired_differences": {
+  "escalate_vs_fixed14_found": {
+   "mean_diff": 0.1328,
+   "se_paired": 0.0611
+  },
+  "escalate_vs_fixed14_readiness": {
+   "mean_diff": 2.0781,
+   "se_paired": 0.4924
+  },
+  "fixed16_vs_escalate_found": {
+   "mean_diff": -0.0781,
+   "se_paired": 0.0572
+  },
+  "rotate8_vs_fixed14_found": {
+   "mean_diff": 0.2422,
+   "se_paired": 0.0552
+  },
+  "rotate8_vs_fixed14_readiness": {
+   "mean_diff": 2.5391,
+   "se_paired": 0.4668
+  }
+ },
+ "seeds": [
+  1000,
+  1127
+ ]
+}
