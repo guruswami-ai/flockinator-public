@@ -1,0 +1,53 @@
+{
+ "experiment": "flipflop",
+ "status": "DEV exploratory (seeds 0-15); confirmatory held-out NOT executed",
+ "simulation": true,
+ "preregistration": "docs/experiments/kulira-next-preregistrations.md",
+ "dev": {
+  "D1-R1": {
+   "dangerous": 90,
+   "hazards": 252,
+   "mean_recall": 0.9653,
+   "median_decision_flips": 17,
+   "mean_rechecks": 3.375,
+   "latched_seeds": 6,
+   "median_first_latch": 15
+  },
+  "D2-R2": {
+   "dangerous": 91,
+   "hazards": 252,
+   "mean_recall": 0.9758,
+   "median_decision_flips": 16,
+   "mean_rechecks": 3.4375,
+   "latched_seeds": 3,
+   "median_first_latch": 5
+  },
+  "D3-R2": {
+   "dangerous": 91,
+   "hazards": 252,
+   "mean_recall": 0.9758,
+   "median_decision_flips": 16,
+   "mean_rechecks": 3.4375,
+   "latched_seeds": 1,
+   "median_first_latch": 5
+  },
+  "D3-R4": {
+   "dangerous": 91,
+   "hazards": 252,
+   "mean_recall": 0.9758,
+   "median_decision_flips": 16,
+   "mean_rechecks": 3.4375,
+   "latched_seeds": 1,
+   "median_first_latch": 5
+  },
+  "D5-R5": {
+   "dangerous": 92,
+   "hazards": 252,
+   "mean_recall": 0.9799,
+   "median_decision_flips": 16,
+   "mean_rechecks": 3.5,
+   "latched_seeds": 0,
+   "median_first_latch": null
+  }
+ }
+}
