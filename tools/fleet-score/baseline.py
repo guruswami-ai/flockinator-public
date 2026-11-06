@@ -127,4 +127,8 @@ def main(argv=None):
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    try:
+        raise SystemExit(main())
+    except ValueError as exc:
+        print(f"baseline error: {exc}")
+        raise SystemExit(3)

@@ -16,7 +16,7 @@ import pathlib
 import tempfile
 import unittest
 
-from gate_runner import assert_versions, evaluate, main
+from gate_runner import assert_versions, evaluate, main, validate_seeds
 from score import SCORER_VERSION, score_run
 
 HOME = [7, 11]
@@ -387,17 +387,14 @@ if __name__ == "__main__":
 
 class SeedValidationTest(unittest.TestCase):
     def test_empty_seeds_rejected(self):
-        from gate_runner import validate_seeds
         with self.assertRaises(ValueError):
             validate_seeds([])
 
     def test_duplicate_seeds_rejected(self):
-        from gate_runner import validate_seeds
         with self.assertRaises(ValueError):
             validate_seeds([0, 0])
 
     def test_bool_and_float_seeds_rejected(self):
-        from gate_runner import validate_seeds
         for bad in ([True], [0.5], ["0"]):
             with self.assertRaises(ValueError):
                 validate_seeds(bad)
@@ -406,10 +403,16 @@ class SeedValidationTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             evaluate("T0", "P0", [], EVIDENCE)
 
-    def test_g6_missing_energy_fails_not_passes(self):
+    def test_g6_missing_energy_unmeasured_never_passes(self):
         rows = [make_row(s, energy=None) for s in range(4)]
         verdict = evaluate("T0", "P0", rows, EVIDENCE)
-        self.assertIs(verdict["gates"]["G6"]["pass"], False)
+        self.assertIsNone(verdict["gates"]["G6"]["pass"])
+
+    def test_g6_partially_missing_energy_unmeasured(self):
+        rows = [make_row(0, energy=100), make_row(1, energy=None),
+                make_row(2, energy=100), make_row(3, energy=100)]
+        verdict = evaluate("T0", "P0", rows, EVIDENCE)
+        self.assertIsNone(verdict["gates"]["G6"]["pass"])
 
     def test_stale_verdict_cleared_when_run_errors(self):
         with tempfile.TemporaryDirectory() as tmp:

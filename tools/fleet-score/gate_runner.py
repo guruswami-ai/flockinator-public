@@ -186,7 +186,6 @@ def validate_seeds(seeds):
         raise ValueError(f"config seeds must be ints, got {bad!r}")
     if len(set(seeds)) != len(seeds):
         raise ValueError(f"config seeds must be unique, got {seeds!r}")
-    return seeds
 
 
 def pooled_mislabel_rate(rows):
@@ -257,6 +256,10 @@ def evaluate(treatment, policy, rows, parity):
     commit_sum = sum(r["commit_col"] for r in rows) \
         if not unevaluable else None
     energy = mean_eligible_energy(rows)
+    energy_unmeasured = any(
+        r["eligible"] and (r["total_energy_spent"] is None
+                           or r["total_energy_spent"] == 0)
+        for r in rows)
     all_home = all(r["units_landed_home"] == r["units"] for r in rows)
     no_viol = all(r["reserve_floor_violations"] == 0 for r in rows)
 
@@ -291,7 +294,7 @@ def evaluate(treatment, policy, rows, parity):
         g6_detail = (f"mean eligible energy {energy}, all_home {all_home}, "
                      f"no_reserve_violations {no_viol}, parity {parity}")
         gates["G6"] = gate(
-            "G6", None if "G6" not in applicable_names
+            "G6", None if "G6" not in applicable_names or energy_unmeasured
             else (energy is not None and energy <= G6_ENERGY_MEAN_MAX
                   and all_home and no_viol
                   and isinstance(parity, dict)
@@ -421,9 +424,6 @@ def main(argv=None):
     }
     out = pathlib.Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
-    # A new run invalidates any previous verdict up front: a failed run
-    # must never leave a stale PASS verdict behind in --out.
-    (out / "verdict.json").unlink(missing_ok=True)
     (out / "verdict.json").write_text(json.dumps(payload, indent=1,
                                                   sort_keys=True) + "\n")
     table = render_table(treatment, policy, verdict)

@@ -37,3 +37,17 @@ class BaselineMainTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ParseSeedsTest(unittest.TestCase):
+    def test_range_and_list(self):
+        self.assertEqual(baseline.parse_seeds("0-2"), [0, 1, 2])
+        self.assertEqual(baseline.parse_seeds("3,5"), [3, 5])
+
+    def test_empty_rejected(self):
+        with self.assertRaises(ValueError):
+            baseline.parse_seeds("")
+
+    def test_duplicates_rejected(self):
+        with self.assertRaises(ValueError):
+            baseline.parse_seeds("1,1")
