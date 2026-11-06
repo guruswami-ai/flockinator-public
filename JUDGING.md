@@ -1,5 +1,10 @@
 # Judging entry point — five minutes to the evidence
 
+> **Scope in one breath:** scored results are host planner-simulation
+> replay (no on-node inference yet); all planner candidates to date were
+> rejected by the frozen gates; "verified" trust labels mean label
+> segregation in simulation, not cryptographic proof.
+
 **Flockinator** is a physical instrument for measuring whether
 small agents that share information do better than the same agents
 alone — and how that sharing breaks under forgery, error, and lies.
@@ -28,7 +33,7 @@ and pre-registered gates make the claims checkable.
      --config docs/results/cycle-07/verdicts/verdicts-cfg-T3-P0.json \
      --out /tmp/verdict-out
 
-   # The full scorer + gate-runner suite (69 tests)
+   # The full scorer + gate-runner suite
    uv run --project tools/fleet-score python -m pytest tools/fleet-score -q
 
    # Kulira adversary suite

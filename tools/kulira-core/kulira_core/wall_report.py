@@ -18,6 +18,7 @@ DEFAULT_CORNERS. Rows top->bottom are D,C,B,A; columns 1..4.
 """
 from __future__ import annotations
 
+import html
 import json
 import math
 from pathlib import Path
@@ -127,9 +128,9 @@ def _rgb_css(cell) -> str:
 def svg_heatmap(grid, title: str) -> str:
     s = 52
     parts = [f'<svg width="{4*s+70}" height="{4*s+30}" role="img" '
-             f'aria-label="{title}" xmlns="http://www.w3.org/2000/svg">',
+             f'aria-label="{html.escape(title, quote=True)}" xmlns="http://www.w3.org/2000/svg">',
              f'<text x="0" y="14" font-size="13" fill="#1a1d21" '
-             f'font-family="monospace">{title}</text>']
+             f'font-family="monospace">{html.escape(title)}</text>']
     for r in range(4):
         for c in range(4):
             x, y = 30 + c * s, 20 + r * s
@@ -152,9 +153,9 @@ def svg_delta_chart(cmp_result: dict, title: str) -> str:
     width = 30 + len(cells) * (bw + gap)
     mx = max((c["rgb_delta"] for c in cells), default=1) or 1
     parts = [f'<svg width="{width}" height="{bh+70}" role="img" '
-             f'aria-label="{title}" xmlns="http://www.w3.org/2000/svg">',
+             f'aria-label="{html.escape(title, quote=True)}" xmlns="http://www.w3.org/2000/svg">',
              f'<text x="0" y="14" font-size="13" fill="#1a1d21" '
-             f'font-family="monospace">{title}</text>']
+             f'font-family="monospace">{html.escape(title)}</text>']
     for i, cell in enumerate(cells):
         hgt = bh * cell["rgb_delta"] / mx
         x = 30 + i * (bw + gap)
@@ -194,8 +195,9 @@ def build_report(session_dir, out_dir, loader, flip: bool = True) -> dict:
         svgs.append(svg_delta_chart(
             cmp_result, f"per-cell RGB change {first} -> {last}"))
     phase_rows = "".join(
-        f"<tr><td>{p}</td><td>{len(data['phases'][p]['frames'])}</td>"
-        f"<td>{data['phases'][p]['frames'][0]['utc']}</td></tr>"
+        f"<tr><td>{html.escape(p)}</td>"
+        f"<td>{len(data['phases'][p]['frames'])}</td>"
+        f"<td>{html.escape(str(data['phases'][p]['frames'][0]['utc']))}</td></tr>"
         for p in order)
     cmp_html = ""
     if cmp_result:
@@ -204,9 +206,9 @@ def build_report(session_dir, out_dir, loader, flip: bool = True) -> dict:
                     f"max {cmp_result['max_rgb_delta']}; cells changed "
                     f"(delta &gt; 25): {cmp_result['cells_changed_over_25']}"
                     f" of 16.</p>")
-    html = f"""<!DOCTYPE html>
+    page = f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
-<title>Wall report - {d.name}</title>
+<title>Wall report - {html.escape(d.name)}</title>
 <style>
 body {{ font-family: ui-monospace, monospace; background: #f4f4f2;
 color: #1a1d21; margin: 2rem; }}
@@ -230,6 +232,6 @@ encoding: every value is also printed as a number.</p>
 their sha256 manifest live in the session directory; verify with
 <code>kulira wall verify --session &lt;dir&gt;</code>.</p>
 </body></html>"""
-    (out / "report.html").write_text(html)
+    (out / "report.html").write_text(page)
     stats["report"] = str(out / "report.html")
     return stats
