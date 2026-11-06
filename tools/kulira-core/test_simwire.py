@@ -54,3 +54,42 @@ def test_event_apply_once():
 def test_fnv_matches_twin_definition():
     assert fnv1a(b"") == 0x811C9DC5
     assert fnv1a(b"a") == 0xE40C292C
+
+
+def test_reassembler_rejects_bad_fragments():
+    r = Reassembler()
+    frames = snapshot_frames(KEY, 5, RUN, 42, 1, WORLD, 123)
+    hdr, pay = unpack_frame(KEY, frames[0])
+    assert r.feed(hdr, pay[:50]) is None            # short payload
+    bad = struct.pack("<BBI", 4, 9, 123) + pay[6:]  # idx out of range
+    assert r.feed(hdr, bad) is None
+    fork = struct.pack("<BBI", 4, 1, 999) + pay[6:]  # prev_hash fork
+    r.feed(hdr, pay)
+    assert r.feed(hdr, fork) is None
+
+
+def test_reassembler_apply_once():
+    frames = snapshot_frames(KEY, 5, RUN, 42, 1, WORLD, 123)
+    r = Reassembler()
+    got = None
+    for f in frames:
+        hdr, pay = unpack_frame(KEY, f)
+        got = r.feed(hdr, pay) or got
+    assert got == WORLD
+    hdr, pay = unpack_frame(KEY, frames[0])
+    assert r.feed(hdr, pay) is None  # duplicate after complete: no re-emit
+
+
+def test_intent_single_use_and_expiry():
+    g = IntentGate()
+    g.offer(3, 0, 10, b"\x01\x02")
+    assert g.for_tick(3, 12) == b"\x01\x02"
+    assert g.for_tick(3, 13) == b"\x00\x00"  # consumed, not replayed
+    g.offer(3, 1, 10, b"\x03\x04")
+    assert g.for_tick(3, 100) == b"\x00\x00"  # expired
+
+
+def test_pack_frame_rejects_oversize():
+    import pytest
+    with pytest.raises(ValueError):
+        pack_frame(KEY, INTENT, 1, 0, RUN, 1, 1, b"x" * 200)

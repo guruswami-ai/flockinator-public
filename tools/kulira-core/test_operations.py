@@ -70,3 +70,10 @@ def test_explorer_fraction_changes_outcome_and_is_deterministic():
     c = run_operation(61, "K8", explorer_frac=0.0, **kw)
     assert a == b and a != c or a["found"] != c["found"] or True
     assert 0 <= a["ready_end"] <= 16
+
+
+def test_stall_release_deterministic_and_bounded():
+    kw = dict(incidents=8, daylight_turns=160, recharge=4, ground_rest=True,
+              p_fail=0.01, far_frac=0.35, start_battery=75.0, stall_release=30)
+    a = run_operation(181, "K8", **kw)
+    assert a == run_operation(181, "K8", **kw) and 0 <= a["ready_end"] <= 16
