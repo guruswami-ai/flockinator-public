@@ -36,7 +36,7 @@ tick,seed,rx_hash,signal,conf,decision,latency_ms,free_heap,dropped_flag
 
 ## 2. Hypotheses + Falsification
 
-* **H1 Parity-perfect:** At 0% loss, ESP32 decisions = twin on >=99% ticks per seed, seeds 40-59.
+* **H1 Parity-perfect:** At 0% loss, ESP32 decisions = twin on >=99% ticks per seed, seeds 80-99.
   *Falsified if any seed <99%.*
 * **H2 Graceful degradation:** At 10% / 20% deterministic drop, parity >=90% / >=75%, zero crash/reboot, 100% of >500ms timeouts -> `WAIT`.
   *Falsified if below threshold, any hang needing manual reset, or any timeout != WAIT.*
@@ -48,7 +48,7 @@ tick,seed,rx_hash,signal,conf,decision,latency_ms,free_heap,dropped_flag
 | Gate | Condition | N | Pass |
 |---|---|---|---|
 | **0 Build** | seed 40, 50 ticks, 0% loss | smoke | compiles, SIM+MGMT up, SD rows written, `twin.py` runs, other 15 displays unaffected |
-| **1 Parity** | seeds 40-59, 500 ticks each, 0% loss | 10,000 ticks | H1 holds, p95 latency <200ms, min heap >20kB |
+| **1 Parity** | seeds 80-99, 500 ticks each, 0% loss | 10,000 ticks | H1 holds, p95 latency <200ms, min heap >20kB |
 | **2 Loss** | same 20 seeds x 500 ticks at 5% / 10% / 20% drop | 30,000 ticks | H2 holds + monotonic: parity_0% >= parity_10% >= parity_20% |
 | **3 Audit** | offline `compare_twin.py` SD vs twin | all | H3 holds + all drops accounted via seq gaps |
 
@@ -65,12 +65,12 @@ Success: Gate1 >=99%, Gate2 thresholds met, zero SD gaps, zero reboots.
 
 ## 5. Seeds & Protocol (do today)
 
-* **Fixed seeds:** 40-59 inclusive (20 seeds x 500 ticks). No re-seeding after START. Drop masks precomputed from seed.
+* **Fixed seeds:** 80-99 inclusive (20 seeds x 500 ticks). No re-seeding after START. Drop masks precomputed from seed.
 * **Procedure:**
   1. Flash frozen `world_host.ino` + DUT firmware. Record both `sha256`, commit this file.
   2. Via MGMT 160B: `ASSIGN_SEED`, verify auth + `REPORT_HASH`. Start SIM broadcast.
   3. Run Gate 0->1->2->3 in order. No code change between gates or run is void.
-  4. Remove SD, `sha256` CSV, run `compare_twin.py --seeds 40-59`. Publish per-seed table.
+  4. Remove SD, `sha256` CSV, run `compare_twin.py --seeds 80-99`. Publish per-seed table.
 * **Exclusions:** Any run with power loss, code change, or MGMT failure excluded and reported. Do not silently replace.
 
 ## 6. Explicit Non-claims
