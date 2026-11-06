@@ -17,6 +17,12 @@ lanes in a 4x4 matrix, one lane per node, plus one coordinator:
 | d1-d4 | D1-D4 | `muse-spark-1.1` | low | Node evidence assessors |
 | coordinator | fleet | `muse-wonder-full-1.0` | - | Synthesis, experiment and release decisions |
 
+Other Meta Model API models verified live on this project (2026-11-06):
+`sam-3.1` (segmentation comparison in `docs/research/sam-3.1-wall-evaluation.md`)
+and `muse-image-1.0` (the rescue-swarm illustration on the public simulation
+site; illustrative only, never used as evidence). `muse-voice-transcribe-1.0`
+is speech-to-text only; no speech-generation model is listed.
+
 Credentials are injected by the launcher and never stored in this repository. Model IDs and effort are
 configured per lane above. Per-assessment request provenance is not yet
 published as a citable trace bundle (post-judging backlog), so a routing
