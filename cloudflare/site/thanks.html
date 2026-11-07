@@ -30,13 +30,13 @@
 <li>Reviewers in other lanes critiqued those changes against the written rescue task and the failure history.</li>
 <li>Assessors read the sealed journals and scores after a run, against frozen gates, with failures published alongside passes.</li>
 </ol>
-<p>Our loop stayed the same throughout:</p>
+<p>The published host-simulation evidence follows this loop:</p>
 <ol>
-<li>Flash firmware to the nodes.</li>
+<li>Pin the host simulator and policy code.</li>
 <li>Run a seeded rescue task with the same start conditions.</li>
 <li>Save sealed journals and scores.</li>
 <li>Ask separate review lanes to critique what happened.</li>
-<li>Write new firmware and run again.</li>
+<li>Check proposed changes before a separately registered run.</li>
 </ol>
 <p>We pre-registered each trial, wrote falsifiable hypotheses in advance, used held-out scoring, and published failures alongside successes. Datasets were hash-linked, redaction-scanned, and shareable.</p>
 <h2>A fleet of models, a wall of nodes</h2>
@@ -45,6 +45,13 @@
 <p>The wall is made of identical rescue practice nodes. Each node is a Waveshare ESP32-S3-RGB-Matrix (N32R16, 32MB flash, 16MB PSRAM) driving a P2.5 64x64 RGB LED panel, 160x160mm, with microSD storage per node, onboard microphones, an SHTC3 temperature and humidity sensor, a QMI8658 motion sensor, a PCF85063 clock, and perimeter speakers in printed carriers.</p>
 <p>A Korvo ESP32-S3 board hosts the web view, touch display, planner simulation, and learning lab. A LilyGo T5 4.7in ESP32-S3 board works as a handheld view. Power comes from a MEAN WELL LRS-350-5 5V supply. Diffusers, carriers, and mounts are printed in Bambu PLA, with finished CAD models in <code>cad/</code>.</p>
 <h2>What that work let us check</h2>
+<p>One <a href="https://github.com/guruswami-ai/flockinator-public/blob/main/docs/research/meta-contribution-bundle-001.md">recorded Meta contribution</a>
+is inspectable: a review attributed by the supervisor to
+<code>muse-spark-1.3-contributor</code> identified a truncated-journal false pass
+in the host twin comparator; PR #122 added length-mismatch handling and a
+regression test. The public response text and code hashes support checking the
+change, but do not independently attest the model or API input; raw API
+envelopes were not archived. This is separate from the physical wall footage.</p>
 <p>With that setup we ran 15 pre-registered experiments about team communication during rescue practice.</p>
 <p>In host simulation replay, NOT on-node, teams with clear shared messages reached 72.9% team success, compared with 56.6% with silence or private notes only, and 33.6% with corrupted messages.</p>
 <p>To stay clear about honesty rules: the quadcopter scenario is visualisation on a shared virtual world plus the panel wall. Scored results are host replay. When we say verified, we mean label segregation, not crypto proof. No planner has passed full gates yet.</p>

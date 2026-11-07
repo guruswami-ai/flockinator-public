@@ -22,14 +22,14 @@ you can verify it from this repository alone:
 | Promotion gates were pre-registered, not edited after results | process claim | F | Gate list + threshold provenance in `docs/results/README.md`; frozen values in `results-data.json` (`gates`) |
 | Per-sighting identify accuracy bounds vote policies | 60-82% by cover | R | `COVER` table, `tools/mission-host/planner.py` |
 | Holdout seeds 100-109 baseline recall | 0.2055 | F | `results-data.json` `holdout_baseline`; holdout never run for rejected candidates |
-| Scorer test suite | 69 tests pass | R | `uv run --project tools/fleet-score python -m pytest tools/fleet-score -q` |
+| Scorer test suite | Pass count depends on checked-out commit | R | `git rev-parse HEAD`; `uv run --project tools/fleet-score python -m pytest tools/fleet-score -q` — record revision and observed count together |
 
 ## Trust layer (cycle-07, simulation replay)
 
 | Claim | Value | Class | Evidence / check |
 |---|---|---|---|
-| Outsider forgery cannot enter a vote (G1) | 61 forged emitted, 0 vote entries | R | `docs/results/cycle-07/` journals + verdicts; re-run via README commands (baseline regen + `gate_runner.py`) |
-| Lying insider cannot force a dangerous commit (G4/T3) | 10/10 forced flips → 0 Enemy-committed-Friendly | R | same; `engagement.json` for flip counts |
+| Outsider forgery vote entries observed (G1, T1, dev seeds 0–19) | 61 forged emitted, 0 vote entries in simulated journals | R | `docs/results/cycle-07/` journals + verdicts; re-run via README commands (baseline regen + `gate_runner.py`); scorer label segregation, not cryptographic exclusion |
+| Lying-insider dangerous commits observed (G4, T3 × P0/P1, dev seeds 0–19) | 10/10 forced flips applied → 0 Enemy-committed-Friendly in simulation | R | same; `engagement.json` for flip counts; bounded observation, not a guarantee against other insiders or attacks |
 | Patient liar (T4, turn ≥30) | PASS **vacuous** — 0 engagements | R | `verdicts/annotations.json` (machine-readable vacuity) |
 | Hearsay fusion (P1) helps/hurts | — | U | Untested: no hearsay in cycle-07 journals; unit fixtures only |
 | Abstention policy (P2) performance | — | U | UNMEASURED by construction in cycle-07 (no scorer column). Kulira's relay series measures related policies in its own harness: `docs/experiments/` |

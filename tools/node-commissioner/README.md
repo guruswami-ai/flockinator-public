@@ -21,10 +21,11 @@ For a newly identified controller, use `provision` with its physically assigned 
 ```sh
 uv run --project tools/node-commissioner python -m node_commissioner provision \
   --label A2 --mac "$FLOCKINATOR_NODE_MAC" --port "$FLOCKINATOR_NODE_PORT" \
-  --manifest "$FLOCKINATOR_MANIFEST"
+  --manifest "$FLOCKINATOR_MANIFEST" --inventory "$FLOCK_NODE_INVENTORY" \
+  --evidence-root "$FLOCK_EVIDENCE_ROOT"
 ```
 
-Set those variables from the identified controller and reviewed release before running. `list` shows USB descriptors; the transaction independently verifies the ROM factory MAC, chip, flash capacity and protection state. A complete initial-install manifest must include trusted hashes for `bootloader.bin`, `partitions.bin`, `ota_data_initial.bin` and `firmware.bin`, plus the firmware version and embedded application digest. These have fixed offsets `0`, `0x8000`, `0xF000` and `0x20000`. Application-only releases cannot be used for initial installation. Explicitly rejected and rollback-test packages are blocked; selecting a candidate manifest does not make it a fleet-approved release.
+Set those variables from the identified controller and reviewed release before running. `FLOCK_NODE_INVENTORY` selects your private CSV with at least `label,factory_base_mac,status` columns, and `FLOCK_EVIDENCE_ROOT` selects your private evidence directory. Use the same verified identities as your credential roster; the [independent setup guide](../../docs/independent-fleet-setup.md) includes a synthetic schema example. Omitting these options retains the historical repository inventory and validation paths, whose example bindings are not your own board identities. Commands that resolve labels also accept `--inventory`; `test` and `accept` accept `--evidence-root` for private evidence. `list` shows USB descriptors; the transaction independently verifies the ROM factory MAC, chip, flash capacity and protection state. A complete initial-install manifest must include trusted hashes for `bootloader.bin`, `partitions.bin`, `ota_data_initial.bin` and `firmware.bin`, plus the firmware version and embedded application digest. These have fixed offsets `0`, `0x8000`, `0xF000` and `0x20000`. Application-only releases cannot be used for initial installation. Explicitly rejected and rollback-test packages are blocked; selecting a candidate manifest does not make it a fleet-approved release.
 
 Unless `--skip-backup` is supplied or already recorded in that transaction, the command preserves a unique private full-flash backup and verifies it against the device before writing. It then verifies the shared firmware, saves the label, private Wi-Fi configuration and per-node management key, reboots, checks actual identity/build/core health and records `commissioned_for_installation`. Panel, speaker, SD-card and peer acceptance remain separate, so an unattached peripheral does not block installation. No card is formatted, no whole-flash erase is issued and no eFuses are changed.
 
@@ -32,17 +33,28 @@ If interrupted, leave the same controller connected and rerun the **same command
 
 The lower-level USB commands `assign`, `wifi`, `pair-key` and `reboot` remain available. `assign` changes only the firmware label; it does not execute the full commissioning transaction.
 
-Wi-Fi and identity-bound management keys are read from the private controller store at `~/.local/share/flockinator/controller-secrets/credentials.json`. This local-store option allows routine operation without repeated vault prompts; importing credentials does not rotate existing node keys.
+Wi-Fi and identity-bound management keys are read from the private controller store at `~/.local/share/flockinator/controller-secrets/credentials.json`. Set `FLOCK_CREDENTIAL_STORE` to choose another private file. A new owner can initialize this store using their own Wi-Fi and verified node roster, with no existing owner inventory, credential references, or 1Password installation.
 
-One-time bootstrap on an authorised control host (may require one 1Password unlock):
+On your authorized control host, prepare a private version-1 JSON roster containing `nodes` with unique `label` and `base_mac` fields. Set `FLOCK_NODE_ROSTER` to its path and `FLOCK_NODE_COUNT` to your independently reviewed node count. See the [independent fleet setup guide](../../docs/independent-fleet-setup.md) for the exact schema and protected input options. Check the roster and unused destination first:
+
+```sh
+export FLOCK_CREDENTIAL_STORE="$HOME/.local/share/flockinator/controller-secrets/credentials.json"
+uv run --project tools/node-commissioner python -m node_commissioner credentials init \
+  --store "$FLOCK_CREDENTIAL_STORE" --roster "$FLOCK_NODE_ROSTER" \
+  --expected-nodes "$FLOCK_NODE_COUNT" --dry-run
+```
+
+Then run the same command **without `--dry-run`** to enter the SSID and password at hidden prompts (including password confirmation) and generate one independent random 256-bit management key per identity. Wi-Fi and key values never appear in command arguments or output. Dry-run reads no Wi-Fi, generates no keys, and writes nothing. Initialization refuses any existing destination, including a broken symlink; there is no overwrite or rotation flag. `management_key(create=True)` continues to reuse an existing identity-bound key and fails for missing local records.
+
+For existing keys held in your own vault, the separate one-time importer remains available on an authorized control host (may require one 1Password unlock):
 
 ```sh
 uv run --project tools/node-commissioner python -m node_commissioner.credentials import-vault
 ```
 
-The importer validates all records before writing a complete store, creates a private 0700 directory and 0600 file, and never overwrites an existing store. The store contains actual shared management secrets and Wi-Fi credentials, is outside the repository, and must not be committed or included in ordinary source backups. `FLOCK_CREDENTIAL_STORE` selects a separate private store on another controller. The local file is the default once present; invalid, insecure or missing local records fail explicitly without silently prompting through the vault. Before a local store exists, the legacy vault provider remains available through the packaged reference manifest (`FLOCK_CREDENTIAL_REFERENCES` overrides it).
+Both creation paths validate records before atomically publishing a complete version-1 store, create private 0700 directories and a 0600 file, and never replace an existing store. Use a user-owned private destination outside the repository with no symlink path components or shared writable ancestors; existing directory permissions are checked, not changed. These filesystem safeguards require a POSIX host with directory descriptors and hard links. The store contains actual shared management secrets and Wi-Fi credentials and must not be committed or included in ordinary source backups. The local file is the default once present; invalid, insecure or missing local records fail explicitly without silently prompting through the vault. Before a local store exists, the legacy vault provider remains available through a separately supplied reference manifest (`FLOCK_CREDENTIAL_REFERENCES` overrides its path); fresh-owner initialization does not use that provider.
 
-For another authorised control host, securely copy the private directory with its owner-only permissions, or run the one-time import there. The handheld already retains its provisioned node roster/keys. No fleet-wide replacement key is introduced; the host and each node retain their existing shared key. `save-wifi` remains disabled; credential changes must be explicit. Raw flash backups remain separate private recovery material. Application OTA preserves the identity partition; a full erase does not.
+For another authorized control host managing already provisioned nodes, securely copy the private directory with its owner-only permissions, or import the same existing keys there. Creating a new store generates different keys and cannot recover access to already keyed nodes. Initialization only prepares host credentials: it does not inspect, flash or provision hardware, change inventory, or update a handheld. `save-wifi` remains disabled; credential changes must be explicit. Raw flash backups remain separate private recovery material. Application OTA preserves the identity partition; a full erase does not.
 
 Example application update after selecting an independently verified image:
 

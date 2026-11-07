@@ -1,0 +1,13 @@
+{
+  "source_commit": "aabd15feb8b03c6218d3b719ac88d8f02e4593e7",
+  "lane": "controller",
+  "started_at": "2026-11-07T10:48:25.343759+00:00",
+  "script": "set -e\nexport PATH=/opt/homebrew/bin:/build/operator/.local/bin:$PATH\ncd /build/initial\nexport IDF_PYTHON_ENV_PATH=/build/operator/.espressif/python_env/idf6.1_py3.12_env\nsource /build/operator/esp/esp-idf-s31/export.sh\nexport KORVO_SDK_PATH=/build/operator/esp/esp-dev-kits-s31\ncd firmware/korvo-monitor\nidf.py --preview -B /build/initial/isolated-korvo-build build\n",
+  "automatic_model_execution": false,
+  "hardware_actions": false,
+  "exit_code": 2,
+  "finished_at": "2026-11-07T10:48:28.351579+00:00",
+  "log_sha256": "baac57ee7e4394820a43c847c92b1753572450b09a4dc67a0fa8bb5020cafff9",
+  "log_hash_scope": "log_sha256 identifies original log before documented path/ANSI normalization",
+  "published_log_sha256": "4b1eb623e3470cffb2269f0a020c1255aa106aef9b61bc0ed6c9355628f6118d"
+}

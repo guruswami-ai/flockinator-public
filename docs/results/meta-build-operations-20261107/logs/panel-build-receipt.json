@@ -1,0 +1,13 @@
+{
+  "source_commit": "aabd15feb8b03c6218d3b719ac88d8f02e4593e7",
+  "lane": "panel",
+  "started_at": "2026-11-07T10:48:24.165633+00:00",
+  "script": "set -e\nexport PATH=/opt/homebrew/bin:/build/operator/.local/bin:$PATH\ncd /build/initial\nexport PLATFORMIO_BUILD_DIR=/build/initial/isolated-pio-build\nexport PLATFORMIO_LIBDEPS_DIR=/build/initial/isolated-pio-libdeps\n/build/operator/.platformio/penv/bin/pio --version\n/build/operator/.platformio/penv/bin/pio test --project-dir firmware/node-platform --environment native\n/build/operator/.platformio/penv/bin/pio run --project-dir firmware/node-platform --environment waveshare-s3\n/build/operator/.platformio/penv/bin/pio run --project-dir firmware/node-platform --environment journal-trial\n",
+  "automatic_model_execution": false,
+  "hardware_actions": false,
+  "exit_code": 0,
+  "finished_at": "2026-11-07T10:49:59.996167+00:00",
+  "log_sha256": "bdabae4e8737ce6c4bf5f45a8ab731d7a5657032c04e711db226a41553b0f182",
+  "log_hash_scope": "log_sha256 identifies original log before documented path/ANSI normalization",
+  "published_log_sha256": "9da7b5d06fd259ec0064e944e27b18dd5b3754a9699f1fb4af62755cddca6255"
+}

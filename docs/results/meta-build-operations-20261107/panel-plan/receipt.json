@@ -1,0 +1,36 @@
+{
+  "schema": "flockinator-meta-build-call/1",
+  "endpoint": "https://api.meta.ai/v1/responses",
+  "started_at": "2026-11-07T10:47:06.294754+00:00",
+  "requested_model": "muse-spark-1.3-contributor",
+  "request_sha256": "b07ba6d9fcb938df85f0070d5622b51f6606deae79d4de65e4af94b71225b7da",
+  "attempts": 1,
+  "automatic_retries": 0,
+  "http_status": 200,
+  "provider_request_id": "b438b125-9bfa-4cb3-8cca-7213100f0227",
+  "outcome": "completed",
+  "response_headers": {
+    "content-type": "application/json",
+    "date": "Sat, 07 Nov 2026 10:47:45 GMT",
+    "x-request-id": "b438b125-9bfa-4cb3-8cca-7213100f0227",
+    "request-id": null
+  },
+  "response_sha256": "9a31bb7ba5efef74d2877d2e57466b56333c8e0444e1643c199f7b31d183aa4f",
+  "credential_redacted": false,
+  "reported_model": "muse-spark-1.3-contributor",
+  "response_id": "resp_6aef01d12872303299d1444f",
+  "usage": {
+    "input_tokens": 3618,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 5306,
+    "output_tokens_details": {
+      "reasoning_tokens": 4564
+    },
+    "total_tokens": 8924
+  },
+  "provider_status": "completed",
+  "finished_at": "2026-11-07T10:47:45.576297+00:00",
+  "elapsed_seconds": 39.281423
+}

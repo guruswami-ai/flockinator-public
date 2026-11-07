@@ -1,0 +1,35 @@
+-- The C compiler identification is AppleClang 21.0.0.21000401
+-- The CXX compiler identification is AppleClang 21.0.0.21000401
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (2.0s)
+-- Generating done (0.0s)
+-- Build files have been written to: /build/initial/isolated-response-native
+[ 25%] Building C object CMakeFiles/portable_mbedtls.dir/build/operator/.platformio/packages/framework-espidf/components/mbedtls/mbedtls/library/md.c.o
+[ 25%] Building C object CMakeFiles/portable_mbedtls.dir/build/operator/.platformio/packages/framework-espidf/components/mbedtls/mbedtls/library/sha256.c.o
+[ 37%] Building C object CMakeFiles/portable_mbedtls.dir/build/operator/.platformio/packages/framework-espidf/components/mbedtls/mbedtls/library/platform_util.c.o
+[ 50%] Linking C static library libportable_mbedtls.a
+[ 50%] Built target portable_mbedtls
+[ 75%] Building CXX object CMakeFiles/test_protocol.dir/test_protocol.cpp.o
+[ 75%] Building CXX object CMakeFiles/test_production.dir/test_production.cpp.o
+[ 87%] Linking CXX executable test_protocol
+[ 87%] Built target test_protocol
+[100%] Linking CXX executable test_production
+[100%] Built target test_production
+Test project /build/initial/isolated-response-native
+    Start 1: management_response_protocol
+1/2 Test #1: management_response_protocol ..........   Passed    0.35 sec
+    Start 2: management_response_production_http
+2/2 Test #2: management_response_production_http ...   Passed    0.33 sec
+
+100% tests passed out of 2
+
+Total Test time (real) =   0.69 sec
