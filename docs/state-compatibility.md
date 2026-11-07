@@ -10,7 +10,7 @@ Historical captures retain the vocabulary of their recorded revision.
 |---|---|---|
 | Node and handheld shared model | [model.h](../firmware/shared/recon/model.h) | 30 states; numeric order is part of the status protocol |
 | Illustrated guide | [states.json](scenarios/quadcopter-survey/states.json) | 25 selected explanatory states; omits EVENT, MARK, FRIEND, TARGET and BLANK |
-| Browser mission preview | [renderer.mjs](../previews/recon-hud/renderer.mjs) | 25 legacy renderer states; includes ENGAGE and ZOOM (displayed as KILL), omits APPROVED, ORDERS, TAKEOFF, BLANK and READY from this exported list |
+| Browser mission preview | [renderer.mjs](../previews/recon-hud/renderer.mjs) | 25 legacy renderer keys; includes ENGAGE and ZOOM (displayed as EVENT and MARK), omits APPROVED, ORDERS, TAKEOFF, BLANK and READY from this exported list |
 
 The browser can separately render preparation states used by its timeline. Its
 exported list is not a firmware enum or a promise of state-for-state parity.
@@ -29,10 +29,10 @@ not the complete executable transition graph.
 | Overview 2: DOWN | KIA | Simulated unavailable/failure outcome |
 | Overview 3: LOST | MIA | Simulated missing-link or energy outcome; distinguish from state 7 LOST, which means the observation was lost |
 
-At the audited revision the host `mission_projection.py` still used ENGAGE/KILL
-for state slots 6/8, while the shared C++ model used EVENT/MARK. Do not infer a
-changed numeric protocol from these labels. Any adapter fix should keep the slots
-and test them against the shared model.
+The follow-up adapter repair accepts current EVENT/MARK reports and historical
+ENGAGE/KILL aliases in slots 6/8. Host-generated state names use EVENT/MARK. The
+browser retains ENGAGE/ZOOM internally for timeline compatibility but displays
+EVENT/MARK. Numeric slots and scripted endings are unchanged.
 
 The mixed-outcome timeline selects MARK for three of ten hash buckets, before
 reserve/phase handling; its overview becomes DOWN after ten seconds. That is a
