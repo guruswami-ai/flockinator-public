@@ -1,0 +1,13 @@
+{
+  "source_commit": "aabd15feb8b03c6218d3b719ac88d8f02e4593e7",
+  "lane": "response-native",
+  "started_at": "2026-11-07T10:48:26.522433+00:00",
+  "script": "set -e\nexport PATH=/opt/homebrew/bin:/build/operator/.local/bin:$PATH\ncd /build/initial\n/build/operator/.local/bin/uv run --no-project python firmware/shared/management/tests/run_native.py --mbedtls-source /build/operator/.platformio/packages/framework-espidf/components/mbedtls/mbedtls --build-dir /build/initial/isolated-response-native --sanitize\n",
+  "automatic_model_execution": false,
+  "hardware_actions": false,
+  "exit_code": 0,
+  "finished_at": "2026-11-07T10:48:31.392532+00:00",
+  "log_sha256": "17297002defe3886badb9d552dddaecde6720ce506f930069709bac03239f7bf",
+  "log_hash_scope": "log_sha256 identifies original log before documented path/ANSI normalization",
+  "published_log_sha256": "34b53132ebfdbda24a19bba0b0b08a602334b095ee12e50bc509bd205c1ac16e"
+}

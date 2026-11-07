@@ -72,6 +72,7 @@ review and its checked code change, reproduction and limits.
 | Feedback-trust boundary (delayed/sparse reveal) | [`docs/experiments/feedback-trust-confirmatory-results.md`](docs/experiments/feedback-trust-confirmatory-results.md), [`validation/kulira/feedback-trust-paired-001.json`](validation/kulira/feedback-trust-paired-001.json) — simulation, narrowed claim #159 |
 | Feedback-trust reporting update (2026-11-07) | [Post hoc supplement](docs/experiments/feedback-trust-reporting-supplement.md) supersedes the [status note's](docs/experiments/feedback-trust-evidence-status.md) reporting gaps; historical verdicts stand, matched-threshold causal study remains future work |
 | Firmware build/test provenance | [`docs/firmware-evidence.md`](docs/firmware-evidence.md) |
+| Recorded Meta API build assistance | [Four real calls, checked commands, retained failures and build logs](docs/results/meta-build-operations-20261107/README.md) — operational evidence, not measured comparative benefit or hardware acceptance |
 | What runs where (honestly) | [`docs/judging/physical-execution-map.md`](docs/judging/physical-execution-map.md), [`docs/architecture.md`](docs/architecture.md) |
 | Residual problems, named | R1-R9 in [`docs/results/README.md`](docs/results/README.md) |
 | Hardware / CAD | [`docs/hardware.md`](docs/hardware.md), [`cad/README.md`](cad/README.md) |

@@ -1,0 +1,56 @@
+{
+  "source_commit": "aabd15feb8b03c6218d3b719ac88d8f02e4593e7",
+  "artifacts": [
+    {
+      "path": "isolated-pio-build/waveshare-s3/firmware.bin",
+      "bytes": 1446880,
+      "sha256": "aab4fd41b0f7ad66a6c08793efe615a0821150f0de84311087b7241a99dbab69"
+    },
+    {
+      "path": "isolated-pio-build/waveshare-s3/firmware.elf",
+      "bytes": 12100604,
+      "sha256": "529c182feb8f1528b4f4dfe8dbb0d151908eb673c813081680693e08dde55dfa"
+    },
+    {
+      "path": "isolated-pio-build/waveshare-s3/bootloader.bin",
+      "bytes": 21392,
+      "sha256": "14cf7f82eee22926a2690d2bc45421a656b846ae26aa65a69ffc350808c4ade7"
+    },
+    {
+      "path": "isolated-pio-build/waveshare-s3/partitions.bin",
+      "bytes": 3072,
+      "sha256": "bbd3c8d05219921746aeb87bc12f4e899db17f201ae40a81bf711577939678a4"
+    },
+    {
+      "path": "isolated-pio-build/waveshare-s3/firmware.factory.bin",
+      "bytes": 1577952,
+      "sha256": "3e3cc40200d6b46d52e9dfb4fc230b305fd040a525067b3f7bd6fb80aaad6fec"
+    },
+    {
+      "path": "isolated-pio-build/journal-trial/firmware.bin",
+      "bytes": 1448560,
+      "sha256": "294c3a79638daa3528809b3e93f07599b6fefd0b196a4c6b1497e01f25f68f31"
+    },
+    {
+      "path": "isolated-pio-build/journal-trial/firmware.elf",
+      "bytes": 12121352,
+      "sha256": "cf7aeed71ea991da7638a810b49c8e039c69b10e7c0fad40a762b6e453d999e2"
+    },
+    {
+      "path": "isolated-pio-build/journal-trial/bootloader.bin",
+      "bytes": 21392,
+      "sha256": "f2020ef1f9e77fcdecc8890fc36406faa3eb1638ed078bc92765b266a9415ba9"
+    },
+    {
+      "path": "isolated-pio-build/journal-trial/partitions.bin",
+      "bytes": 3072,
+      "sha256": "bbd3c8d05219921746aeb87bc12f4e899db17f201ae40a81bf711577939678a4"
+    },
+    {
+      "path": "isolated-pio-build/journal-trial/firmware.factory.bin",
+      "bytes": 1579632,
+      "sha256": "43740f23f5c744a9628982fb84bdcb85ac5cb34efdc1df614787f66f3138d1c5"
+    }
+  ],
+  "flashed": false
+}

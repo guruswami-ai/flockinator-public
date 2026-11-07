@@ -1,0 +1,8 @@
+Using CPython 3.12.13
+Creating virtual environment at: /build/corrected/build-tools
+Activate with: source /build/corrected/build-tools/bin/activate
+Using Python 3.12.13 environment at: /build/corrected/build-tools
+Resolved 1 package in 125ms
+Prepared 1 package in 31ms
+Installed 1 package in 1ms
+ + ninja==1.13.2
