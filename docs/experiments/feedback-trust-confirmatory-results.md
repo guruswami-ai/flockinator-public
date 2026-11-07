@@ -26,7 +26,15 @@ substantially complete. Delay alone at full availability
 still helps (REP D=15 A=1.0, dev grid); it is delay *combined
 with* sparse reveal that inverts the advantage, and any
 probationary weighting that counts un-revealed observations
-is dangerous in exactly that regime. Defence design rule
+is dangerous in exactly that regime. **Superseded
+(2026-11-07, review follow-up):** this runner's REP-P
+already counts revealed observations only (`seen`
+increments on applied reveals); the supported mechanism
+is that sparse reveal keeps the permissive probation
+policy active at REP's lower thresholds. The "helps only
+when prompt and substantially complete" phrasing is
+likewise superseded by the narrowed correction below.
+Defence design rule
 carried forward: a node may only discount a reporter on
 outcomes it has actually received, and when feedback quality
 is unknown, strict counting or abstention is the safe default.
@@ -68,3 +76,5 @@ is second-half. The historical JSON is not rewritten;
 read each field on its own window. Final reputation
 fields in the evidence are post-flush diagnostics, not
 the weights available to earlier decisions.
+
+Frozen-weight companion evidence: `validation/kulira/feedback-trust-frozen-001.json` (post hoc, generated as labelled there).

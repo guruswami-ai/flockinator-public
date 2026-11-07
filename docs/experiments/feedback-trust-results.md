@@ -86,3 +86,5 @@ confirmatory): probation never graduates there, so its
 excess is the unit-weight rule at REP thresholds, not a
 probation dynamic. Historical evidence JSON is
 unchanged; no new seeds were run.
+
+Frozen-weight companion evidence: `validation/kulira/feedback-trust-frozen-001.json` (post hoc, generated as labelled there).

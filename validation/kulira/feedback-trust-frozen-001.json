@@ -1,0 +1,12 @@
+{
+ "label": "post hoc diagnostic (not a registered result)",
+ "generated_from": "kulira_core.feedback_trust availability=0 (frozen unit weights)",
+ "cells": {
+  "dev REP d=15 frozen": 91,
+  "dev REP-P d=15 frozen": 91,
+  "dev REP d=15 a=0.25 learned": 45,
+  "confirmatory REP d=15 frozen": 83,
+  "confirmatory REP-P d=15 frozen": 83,
+  "confirmatory REP d=15 a=0.25 learned": 38
+ }
+}
