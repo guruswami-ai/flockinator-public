@@ -5,6 +5,11 @@
 > release notes below are historical: that path is legacy/recovery-only
 > (ESP-NOW recovery of a node whose Wi-Fi is broken).
 
+The release notes below describe historical capabilities. Private inventory
+and deployment records are not included in this public subset; these notes
+do not establish the version or acceptance status of a reader's hardware.
+See the [build guide](../../docs/build.md) for public build entry points.
+
 Release **0.10.1** combines the existing automatic mission presentation with
 shared terrain and relative peer positions. All sixteen nodes are deployed and
 running the repeating mission. It renders locally; no host bridge is needed.
@@ -15,8 +20,9 @@ notes describe retained optional modes, not the currently selected presentation.
 
 Release **0.10.0** adds authenticated host-survey snapshots with dynamic fictional
 energy, destination distance, reserve labels and stale freeze. All sixteen nodes
-are deployed; see `../../docs/validation/survey-deployment/README.md`. The host
-and bridge must run for this mode; LilyGo integration is pending.
+were reported deployed in private survey-deployment evidence, which is not
+bundled here. The host and bridge must run for this optional mode; the
+LilyGo integration note belongs to that historical release.
 
 Release **0.9.0** added continuous local World view: shared seeded terrain,
 authored per-node camera poses, neutral peer cues and live pose HUD. World view
@@ -32,11 +38,12 @@ retained capabilities.
 
 Version **0.5.1** adds explicit SD maintenance over authenticated Wi-Fi, USB and the LilyGo ESP-NOW relay. All sixteen nodes have been commissioned; current deployed versions and physical acceptance remain in the inventory. Persistent identity, independent 64×64 diagnostic pages, sensors, audio checks and two-slot OTA remain available.
 
-Build and test:
+Build and test from the repository root, with PlatformIO's `pio` on PATH.
+Run these jobs sequentially:
 
 ```sh
-$HOME run --project-dir firmware/node-platform --environment waveshare-s3
-$HOME test --project-dir firmware/node-platform --environment native
+pio run --project-dir firmware/node-platform --environment waveshare-s3
+pio test --project-dir firmware/node-platform --environment native
 ```
 
 The board configuration is for Waveshare ESP32-S3-N32R16: 32 MB octal flash and 16 MB octal PSRAM. Two 8 MB application slots and a separate identity NVS partition are defined in `partitions.csv`. Dependencies are pinned in `src/idf_component.yml` and `dependencies.lock`. `CONFIG_CODEC_I2C_BACKWARD_COMPATIBLE` must remain disabled: the firmware uses the new IDF I2C driver throughout.

@@ -75,15 +75,16 @@ The old single-character `h/d/a/r/i/s` serial commands are **not the live protoc
 
 ## Build and device handling
 
-From the repository root:
+From the repository root, with PlatformIO's `pio` on PATH. Run PlatformIO
+jobs sequentially:
 
 ```sh
-$HOME run --project-dir firmware/management-console -e lilygo-s3
-$HOME test --project-dir firmware/management-console -e native
+pio run --project-dir firmware/management-console -e lilygo-s3
+pio test --project-dir firmware/management-console -e native
 uv run --project tools/node-commissioner python -m pytest tools/node-commissioner/tests -q
 ```
 
-Dependencies remain pinned: espressif32 6.12.0; Arduino ESP32 2.0.17 (framework package 3.20017.241212+sha.dcc1105b); LilyGo-EPD47 commit `50224221fb81a8fcf9068532374b775af84a38d4`; SensorLib 0.3.1; Button2 2.3.2; ArduinoJson 7.4.3. A forced `math.h` include supplies a declaration required by the unmodified vendor driver. Build/library caches live under `~/.cache/flockinator-platformio/`; the pre-script removes verified AppleDouble companions only in project-owned source/include/test folders.
+Dependencies remain pinned: espressif32 6.12.0; Arduino ESP32 2.0.17 (framework package 3.20017.241212+sha.dcc1105b); LilyGo-EPD47 commit `50224221fb81a8fcf9068532374b775af84a38d4`; SensorLib 0.3.1; Button2 2.3.2; ArduinoJson 7.4.3. A forced `math.h` include supplies a declaration required by the unmodified vendor driver. Build/library caches live under `~/.cache/flockinator-platformio/`; the [shared pre-script](../node-platform/scripts/appledouble.py) removes verified AppleDouble companions from this project's source/include/test/managed_components folders. Keep the sibling `node-platform` directory when building this public checkout.
 
 Identify the physical LilyGo and exact MAC before any upload. USB VID/PID `303A:1001` also identifies other Espressif devices and is not sufficient to select it. Close competing serial clients. The board uses the vendor's 16 MB partition layout; a full initial upload writes bootloader, partitions, OTA metadata and application. Preserve a verified original flash backup privately before replacing firmware; do not publish backups or credentials. SD contents are not formatted by an upload.
 
@@ -102,6 +103,6 @@ The board definition retains the pinned LilyGo repository's GPL-3.0 licence in `
 
 The handheld can relay authenticated SD status, inspection and explicit format/test commands between the host USB connection and node firmware 0.5.1 using ESP-NOW. This works without node DHCP leases and does not format the handheld's own SD card. The serial operations are `sd_request` and `sd_result`, with per-transaction correlation and node-MAC checks; use the node commissioner's SD client instead of hand-crafting packets. This release does not add touchscreen erase controls.
 
-Bulk image staging now exposes `image_status`: active upload name, size, SHA-256, offset and console boot ID. The host reads this after a missing acknowledgement and only retries a write when the ordered offset readback proves it was not stored. Session mismatch fails closed. Final whole-file and embedded-image hashes are still required before publication. The pinned HWCDC USB transport still has observed delayed/lost replies; this release adds tested recovery rather than claiming to eliminate the driver issue. A real 1,039,600-byte upload completed with 59 successful recovery queries; see `../../docs/validation/fleet/20261014T081730Z-console-upload-audit/README.md`.
+Bulk image staging now exposes `image_status`: active upload name, size, SHA-256, offset and console boot ID. The host reads this after a missing acknowledgement and only retries a write when the ordered offset readback proves it was not stored. Session mismatch fails closed. Final whole-file and embedded-image hashes are still required before publication. The pinned HWCDC USB transport still has observed delayed/lost replies; this release adds tested recovery rather than claiming to eliminate the driver issue. The historical upload audit is private and is not bundled in this public subset; its device results cannot be reproduced from this README.
 
 0.2.12's diagnostic `Serial.flush()` change did not solve the fault and was removed. Display refresh and touch logic remain those validated in 0.2.10. Existing roster keys, Wi-Fi settings and SD media are retained across these updates.

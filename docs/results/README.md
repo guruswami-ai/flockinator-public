@@ -115,7 +115,7 @@ for contested contacts.
 ```sh
 uv run --project tools/fleet-score python tools/fleet-score/score.py docs/results/sample-runs/baseline-seed-10
 uv run --project tools/fleet-score python tools/fleet-score/score.py docs/results/sample-runs/cycle-00-planner-capture
-uv run --project tools/fleet-score python -m pytest tools/fleet-score -q   # 69 tests (scorer v4 + gate runner)
+uv run --project tools/fleet-score python -m pytest tools/fleet-score -q
 uv run --project tools/fleet-score python docs/results/generate_dashboard.py                          # rebuild charts
 uv run --project tools/fleet-score python tools/fleet-score/baseline.py --seeds 0-19 --out /tmp/bl --label dev   # frozen baseline: recall 0.2141
 ```

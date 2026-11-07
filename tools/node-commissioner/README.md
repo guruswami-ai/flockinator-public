@@ -110,7 +110,7 @@ uv run --project tools/node-commissioner python -m node_commissioner.console \
 
 This starts one node's ESP-NOW transfer and keeps the same serial connection open while reporting progress. Success requires a fresh authenticated report from the same target, a changed boot count, the expected image digest and valid OTA state. Command acceptance or completed byte transfer alone is not success. If the host times out or disconnects, the controller operation may still be running; inspect status before attempting another deployment. Do not open a competing serial monitor or repeatedly reconnect USB during transfer, because reopening the port can reset the handheld.
 
-The current implementation is an integration prototype. Actual transfer and recovery acceptance are tracked under `docs/validation/cluster-deployment/`; these usage examples do not establish that the hardware tests passed. The [console README](../../firmware/management-console/README.md) describes touch controls, freshness states, SD storage and the live JSON protocol. Its historical single-character serial soak tool does not apply to live firmware.
+The current implementation is an integration prototype. Actual transfer and recovery acceptance are tracked in private cluster-deployment records, which are not bundled in this public subset; these usage examples do not establish that the hardware tests passed. The [console README](../../firmware/management-console/README.md) describes touch controls, freshness states, SD storage and the live JSON protocol. Its historical single-character serial soak tool does not apply to live firmware.
 
 
 ## SD maintenance
