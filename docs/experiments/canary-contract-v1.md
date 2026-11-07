@@ -31,6 +31,10 @@ Comparisons are integer (`signal_q`), never raw float.
 CSV header: `tick,seed,input_hash,decision,latency_us`
 
 - `input_hash`: FNV-1a-32 over `"{tick}:{seed}:{signal_q}:{obstacle}:{loss}"`, 8-char lowercase hex.
+  Rendering is frozen: decimal integers, booleans as `0`/`1`
+  (`int(bool)`), UTF-8, colon separators, no padding. The golden
+  vectors were produced with exactly this rendering; any other
+  rendering is a different hash and will mismatch all 300 rows.
 - `latency_us`: device-measured; host writes 0. Comparator ignores this column.
 - Row identity is `(tick, seed)`: a comparator must verify both
   match positionally; altered tick/seed is a mismatch, not a pass.
