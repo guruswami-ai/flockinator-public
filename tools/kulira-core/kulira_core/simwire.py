@@ -80,13 +80,15 @@ class Reassembler:
         self.completed_tick = -1  # replays at/below this are rejected
 
     def reset(self, run_id: bytes, seed: int, cycle: int) -> None:
-        """Authorized reset for a NEW run (issue #144).
+        """Authorized reset for a NEW run (issues #144/#150).
 
         Only the management layer may call this, after a run has
         been announced on the authenticated management channel.
-        Incoming SIM frames can never reset the replay watermark:
-        a context change on the wire is treated as foreign traffic
-        until reset() is called with the announced context.
+        It PINS the receiver to the announced (run_id, seed,
+        cycle): fragments from any other context are rejected
+        before any state mutation, including complete stale
+        snapshots from a previous run. Wire traffic alone never
+        changes the pin and never clears the replay watermark.
         """
         self.tick, self.parts, self.mask = None, {}, 0
         self.run_id = (run_id, seed, cycle)
@@ -104,12 +106,10 @@ class Reassembler:
         if tick <= self.completed_tick:
             return None  # completed or stale snapshot replay: reject
         context = (header["run_id"], header["seed"], header["cycle"])
-        if context != self.run_id:
-            if self.tick is not None and isinstance(self.run_id, tuple) \
-                    and context[0] == self.run_id[0]:
-                return None  # same run, mixed seed/cycle at live tick: reject
-            self.tick, self.parts, self.mask = None, {}, 0
-            self.run_id = context
+        if self.run_id is None:
+            self.run_id = context  # first-use bootstrap: pin first context
+        elif context != self.run_id:
+            return None  # foreign context: reject before any mutation
         if self.tick is not None and tick < self.tick:
             return None  # stale frag, never merged across ticks
         if tick != self.tick:
