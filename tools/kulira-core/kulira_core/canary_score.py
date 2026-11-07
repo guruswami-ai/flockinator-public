@@ -63,25 +63,24 @@ def score_journal(device_rows: list[dict], ticks: int = 500,
 
 
 def main(argv=None) -> int:
+    import argparse
     import json
     import pathlib
     import sys
-    argv = list(sys.argv[1:] if argv is None else argv)
-    ticks, expected, paths = 500, None, []
-    i = 0
-    while i < len(argv):
-        if argv[i] == "--ticks" and i + 1 < len(argv):
-            ticks = int(argv[i + 1]); i += 2
-        elif argv[i] == "--seeds" and i + 1 < len(argv):
-            expected = [int(s) for s in argv[i + 1].split(",")]; i += 2
-        else:
-            paths.append(argv[i]); i += 1
-    if len(paths) != 1:
-        print("usage: canary_score.py <device-journal.csv> "
-              "[--ticks N] [--seeds 80,81,82]", file=sys.stderr)
-        return 2
-    text = pathlib.Path(paths[0]).read_text()
-    reports = score_journal(load_device_csv(text), ticks=ticks,
+    parser = argparse.ArgumentParser(
+        prog="canary_score",
+        description="Score a canary device journal against the host twin.")
+    parser.add_argument("journal", help="device journal CSV")
+    parser.add_argument("--ticks", type=int, default=500,
+                        help="ticks per seed (Gate A: 100, Gate B: 500)")
+    parser.add_argument("--seeds", default=None,
+                        help="expected seed manifest, e.g. 80,81,82; "
+                             "asserts gate acceptance (parity 1.0)")
+    args = parser.parse_args(argv)
+    expected = ([int(s) for s in args.seeds.split(",")]
+                if args.seeds else None)
+    text = pathlib.Path(args.journal).read_text()
+    reports = score_journal(load_device_csv(text), ticks=args.ticks,
                             expected_seeds=expected)
     print(json.dumps(reports, indent=1))
     # The JSON is the verdict; the exit code must not contradict it.
@@ -91,12 +90,15 @@ def main(argv=None) -> int:
         r["parity"] is None or r["link_failure"] for r in reports.values())
     # With an explicit --seeds manifest the CLI asserts gate
     # acceptance, not mere scorability: Gate A passes only when
-    # every expected seed matches on every row (parity 1.0).
+    # every expected seed matches on every row (parity 1.0), and
+    # any unmanifested seed in the journal also fails acceptance.
     # Without a manifest the command is scoring-only and a
     # numerical parity below 1.0 is a publishable result.
     if expected:
         failed = failed or any(
             reports[str(s)]["parity"] != 1.0 for s in expected)
+        failed = failed or any(
+            int(s) not in expected for s in reports)
     return 1 if failed else 0
 
 

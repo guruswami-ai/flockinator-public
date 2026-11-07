@@ -1,3 +1,5 @@
+import pathlib
+
 import pytest
 
 from kulira_core.canary_score import load_device_csv, main, score_journal
@@ -82,3 +84,41 @@ def test_one_wrong_decision_fails_gate_a_acceptance(tmp_path):
                  "--seeds", "80,81,82"]) == 1
     # Scoring-only mode (no manifest) still publishes the number.
     assert main([str(journal), "--ticks", "100"]) == 0
+
+
+def test_golden_vectors_score_parity_one(tmp_path):
+    # Gate A is defined against the frozen golden CSV, not only
+    # against twin-generated journals (drift guard).
+    import csv as _csv
+    golden = (pathlib.Path(__file__).parents[2]
+              / "validation/kulira/canary-golden-vectors-001.csv")
+    rows = list(_csv.DictReader(golden.open()))
+    assert len(rows) == 300
+    lines = ["tick,seed,input_hash,decision,latency_us"]
+    for r in rows:
+        lines.append(f"{r['tick']},{r['seed']},{r['input_hash']},"
+                     f"{r['decision']},0")
+    journal = tmp_path / "golden-device.csv"
+    journal.write_text("\n".join(lines) + "\n")
+    assert main([str(journal), "--ticks", "100",
+                 "--seeds", "80,81,82"]) == 0
+
+
+def test_unmanifested_extra_seed_fails_acceptance(tmp_path):
+    rows = []
+    for seed in (80, 81, 82):
+        rows.extend(run_twin(seed, 100, p_loss=0.0))
+    rows.extend(run_twin(99, 100, p_loss=0.0))
+    journal = tmp_path / "extra.csv"
+    journal.write_text(to_csv(rows))
+    assert main([str(journal), "--ticks", "100",
+                 "--seeds", "80,81,82"]) == 1
+
+
+def test_malformed_cli_args_exit_two():
+    with pytest.raises(SystemExit) as exc:
+        main(["--ticks"])
+    assert exc.value.code == 2
+    with pytest.raises(SystemExit) as exc:
+        main(["--ticks", "abc", "x.csv"])
+    assert exc.value.code == 2
