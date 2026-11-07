@@ -4,8 +4,9 @@ For a researcher or student asking: *can I trust what a group
 of small, communicating agents decides - and can I watch it go
 wrong?* Flockinator is a bench instrument for that question.
 Sixteen ESP32 panels on a wall make a simulated rescue search
-visible; behind the wall, every claim below traces to a file
-you can re-run.
+visible; behind the wall, the claims below trace to files in
+this repository, and the commands at the end re-run the test
+suites and the flagship communication benchmark.
 
 ## What you are looking at
 
@@ -16,7 +17,7 @@ by host simulation (this is stated, not hidden - see the
 instrument's value at this stage is the measurement system
 around the simulation: pre-registered experiments, frozen
 scoring gates, sealed ground truth, and journals that let a
-third party reproduce every verdict.
+third party re-check the published verdicts.
 
 ## One flagship result (measured, surprising, falsified once)
 
@@ -26,15 +27,19 @@ never tested. We tested commitment as an operational question
 (a whole day of incidents, not one mission) in four seeded
 regimes ([full index](../experiments/operations-commitment-index.md)):
 
-- Benign world: parking 2 costs nothing.
-- Binding world: launching all 16 finds *fewer* survivors over
-  the day than parking 2 (0.938 vs 0.981) - early
-  over-commitment grounds aircraft later incidents need.
-- Loss-bearing world: a committed 8 beats both; all-16 loses
-  the most aircraft (0.90/day).
+- Benign world (seeds 0-19): parking 2 costs nothing
+  measurable.
+- Binding world (seeds 20-39): launching all 16 finds *fewer*
+  survivors over the day than parking 2 (find rate 0.938 vs
+  0.981) - early over-commitment grounds aircraft later
+  incidents need.
+- Loss-bearing world (seeds 40-59): a committed 8 beats both
+  on finds; all-16 loses the most aircraft (0.90 per daylight
+  window).
 - An explorer minority looked promising on dev seeds and then
-  **failed its confirmatory run on fresh seeds** (0.644 vs
-  0.800) - published as falsified, not quietly dropped.
+  **failed its confirmatory run on fresh seeds** (seeds
+  100-119, find rate 0.644 vs 0.800) - published as falsified,
+  not quietly dropped.
 
 The trade is real: commitment level is regime-dependent, so
 the reserve count should be a tested scenario parameter, not
@@ -45,23 +50,51 @@ with evidence attached.
 
 A `muse-spark-1.3-contributor` review of our host simulation
 twin returned a blunt verdict - "not parity-safe as-is" - with
-four concrete defects. The measurable consequence: before the
-fix, a device journal truncated to 90 of 100 rows scored
-parity **1.0** (a false pass); after it, the same evidence is
-correctly reported **UNMEASURED**, and full journals score
-exactly 1.000 at 0-20% simulated input loss
-([rehearsal](../experiments/canary-host-rehearsal-results.md)).
-The full trace - input hash, model, verbatim response,
-verification, code change, test outcomes - is in
+ranked findings. The one with a measurable before and after:
+the first comparator scored a device journal truncated to 90
+of 100 rows as parity **1.0** (a false pass). The fix made in
+response (PR #122) returns `parity: None` with
+`length_mismatch: true` for that case, and a regression test
+pins it (`tools/kulira-core/test_twin.py`). The comparator
+function reports those fields; it does not emit a verdict
+label such as UNMEASURED - that word belongs to the fleet-score
+gate runner.
+
+Two later changes are separate from that review: PR #126 made
+agreement per-row over identity, hash and decision after the
+2026-11-07 reassessment found the earlier formula overstated
+it, and PR #137 added the contract v1.1 missing-input
+semantics. Under v1.1 the
+[host rehearsal](../experiments/canary-host-rehearsal-results.md)
+scores full host-generated journals at exactly 1.000 parity
+with 0-20% simulated input loss - a comparator self-check, not
+device execution.
+
+The inspectable artifacts - the verbatim response note with its
+SHA-256, the git blob and SHA-256 of the recorded source revision
+(its link to the model identity and the request input rests on
+the supervisor's record, as the bundle states), the PR diffs and
+the suite outcomes at each merge - are listed with verifier
+commands in
 [Meta contribution bundle 001](../research/meta-contribution-bundle-001.md).
+The prompt, the fan-out script and the raw API envelope are not
+public; the bundle records that limit.
 
 ## Reproduce it (about a minute)
 
 ```sh
-uv run --project tools/kulira-core python -m pytest tools/kulira-core -q   # 200 passed
-uv run --project tools/fleet-score python -m pytest tools/fleet-score -q  # 89 passed
-python3 tools/reproduce/run.py --out /tmp/repro --verify                  # VERIFY OK
+uv run --project tools/kulira-core python -m pytest tools/kulira-core -q   # kulira-core unit tests
+uv run --project tools/fleet-score python -m pytest tools/fleet-score -q   # fleet-score unit tests
+uv run python tools/reproduce/run.py --verify     # flagship field-signals benchmark vs expected.json
 ```
+
+The first two lines run the unit suites; pass counts are
+commit-specific, so read them from the run rather than from this
+page. The third regenerates the field-signals-v1 communication
+benchmark (seeds 0-15) and compares its scientific content
+against `tools/reproduce/expected.json`. None of the three rebuilds the
+commitment, explorer or canary tables above; those come from the
+validation JSON files linked from each results page.
 
 ## What is not claimed
 
