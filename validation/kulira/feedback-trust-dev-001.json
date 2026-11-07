@@ -1,0 +1,194 @@
+{
+ "split": "dev seeds 220-239",
+ "results": {
+  "E d=0 a=1.0": {
+   "dangerous_first": 49,
+   "dangerous_second": 36,
+   "mean_recall": 0.4541,
+   "mean_decisions": 17.7,
+   "rep_colluders": 0.143
+  },
+  "E d=0 a=0.5": {
+   "dangerous_first": 49,
+   "dangerous_second": 36,
+   "mean_recall": 0.4541,
+   "mean_decisions": 17.7,
+   "rep_colluders": 0.281
+  },
+  "E d=0 a=0.25": {
+   "dangerous_first": 49,
+   "dangerous_second": 36,
+   "mean_recall": 0.4541,
+   "mean_decisions": 17.7,
+   "rep_colluders": 0.573
+  },
+  "E d=5 a=1.0": {
+   "dangerous_first": 49,
+   "dangerous_second": 36,
+   "mean_recall": 0.4541,
+   "mean_decisions": 17.7,
+   "rep_colluders": 0.143
+  },
+  "E d=5 a=0.5": {
+   "dangerous_first": 49,
+   "dangerous_second": 36,
+   "mean_recall": 0.4541,
+   "mean_decisions": 17.7,
+   "rep_colluders": 0.281
+  },
+  "E d=5 a=0.25": {
+   "dangerous_first": 49,
+   "dangerous_second": 36,
+   "mean_recall": 0.4541,
+   "mean_decisions": 17.7,
+   "rep_colluders": 0.573
+  },
+  "E d=15 a=1.0": {
+   "dangerous_first": 49,
+   "dangerous_second": 36,
+   "mean_recall": 0.4541,
+   "mean_decisions": 17.7,
+   "rep_colluders": 0.143
+  },
+  "E d=15 a=0.5": {
+   "dangerous_first": 49,
+   "dangerous_second": 36,
+   "mean_recall": 0.4541,
+   "mean_decisions": 17.7,
+   "rep_colluders": 0.281
+  },
+  "E d=15 a=0.25": {
+   "dangerous_first": 49,
+   "dangerous_second": 36,
+   "mean_recall": 0.4541,
+   "mean_decisions": 17.7,
+   "rep_colluders": 0.573
+  },
+  "REP d=0 a=1.0": {
+   "dangerous_first": 39,
+   "dangerous_second": 9,
+   "mean_recall": 0.3773,
+   "mean_decisions": 13.6,
+   "rep_colluders": 0.143
+  },
+  "REP d=0 a=0.5": {
+   "dangerous_first": 55,
+   "dangerous_second": 18,
+   "mean_recall": 0.4756,
+   "mean_decisions": 17.7,
+   "rep_colluders": 0.281
+  },
+  "REP d=0 a=0.25": {
+   "dangerous_first": 63,
+   "dangerous_second": 37,
+   "mean_recall": 0.5522,
+   "mean_decisions": 21.3,
+   "rep_colluders": 0.573
+  },
+  "REP d=5 a=1.0": {
+   "dangerous_first": 47,
+   "dangerous_second": 11,
+   "mean_recall": 0.4097,
+   "mean_decisions": 15.05,
+   "rep_colluders": 0.143
+  },
+  "REP d=5 a=0.5": {
+   "dangerous_first": 62,
+   "dangerous_second": 19,
+   "mean_recall": 0.4978,
+   "mean_decisions": 18.75,
+   "rep_colluders": 0.281
+  },
+  "REP d=5 a=0.25": {
+   "dangerous_first": 70,
+   "dangerous_second": 39,
+   "mean_recall": 0.5615,
+   "mean_decisions": 22.0,
+   "rep_colluders": 0.573
+  },
+  "REP d=15 a=1.0": {
+   "dangerous_first": 66,
+   "dangerous_second": 9,
+   "mean_recall": 0.4731,
+   "mean_decisions": 17.75,
+   "rep_colluders": 0.143
+  },
+  "REP d=15 a=0.5": {
+   "dangerous_first": 73,
+   "dangerous_second": 21,
+   "mean_recall": 0.5547,
+   "mean_decisions": 21.1,
+   "rep_colluders": 0.281
+  },
+  "REP d=15 a=0.25": {
+   "dangerous_first": 81,
+   "dangerous_second": 45,
+   "mean_recall": 0.5912,
+   "mean_decisions": 23.75,
+   "rep_colluders": 0.573
+  },
+  "REP-P d=0 a=1.0": {
+   "dangerous_first": 80,
+   "dangerous_second": 13,
+   "mean_recall": 0.4902,
+   "mean_decisions": 19.2,
+   "rep_colluders": 0.143
+  },
+  "REP-P d=0 a=0.5": {
+   "dangerous_first": 87,
+   "dangerous_second": 73,
+   "mean_recall": 0.6472,
+   "mean_decisions": 27.1,
+   "rep_colluders": 0.281
+  },
+  "REP-P d=0 a=0.25": {
+   "dangerous_first": 87,
+   "dangerous_second": 90,
+   "mean_recall": 0.6738,
+   "mean_decisions": 28.75,
+   "rep_colluders": 0.573
+  },
+  "REP-P d=5 a=1.0": {
+   "dangerous_first": 84,
+   "dangerous_second": 19,
+   "mean_recall": 0.5145,
+   "mean_decisions": 20.4,
+   "rep_colluders": 0.143
+  },
+  "REP-P d=5 a=0.5": {
+   "dangerous_first": 87,
+   "dangerous_second": 78,
+   "mean_recall": 0.6591,
+   "mean_decisions": 27.7,
+   "rep_colluders": 0.281
+  },
+  "REP-P d=5 a=0.25": {
+   "dangerous_first": 87,
+   "dangerous_second": 91,
+   "mean_recall": 0.6738,
+   "mean_decisions": 28.8,
+   "rep_colluders": 0.573
+  },
+  "REP-P d=15 a=1.0": {
+   "dangerous_first": 87,
+   "dangerous_second": 41,
+   "mean_recall": 0.5829,
+   "mean_decisions": 23.6,
+   "rep_colluders": 0.143
+  },
+  "REP-P d=15 a=0.5": {
+   "dangerous_first": 87,
+   "dangerous_second": 89,
+   "mean_recall": 0.6708,
+   "mean_decisions": 28.6,
+   "rep_colluders": 0.281
+  },
+  "REP-P d=15 a=0.25": {
+   "dangerous_first": 87,
+   "dangerous_second": 91,
+   "mean_recall": 0.6738,
+   "mean_decisions": 28.8,
+   "rep_colluders": 0.573
+  }
+ }
+}
