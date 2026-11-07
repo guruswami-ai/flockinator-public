@@ -38,3 +38,15 @@ Policies D and E, the relay-attack series, modality-betrayal,
 and the other single-variable experiments do not rely on the
 false equivalence. Cycle-07 and planner scorecard results are
 separate artefacts and are unaffected.
+
+## Status update (2026-11-07)
+
+The "proposed, not yet run" statement above records the position on 2026-11-05;
+that follow-up has since been completed. See the
+[factorial registration](factorial-trust-preregistration.md) and
+[factorial results](factorial-trust-results.md), with synthetic evidence in
+`validation/kulira/factorial-trust-001.json`. The four cells separate weighting
+and thresholds in the composite world, with recall costs reported. This does
+not retrospectively repair the original bundled comparison or establish the
+same effect under delayed/incomplete feedback; that separate matched-control
+question is [still a proposal](feedback-trust-matched-control-proposal.md).
