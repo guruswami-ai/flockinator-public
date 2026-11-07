@@ -13,6 +13,10 @@ and pre-registered gates make the claims checkable.
 
 ## The five-minute path
 
+Short on time? [The demonstration in one page](docs/judging/demo-narrative.md)
+is the whole story - one flagship result, one measured Meta
+intervention, one reproduce block - in about two minutes.
+
 1. **Watch** the narrated demo (linked from the
    [README](README.md)) — what the wall is and why it exists.
 2. **Read the scoreboard:**
