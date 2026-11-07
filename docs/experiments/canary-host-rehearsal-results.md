@@ -52,3 +52,17 @@ journal write reliability, not real radio loss. Those are the
 canary's hardware gates, owned by the firmware side. This
 rehearsal only removes the scoring code from the list of
 suspects when hardware results arrive.
+
+**Correction (2026-11-07, issues #143/#144):** the evidence JSON
+above recorded `hash_mismatches` 21/38/79 at the three loss
+levels; those counts wrongly included canonical missing-input
+markers. With the comparator fixed, hash mismatches are 0 at
+every level (missing rows are diagnosed as missing, not
+corruption) and parity values are unchanged (1.000). The
+original JSON is preserved unmodified as the record of what
+was first published; this note is the dated correction. The
+comparator now also enforces the v1.1 link-failure cutoff
+(>50% missing -> `link_failure`, no numerical parity), and the
+SIM receiver has an explicit management-authorized `reset()`
+for new runs - wire frames alone never reset the replay
+watermark.

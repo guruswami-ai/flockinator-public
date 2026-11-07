@@ -81,3 +81,19 @@ def test_missing_input_rows_score_as_wait_not_mismatch():
     device[10]["decision"] = SEARCH  # missing input must WAIT
     out = parity(rows, device)
     assert out["parity"] < 1.0
+
+
+def test_link_failure_cutoff_boundaries():
+    from kulira_core.twin import missing_hash
+    host = run_twin(80, 100, p_loss=0.0)
+    def device_with_missing(k):
+        rows = [dict(r) for r in host]
+        for i in range(k):
+            rows[i] = {**rows[i], "input_hash": missing_hash(rows[i]["tick"], 80),
+                       "decision": WAIT}
+        return rows
+    for k, expect_fail in ((0, False), (49, False), (50, False), (51, True), (100, True)):
+        out = parity(host, device_with_missing(k))
+        assert out["link_failure"] is expect_fail, (k, out)
+        assert (out["parity"] is None) is expect_fail
+        assert out["hash_mismatches"] == 0  # missing markers are not corruption
