@@ -122,3 +122,28 @@ def test_malformed_cli_args_exit_two():
     with pytest.raises(SystemExit) as exc:
         main(["--ticks", "abc", "x.csv"])
     assert exc.value.code == 2
+
+
+def test_missing_marker_row_fails_gate_a_acceptance(tmp_path):
+    # Watch counterexample 2026-11-07: row 0 replaced by the
+    # missing marker + WAIT scored parity 1.0 and exit 0, but
+    # Gate A requires every supplied golden hash to match.
+    rows = []
+    for seed in (80, 81, 82):
+        rows.extend(run_twin(seed, 100, p_loss=0.0))
+    rows[0] = {**rows[0], "input_hash": missing_hash(0, 80),
+               "decision": WAIT}
+    journal = tmp_path / "missingrow.csv"
+    journal.write_text(to_csv(rows))
+    assert main([str(journal), "--ticks", "100",
+                 "--seeds", "80,81,82"]) == 1
+    # Scoring-only mode keeps the loss-aware metric.
+    rep = score_journal(load_device_csv(journal.read_text()), ticks=100)
+    assert rep["80"]["parity"] == 1.0
+    assert rep["80"]["missing_input_rows"] == 1
+
+
+def test_empty_seed_manifest_rejected():
+    with pytest.raises(SystemExit) as exc:
+        main(["x.csv", "--seeds", ""])
+    assert exc.value.code == 2
