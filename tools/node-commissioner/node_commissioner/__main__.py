@@ -7,7 +7,8 @@ from pathlib import Path
 from serial.tools import list_ports
 from .serial_link import SerialLink
 from .protocol import valid_mac, validate_status
-from .credentials import save_wifi, load_wifi, management_key
+from .credentials import (save_wifi, load_wifi, management_key,
+                          add_credential_arguments, run_credential_command)
 from .network import NetworkClient
 from .image import verify_image
 from .evidence import save_run
@@ -17,9 +18,19 @@ from .provisioning_backend import EsptoolBackend
 ROOT = Path(__file__).resolve().parents[3]
 
 
+def inventory_path(args):
+    selected = getattr(args, "inventory", None)
+    return selected.expanduser() if selected is not None else ROOT / "docs/inventory/nodes.csv"
+
+
+def evidence_root(args):
+    selected = getattr(args, "evidence_root", None)
+    return selected.expanduser() if selected is not None else ROOT / "docs/validation/nodes"
+
+
 def resolve_target(args):
     if args.label:
-        with (ROOT / "docs/inventory/nodes.csv").open(newline="") as file:
+        with inventory_path(args).open(newline="") as file:
             rows = [r for r in csv.DictReader(file) if r["label"] == args.label]
         if len(rows) != 1:
             raise ValueError("Unknown node label")
@@ -88,7 +99,7 @@ def load_initial_package(manifest: Path) -> Package:
 def provision_target(args) -> dict:
     if not valid_mac(args.mac):
         raise ValueError("Supply the exact factory MAC as six hexadecimal pairs")
-    inventory = ROOT / "docs/inventory/nodes.csv"
+    inventory = inventory_path(args)
     with inventory.open(newline="") as source:
         rows = list(csv.DictReader(source))
     matches = [row for row in rows if row.get("label") == args.label]
@@ -107,7 +118,7 @@ def provision_target(args) -> dict:
         print(json.dumps(dict(transaction=str(transaction), label=args.label, base_mac=args.mac)), flush=True)
         return Provisioning(backend=backend, inventory=inventory, transaction=transaction,
             backup_root=private / "backups/nodes" / mac_directory,
-            evidence_root=ROOT / "docs/validation/nodes", label=args.label, mac=args.mac,
+            evidence_root=evidence_root(args), label=args.label, mac=args.mac,
             package=package, wifi=wifi, key=key, skip_backup=args.skip_backup).run()
     finally:
         backend.close()
@@ -116,12 +127,15 @@ def provision_target(args) -> dict:
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
+    add_credential_arguments(sub.add_parser("credentials", help="Initialize or import private controller credentials"))
     sub.add_parser("list"); sub.add_parser("save-wifi")
     provision = sub.add_parser("provision", help="Resumable initial flash, provisioning and inventory")
     provision.add_argument("--label", required=True, choices=[f"{row}{column}" for row in "ABCD" for column in range(1, 5)])
     provision.add_argument("--mac", required=True, type=str.upper)
     provision.add_argument("--port", required=True)
     provision.add_argument("--manifest", required=True, type=Path)
+    provision.add_argument("--inventory", type=Path, help="Your private CSV inventory; defaults to repository inventory")
+    provision.add_argument("--evidence-root", type=Path, help="Your private evidence directory; defaults to repository validation directory")
     provision.add_argument("--transaction", type=Path, help="Private journal directory; reuse the same directory to resume")
     provision.add_argument("--skip-backup", action="store_true",
                            help="Record owner-authorized waiver of original-flash backup; retained on resume")
@@ -129,17 +143,23 @@ def main(argv=None):
         p = sub.add_parser(name)
         p.add_argument("--port"); p.add_argument("--mac"); p.add_argument("--address")
         p.add_argument("--label", required=name in ("assign", "test", "accept"))
+        p.add_argument("--inventory", type=Path, help="Your private CSV inventory for label resolution")
         p.add_argument("--output", type=Path)
         if name == "test":
+            p.add_argument("--evidence-root", type=Path, help="Your private evidence directory")
             p.add_argument("--suite", choices=["hardware"], default="hardware")
             p.add_argument("--seconds", type=int, default=10)
         if name == "update":
             p.add_argument("--image", type=Path, required=True)
             p.add_argument("--sha256", required=True)
         if name == "accept":
+            p.add_argument("--evidence-root", type=Path, help="Your private evidence directory")
             p.add_argument("--check", choices=["panel", "speaker", "microphone_channels", "button", "motion"], required=True)
             p.add_argument("--result", choices=["pass", "fail"], required=True)
     args = parser.parse_args(argv)
+    if args.command == "credentials":
+        run_credential_command(args, parser)
+        return
     if args.command == "provision":
         print(json.dumps(provision_target(args), indent=2))
         return
@@ -208,9 +228,9 @@ def main(argv=None):
                 current = status()
                 if current["boot_count"] != first["boot_count"] or current["app_sha256"] != first["app_sha256"]:
                     raise RuntimeError("Unexpected restart/build change during test")
-                save_run(ROOT / "docs/validation/nodes", args.label, args.mac, current, "wifi" if client else "usb")
+                save_run(evidence_root(args), args.label, args.mac, current, "wifi" if client else "usb")
         if args.command == "accept":
-            path = save_run(ROOT / "docs/validation/nodes", args.label, args.mac, current, "operator")
+            path = save_run(evidence_root(args), args.label, args.mac, current, "operator")
             acceptance = dict(label=args.label, base_mac=args.mac, app_sha256=current["app_sha256"], check=args.check, result=args.result, source="explicit_operator_command")
             with path.with_name("manual-acceptance.json").open("x") as file:
                 json.dump(acceptance, file, indent=2)
