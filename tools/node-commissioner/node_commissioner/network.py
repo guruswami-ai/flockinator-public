@@ -14,12 +14,11 @@ import json
 import re
 import socket
 import threading
-import time
 import urllib.error
 from collections import namedtuple
 from . import response_auth
 from .protocol import valid_mac, validate_status
-from .response_auth import BODY_LIMIT, EMPTY_HASH, MAX_AGE_MS, Binding, Pending, ResponseAuthError
+from .response_auth import BODY_LIMIT, EMPTY_HASH, MAX_AGE_MS, Binding, Pending, ResponseAuthError, clock
 
 VerifiedResponse = namedtuple("VerifiedResponse", "status reason headers body")
 OPERATIONS = frozenset({("GET", "/v1/status"), ("POST", "/v1/control"), ("POST", "/v1/update"),
@@ -81,9 +80,11 @@ class NetworkClient:
     CHALLENGE_TIMEOUT = 5
     JOURNAL_TIMEOUT = 10
     # Contract freshness bound (response_auth.h MaxAgeMs): the reply must verify within this
-    # many seconds of the moment the request was fully handed to the kernel. The node cannot
-    # have signed earlier than that, so the measured age is never shorter than the true one.
-    # The transport timeout bounds the whole exchange separately and may be longer (updates).
+    # many seconds of the moment the request was fully handed to the kernel. A success reply is
+    # signed only after the node holds the whole request, so its measured age is never shorter
+    # than the true one. An error reply the node signs before reading the body can look fresher
+    # than it is; that never turns an error into a success. The Korvo starts its clock before
+    # sending. The transport timeout bounds the whole exchange separately (updates run longer).
     MAX_AGE = MAX_AGE_MS / 1000
 
     def __init__(self, address: str, mac: str, key: bytes, port: int = 80):
@@ -103,12 +104,14 @@ class NetworkClient:
         max_age = self.MAX_AGE
         if type(max_age) not in (int, float) or not 0 < max_age <= MAX_AGE_MS / 1000:
             raise ValueError("Proof freshness bound must be 0 < seconds <= 10")
-        deadline = time.monotonic() + timeout
+        deadline = clock() + timeout
+        hint = "; the node may still have executed this request, read its status before retrying" if method == "POST" else ""
+        expired_message = f"Maintenance exchange {method} {path} exceeded {timeout:g}s{hint}"
 
         def remaining() -> float:
-            left = deadline - time.monotonic()
+            left = deadline - clock()
             if left <= 0:
-                raise TimeoutError(f"Maintenance exchange {method} {path} exceeded {timeout:g}s")
+                raise TimeoutError(expired_message)
             return left
 
         sent = dict(headers)
@@ -138,10 +141,19 @@ class NetworkClient:
                 sock = connection.sock
                 pinned.append(sock)
                 sock.settimeout(remaining())
-                connection.request(method, path, body=body if method == "POST" else None, headers=sent)
+                early = None
+                try:
+                    connection.request(method, path, body=body if method == "POST" else None, headers=sent)
+                except (BrokenPipeError, ConnectionResetError) as error:
+                    early = error  # The peer stopped taking the request; it may have answered first (busy, 401).
                 pending = Pending(binding, max_age=max_age)  # Freshness clock starts once the request is sent.
                 sock.settimeout(remaining())
-                response = connection.getresponse()
+                try:
+                    response = connection.getresponse()
+                except (http.client.HTTPException, OSError) as error:
+                    if early is not None and not expired.is_set():
+                        raise TransportError(f"Maintenance exchange {method} {path} was cut off before an authenticated response: {type(early).__name__}{hint}") from early
+                    raise
                 lengths = response.headers.get_all("Content-Length") or []
                 if len(lengths) > 1 or (response.length is not None and response.length > BODY_LIMIT):
                     raise ResponseAuthError("Response body exceeds the 128 KiB limit or has conflicting lengths")
@@ -154,11 +166,11 @@ class NetworkClient:
                     raise TransportError(f"Maintenance exchange {method} {path} ended {response.length} bytes before its declared length")
             except http.client.HTTPException as error:
                 if expired.is_set():
-                    raise TimeoutError(f"Maintenance exchange {method} {path} exceeded {timeout:g}s") from None
-                raise TransportError(f"Maintenance exchange {method} {path} failed before an authenticated response: {type(error).__name__}") from error
+                    raise TimeoutError(expired_message) from None
+                raise TransportError(f"Maintenance exchange {method} {path} failed before an authenticated response: {type(error).__name__}{hint}") from error
             except (OSError, ValueError):
                 if expired.is_set():
-                    raise TimeoutError(f"Maintenance exchange {method} {path} exceeded {timeout:g}s") from None
+                    raise TimeoutError(expired_message) from None
                 raise
         finally:
             watchdog.cancel()
@@ -168,8 +180,8 @@ class NetworkClient:
                 sock.close()
             connection.close()
         if expired.is_set():
-            raise TimeoutError(f"Maintenance exchange {method} {path} exceeded {timeout:g}s")
-        if time.monotonic() - pending.started > max_age:
+            raise TimeoutError(expired_message)
+        if clock() - pending.started > max_age:
             raise ResponseAuthError(f"Response to {method} {path} arrived later than the {max_age:g}s freshness bound")
         version, signature = response_auth.extract(response.headers)
         pending.verify(version, signature, response.status, data, self.key)

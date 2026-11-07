@@ -43,6 +43,7 @@ class FakeNode:
         self.drip = {}                    # path -> seconds between body bytes (slow-loris style answer).
         self.drip_headers = {}            # path -> seconds between status-line/header bytes.
         self.protocol = "HTTP/1.1"        # or "HTTP/1.0": http.client then detaches the socket after the headers.
+        self.early_reply = {}             # path -> callable(request) answering before the body is read, then closing.
         self.tamper = None                # callable(request, status, headers, body) -> replacement triple or CLOSE
         self.port = None
 
@@ -192,6 +193,23 @@ class Handler(BaseHTTPRequestHandler):
         node = self.server.node
         self.protocol_version = node.protocol
         length = int(self.headers.get("Content-Length") or 0)
+        if node.early_reply.get(self.path):
+            # Like the firmware answering 401/400/503 from the headers alone: reply, then close
+            # with the body unread, which resets the client's still-running upload.
+            request = dict(method=method, path=self.path, headers=self.headers, body=b"")
+            node.requests.append(request)
+            self.close_connection = True
+            result = node.early_reply[self.path](request)
+            if result is not CLOSE:
+                status, headers, body = result
+                self.send_response_only(status)
+                for name, value in headers:
+                    self.send_header(name, value)
+                self.send_header("Content-Length", str(len(body)))
+                self.end_headers()
+                self.wfile.write(body)
+                self.wfile.flush()
+            return
         request = dict(method=method, path=self.path, headers=self.headers, body=self.rfile.read(length) if length else b"")
         node.requests.append(request)
         if node.delay.get(self.path):

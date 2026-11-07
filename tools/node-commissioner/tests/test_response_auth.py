@@ -28,6 +28,13 @@ def test_constants_match_firmware_header():
     assert ra.PREFIX == "flock-management-response-v1" and ra.VERSION == "1"
 
 
+def test_clock_keeps_counting_through_host_sleep_where_available():
+    import time
+    reference = time.clock_gettime(time.CLOCK_BOOTTIME) if hasattr(time, "CLOCK_BOOTTIME") else time.monotonic()
+    assert abs(ra.clock() - reference) < 1.0
+    assert abs(Pending(STATUS, 5).started - ra.clock()) < 1.0
+
+
 def test_new_challenge_is_fresh_lowercase_16_bytes():
     drawn = {ra.new_challenge() for _ in range(2000)}
     assert len(drawn) == 2000 and all(re.fullmatch(r"[0-9a-f]{32}", c) for c in drawn)

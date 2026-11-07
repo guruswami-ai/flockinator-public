@@ -340,6 +340,20 @@ def test_truncated_chunked_body_is_a_transport_failure(node, client):
         client.challenge()
 
 
+def test_early_signed_error_reply_is_read_when_the_upload_is_cut_off(node, client):
+    """A busy node answers 503 from the headers and closes; the 8 MB upload then fails with a reset."""
+    node.early_reply["/v1/update"] = lambda request: node.unavailable(request)
+    with pytest.raises(NodeHTTPError) as caught:
+        client.request("POST", "/v1/update", bytes(8_000_000), timeout=30)
+    assert caught.value.code == 503 and json.loads(caught.value.read()) == dict(error="busy_or_timeout")
+    node.early_reply["/v1/update"] = lambda request: (503, [("Content-Type", "application/json")], b'{"error":"busy_or_timeout"}')
+    with pytest.raises(LegacyResponseError):
+        client.request("POST", "/v1/update", bytes(8_000_000), timeout=30)
+    node.early_reply["/v1/update"] = lambda request: CLOSE
+    with pytest.raises(TransportError, match="may still have executed"):
+        client.request("POST", "/v1/update", bytes(8_000_000), timeout=30)
+
+
 def test_connection_closed_without_response_is_a_transport_failure(node, client):
     node.tamper = lambda request, status, headers, body: CLOSE
     with pytest.raises(OSError) as caught:

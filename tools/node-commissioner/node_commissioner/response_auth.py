@@ -41,6 +41,14 @@ class LegacyResponseError(ResponseAuthError):
     """The responder sent no response authentication at all (legacy firmware or a non-node)."""
 
 
+def clock() -> float:
+    """Seconds on a clock that keeps counting while the host sleeps, where the platform has one."""
+    try:
+        return time.clock_gettime(time.CLOCK_BOOTTIME)
+    except (AttributeError, OSError):
+        return time.monotonic()
+
+
 def new_challenge() -> str:
     """Fresh 16-byte challenge as 32 lowercase hex characters; one per HTTP exchange."""
     return secrets.token_bytes(16).hex()
@@ -136,7 +144,7 @@ class Pending:
         if type(max_age) not in (int, float) or not 0 < max_age <= 3600:
             raise ResponseAuthError("Exchange deadline must be 0 < seconds <= 3600")
         self.binding, self.max_age = binding, float(max_age)
-        self.started = time.monotonic() if started is None else float(started)
+        self.started = clock() if started is None else float(started)
         self.waiting = True
 
     def request_headers(self) -> dict:
@@ -145,7 +153,7 @@ class Pending:
     def verify(self, version: str, signature: str, status: int, body: bytes, key: bytes, now: float | None = None) -> None:
         """Raise ResponseAuthError unless the response is exactly the one the node signed for us."""
         waiting, self.waiting = self.waiting, False  # Exactly one attempt, including failures.
-        now = time.monotonic() if now is None else float(now)
+        now = clock() if now is None else float(now)
         if not waiting:
             raise ResponseAuthError("Response verification already attempted for this exchange")
         if now < self.started or now - self.started > self.max_age:

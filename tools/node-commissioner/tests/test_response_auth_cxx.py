@@ -19,8 +19,10 @@ REPO = HERE.parents[2]
 HEADER = Path(os.environ.get("FLOCK_RESPONSE_AUTH_HEADER") or REPO / "firmware/shared/management/response_auth.h")
 OPENSSL = Path("/usr/include/openssl/hmac.h")
 VECTORS = json.loads((HERE / "vectors/response_auth_v1.json").read_text())
-pytestmark = pytest.mark.skipif(not (HEADER.is_file() and shutil.which("g++") and OPENSSL.is_file()),
-                                reason=f"needs {HEADER}, g++ and OpenSSL development headers")
+MISSING = [name for name, present in ((str(HEADER), HEADER.is_file()), ("g++", bool(shutil.which("g++"))), (str(OPENSSL), OPENSSL.is_file())) if not present]
+if MISSING and os.environ.get("FLOCK_REQUIRE_CXX"):
+    raise RuntimeError(f"FLOCK_REQUIRE_CXX is set but the C++ cross-check cannot run; missing: {', '.join(MISSING)}")
+pytestmark = pytest.mark.skipif(bool(MISSING), reason=f"needs {HEADER}, g++ and OpenSSL development headers (FLOCK_REQUIRE_CXX=1 fails instead of skipping)")
 
 
 @pytest.fixture(scope="module")
