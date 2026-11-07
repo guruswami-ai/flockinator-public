@@ -15,8 +15,15 @@ grounds an aircraft for the rest of the window.
 | K8R launch 8 rotate | 0.975 | 10.9 | 14.65 | 15.95 | 15.30 | 27 | 0 | 0 |
 | K16 launch all | 0.938 | 5.6 | 14.55 | 15.95 | 15.30 | 29 | 0 | 0 |
 
-Pareto frontier: **ESC and K8**. K14 dominates K16 on every
-reported axis except turns-to-find.
+Pareto frontier **on the registered axes (find rate vs ready
+at end)**: ESC (0.981, 14.75) and K8 (0.994, 14.60). K14 beats
+K16 on find rate (0.981 vs 0.938) and readiness before
+incident 5 (15.55 vs 15.30), ties it on ready-at-end, damage,
+losses and unattempted, trails it slightly on readiness
+before incident 2 (15.90 vs 15.95) and on turns-to-find
+(6.1 vs 5.6). (Corrected 2026-11-07: an earlier sentence
+claimed dominance "on every axis except turns-to-find", which
+its own table contradicts on the incident-2 axis.)
 
 ## Hypotheses
 
