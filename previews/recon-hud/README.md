@@ -37,19 +37,21 @@ and `app.mjs` (controls/render scheduling). Snapshot coordinates are +X east,
 +Y north, +Z up; heading clockwise from +Y, pitch positive up, roll rotates camera
 right toward up. There is no external snapshot endpoint in this milestone.
 
-Verification from repo root:
+Manual preview from the repository root (Python standard library only):
 
 ```sh
-# browser checks live with the preview; run the preview server and open it
-uv run --project tools/node-commissioner python previews/recon-hud/serve.py
+uv run --no-project python previews/recon-hud/serve.py
+# open http://127.0.0.1:8766/ in a browser
 ```
 
-Sixty tests and both browser harnesses pass. Browser evidence, fixed-seed timings
+Check the Scene menu, node selection, pause/restart and stale/resync controls
+described above. Starting the server is not an automated test run. The original
+preview test suite and browser harnesses are not bundled in this public subset,
+so this README does not claim a current passing test count.
 
-The browser milestone itself did not change firmware. A subsequent authorised
-port is now firmware 0.9.0; see `../../docs/validation/world-deployment/README.md`
-for real ESP32 measurements and rollout evidence. Browser and device results
-are recorded separately.
+The browser milestone itself did not change firmware. A subsequent port was
+recorded as firmware 0.9.0; its device deployment evidence is private and is
+not bundled here. Browser behaviour does not establish device acceptance.
 
 Previous browser revision (**visual study 16**): CRASH tumbles down into textured
 dirt, then holds a stationary ground-only image until SIGNAL LOST starts at
