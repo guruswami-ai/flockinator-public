@@ -72,11 +72,35 @@ def snapshot_frames(key, tick, run_id, seed, cycle, world: bytes, prev_hash: int
 
 
 class Reassembler:
-    """Single-slot, drop-partial reassembly (spec section 3)."""
+    """Single-slot, drop-partial reassembly (spec section 3).
+
+    One active run context (run_id, seed, cycle) and one monotonic accepted
+    tick per receiver:
+
+    * ``last_tick`` is the apply-once watermark: the highest tick delivered in
+      the active context.  It is kept apart from the live slot so it survives
+      slot resets.  Fragments at or below it are dropped whatever their kind,
+      so a replayed complete snapshot is never re-emitted and an older
+      complete snapshot cannot roll the receiver back (spec sections 1, 3, 4).
+    * The context is latched by ``begin()`` or, failing that, by the first
+      authenticated fragment.  Data-plane fragments carrying any other
+      context are dropped and never switch the receiver.  A run (re)start is
+      caller-authorised, from the mgmt-channel run announcement (spec
+      section 5), through ``begin()``: the only path that clears the watermark.
+    """
 
     def __init__(self):
         self.tick, self.parts, self.mask, self.prev_hash = None, {}, 0, 0
         self.run_id, self.gaps = None, 0  # context tuple once set
+        self.last_tick = None  # apply-once watermark: highest delivered tick
+
+    def begin(self, run_id: bytes, seed: int, cycle: int) -> None:
+        """Pin the receiver to a caller-authorised run context, fresh state."""
+        if len(run_id) != 16:
+            raise ValueError("run_id must be 16B")
+        self.run_id = (run_id, seed, cycle)
+        self.tick, self.parts, self.mask, self.prev_hash = None, {}, 0, 0
+        self.last_tick, self.gaps = None, 0
 
     def feed(self, header, payload):
         if header["kind"] not in (SNAP_FRAG, RESYNC_REPLY):
@@ -88,11 +112,12 @@ class Reassembler:
             return None
         tick = header["tick"]
         context = (header["run_id"], header["seed"], header["cycle"])
-        if context != self.run_id:
-            if self.tick is not None and context[0] == (self.run_id or (None,))[0]:
-                return None  # same run, mixed seed/cycle at live tick: reject
-            self.tick, self.parts, self.mask = None, {}, 0
-            self.run_id = context
+        if self.run_id is None:
+            self.run_id = context  # no begin(): first authenticated frag latches the run
+        elif context != self.run_id:
+            return None  # other run, or same run with mixed seed/cycle: never switch on data
+        if self.last_tick is not None and tick <= self.last_tick:
+            return None  # already delivered, or older than delivered: no rollback
         if self.tick is not None and tick < self.tick:
             return None  # stale frag, never merged across ticks
         if tick != self.tick:
@@ -106,7 +131,8 @@ class Reassembler:
         self.mask |= 1 << idx
         if self.mask == 0xF:
             world = b"".join(self.parts[i] for i in range(FRAG_N))
-            self.tick, self.parts, self.mask = None, {}, 0  # apply-once
+            self.tick, self.parts, self.mask = None, {}, 0  # slot free for the next tick
+            self.last_tick = tick  # apply-once: this tick can never be delivered again
             return world if len(world) == WORLD_BYTES else None
         return None
 
