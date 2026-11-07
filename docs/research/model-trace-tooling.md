@@ -85,7 +85,12 @@ Elapsed time covers the callable and response validation, not a provider's
 reported server latency; wall-clock adjustments do not make it negative.
 
 Existing attempt directories and concurrently created files are never
-replaced. No automatic retries occur. A process interruption after the start
+replaced. The wrapper performs no retries: one attempt means one callable
+invocation, not proof of one provider request. Disable SDK/network automatic
+retries inside the provider adapter, or expose each provider request as a
+separate recorded attempt. Hidden retries can consume unreported time/tokens
+and make a final-response cost underestimate the total; this wrapper cannot
+observe or prevent them. A process interruption after the start
 record leaves an `INCOMPLETE` attempt, not a successful or zero-cost call.
 A torn/malformed record is a verification error. Keep these attempts in the
 ledger; investigate before any retry, whose distinct attempt must remain visible.
