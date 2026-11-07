@@ -142,3 +142,36 @@ def test_authorized_reset_lifecycle():
     assert got == WORLD
     hdr, pay = unpack_frame(KEY, frames_a[0])
     assert r.feed(hdr, pay) is None  # stale run A traffic still rejected
+
+
+def test_pinned_context_rejects_complete_stale_snapshot():
+    r = Reassembler()
+    frames_a = snapshot_frames(KEY, 5, RUN, 42, 1, WORLD, 123)
+    got = None
+    for f in frames_a:
+        hdr, pay = unpack_frame(KEY, f)
+        got = r.feed(hdr, pay) or got
+    assert got == WORLD
+    run_b = bytes(range(16, 32))
+    r.reset(run_b, 42, 2)
+    frames_b0 = snapshot_frames(KEY, 0, run_b, 42, 2, WORLD, 0)
+    got = None
+    for f in frames_b0:
+        hdr, pay = unpack_frame(KEY, f)
+        got = r.feed(hdr, pay) or got
+    assert got == WORLD
+    # complete stale run-A snapshot: every fragment rejected, no emission
+    for f in frames_a:
+        hdr, pay = unpack_frame(KEY, f)
+        assert r.feed(hdr, pay) is None
+    # legitimate B continuation still accepted
+    frames_b1 = snapshot_frames(KEY, 1, run_b, 42, 2, WORLD, 7)
+    got = None
+    for f in frames_b1:
+        hdr, pay = unpack_frame(KEY, f)
+        got = r.feed(hdr, pay) or got
+    assert got == WORLD
+    # wrong seed under run B context also rejected
+    bad = snapshot_frames(KEY, 2, run_b, 43, 2, WORLD, 8)
+    hdr, pay = unpack_frame(KEY, bad[0])
+    assert r.feed(hdr, pay) is None
