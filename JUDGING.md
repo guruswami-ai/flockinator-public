@@ -62,6 +62,8 @@ intervention, one reproduce block - in about two minutes.
 | Planner scorecard + methodology | [`docs/results/README.md`](docs/results/README.md) |
 | Trust-layer dev matrix (journals, verdicts) | [`docs/results/cycle-07/`](docs/results/cycle-07/README.md) |
 | Adversary experiment series | [`docs/experiments/`](docs/experiments/kulira-trust-series.md), [`tools/kulira-core/`](tools/kulira-core/README.md) |
+| Panel-policy canary (device parity, pending journal) | [`docs/experiments/panel-policy-canary-preregistration.md`](docs/experiments/panel-policy-canary-preregistration.md), [`validation/kulira/canary-golden-vectors-001.csv`](validation/kulira/canary-golden-vectors-001.csv) — host rehearsal only until a Drishdi device journal is scored |
+| Feedback-trust boundary (delayed/sparse reveal) | [`docs/experiments/feedback-trust-confirmatory-results.md`](docs/experiments/feedback-trust-confirmatory-results.md), [`validation/kulira/feedback-trust-paired-001.json`](validation/kulira/feedback-trust-paired-001.json) — simulation, narrowed claim #159 |
 | Firmware build/test provenance | [`docs/firmware-evidence.md`](docs/firmware-evidence.md) |
 | What runs where (honestly) | [`docs/judging/physical-execution-map.md`](docs/judging/physical-execution-map.md), [`docs/architecture.md`](docs/architecture.md) |
 | Residual problems, named | R1-R9 in [`docs/results/README.md`](docs/results/README.md) |
