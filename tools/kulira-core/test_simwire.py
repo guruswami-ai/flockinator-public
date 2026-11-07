@@ -102,3 +102,21 @@ def test_reassembler_rejects_mixed_context_same_tick():
     hdr, pay = unpack_frame(KEY, f_a[0]); assert r.feed(hdr, pay) is None
     hdr, pay = unpack_frame(KEY, f_b[1]); assert r.feed(hdr, pay) is None
     assert r.mask == 0b0001  # only the first context's frag held
+
+
+def test_completed_snapshot_replay_rejected():
+    frames = snapshot_frames(KEY, 5, RUN, 42, 1, WORLD, 123)
+    r = Reassembler()
+    got = None
+    for f in frames:
+        hdr, pay = unpack_frame(KEY, f)
+        got = r.feed(hdr, pay) or got
+    assert got == WORLD
+    # full replay of the completed tick: every frag rejected
+    for f in frames:
+        hdr, pay = unpack_frame(KEY, f)
+        assert r.feed(hdr, pay) is None
+    # and a stale older tick too
+    old = snapshot_frames(KEY, 3, RUN, 42, 1, WORLD, 122)
+    hdr, pay = unpack_frame(KEY, old[0])
+    assert r.feed(hdr, pay) is None

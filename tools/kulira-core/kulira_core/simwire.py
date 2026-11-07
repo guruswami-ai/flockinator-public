@@ -77,6 +77,7 @@ class Reassembler:
     def __init__(self):
         self.tick, self.parts, self.mask, self.prev_hash = None, {}, 0, 0
         self.run_id, self.gaps = None, 0  # context tuple once set
+        self.completed_tick = -1  # replays at/below this are rejected
 
     def feed(self, header, payload):
         if header["kind"] not in (SNAP_FRAG, RESYNC_REPLY):
@@ -87,9 +88,12 @@ class Reassembler:
         if total != FRAG_N or idx >= FRAG_N:
             return None
         tick = header["tick"]
+        if tick <= self.completed_tick:
+            return None  # completed or stale snapshot replay: reject
         context = (header["run_id"], header["seed"], header["cycle"])
         if context != self.run_id:
-            if self.tick is not None and context[0] == (self.run_id or (None,))[0]:
+            if self.tick is not None and isinstance(self.run_id, tuple) \
+                    and context[0] == self.run_id[0]:
                 return None  # same run, mixed seed/cycle at live tick: reject
             self.tick, self.parts, self.mask = None, {}, 0
             self.run_id = context
@@ -106,6 +110,7 @@ class Reassembler:
         self.mask |= 1 << idx
         if self.mask == 0xF:
             world = b"".join(self.parts[i] for i in range(FRAG_N))
+            self.completed_tick = max(self.completed_tick, tick)
             self.tick, self.parts, self.mask = None, {}, 0  # apply-once
             return world if len(world) == WORLD_BYTES else None
         return None

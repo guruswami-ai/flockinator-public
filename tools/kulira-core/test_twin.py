@@ -69,3 +69,15 @@ def test_parity_joint_agreement_and_identity():
     altered2[10]["seed"] = 999
     out2 = parity(rows, altered2)
     assert out2["identity_mismatches"] == 1 and out2["parity"] == 0.99
+
+
+def test_missing_input_rows_score_as_wait_not_mismatch():
+    from kulira_core.twin import missing_hash
+    rows = run_twin(7, 50, p_loss=0.0)
+    device = [dict(r) for r in rows]
+    device[10] = {**device[10], "input_hash": missing_hash(10, 7), "decision": WAIT}
+    out = parity(rows, device)
+    assert out["missing_input_rows"] == 1 and out["parity"] == 1.0
+    device[10]["decision"] = SEARCH  # missing input must WAIT
+    out = parity(rows, device)
+    assert out["parity"] < 1.0
