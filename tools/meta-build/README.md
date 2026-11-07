@@ -22,6 +22,12 @@ them through a trusted executor and retain actual exit codes, logs and artifact
 hashes. Failed calls remain evidence; start any intentional new attempt in a
 different directory.
 
+Credential checks inspect decoded JSON strings and object keys, including nested
+fields. Safe response envelopes retain their exact bytes. A response reflecting
+the credential is sanitized and recorded as a failure; its hash describes the
+sanitized bytes. Malformed or duplicate-key responses are discarded with an
+`invalid_response` receipt because they cannot be safely inspected.
+
 This recorder is intended for small text tasks, with an 8 MiB request/response
 bound and a 180-second socket timeout. It does not provide a total wall-clock
 deadline, streaming, tool execution or persistent model sessions. Client hashes
