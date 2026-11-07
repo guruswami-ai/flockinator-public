@@ -69,6 +69,7 @@ firmware and host tools.
 |---|---|
 | Swarms and shared intelligence | [Start here](docs/learn/README.md) |
 | Experiment design and evidence | [Methodology](docs/experiments.md) |
+| Deferred work and resume criteria | [Preserved backlog](docs/BACKLOG.md) |
 | Rescue scenario and panel states | [Rescue scenarios](docs/scenarios/search-and-rescue/README.md), [illustrated state guide](docs/scenarios/quadcopter-survey/README.md) |
 | Hardware and expansion | [Components](docs/hardware.md), [CAD models](cad/README.md) |
 | Adversarial experiments | [Kulira](docs/kulira-friction.md), [attack taxonomy](docs/attack-taxonomy.md) |
