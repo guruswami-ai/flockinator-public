@@ -123,6 +123,7 @@ mkdir -p "$HOME/.cache/flockinator-korvo/source/firmware"
 rsync -a --exclude build --exclude managed_components --exclude '._*' ../korvo-monitor "$HOME/.cache/flockinator-korvo/source/firmware/"
 mkdir -p "$HOME/.cache/flockinator-korvo/source/firmware/node-platform"
 rsync -a ../node-platform/include "$HOME/.cache/flockinator-korvo/source/firmware/node-platform/"
+rsync -a ../shared "$HOME/.cache/flockinator-korvo/source/firmware/"
 cd "$HOME/.cache/flockinator-korvo/source/firmware/korvo-monitor"
 idf.py --preview set-target esp32s31
 idf.py --preview build
