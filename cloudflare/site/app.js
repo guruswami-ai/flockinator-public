@@ -125,7 +125,7 @@ function renderContact() {
 }
 function step() { if (!replay) return; renderContact(); idx = (idx + 1) % replay.contacts.length; }
 document.getElementById("step").addEventListener("click", step);
-document.getElementById("policy").addEventListener("change", () => { idx = Math.max(0, idx - 1); renderContact(); idx = (idx + 1) % replay.contacts.length; });
+document.getElementById("policy").addEventListener("change", () => { if (!replay) return; idx = (idx + replay.contacts.length - 1) % replay.contacts.length; renderContact(); idx = (idx + 1) % replay.contacts.length; });
 document.getElementById("play").addEventListener("click", (e) => {
   if (timer) { clearInterval(timer); timer = null; e.target.textContent = "Play replay"; e.target.setAttribute("aria-pressed", "false"); return; }
   e.target.textContent = "Pause replay"; e.target.setAttribute("aria-pressed", "true");
