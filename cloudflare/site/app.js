@@ -75,6 +75,13 @@ loadBenchmark(null);
 
 // Wall replay
 const wall = document.getElementById("wall");
+const policyLabels = {
+  E: "E: verified pool + strict thresholds",
+  COMP: "COMP: modality weights + looser thresholds",
+};
+document.querySelectorAll("#policy option").forEach(option => {
+  option.textContent = policyLabels[option.value];
+});
 const nodes = ["A1","A2","A3","A4","B1","B2","B3","B4","C1","C2","C3","C4","D1","D2","D3","D4"];
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const PANEL = { idle: "scan", survivor: "share", hazard: "check", forged: "doubt" };
@@ -112,7 +119,7 @@ function renderContact() {
     `Contact ${c.contact + 1}/${replay.contacts.length} - ` +
     (truthRevealed ? `truth: ${c.truth}` : "truth: sealed until the final contact");
   document.getElementById("verdict").textContent =
-    `Policy ${pol}: ${decision === "commit" ? "COMMIT survivor" : "ABSTAIN / no commit"}` +
+    `Policy ${policyLabels[pol]}: ${decision === "commit" ? "COMMIT survivor" : "ABSTAIN / no commit"}` +
     (c.contact >= 20 ? " - ir modality is betraying from contact 20" : "");
   if (decision !== "commit") wall.querySelectorAll(".node").forEach(elm => elm.classList.add("abstain"));
 }

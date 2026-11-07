@@ -10,6 +10,9 @@ suites and the flagship communication benchmark.
 
 ## What you are looking at
 
+Watch the [existing physical wall footage](https://flockinator-sim.pages.dev/media.html)
+(silent 90-second rescue-retheme demo), or the
+[narrated overview](https://www.youtube.com/watch?v=HaYNTBhXbu4).
 The wall displays a search-and-rescue swarm simulation. Today
 the panels render the mission; the scored decisions are made
 by host simulation (this is stated, not hidden - see the
@@ -19,39 +22,33 @@ around the simulation: pre-registered experiments, frozen
 scoring gates, sealed ground truth, and journals that let a
 third party re-check the published verdicts.
 
-## One flagship result (measured, surprising, falsified once)
+That footage shows the physical display, not the benchmark below or
+a continuous attack → model review → hardware intervention sequence.
 
-**How many aircraft should you commit?** The fleet's original
-logic parked 2 of 16 as a reserve - a commander's assumption,
-never tested. We tested commitment as an operational question
-(a whole day of incidents, not one mission) in four seeded
-regimes ([full index](../experiments/operations-commitment-index.md)):
+## One host result: message value in a sector-identification task
 
-- Benign world (seeds 0-19): parking 2 costs nothing
-  measurable.
-- Binding world (seeds 20-39): launching all 16 finds *fewer*
-  survivors over the day than parking 2 (find rate 0.938 vs
-  0.981) - early over-commitment grounds aircraft later
-  incidents need.
-- Loss-bearing world (seeds 40-59): a committed 8 beats both
-  on finds; all-16 loses the most aircraft (0.90 per daylight
-  window).
-- An explorer minority looked promising on dev seeds and then
-  **failed its confirmatory run on fresh seeds** (seeds
-  100-119, find rate 0.644 vs 0.800) - published as falsified,
-  not quietly dropped.
+In [field-signals-v1](../experiments/flagship-communication.md),
+team success means at least 3 of 4 agents choose the correct sector.
+Across seeds 0–15, each condition has 2,048 held-out team tasks:
 
-The trade is real: commitment level is regime-dependent, so
-the reserve count should be a tested scenario parameter, not
-a constant. That proposal now sits with the planner's owner,
-with evidence attached.
+| Messages | Successful team tasks | Rate |
+|---|---|---|
+| Clear peer messages | 1,494 / 2,048 | 72.9% |
+| Private cues only (muted) | 1,160 / 2,048 | 56.6% |
+| Scrambled peer messages | 688 / 2,048 | 33.6% |
 
-## One Meta intervention, measured
+Clear messages help this simulated task; scrambled messages perform worse
+than silence. The muted arm receives no peer messages, so information
+budgets differ. Tasks within a seed are not independent replicates; inspect
+the linked per-seed evidence. This is no measurement of physical rescue
+performance or swarm gain at matched information budgets.
 
-A `muse-spark-1.3-contributor` review of our host simulation
-twin returned a blunt verdict - "not parity-safe as-is" - with
+## One recorded Meta review and a checked code change
+
+The supervisor recorded a `muse-spark-1.3-contributor` review of our host simulation
+twin. It returned a blunt verdict - "not parity-safe as-is" - with
 ranked findings. The one with a measurable before and after:
-the first comparator scored a device journal truncated to 90
+the first comparator scored a synthetic device-format journal truncated to 90
 of 100 rows as parity **1.0** (a false pass). The fix made in
 response (PR #122) returns `parity: None` with
 `length_mismatch: true` for that case, and a regression test
@@ -77,8 +74,9 @@ the supervisor's record, as the bundle states), the PR diffs and
 the suite outcomes at each merge - are listed with verifier
 commands in
 [Meta contribution bundle 001](../research/meta-contribution-bundle-001.md).
-The prompt, the fan-out script and the raw API envelope are not
-public; the bundle records that limit.
+The prompt and fan-out script are private; raw API envelopes were not
+archived. The public response text and code hashes do not independently
+attest the model identity, endpoint or bytes sent to the API.
 
 ## Reproduce it (about a minute)
 
@@ -92,9 +90,10 @@ The first two lines run the unit suites; pass counts are
 commit-specific, so read them from the run rather than from this
 page. The third regenerates the field-signals-v1 communication
 benchmark (seeds 0-15) and compares its scientific content
-against `tools/reproduce/expected.json`. None of the three rebuilds the
-commitment, explorer or canary tables above; those come from the
-validation JSON files linked from each results page.
+against `tools/reproduce/expected.json`, including the table above. The unit
+suites check implementation; they do not rerun a physical mission or
+reconstruct the recorded model call. The canary rehearsal remains a separate
+host self-check linked above.
 
 ## What is not claimed
 

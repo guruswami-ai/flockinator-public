@@ -49,7 +49,8 @@ or skip the hardware entirely and <a href="container.html">run the virtual wall<
     <p>Loading pooled result...</p>
   </div>
   <p class="note">Muted/private baseline receives no peer messages by design (different
-  information budget). Reproduce from source: <code>python3 tools/reproduce/run.py --verify</code>
+  information budget); tasks within a seed are not independent replicates.
+  Reproduce from source: <code>uv run python tools/reproduce/run.py --verify</code>
   in the public repository.</p>
 </section>
 
@@ -62,9 +63,14 @@ or skip the hardware entirely and <a href="container.html">run the virtual wall<
     <button id="play" type="button" aria-pressed="false">Play replay</button>
     <button id="step" type="button">Step</button>
     <label for="policy">Policy shown</label>
-    <select id="policy"><option value="E">E: verified + abstain</option><option value="COMP">COMP: + modality trust</option></select>
+    <select id="policy"><option value="E">E: verified pool + strict thresholds</option><option value="COMP">COMP: modality weights + looser thresholds</option></select>
     <span id="contact-label" aria-live="polite"></span>
   </div>
+  <p class="note">Both policies exclude reports labelled forged in this simulation;
+  “verified” is label segregation, not cryptographic proof. E requires at least
+  2 survivor reports and a survivor-minus-hazard margin of 2. COMP learns modality
+  weights and uses weighted thresholds of 1.5 and 1.0 respectively. This replay
+  changes both weights and thresholds, so it does not isolate the effect of learning.</p>
   <figure>
     <img src="panels/wall-montage.gif" data-still="panels/wall-montage.png" alt="Animated montage of the sixteen real panel displays in flight-simulation mode" width="440" loading="lazy">
     <figcaption>The actual panel animations the physical nodes play (flight-simulation display set, reduced for the web). Each replay cell below uses the same audited animation segments: scanning, sharing a report, checking, or doubting a claim.</figcaption>
@@ -77,7 +83,7 @@ or skip the hardware entirely and <a href="container.html">run the virtual wall<
   <h2 id="results-h">Published results</h2>
   <ul>
     <li><a href="https://github.com/guruswami-ai/flockinator-public/blob/main/docs/experiments/flagship-communication.md">Flagship communication result</a> - communication helps, corruption worse than silence</li>
-    <li><a href="https://github.com/guruswami-ai/flockinator-public/blob/main/docs/results/cycle-07/README.md">Cycle-07 trust matrix</a> - forgery and lying-insider policies pass; honest baseline fails its frozen floors</li>
+    <li><a href="https://github.com/guruswami-ai/flockinator-public/blob/main/docs/results/cycle-07/README.md">Cycle-07 trust matrix</a> - simulated dev seeds 0–19: 61 forged reports, 0 vote entries; 10 applied insider flips, 0 dangerous commits under P0/P1; honest baseline fails its frozen floors</li>
     <li><a href="https://github.com/guruswami-ai/flockinator-public/blob/main/docs/experiments/kulira-trust-series.md">Kulira trust experiment series</a> - fifteen pre-registered experiments, including the falsified ones</li>
     <li><a href="https://github.com/guruswami-ai/flockinator-public">Source repository</a></li>
   </ul>
@@ -85,7 +91,10 @@ or skip the hardware entirely and <a href="container.html">run the virtual wall<
 </main>
 <section>
 <h2>Scripted demonstration (not a live run)</h2>
-<p>What a mission looks like from the human seat: a 12-second scripted replay of a scored simulation, plus the real wall photographed at idle. When a real mission dataset is published, its captures will sit here instead.</p>
+<p>A 12-second scripted replay of a scored simulation, plus the real wall photographed
+at idle. See <a href="media.html">the existing 90-second physical wall footage</a>
+for the display in motion. These are separate demonstrations, not a continuous
+physical attack, model review and intervention sequence.</p>
 <video controls preload="none" poster="demo/poster.jpg" width="480">
 <source src="demo/scripted-demo.mp4" type="video/mp4">
 </video>
