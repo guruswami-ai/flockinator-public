@@ -76,3 +76,5 @@ is second-half. The historical JSON is not rewritten;
 read each field on its own window. Final reputation
 fields in the evidence are post-flush diagnostics, not
 the weights available to earlier decisions.
+
+Frozen-weight companion evidence: `validation/kulira/feedback-trust-frozen-001.json` (post hoc, generated as labelled there).
