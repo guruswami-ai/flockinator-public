@@ -97,8 +97,13 @@ def main(argv=None) -> int:
     # Without a manifest the command is scoring-only and a
     # numerical parity below 1.0 is a publishable result.
     if expected:
+        # Exact integer agreement, never the rounded parity value:
+        # at large tick counts round(agree/n, 4) can display 1.0
+        # with real mismatches (issue #174).
         failed = failed or any(
-            reports[str(s)]["parity"] != 1.0 for s in expected)
+            reports[str(s)]["compared"] == 0
+            or reports[str(s)]["agree"] != reports[str(s)]["compared"]
+            for s in expected)
         failed = failed or any(
             int(s) not in expected for s in reports)
         # Gate acceptance is exact agreement on supplied rows:

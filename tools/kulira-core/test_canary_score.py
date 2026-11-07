@@ -147,3 +147,19 @@ def test_empty_seed_manifest_rejected():
     with pytest.raises(SystemExit) as exc:
         main(["x.csv", "--seeds", ""])
     assert exc.value.code == 2
+
+
+def test_long_journal_one_wrong_decision_fails_acceptance(tmp_path):
+    # Issue #174: at 20000 ticks, 19999/20000 rounds to parity 1.0;
+    # manifest acceptance must use exact agreement, not the
+    # rounded display value.
+    rows = run_twin(80, 20000, p_loss=0.0)
+    good = tmp_path / "long-good.csv"
+    good.write_text(to_csv(rows))
+    assert main([str(good), "--ticks", "20000", "--seeds", "80"]) == 0
+    rows[0]["decision"] = (rows[0]["decision"] + 1) % 3
+    bad = tmp_path / "long-bad.csv"
+    bad.write_text(to_csv(rows))
+    assert main([str(bad), "--ticks", "20000", "--seeds", "80"]) == 1
+    # Scoring-only mode still reports the loss-aware parity.
+    assert main([str(bad), "--ticks", "20000"]) == 0
