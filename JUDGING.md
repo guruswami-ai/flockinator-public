@@ -77,6 +77,7 @@ review and its checked code change, reproduction and limits.
 | Residual problems, named | R1-R9 in [`docs/results/README.md`](docs/results/README.md) |
 | Hardware / CAD | [`docs/hardware.md`](docs/hardware.md), [`cad/README.md`](cad/README.md) |
 
-CI (`.github/workflows/ci.yml`) runs both Python suites and checks
-the dashboard regenerates byte-identically, so the claims above are
-kept honest on every push — not just at freeze time.
+CI (`.github/workflows/ci.yml`) runs the scorer, adversary and commissioner
+suites, cross-language authentication vectors and recorder transport tests,
+and checks that the dashboard regenerates byte-identically. These are source
+checks; they do not establish physical acceptance or a scientific claim's scope.

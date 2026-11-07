@@ -2,6 +2,14 @@
 
 Controller bring-up client for the approved node specification. The current release supports USB identity assignment, private Wi-Fi/key provisioning, authenticated Wi-Fi status, display paging, a short tone, evidence capture and application OTA. The `provision` command provides a resumable backup/flash/configuration/inventory transaction. Explicit SD inspection/reset/testing is available via authenticated Wi-Fi or the legacy LilyGo ESP-NOW relay (recovery-only); see below.
 
+Wi-Fi operations now require [management response authentication v1](../../docs/management-response-auth.md)
+from the node, including the initial challenge reply. Legacy unsigned nodes fail
+closed. Upgrade nodes through a separately trusted procedure before using this
+host release; an unsigned update acknowledgement alone cannot establish success.
+Keys and request signatures do not need rotation for this protocol change.
+The response proof authenticates the exchange, not sensor truth, confidentiality
+or physical acceptance.
+
 Run from the repository root. Supply your own verified identity, address,
 release artifacts and private inventory; these examples do not authorize a
 deployment or certify any existing fleet.

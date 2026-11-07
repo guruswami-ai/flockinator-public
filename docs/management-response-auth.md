@@ -1,12 +1,13 @@
 # Authenticated management responses
 
-The node management server and Korvo fleet client use **response authentication
-version 1**. A successful signed request alone does not authenticate its HTTP
-reply. The updated Korvo verifies the challenge exchange and the operation reply
+The node management server, Korvo fleet client and host commissioner use
+**response authentication version 1**. A successful signed request alone does
+not authenticate its HTTP reply. Updated clients verify the challenge exchange and the operation reply
 before parsing status or treating a command/readback as successful. An unsigned,
 expired, altered, mismatched, incomplete, or non-200 reply fails closed.
 
-This is a source-level protocol change with native synthetic tests. It is not a
+This is a source-level protocol change with native synthetic tests and
+[compile-only target builds](results/meta-build-operations-20261107/README.md). It is not a
 record of deployment, current hardware acceptance, or new scientific results.
 Existing scientific artifacts and experiment semantics are unchanged.
 
@@ -126,9 +127,34 @@ The Korvo's existing not-live display also covers missing response authenticatio
 it does not distinguish old firmware from an offline, misconfigured or attacked
 node. A source version, HTTP 200, familiar JSON label, or reachable IP is not
 proof that a device runs response-v1. Do not add a silent unsigned fallback.
-Host commissioner releases must implement the same response-v1 contract in
-their network transport before their HTTP results may be called authenticated;
-keep node, Korvo and host release provenance together.
+The host commissioner implements the same response-v1 binding in
+[`response_auth.py`](../tools/node-commissioner/node_commissioner/response_auth.py)
+and enforces it in its network transport. Keep node, Korvo and host release
+provenance together.
+
+### Host transport and timing
+
+The host checks proofs before JSON parsing, command success, error-body use or
+journal digest validation. It connects directly to a pinned IPv4 address without
+environment proxies or redirects. Missing proofs fail explicitly, including
+against legacy firmware; there is no unsigned fallback. HTTP error codes are
+trusted only after their status/body proof verifies; reason phrases and other
+unsigned HTTP metadata are not device assertions.
+
+The host's proof age limit is also 10 seconds, measured from when the complete
+request has been handed to the local socket. This accommodates a large OTA
+upload without treating its upload duration as response age. It differs from
+the Korvo's clock, which starts before the exchange. A separate caller-selected
+total transport deadline includes connect, upload, headers and body; a socket
+watchdog interrupts slow replies. Neither timeout cancels a command that may
+already have executed. Reconcile authenticated state before retrying writes.
+
+Host tests use real HMACs and a loopback HTTP server. Golden vectors compare the
+Python implementation with the actual C++ header using OpenSSL, including the
+firmware's Mbed TLS fixture. CI installs the compiler/OpenSSL prerequisites and
+runs the commissioner suite; standalone environments without them explicitly
+skip the cross-language tests. None of these checks establish deployed firmware
+or physical acceptance.
 
 For a separately authorized rollout:
 
