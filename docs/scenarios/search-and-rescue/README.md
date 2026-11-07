@@ -83,9 +83,16 @@ fabricating one, VERIFY demanding a second modality - is the
 next scenario to seed once the states above are accepted into
 the guide by its owner.
 
-## Implementation audit (parallel review, 5 Nov)
+## Historical implementation audit (parallel review, 5 Nov)
 
-The states above are a design proposal. A full audit found the
+**Superseded source details, 7 Nov:** the shared model now uses EVENT/MARK
+and DOWN/LOST, while some browser/host labels remain legacy. IR is present
+in the firmware enum but lacks a dedicated mission-renderer strobe and is
+not automatically cycled. See the [current compatibility map](../../state-compatibility.md).
+The following records the earlier audit and proposed mappings, not current
+source names or completed rescue behaviour.
+
+The states above are a design proposal. That audit found the
 deeper truth a rename must respect:
 
 - The guide has 25 states, the browser preview has a *different*

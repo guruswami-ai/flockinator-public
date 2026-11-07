@@ -7,19 +7,21 @@
 > build new features on it; the notes below describe the retained
 > prototype as it was, including historical release claims.
 
-Current deployed release: **0.3.3-missions**. Open **Missions** for scenario,
+Source release (deployment unverified by this checkout): **0.3.3-missions**. Open **Missions** for scenario,
 goal, survey duration, repeat, Launch and Stop all. Touch alignment is now under
-Diagnostics. Overview displays READY / OM / KIA / MIA / CHARGING with separate
-link warnings, in the physical panel arrangement. See the remote guide
-and verification.
+Diagnostics. Overview displays READY / OM / DOWN / LOST / CHARGING with separate
+link warnings, in the physical panel arrangement. OM means on mission; DOWN
+is a simulated unavailable/failure outcome and LOST is a missing-link/energy
+condition. Historical KIA/MIA labels are described in the
+[state compatibility map](../../docs/state-compatibility.md).
 
 This PlatformIO project runs the live management remote on the owner's **LilyGo T5 4.7-inch S3, V2.4, with glass capacitive touchscreen**. The MCU is an ESP32-S3 with 16 MB flash and 8 MB PSRAM; the identified console factory/STA MAC is **00:11:22:33:44:55** (example value in this public tree — before building for real hardware, set your own console's factory MAC in `ExpectedMac` in `src/live_link.cpp` and in `firmware/korvo-monitor/main/main.c`'s operator check, or identity verification will refuse every device). This prototype checks that console identity explicitly. It is USB-powered, with no battery or optional expansion header fitted. Neither the expansion header nor the optional touch-wake solder link is required.
 
-The owner approved the live integration on 13 October 2026 in SPEC-management-console.md, SPEC-flock-network.md and SPEC-cluster-deployment.md. The current build version is defined in `include/console_model.h`; actual hardware observations and deployment results are recorded separately from these implemented capabilities.
+The current build version is defined in `include/console_model.h`; actual hardware observations and deployment results are recorded separately from these implemented capabilities.
 
 ## Live node status
 
-The 960 × 540 overview contains sixteen independent A1–D4 positions. Only authenticated responses from the private label/MAC/key roster populate it. Version 0.3.3 shows READY, OM, KIA, MIA or CHARGING from node 0.8.1's explicit summary, rather than rapid animation labels. Missing/unsupported reports show `--`; after six seconds Overview marks telemetry Stale and suppresses the current status, and after 90 seconds it marks Offline. Detailed hardware health retains its 30-second stale threshold. Nodes are polled every two seconds, paced at 125 ms across the roster. Overview checks once per second and only refreshes changed pixels; other automatic pages check every five seconds. Unanswered polls get at most two retries at 500 ms intervals. The radio worker runs independently of e-paper refreshes.
+The 960 × 540 overview contains sixteen independent A1–D4 positions. Only authenticated responses from the private label/MAC/key roster populate it. Version 0.3.3 shows READY, OM, DOWN, LOST or CHARGING from node 0.8.1's explicit summary, rather than rapid animation labels. Missing/unsupported reports show `--`; after six seconds Overview marks telemetry Stale and suppresses the current status, and after 90 seconds it marks Offline. Detailed hardware health retains its 30-second stale threshold. Nodes are polled every two seconds, paced at 125 ms across the roster. Overview checks once per second and only refreshes changed pixels; other automatic pages check every five seconds. Unanswered polls get at most two retries at 500 ms intervals. The radio worker runs independently of e-paper refreshes.
 
 From 0.2.9, changes within a page clear and redraw the smallest enclosing rectangle of changed pixels, aligned to four-pixel groups. The previous frame and a packed region buffer occupy an additional 518,400 bytes of PSRAM, allocated once. Startup, page changes, explicit **Refresh**, and the sleep-status screen retain a full clear. If regional buffers are unavailable the console falls back to full refresh. Vendor waveforms are unchanged, so the affected region still flashes; this is not a flash-free differential mode. Widely separated simultaneous changes share one enclosing rectangle. Optical ghosting and contrast need visual acceptance on the actual panel.
 

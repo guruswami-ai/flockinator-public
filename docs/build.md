@@ -16,12 +16,18 @@ model checks are listed in its README.
 
 | Tool | Purpose |
 |---|---|
-| `node-commissioner` | USB provisioning, identity/inventory binding, OTA, SD maintenance |
-| `korvo-monitor` | Korvo provisioning and legacy USB bridge (recovery only) |
-| `mission-host` | Browser lab, planner, and exercise memory (host-side) |
-| `survey-simulator` | Host-owned fictional survey session (Node.js) |
-| `kulira-core` | Seeded chaos-campaign orchestrator (see `tools/kulira-core/README.md`) |
-| `fleet-score` | Deterministic planner-run scorer (stdlib only; `uv run --project tools/fleet-score python -m pytest tools/fleet-score -q`) |
+| [node-commissioner](../tools/node-commissioner/README.md) | USB provisioning, identity/inventory binding, OTA, SD maintenance |
+| [korvo-monitor](../tools/korvo-monitor/README.md) | Korvo provisioning and legacy USB bridge (recovery only) |
+| [mission-host](../tools/mission-host/README.md) | Browser lab, planner, and exercise memory (host-side) |
+| [survey-simulator](../tools/survey-simulator/README.md) | Host-owned fictional survey session (Node.js) |
+| [kulira-core](../tools/kulira-core/README.md) | Seeded chaos-campaign orchestrator (see `tools/kulira-core/README.md`) |
+| [fleet-score](../tools/fleet-score/README.md) | Deterministic planner-run scorer (stdlib only; `uv run --project tools/fleet-score python -m pytest tools/fleet-score -q`) |
+
+The mission host and hardware bridges need omitted private inventory and
+operator configuration; their READMEs distinguish offline checks from live use.
+The browser preview and Node.js survey simulator can run without a fleet.
+See [state and source-version compatibility](state-compatibility.md) before
+interpreting a preview label as a firmware state or deployment version.
 
 Python is managed with uv, never system pip:
 

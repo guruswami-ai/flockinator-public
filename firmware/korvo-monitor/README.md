@@ -6,13 +6,12 @@ selected-panel inspector. Tap a panel for firmware, reported uptime, free RAM an
 reading age. The selected panel has a white outline; colours always have text labels. The provisioned controller hosts the web interface, learning lab, tabletop planner,
 scripted fleet controls and SD exercise archives. the browser host only needs a browser.
 The USB bridge described in bridge instructions
-is retained for recovery to older firmware. The owner confirmed the original 0.1.0
-display and touch test worked before this fleet-monitor update.
+is retained for recovery to older firmware. The version is defined in [CMakeLists.txt](CMakeLists.txt); it does not establish
+the running version or physical acceptance of any controller.
 
 ## Standalone operation — 0.9.0
 
-Open the address shown on the controller's Learning lab screen. At deployment it
-is [http://192.168.1.10/](http://192.168.1.10/). Fleet missions are at `/`, the
+Open the address shown on the controller's Learning lab screen. Its address is deployment-specific. Fleet missions are at `/`, the
 tabletop editor at `/planner`, and the communication experiment at `/lab`.
 Fleet and planner writes ask for the six-digit operator PIN shown on the Korvo.
 The PIN changes after reboot. Scripted starts have a one-minute countdown to
@@ -30,33 +29,24 @@ Planner archives live under `/sdcard/flockinator/runs`. Each contains sixteen or
 fewer unit JSONL journals plus separate director truth, with ZIP download from the
 editor. Delivery to physical panels is asynchronous. A receipt appears only after
 the Korvo reads the panel's SD copy back and compares every byte. Health polling
-gets a complete sweep between deliveries. The migrated historical archive retains
-its previously verified receipts.
+gets a complete sweep between deliveries. Retain receipts with their corresponding source journals.
 
-The sixteen management keys were provisioned over the MAC-verified USB connection
-with the owner's explicit approval. They reside in the controller's NVS, never in
-the firmware image or browser assets. They retain maintenance privileges. Do not
-run the old desktop poller or USB bridge concurrently with standalone control,
-because the panel authentication challenges are shared.
+Identity-bound management keys are provisioned over verified USB and reside in
+controller NVS, never firmware images or browser assets. They retain maintenance
+privileges. Do not run a desktop poller or USB bridge concurrently with standalone
+control, because panel authentication challenges are shared.
 
 These remain simulated agents and board-game energy units. The learning lab runs
 on the Korvo; panel journal receipts prove storage, not learning on each panel.
 Training larger external models and compiling replacement firmware still require
-a development computer. The existing physical panel firmware remains
-`0.10.2-journal`.
+a development computer. The panel build variants are documented in the
+[node README](../node-platform/README.md); a controller source version cannot
+establish the deployed panel versions.
 
-The previous desktop plan and archives are retained on Vivek. The original plan
-was copied to the controller as a draft ready to rehearse. The 0.8.0 recovery image
-is retained on the browser host in `~/.local/share/flockinator/korvo-release/0.8.0.bin`.
-Recovery must flash only the application at `0x10000`, preserving NVS and SD data.
-Re-enable the old LaunchAgents only after restoring the older firmware.
-
-For USB roster provisioning, use
-`tools/korvo-monitor/provision_fleet.py --port /dev/cu.usbserial-210` on the USB
-host. Supply all sixteen identity-bound records through stdin. Never place keys
-on the command line. Its output includes the operator PIN and must be redirected
-to a private file. An empty JSON array retrieves the current PIN without changing
-credentials.
+USB roster/Wi-Fi provisioning uses the [host helpers](../../tools/korvo-monitor/README.md).
+The public helper/controller identities are placeholders and must be bound to
+verified hardware before provisioning. Supply credentials privately through stdin;
+helper output may include an operator PIN and must not be published.
 
 The portable model checks run from the repository root.
 
@@ -68,10 +58,9 @@ c++ -std=c++17 -fsanitize=address,undefined -g -I firmware/korvo-monitor/main fi
 uv run firmware/korvo-monitor/tests/compare_boards.py /tmp/korvo-board-parity
 ```
 
-Hardware identified over USB on 30 October 2026: MAC `00:11:22:33:44:55`, 16 MiB
-flash, 16 MiB PSRAM, 800 × 480 RGB display, GT1151-family touch controller.
-The owner authorized removing the factory demo; all flash was erased and its digest
-verified against 16 MiB of `0xff` before this application was prepared.
+Board target: 16 MiB flash, 16 MiB PSRAM, 800 × 480 RGB display and
+GT1151-family touch controller. Confirm the actual board before installation;
+this public source carries no factory-backup or erase authorization.
 
 ## Build
 
@@ -90,11 +79,12 @@ export IDF_PYTHON_ENV_PATH="$HOME/.espressif/python_env/idf6.1_py3.12_env"
 source "$HOME/esp/esp-idf-s31/export.sh"
 export KORVO_SDK_PATH="$HOME/esp/esp-dev-kits-s31"
 idf.py --preview build
-idf.py --preview -p /dev/cu.usbserial-20130 flash
-idf.py --preview -p /dev/cu.usbserial-20130 monitor
+idf.py --preview -p "$FLOCKINATOR_KORVO_PORT" flash
+idf.py --preview -p "$FLOCKINATOR_KORVO_PORT" monitor
 ```
 
-Run from this directory. For a new machine, check out the pinned sources and use
+Run from this directory. Set `FLOCKINATOR_KORVO_PORT` to the positively
+identified controller before flash/monitor commands. For a new machine, check out the pinned sources and use
 `uv run --python 3.12 tools/idf_tools.py install --targets esp32s31` and
 `uv run --python 3.12 tools/idf_tools.py install-python-env` inside ESP-IDF.
 The latter manages ESP-IDF's own runtime. CMake and Ninja must also be available.
@@ -117,7 +107,7 @@ mkdir -p "$HOME/.cache/flockinator-korvo/source"
 rsync -a --exclude build --exclude '._*' ./ "$HOME/.cache/flockinator-korvo/source/"
 cd "$HOME/.cache/flockinator-korvo/source"
 idf.py --preview build
-idf.py --preview -p /dev/cu.usbserial-20130 flash
+idf.py --preview -p "$FLOCKINATOR_KORVO_PORT" flash
 ```
 
 Keep source edits in the repository and repeat the sync before each build. Sync the

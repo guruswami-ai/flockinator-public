@@ -1,6 +1,6 @@
-# Flockinator reconnaissance HUD — animated visual preview
+# Flockinator survey HUD — animated visual preview
 
-Created 16 October 2026 (Sydney), following approval of the reconnaissance visual direction. All imagery is procedural and synthetic, rendered into a 64×64 RGBA buffer and displayed with nearest-neighbour scaling. No external assets, network services or installed dependencies are required by the page.
+All imagery is procedural and synthetic, rendered into a 64×64 RGBA buffer and displayed with nearest-neighbour scaling. No external assets, network services or installed dependencies are required by the page.
 
 Latest browser revision (**visual study 17**): choose **World view** in the Scene
 menu. All sixteen cameras now render shared seeded terrain from continuous pose
@@ -61,3 +61,7 @@ modes retain this ending. Browser only; firmware remains unchanged.
 
 
 State catalogue and scenario detail: [docs/scenarios/quadcopter-survey](../../docs/scenarios/quadcopter-survey/README.md). This preview is a scripted visualisation, not live telemetry or inference.
+
+The guide is a curated subset, not the entire renderer enum. See the
+[state compatibility map](../../docs/state-compatibility.md) for legacy aliases,
+sensor rendering limits and source-version boundaries.
