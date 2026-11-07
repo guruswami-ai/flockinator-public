@@ -58,7 +58,7 @@ verification, code change, test outcomes - is in
 ## Reproduce it (about a minute)
 
 ```sh
-uv run --project tools/kulira-core python -m pytest tools/kulira-core -q   # 200 passed
+uv run --project tools/kulira-core python -m pytest tools/kulira-core -q   # full suite passes
 uv run --project tools/fleet-score python -m pytest tools/fleet-score -q  # 89 passed
 python3 tools/reproduce/run.py --out /tmp/repro --verify                  # VERIFY OK
 ```
