@@ -56,24 +56,39 @@ def missing_hash(tick: int, seed: int) -> str:
     return f"{h:08x}"
 
 
-def run_twin(seed: int, ticks: int = 500, p_loss: float = P_LOSS,
-             p_obs: float = P_OBS) -> list[dict]:
-    # Three independent streams (signal / obstacle / loss). NOTE: input
-    # generation is host-side simulation of the broadcast input stream;
-    # the device decides on inputs it receives, never on its own RNG.
+def tick_inputs(seed: int, ticks: int, p_loss: float = P_LOSS,
+                p_obs: float = P_OBS) -> list[dict]:
+    """The broadcast input stream itself (firmware golden vectors).
+
+    Exposes signal_q/obstacle/pkt_loss per tick so a device port
+    can be fed identical inputs and its journal compared row by
+    row. run_twin() is built on this; the two cannot drift.
+    """
     rng_sig = random.Random(seed)
     rng_obs = random.Random(seed ^ 0x5BD1E995)
     rng_net = random.Random(seed ^ 0x27D4EB2D)
-    rows = []
+    out = []
     for tick in range(ticks):
-        # half-up quantization (matches C round(), not Python banker's)
         signal_q = int(rng_sig.uniform(0.0, 1.0) * 1000 + 0.5)
-        obstacle = rng_obs.random() < p_obs
-        pkt_loss = rng_net.random() < p_loss
+        out.append({"tick": tick, "seed": seed, "signal_q": signal_q,
+                    "obstacle": rng_obs.random() < p_obs,
+                    "pkt_loss": rng_net.random() < p_loss})
+    return out
+
+
+def run_twin(seed: int, ticks: int = 500, p_loss: float = P_LOSS,
+             p_obs: float = P_OBS) -> list[dict]:
+    # NOTE: input generation is host-side simulation of the broadcast
+    # input stream; the device decides on inputs it receives, never
+    # on its own RNG. Inputs come from tick_inputs() so the golden
+    # vectors and the twin journal are the same stream by construction.
+    rows = []
+    for inp in tick_inputs(seed, ticks, p_loss, p_obs):
         rows.append({
-            "tick": tick, "seed": seed,
-            "input_hash": input_hash(tick, seed, signal_q, obstacle, pkt_loss),
-            "decision": decide(signal_q, obstacle, pkt_loss),
+            "tick": inp["tick"], "seed": seed,
+            "input_hash": input_hash(inp["tick"], seed, inp["signal_q"],
+                                     inp["obstacle"], inp["pkt_loss"]),
+            "decision": decide(inp["signal_q"], inp["obstacle"], inp["pkt_loss"]),
             "latency_us": 0,  # host placeholder; device writes measured micros
         })
     return rows
