@@ -32,7 +32,17 @@ def load_device_csv(text: str) -> list[dict]:
     return out
 
 
-def score_journal(device_rows: list[dict], ticks: int = 500) -> dict:
+def score_journal(device_rows: list[dict], ticks: int = 500,
+                  expected_seeds=None) -> dict:
+    """Score per-seed parity reports.
+
+    Gate A journals carry 100 ticks for each of seeds 80, 81, 82;
+    Gate B carries 500 ticks for one seed. The caller must state
+    the expected manifest: a seed absent from the journal is a
+    completeness failure (parity None), never silently omitted,
+    and an empty journal against an expected manifest fails per
+    expected seed instead of returning {}.
+    """
     seeds = sorted({r["seed"] for r in device_rows})
     reports = {}
     for seed in seeds:
@@ -41,6 +51,14 @@ def score_journal(device_rows: list[dict], ticks: int = 500) -> dict:
         rep = parity(host, dev)
         rep["latency_us_max"] = max((r["latency_us"] for r in dev), default=0)
         reports[str(seed)] = rep
+    for seed in sorted(set(expected_seeds or []) - set(seeds)):
+        reports[str(seed)] = {
+            "compared": 0, "agree": 0, "missing_input_rows": 0,
+            "link_failure": True, "parity": None,
+            "length_mismatch": True, "missing_seed": True,
+            "identity_mismatches": 0, "hash_mismatches": 0,
+            "decision_mismatches": 0, "host_rows": ticks,
+            "device_rows": 0, "latency_us_max": 0}
     return reports
 
 
@@ -49,11 +67,22 @@ def main(argv=None) -> int:
     import pathlib
     import sys
     argv = list(sys.argv[1:] if argv is None else argv)
-    if len(argv) != 1:
-        print("usage: canary_score.py <device-journal.csv>", file=sys.stderr)
+    ticks, expected, paths = 500, None, []
+    i = 0
+    while i < len(argv):
+        if argv[i] == "--ticks" and i + 1 < len(argv):
+            ticks = int(argv[i + 1]); i += 2
+        elif argv[i] == "--seeds" and i + 1 < len(argv):
+            expected = [int(s) for s in argv[i + 1].split(",")]; i += 2
+        else:
+            paths.append(argv[i]); i += 1
+    if len(paths) != 1:
+        print("usage: canary_score.py <device-journal.csv> "
+              "[--ticks N] [--seeds 80,81,82]", file=sys.stderr)
         return 2
-    text = pathlib.Path(argv[0]).read_text()
-    print(json.dumps(score_journal(load_device_csv(text)), indent=1))
+    text = pathlib.Path(paths[0]).read_text()
+    print(json.dumps(score_journal(load_device_csv(text), ticks=ticks,
+                                   expected_seeds=expected), indent=1))
     return 0
 
 
