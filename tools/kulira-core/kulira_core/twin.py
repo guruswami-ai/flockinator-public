@@ -42,6 +42,20 @@ def input_hash(tick: int, seed: int, signal_q: int, obstacle: bool, loss: bool) 
     return f"{h:08x}"
 
 
+def missing_hash(tick: int, seed: int) -> str:
+    """Journal hash for a tick with no received input (contract v1.1).
+
+    The device cannot hash inputs it never received; it journals
+    this canonical marker with decision WAIT. Parity counts such
+    rows as missing-input rows, not hash mismatches.
+    """
+    h = 0x811C9DC5
+    for b in f"missing:{tick}:{seed}".encode():
+        h ^= b
+        h = (h * 0x01000193) & 0xFFFFFFFF
+    return f"{h:08x}"
+
+
 def run_twin(seed: int, ticks: int = 500, p_loss: float = P_LOSS,
              p_obs: float = P_OBS) -> list[dict]:
     # Three independent streams (signal / obstacle / loss). NOTE: input
@@ -101,12 +115,19 @@ def parity(host_rows, device_rows) -> dict:
                    if host_rows[i]["input_hash"] != device_rows[i]["input_hash"])
     dec_bad = sum(1 for i in range(n)
                   if host_rows[i]["decision"] != device_rows[i]["decision"])
+    missing = sum(1 for i in range(n)
+                  if device_rows[i]["input_hash"] == missing_hash(
+                      device_rows[i]["tick"], device_rows[i]["seed"]))
     agree = sum(1 for i in range(n)
                 if host_rows[i]["tick"] == device_rows[i]["tick"]
                 and host_rows[i]["seed"] == device_rows[i]["seed"]
-                and host_rows[i]["input_hash"] == device_rows[i]["input_hash"]
-                and host_rows[i]["decision"] == device_rows[i]["decision"])
+                and ((host_rows[i]["input_hash"] == device_rows[i]["input_hash"]
+                      and host_rows[i]["decision"] == device_rows[i]["decision"])
+                     or (device_rows[i]["input_hash"] == missing_hash(
+                             device_rows[i]["tick"], device_rows[i]["seed"])
+                         and device_rows[i]["decision"] == WAIT)))
     return {"compared": n, "agree": 0 if mismatch else agree,
+            "missing_input_rows": missing,
             "parity": None if mismatch or not n else round(agree / n, 4),
             "length_mismatch": mismatch, "identity_mismatches": id_bad,
             "hash_mismatches": hash_bad, "decision_mismatches": dec_bad,
