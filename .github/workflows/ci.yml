@@ -59,6 +59,8 @@ jobs:
           test -f /usr/include/openssl/hmac.h
           command -v g++
       - name: Commissioner and real HMAC transport regressions
+        env:
+          FLOCK_REQUIRE_CXX: "1"
         run: uv run --project tools/node-commissioner --group dev python -m pytest tools/node-commissioner/tests -q
       - name: Recorded build-assistant transport tests
         run: uv run --no-project python -m unittest discover -s tools/meta-build -p 'test_*.py'

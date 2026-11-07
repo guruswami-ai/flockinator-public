@@ -149,10 +149,20 @@ total transport deadline includes connect, upload, headers and body; a socket
 watchdog interrupts slow replies. Neither timeout cancels a command that may
 already have executed. Reconcile authenticated state before retrying writes.
 
+An early signed rejection can arrive before the node reads the full upload. The
+host can verify that rejection even if sending the upload was interrupted; its
+post-send age can understate the age of that early error, although the total
+transport budget still applies. This does not turn a rejection into success.
+On platforms providing `CLOCK_BOOTTIME` (including Linux), the host age and
+deadline clock includes time spent suspended. Other platforms use Python's
+monotonic clock, whose suspend behavior is platform dependent; keep the host
+awake during commissioning and reconcile state after a sleep/resume interruption.
+
 Host tests use real HMACs and a loopback HTTP server. Golden vectors compare the
 Python implementation with the actual C++ header using OpenSSL, including the
 firmware's Mbed TLS fixture. CI installs the compiler/OpenSSL prerequisites and
-runs the commissioner suite; standalone environments without them explicitly
+runs the commissioner suite with `FLOCK_REQUIRE_CXX=1` so missing prerequisites
+fail the check; standalone environments without them explicitly
 skip the cross-language tests. None of these checks establish deployed firmware
 or physical acceptance.
 
