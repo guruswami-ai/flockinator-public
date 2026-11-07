@@ -1,0 +1,371 @@
+{
+ "cell": "delay=15 availability=0.25",
+ "per_seed": {
+  "E": [
+   {
+    "seed": 240,
+    "dangerous_second": 0,
+    "recall": 0.3529,
+    "decisions": 13
+   },
+   {
+    "seed": 241,
+    "dangerous_second": 1,
+    "recall": 0.4815,
+    "decisions": 15
+   },
+   {
+    "seed": 242,
+    "dangerous_second": 1,
+    "recall": 0.3667,
+    "decisions": 16
+   },
+   {
+    "seed": 243,
+    "dangerous_second": 3,
+    "recall": 0.5,
+    "decisions": 17
+   },
+   {
+    "seed": 244,
+    "dangerous_second": 3,
+    "recall": 0.5806,
+    "decisions": 23
+   },
+   {
+    "seed": 245,
+    "dangerous_second": 3,
+    "recall": 0.4286,
+    "decisions": 16
+   },
+   {
+    "seed": 246,
+    "dangerous_second": 1,
+    "recall": 0.3667,
+    "decisions": 15
+   },
+   {
+    "seed": 247,
+    "dangerous_second": 3,
+    "recall": 0.5,
+    "decisions": 23
+   },
+   {
+    "seed": 248,
+    "dangerous_second": 2,
+    "recall": 0.5625,
+    "decisions": 22
+   },
+   {
+    "seed": 249,
+    "dangerous_second": 1,
+    "recall": 0.6,
+    "decisions": 20
+   },
+   {
+    "seed": 250,
+    "dangerous_second": 1,
+    "recall": 0.3939,
+    "decisions": 14
+   },
+   {
+    "seed": 251,
+    "dangerous_second": 4,
+    "recall": 0.4643,
+    "decisions": 17
+   },
+   {
+    "seed": 252,
+    "dangerous_second": 2,
+    "recall": 0.4062,
+    "decisions": 17
+   },
+   {
+    "seed": 253,
+    "dangerous_second": 2,
+    "recall": 0.4194,
+    "decisions": 16
+   },
+   {
+    "seed": 254,
+    "dangerous_second": 1,
+    "recall": 0.3824,
+    "decisions": 17
+   },
+   {
+    "seed": 255,
+    "dangerous_second": 0,
+    "recall": 0.5357,
+    "decisions": 16
+   },
+   {
+    "seed": 256,
+    "dangerous_second": 2,
+    "recall": 0.5588,
+    "decisions": 23
+   },
+   {
+    "seed": 257,
+    "dangerous_second": 3,
+    "recall": 0.5333,
+    "decisions": 22
+   },
+   {
+    "seed": 258,
+    "dangerous_second": 3,
+    "recall": 0.6786,
+    "decisions": 23
+   },
+   {
+    "seed": 259,
+    "dangerous_second": 0,
+    "recall": 0.5,
+    "decisions": 14
+   }
+  ],
+  "REP": [
+   {
+    "seed": 240,
+    "dangerous_second": 1,
+    "recall": 0.5588,
+    "decisions": 22
+   },
+   {
+    "seed": 241,
+    "dangerous_second": 0,
+    "recall": 0.7407,
+    "decisions": 23
+   },
+   {
+    "seed": 242,
+    "dangerous_second": 1,
+    "recall": 0.5333,
+    "decisions": 23
+   },
+   {
+    "seed": 243,
+    "dangerous_second": 2,
+    "recall": 0.5455,
+    "decisions": 20
+   },
+   {
+    "seed": 244,
+    "dangerous_second": 2,
+    "recall": 0.6129,
+    "decisions": 25
+   },
+   {
+    "seed": 245,
+    "dangerous_second": 0,
+    "recall": 0.4643,
+    "decisions": 14
+   },
+   {
+    "seed": 246,
+    "dangerous_second": 2,
+    "recall": 0.5667,
+    "decisions": 26
+   },
+   {
+    "seed": 247,
+    "dangerous_second": 3,
+    "recall": 0.5556,
+    "decisions": 25
+   },
+   {
+    "seed": 248,
+    "dangerous_second": 2,
+    "recall": 0.75,
+    "decisions": 28
+   },
+   {
+    "seed": 249,
+    "dangerous_second": 2,
+    "recall": 0.72,
+    "decisions": 25
+   },
+   {
+    "seed": 250,
+    "dangerous_second": 1,
+    "recall": 0.5758,
+    "decisions": 24
+   },
+   {
+    "seed": 251,
+    "dangerous_second": 5,
+    "recall": 0.5,
+    "decisions": 22
+   },
+   {
+    "seed": 252,
+    "dangerous_second": 2,
+    "recall": 0.5938,
+    "decisions": 25
+   },
+   {
+    "seed": 253,
+    "dangerous_second": 2,
+    "recall": 0.6452,
+    "decisions": 26
+   },
+   {
+    "seed": 254,
+    "dangerous_second": 2,
+    "recall": 0.3235,
+    "decisions": 16
+   },
+   {
+    "seed": 255,
+    "dangerous_second": 0,
+    "recall": 0.7143,
+    "decisions": 25
+   },
+   {
+    "seed": 256,
+    "dangerous_second": 3,
+    "recall": 0.6765,
+    "decisions": 30
+   },
+   {
+    "seed": 257,
+    "dangerous_second": 3,
+    "recall": 0.6333,
+    "decisions": 26
+   },
+   {
+    "seed": 258,
+    "dangerous_second": 4,
+    "recall": 0.7143,
+    "decisions": 29
+   },
+   {
+    "seed": 259,
+    "dangerous_second": 1,
+    "recall": 0.5769,
+    "decisions": 19
+   }
+  ],
+  "REP-P": [
+   {
+    "seed": 240,
+    "dangerous_second": 1,
+    "recall": 0.5882,
+    "decisions": 23
+   },
+   {
+    "seed": 241,
+    "dangerous_second": 9,
+    "recall": 0.9259,
+    "decisions": 38
+   },
+   {
+    "seed": 242,
+    "dangerous_second": 1,
+    "recall": 0.7,
+    "decisions": 28
+   },
+   {
+    "seed": 243,
+    "dangerous_second": 4,
+    "recall": 0.8182,
+    "decisions": 29
+   },
+   {
+    "seed": 244,
+    "dangerous_second": 5,
+    "recall": 0.7742,
+    "decisions": 34
+   },
+   {
+    "seed": 245,
+    "dangerous_second": 7,
+    "recall": 0.6786,
+    "decisions": 27
+   },
+   {
+    "seed": 246,
+    "dangerous_second": 3,
+    "recall": 0.6,
+    "decisions": 29
+   },
+   {
+    "seed": 247,
+    "dangerous_second": 3,
+    "recall": 0.7778,
+    "decisions": 34
+   },
+   {
+    "seed": 248,
+    "dangerous_second": 5,
+    "recall": 0.9062,
+    "decisions": 38
+   },
+   {
+    "seed": 249,
+    "dangerous_second": 3,
+    "recall": 0.76,
+    "decisions": 27
+   },
+   {
+    "seed": 250,
+    "dangerous_second": 4,
+    "recall": 0.697,
+    "decisions": 33
+   },
+   {
+    "seed": 251,
+    "dangerous_second": 6,
+    "recall": 0.6786,
+    "decisions": 28
+   },
+   {
+    "seed": 252,
+    "dangerous_second": 3,
+    "recall": 0.7188,
+    "decisions": 31
+   },
+   {
+    "seed": 253,
+    "dangerous_second": 3,
+    "recall": 0.7097,
+    "decisions": 29
+   },
+   {
+    "seed": 254,
+    "dangerous_second": 2,
+    "recall": 0.5,
+    "decisions": 23
+   },
+   {
+    "seed": 255,
+    "dangerous_second": 3,
+    "recall": 0.8214,
+    "decisions": 31
+   },
+   {
+    "seed": 256,
+    "dangerous_second": 6,
+    "recall": 0.6765,
+    "decisions": 34
+   },
+   {
+    "seed": 257,
+    "dangerous_second": 5,
+    "recall": 0.7667,
+    "decisions": 32
+   },
+   {
+    "seed": 258,
+    "dangerous_second": 6,
+    "recall": 0.7857,
+    "decisions": 33
+   },
+   {
+    "seed": 259,
+    "dangerous_second": 4,
+    "recall": 0.6538,
+    "decisions": 25
+   }
+  ]
+ }
+}

@@ -49,3 +49,18 @@ probationary-trust mechanism must count *revealed* observations
 before it is allowed to discount anyone. A confirmatory run on
 fresh seeds is required before this becomes a claim; the dev
 grid above is the complete registered table, not a selection.
+
+**Correction (2026-11-07, issue #159).** Two statements above
+are corrected. (1) The design rule about unrevealed
+observations misdescribed this runner: `seen` increments only
+when a revealed label is applied, so REP-P already counts
+revealed observations only. Its failure mechanism is that
+sparse feedback keeps the permissive probation policy active
+for most of the sequence while its commit thresholds stay
+lower than E's. (2) "Reputation is a fair-weather defence /
+helps only when prompt" is too broad: at D=15 with full
+availability REP still beats E clearly. The supported claim
+is the narrower one in the confirmatory correction: the
+advantage inverts when delay and sparse reveal combine, in
+this world, for these policies. The threshold confound (E
+requires margin >=2, REP >=1) is also acknowledged there.
