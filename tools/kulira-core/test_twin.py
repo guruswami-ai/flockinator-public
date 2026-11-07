@@ -107,3 +107,20 @@ def test_tick_inputs_match_twin_stream():
         assert row["input_hash"] == input_hash(
             inp["tick"], 80, inp["signal_q"], inp["obstacle"], inp["pkt_loss"])
         assert row["decision"] == decide(inp["signal_q"], inp["obstacle"], inp["pkt_loss"])
+
+
+def test_parity_exact_four_plus_four_disjoint_fixture():
+    # The reassessment counterexample, exactly: 4 hash-only and 4
+    # disjoint decision-only errors in 500 rows must report the
+    # joint agreement 492/500 = 0.984 (old max-of-mismatches
+    # formula reported 0.992).
+    host = run_twin(5, 500, p_loss=0.0)
+    dev = [dict(r) for r in host]
+    for i in (10, 20, 30, 40):
+        dev[i]["input_hash"] = "deadbeef"
+    for i in (50, 60, 70, 80):
+        dev[i]["decision"] = (dev[i]["decision"] + 1) % 3
+    out = parity(host, dev)
+    assert out["parity"] == 0.984
+    assert out["hash_mismatches"] == 4 and out["decision_mismatches"] == 4
+    assert out["agree"] == 492

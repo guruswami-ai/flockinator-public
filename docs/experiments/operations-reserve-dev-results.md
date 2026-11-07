@@ -27,13 +27,16 @@ ready aircraft, at a cost of ~1.5 turns slower discovery.
 applied forced-landing outcomes only when battery went negative,
 and skipped energy/failure cost on the discovery turn. Both are
 fixed to match the pre-registration; the table above and the
-evidence JSON are the corrected re-run on the same seeds. Scope
-note (2026-11-07 reassessment): in these benign regimes sorties
-normally end well above the tactical reserve, so the forced-
-landing branch is rarely entered - the point-estimate changes
-come mainly from discovery-turn energy/failure accounting, and
-losses only become frequent in the later loss-bearing regime,
-which was designed for that purpose.
+evidence JSON are the corrected re-run on the same seeds. Precise replacement (2026-11-07 response-verification):
+reserve-triggered return is different from a below-zero
+forced landing. Independent instrumentation of these recorded
+runs counted 90 reserve-triggered returns in dev and 347 in
+binding, with **zero** forced-landing rolls in both. So: the
+published rerun corrected discovery-turn accounting; the
+below-zero forced-landing rule remained in the implementation
+but never fired in these regimes; frequent losses belong to
+the later loss-bearing regime, a separate experiment designed
+for that purpose.
 
 ## Hypotheses
 

@@ -24,10 +24,11 @@ integer compares, timeout counts as packet loss).
 **Clock:** No fleet clock sync. **Simulation `tick` is the clock.** Ordering disputes resolved by `tick`. Panel `millis()/micros()` used only for `latency_ms` diagnostic.
 
 **Scored evidence:** Only existing SD journal on DUT. Reuse `/sd/journal/search_test.csv`, append-only, flush per tick. No host logs count.
-```
-tick,seed,rx_hash,signal,conf,decision,latency_ms,free_heap,dropped_flag
-# decision: 0=WAIT,1=DOUBLE-CHECK,2=SEARCH
-```
+Journal format is governed by canary-contract-v1.md v1.1
+(`tick,seed,input_hash,decision,latency_us`; enums
+0=SEARCH, 1=DOUBLE_CHECK, 2=WAIT). The contributor draft's
+9-column CSV and inverted enum comment are superseded and
+must not be implemented.
 
 ## 2. Hypotheses + Falsification
 
@@ -75,3 +76,21 @@ Not testing real SAR effectiveness, real radio/GPS, 16-node scaling, optimal sea
 ## 7. Timeline / Artifacts
 
 **Week 1:** Controller + `twin.py` frozen. **Week 2:** DUT firmware + journal + Gate1. **Week 3:** Loss + audit + report. Implementable today with: `world_host.ino`, `panel_dut.ino`, `twin.py`, `compare_twin.py`, 1 SD reader.
+
+
+## Executable procedure (added 2026-11-07, response-verification item 4)
+
+1. Firmware implements the decision rule and journal exactly
+   per canary-contract v1.1 (boolean rendering 0/1 frozen).
+2. Gate A (no radio): feed the 300 golden rows
+   (`validation/kulira/canary-golden-vectors-001.csv`) to the
+   device code; its journal must match hash+decision on all
+   300 (scored by `kulira_core.canary_score`).
+3. Gate B: one seeded 500-tick run over the real input path;
+   device journals every tick including missing-input rows;
+   free-heap minimum is recorded in the run manifest (outside
+   the CSV, which has no heap column by design), readback is
+   scored by `canary_score` (parity, missing rows, latency max).
+4. Received inputs are retained as the journal's input_hash
+   chain plus the Korvo-side broadcast log; parity never
+   requires reconstructing inputs from hashes.
