@@ -81,9 +81,15 @@ def main(argv=None) -> int:
               "[--ticks N] [--seeds 80,81,82]", file=sys.stderr)
         return 2
     text = pathlib.Path(paths[0]).read_text()
-    print(json.dumps(score_journal(load_device_csv(text), ticks=ticks,
-                                   expected_seeds=expected), indent=1))
-    return 0
+    reports = score_journal(load_device_csv(text), ticks=ticks,
+                            expected_seeds=expected)
+    print(json.dumps(reports, indent=1))
+    # The JSON is the verdict; the exit code must not contradict it.
+    # Any parity None (length mismatch, missing seed, link failure)
+    # or an empty report set is a failed gate, not a pass.
+    failed = not reports or any(
+        r["parity"] is None or r["link_failure"] for r in reports.values())
+    return 1 if failed else 0
 
 
 if __name__ == "__main__":
