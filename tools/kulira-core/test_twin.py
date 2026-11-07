@@ -97,3 +97,13 @@ def test_link_failure_cutoff_boundaries():
         assert out["link_failure"] is expect_fail, (k, out)
         assert (out["parity"] is None) is expect_fail
         assert out["hash_mismatches"] == 0  # missing markers are not corruption
+
+
+def test_tick_inputs_match_twin_stream():
+    from kulira_core.twin import input_hash, tick_inputs
+    inputs = tick_inputs(80, 50)
+    rows = run_twin(80, 50)
+    for inp, row in zip(inputs, rows):
+        assert row["input_hash"] == input_hash(
+            inp["tick"], 80, inp["signal_q"], inp["obstacle"], inp["pkt_loss"])
+        assert row["decision"] == decide(inp["signal_q"], inp["obstacle"], inp["pkt_loss"])
