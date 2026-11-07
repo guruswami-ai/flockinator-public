@@ -1,0 +1,124 @@
+{
+ "parity_levels": {
+  "0.0": {
+   "compared": 500,
+   "agree": 500,
+   "missing_input_rows": 0,
+   "parity": 1.0,
+   "length_mismatch": false,
+   "identity_mismatches": 0,
+   "hash_mismatches": 0,
+   "decision_mismatches": 0,
+   "host_rows": 500,
+   "device_rows": 500
+  },
+  "0.05": {
+   "compared": 500,
+   "agree": 500,
+   "missing_input_rows": 21,
+   "parity": 1.0,
+   "length_mismatch": false,
+   "identity_mismatches": 0,
+   "hash_mismatches": 21,
+   "decision_mismatches": 19,
+   "host_rows": 500,
+   "device_rows": 500
+  },
+  "0.1": {
+   "compared": 500,
+   "agree": 500,
+   "missing_input_rows": 38,
+   "parity": 1.0,
+   "length_mismatch": false,
+   "identity_mismatches": 0,
+   "hash_mismatches": 38,
+   "decision_mismatches": 33,
+   "host_rows": 500,
+   "device_rows": 500
+  },
+  "0.2": {
+   "compared": 500,
+   "agree": 500,
+   "missing_input_rows": 79,
+   "parity": 1.0,
+   "length_mismatch": false,
+   "identity_mismatches": 0,
+   "hash_mismatches": 79,
+   "decision_mismatches": 72,
+   "host_rows": 500,
+   "device_rows": 500
+  }
+ },
+ "distribution_sweep": {
+  "0.0": {
+   "empirical": {
+    "SEARCH": 0.6275,
+    "DOUBLE_CHECK": 0.274,
+    "WAIT": 0.0985
+   },
+   "expected": {
+    "WAIT": 0.1,
+    "DOUBLE_CHECK": 0.27,
+    "SEARCH": 0.63
+   }
+  },
+  "0.05": {
+   "empirical": {
+    "SEARCH": 0.6,
+    "DOUBLE_CHECK": 0.2595,
+    "WAIT": 0.1405
+   },
+   "expected": {
+    "WAIT": 0.145,
+    "DOUBLE_CHECK": 0.2565,
+    "SEARCH": 0.5985
+   }
+  },
+  "0.1": {
+   "empirical": {
+    "SEARCH": 0.5725,
+    "DOUBLE_CHECK": 0.2455,
+    "WAIT": 0.182
+   },
+   "expected": {
+    "WAIT": 0.19,
+    "DOUBLE_CHECK": 0.243,
+    "SEARCH": 0.567
+   }
+  },
+  "0.2": {
+   "empirical": {
+    "SEARCH": 0.5005,
+    "DOUBLE_CHECK": 0.219,
+    "WAIT": 0.2805
+   },
+   "expected": {
+    "WAIT": 0.28,
+    "DOUBLE_CHECK": 0.216,
+    "SEARCH": 0.504
+   }
+  }
+ },
+ "simloop_degradation": {
+  "0.0": {
+   "found_tick": 149,
+   "ticks_run": 150,
+   "missing_rows": 0
+  },
+  "0.1": {
+   "found_tick": 163,
+   "ticks_run": 164,
+   "missing_rows": 14
+  },
+  "0.25": {
+   "found_tick": 191,
+   "ticks_run": 192,
+   "missing_rows": 42
+  },
+  "0.5": {
+   "found_tick": 283,
+   "ticks_run": 284,
+   "missing_rows": 134
+  }
+ }
+}
