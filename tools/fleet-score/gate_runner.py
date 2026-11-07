@@ -123,26 +123,39 @@ def pair_baseline(baseline, seeds):
     """Pair config seeds to frozen baseline rows. Never silently skips.
 
     Seeded rows (``per_seed[].seed``) pair by seed; ordered lists pair by
-    the baseline ``seeds`` list, else positionally by config-seed index.
-    Missing seeds, length mismatches, and absent ``per_seed`` all RAISE.
+    the baseline ``seeds`` list, else positionally by sorted config seeds.
+    Explicit ``seeds`` must identify every row exactly once, even when rows
+    are keyed; its order need not match keyed rows. Only absent metadata
+    permits legacy positional pairing. Mixed row formats, missing seeds,
+    length mismatches, and absent ``per_seed`` all RAISE.
     """
     validate_seeds(list(seeds))
     per = baseline.get("per_seed", [])
-    if per and all(isinstance(r, dict) and "seed" in r for r in per):
+    if not isinstance(per, list) or not per or any(not isinstance(r, dict) for r in per):
+        raise ValueError("baseline per_seed must be a non-empty list of rows")
+    keyed = ["seed" in r for r in per]
+    if any(keyed) and not all(keyed):
+        raise ValueError("mixed keyed and unkeyed baseline rows")
+    list_ids = None
+    if "seeds" in baseline:
+        list_ids = baseline["seeds"]
+        if not isinstance(list_ids, list) or len(list_ids) != len(per):
+            raise ValueError("baseline seeds must be a list with one id per row")
+        if any(type(i) is not int for i in list_ids):
+            raise ValueError(f"baseline seeds list must be ints, got {list_ids!r}")
+        if len(set(list_ids)) != len(list_ids):
+            raise ValueError(f"duplicate baseline seeds list: {list_ids!r}")
+    if all(keyed):
         ids = [r["seed"] for r in per]
         if any(type(i) is not int for i in ids):
             raise ValueError(f"baseline seed ids must be ints, got {ids!r}")
         if len(set(ids)) != len(ids):
             raise ValueError(f"duplicate baseline seed rows: {ids!r}")
+        if list_ids is not None and set(list_ids) != set(ids):
+            raise ValueError("baseline seeds list does not match keyed row ids")
         mapping = {r["seed"]: r for r in per}
-    elif (isinstance(baseline.get("seeds"), list)
-            and len(baseline["seeds"]) == len(per)):
-        ids = baseline["seeds"]
-        if any(type(i) is not int for i in ids):
-            raise ValueError(f"baseline seeds list must be ints, got {ids!r}")
-        if len(set(ids)) != len(ids):
-            raise ValueError(f"duplicate baseline seeds list: {ids!r}")
-        mapping = dict(zip(ids, per))
+    elif list_ids is not None:
+        mapping = dict(zip(list_ids, per))
     elif len(per) == len(seeds):
         mapping = dict(zip(sorted(seeds), per))
     else:
@@ -161,7 +174,7 @@ def validate_evidence(run_dir):
 
     Raises ValueError (ERROR verdict) on: exact duplicate discovery
     events, a landed unit with no route_assigned, a route missing
-    its reserve field, or non-finite energy values. Legitimate
+    a finite numeric non-bool reserve, or non-finite energy values. Legitimate
     distinct observations from one unit are never collapsed.
     """
     import math as _math
@@ -198,6 +211,11 @@ def validate_evidence(run_dir):
             if "reserve" not in ev:
                 raise ValueError(f"{run_dir}: route_assigned without "
                                  f"reserve for {ev.get('unit')!r}")
+            if (not isinstance(ev["reserve"], (int, float))
+                    or isinstance(ev["reserve"], bool)
+                    or not _math.isfinite(ev["reserve"])):
+                raise ValueError(f"{run_dir}: route_assigned reserve must be "
+                                 f"finite numeric non-bool in {ev!r}")
             routed[ev.get("unit")] = True
         elif ev.get("event") == "landed":
             landed_units.add(ev.get("unit"))

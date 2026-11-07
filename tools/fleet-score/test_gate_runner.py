@@ -13,6 +13,8 @@ P1 vote).
 
 import json
 import pathlib
+import subprocess
+import sys
 import tempfile
 import unittest
 
@@ -505,3 +507,114 @@ class WfMeasurementFixesTest(unittest.TestCase):
                       "auth_status": "forged_rejected"}
             (d / "events.jsonl").write_text(_json.dumps(landed) + "\n")
             validate_evidence(d)  # must not raise: not fleet evidence
+
+
+class InputValidationTest(unittest.TestCase):
+    """Malformed reserve and baseline identity inputs must fail closed."""
+
+    def test_mixed_keyed_and_unkeyed_rows_rejected(self):
+        for rows in ([{"seed": 0}, {"seed": 0}, {}],
+                     [{"seed": 0}, {"seed": 1}, {}],
+                     [{}, {"seed": 1}, {"seed": 2}]):
+            for metadata in ({}, {"seeds": [0, 1, 2]}):
+                with self.subTest(rows=rows, metadata=metadata):
+                    with self.assertRaisesRegex(ValueError, "mixed"):
+                        pair_baseline({"per_seed": rows, **metadata}, [0, 1, 2])
+
+    def test_malformed_explicit_seed_lists_rejected(self):
+        for rows in ([{}, {}], [{"seed": 0}, {"seed": 1}]):
+            for ids in (None, [], {}, "01", [0], [0, 1, 2], [0, 0],
+                        [False, 1], [0.0, 1], ["0", 1]):
+                with self.subTest(rows=rows, ids=ids):
+                    with self.assertRaises(ValueError):
+                        pair_baseline({"per_seed": rows, "seeds": ids}, [0, 1])
+
+    def test_keyed_rows_conflicting_with_seed_list_rejected(self):
+        with self.assertRaises(ValueError):
+            pair_baseline({"per_seed": [{"seed": 0}, {"seed": 1}],
+                           "seeds": [0, 2]}, [0, 1])
+
+    def test_keyed_permutations_and_config_subsets_preserved(self):
+        rows = [{"seed": s, "contacts_total": s + 1} for s in (2, 0, 1)]
+        expected = {row["seed"]: row for row in rows}
+        for ordered in (rows, list(reversed(rows))):
+            for metadata in ({}, {"seeds": [0, 1, 2]},
+                             {"seeds": [2, 0, 1]}):
+                with self.subTest(ordered=ordered, metadata=metadata):
+                    self.assertEqual(pair_baseline(
+                        {"per_seed": ordered, **metadata}, [2, 0]), expected)
+
+    def test_legacy_unkeyed_rows_pair_to_sorted_config_seeds(self):
+        rows = [{"contacts_total": 10}, {"contacts_total": 20}]
+        self.assertEqual(pair_baseline({"per_seed": rows}, [20, 10]),
+                         {10: rows[0], 20: rows[1]})
+
+    def test_explicit_seed_list_preserves_order_and_config_subsets(self):
+        rows = [{"contacts_total": 20}, {"contacts_total": 10},
+                {"contacts_total": 30}]
+        self.assertEqual(pair_baseline(
+            {"per_seed": rows, "seeds": [20, 10, 30]}, [10, 20]),
+            {20: rows[0], 10: rows[1], 30: rows[2]})
+
+    def test_malformed_reserves_rejected(self):
+        for reserve in (float("nan"), float("inf"), -float("inf"),
+                        True, False, None, "3"):
+            with self.subTest(reserve=reserve), tempfile.TemporaryDirectory() as tmp:
+                event = dict(route("A1"), reserve=reserve)
+                write_run(tmp, [], {"A1": [event, landed("A1", energy=1)]})
+                with self.assertRaisesRegex(ValueError, "reserve"):
+                    validate_evidence(tmp)
+
+    def test_finite_numeric_reserves_accepted(self):
+        for reserve in (0, 3, 3.5, -1):
+            with self.subTest(reserve=reserve), tempfile.TemporaryDirectory() as tmp:
+                write_run(tmp, [], {"A1": [dict(route("A1"), reserve=reserve),
+                                          landed("A1")]})
+                validate_evidence(tmp)
+
+    def test_rejected_outsider_reserve_does_not_invalidate_fleet(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            outsider = dict(route("X9"), reserve=float("nan"),
+                            auth_status="forged_rejected")
+            write_run(tmp, [], {"A1": [route("A1"), landed("A1")],
+                                "X9": [outsider]})
+            validate_evidence(tmp)
+
+    def test_cli_nan_reserve_errors_instead_of_passing(self):
+        # Thirty correct commits satisfy G5; only A1's reserve is violated.
+        truth = [{"pos": [i % 10, i // 10], "kind": "Enemy",
+                  "priority": "Normal"} for i in range(30)]
+        journals = {
+            unit: [route(unit)] + [
+                {"unit": unit, "turn": i + 1, "event": "discovery",
+                 "tile": contact["pos"], "contact": i + 1,
+                 "reported_label": "Enemy", "auth_status": "direct_verified"}
+                for i, contact in enumerate(truth)
+            ] + [dict(landed(unit, energy=1 if unit == "A1" else 25), turn=40)]
+            for unit in ("A1", "B1", "C1")
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            baseline = root / "baseline.json"
+            baseline.write_text(json.dumps({"scorer_version": SCORER_VERSION,
+                "per_seed": [{"seed": 0, "contacts_total": 30, "units": 3}]}))
+            config = root / "config.json"
+            config.write_text(json.dumps({"treatment": "T0", "policy": "P0",
+                                         "seeds": [0], "parity": EVIDENCE}))
+            out = root / "out"
+            command = [sys.executable, str(REPO / "tools/fleet-score/gate_runner.py"),
+                       "--baseline", str(baseline), "--config", str(config),
+                       "--runs", str(root / "runs"), "--out", str(out)]
+            write_run(root / "runs/seed-0", truth, journals)
+            valid = subprocess.run(command, capture_output=True, text=True)
+            self.assertEqual(valid.returncode, 1, valid.stderr)
+            verdict_path = out / "verdict.json"
+            verdict = json.loads(verdict_path.read_text())
+            self.assertFalse(verdict["all_applicable_pass"])
+            self.assertFalse(verdict["gates"]["G6"]["pass"])
+            journals["A1"][0]["reserve"] = float("nan")
+            write_run(root / "runs/seed-0", truth, journals)
+            invalid = subprocess.run(command, capture_output=True, text=True)
+            self.assertEqual(invalid.returncode, 3, invalid.stderr)
+            self.assertIn("reserve", invalid.stderr)
+            self.assertFalse(verdict_path.exists())
