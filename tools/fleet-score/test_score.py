@@ -341,6 +341,36 @@ class AuthRobustnessTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             self._score([ev])
 
+    def test_out_of_range_and_noninteger_direct_contacts_rejected(self):
+        for contact in (0, -1, 3, 1.0, "1", None):
+            with self.subTest(contact=contact), self.assertRaises(ValueError):
+                self._score([{"unit": "A1", "turn": 1, "event": "discovery",
+                             "contact": contact, "tile": [0, 0],
+                             "reported_label": "Enemy"}])
+
+    def test_direct_tile_mismatch_rejected(self):
+        with self.assertRaisesRegex(ValueError, "ground truth pos"):
+            self._score([{"unit": "A1", "turn": 1, "event": "discovery",
+                         "contact": 1, "tile": [9, 9],
+                         "reported_label": "Enemy"}])
+
+    def test_empty_run_rejected(self):
+        with self.assertRaisesRegex(ValueError, "no journal events"):
+            self._score([])
+
+    def test_malformed_nonvoting_tile_fails_closed(self):
+        for status in ("forged_rejected", "hearsay_relayed", "unverified"):
+            for tile in (None, 1, True, 1.5, "bad", {}, {"x": 0, "y": 0}):
+                with self.subTest(status=status, tile=tile):
+                    result = self._score([{
+                        "unit": "X9", "turn": 1, "event": "discovery",
+                        "contact": 1, "tile": tile, "reported_label": "Enemy",
+                        "auth_status": status}])
+                    self.assertEqual(result["discoveries"], 0)
+                    self.assertEqual(result["forged_vote_shaped_attempts"], 0)
+                    self.assertEqual(result["committed_p1_contacts"], 0)
+                    self.assertEqual(result["committed_inclusive_delta"], 0)
+
     def test_bool_contact_lenient_none(self):
         ev = {"unit": "X9", "turn": 1, "event": "discovery",
               "contact": True, "tile": [0, 0],
