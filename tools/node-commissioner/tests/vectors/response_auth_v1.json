@@ -1,0 +1,765 @@
+{
+ "format": "flock-management-response-v1 golden vectors",
+ "source": "firmware/shared/management/response_auth.h",
+ "schema": {
+  "cases": "Valid bindings. canonical is the exact LF-joined signing input (no trailing LF); signature = lowercase hex HMAC-SHA256(key, canonical); body_sha256 = SHA-256 of body_hex bytes.",
+  "invalid_bindings": "bind()/valid() must return false for every entry; nothing may be signed or verified with them.",
+  "verify": "verify(version='1', signature, status, body_sha256) must succeed exactly once per pending exchange and fail for any altered status, body, signature, key or challenge."
+ },
+ "cases": [
+  {
+   "name": "challenge-get-200",
+   "note": "Initial unauthenticated-request exchange; nonce/count/signature placeholders",
+   "key_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/challenge",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "-",
+    "count": "0",
+    "request_signature": "-"
+   },
+   "status": 200,
+   "body_hex": "7b2276223a312c22626173655f6d6163223a2230303a31313a32323a33333a34343a3535222c226e6f6e6365223a223031323334353637383961626364656630313233343536373839616263646566222c226e6578745f636f756e746572223a312c226b65795f6964223a2230313233343536373839616263646566222c22636f6e66696775726564223a747275657d",
+   "body_text": "{\"v\":1,\"base_mac\":\"00:11:22:33:44:55\",\"nonce\":\"0123456789abcdef0123456789abcdef\",\"next_counter\":1,\"key_id\":\"0123456789abcdef\",\"configured\":true}",
+   "body_sha256": "34a6e517b29bf5c3b0e86c8db8c6a98e07940ae7fe2e25da60c58bedfbe1b8a5",
+   "canonical": "flock-management-response-v1\n11111111111111111111111111111111\n00:11:22:33:44:55\nGET\n/v1/challenge\ne3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\n-\n0\n-\n200\n34a6e517b29bf5c3b0e86c8db8c6a98e07940ae7fe2e25da60c58bedfbe1b8a5",
+   "signature": "78f9a7058ad559ac266a8bf9e8403cae22c056125518ad22b981cc60643411a1"
+  },
+  {
+   "name": "status-get-200",
+   "note": "",
+   "key_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+   "binding": {
+    "challenge": "22222222222222222222222222222222",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/status",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "1",
+    "request_signature": "030512028b09bd2d05dd44963d7ccf94caa3565968f956cb2f365847d594bdca"
+   },
+   "status": 200,
+   "body_hex": "7b2274797065223a22737461747573222c2276223a312c22626173655f6d6163223a2230303a31313a32323a33333a34343a3535222c226c6162656c223a224131222c22626f6f745f636f756e74223a352c226669726d77617265223a22302e392e30227d",
+   "body_text": "{\"type\":\"status\",\"v\":1,\"base_mac\":\"00:11:22:33:44:55\",\"label\":\"A1\",\"boot_count\":5,\"firmware\":\"0.9.0\"}",
+   "body_sha256": "b08d32c49c762fb83e14bc68121423e7a67763b0327112bd4a7b0f42bc7d705a",
+   "canonical": "flock-management-response-v1\n22222222222222222222222222222222\n00:11:22:33:44:55\nGET\n/v1/status\ne3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\n0123456789abcdef0123456789abcdef\n1\n030512028b09bd2d05dd44963d7ccf94caa3565968f956cb2f365847d594bdca\n200\nb08d32c49c762fb83e14bc68121423e7a67763b0327112bd4a7b0f42bc7d705a",
+   "signature": "3dba74a86fc7c0848613f83308c5e7dd390be841ebc600da07732199632cb1f5"
+  },
+  {
+   "name": "status-get-401-html",
+   "note": "Error bodies are signed too",
+   "key_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+   "binding": {
+    "challenge": "33333333333333333333333333333333",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/status",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "2",
+    "request_signature": "e039997ddc0fc0abe462997528778ab175b9e75e7020ff9cf6b7fe5f236dfd26"
+   },
+   "status": 401,
+   "body_hex": "41757468656e7469636174696f6e206661696c6564",
+   "body_text": "Authentication failed",
+   "body_sha256": "93821eb7ce8c659285207dd34f7e29a79088e218a1d7bb373b54fbeddbbef6fd",
+   "canonical": "flock-management-response-v1\n33333333333333333333333333333333\n00:11:22:33:44:55\nGET\n/v1/status\ne3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\n0123456789abcdef0123456789abcdef\n2\ne039997ddc0fc0abe462997528778ab175b9e75e7020ff9cf6b7fe5f236dfd26\n401\n93821eb7ce8c659285207dd34f7e29a79088e218a1d7bb373b54fbeddbbef6fd",
+   "signature": "8f5cf54e7c23c980fd3fe7a52187b2e585102b95d6f209863433e40bb3f189c4"
+  },
+  {
+   "name": "control-post-tone-200",
+   "note": "",
+   "key_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+   "binding": {
+    "challenge": "44444444444444444444444444444444",
+    "node": "00:11:22:33:44:55",
+    "method": "POST",
+    "path": "/v1/control",
+    "request_hash": "00cf4ce3935c8a60a1acd094b602276fed4618903839231e5d206dce24c0fe0f",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "3",
+    "request_signature": "f61f5e305793cc13214a7b624df120ad192ab35eafe60d0697d886a89b03f538"
+   },
+   "status": 200,
+   "body_hex": "7b226f6b223a747275657d",
+   "body_text": "{\"ok\":true}",
+   "body_sha256": "4062edaf750fb8074e7e83e0c9028c94e32468a8b6f1614774328ef045150f93",
+   "canonical": "flock-management-response-v1\n44444444444444444444444444444444\n00:11:22:33:44:55\nPOST\n/v1/control\n00cf4ce3935c8a60a1acd094b602276fed4618903839231e5d206dce24c0fe0f\n0123456789abcdef0123456789abcdef\n3\nf61f5e305793cc13214a7b624df120ad192ab35eafe60d0697d886a89b03f538\n200\n4062edaf750fb8074e7e83e0c9028c94e32468a8b6f1614774328ef045150f93",
+   "signature": "3d9570520f16ae745ed6f1d1460696ab89c1b1ec74b6ab0eb79f4df484395baa"
+  },
+  {
+   "name": "control-post-sd-409",
+   "note": "",
+   "key_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+   "binding": {
+    "challenge": "55555555555555555555555555555555",
+    "node": "00:11:22:33:44:55",
+    "method": "POST",
+    "path": "/v1/control",
+    "request_hash": "49c7fb0cce304340089677951b2036a133d7840f5253f499ef6bcffd618d4335",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "4",
+    "request_signature": "5cc27fad7f50d7a219cb7b7b4850d37e9a0be054d95fd6c6a241d09dbb22ebda"
+   },
+   "status": 409,
+   "body_hex": "7b226f6b223a66616c73652c226572726f72223a22696e76616c69645f73645f6f7065726174696f6e227d",
+   "body_text": "{\"ok\":false,\"error\":\"invalid_sd_operation\"}",
+   "body_sha256": "d448013a651ccef6c3d4c8e88bca049fdf5a80d414fe2c151341f753a093a74a",
+   "canonical": "flock-management-response-v1\n55555555555555555555555555555555\n00:11:22:33:44:55\nPOST\n/v1/control\n49c7fb0cce304340089677951b2036a133d7840f5253f499ef6bcffd618d4335\n0123456789abcdef0123456789abcdef\n4\n5cc27fad7f50d7a219cb7b7b4850d37e9a0be054d95fd6c6a241d09dbb22ebda\n409\nd448013a651ccef6c3d4c8e88bca049fdf5a80d414fe2c151341f753a093a74a",
+   "signature": "a75d136bbcf7707eecaaf266dc067a236ad6d15d1937a6ef45f492f28a6aea7a"
+  },
+  {
+   "name": "update-post-503",
+   "note": "",
+   "key_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+   "binding": {
+    "challenge": "66666666666666666666666666666666",
+    "node": "00:11:22:33:44:55",
+    "method": "POST",
+    "path": "/v1/update",
+    "request_hash": "2d5565fb483d8ea4525a7a9229677d1038ad34b6e22c8d5152e1d7f7b9817597",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "5",
+    "request_signature": "5aa9991868f5ce8711312af3e6b1813561e4b8c74b872818f9455e10ef5b4f12"
+   },
+   "status": 503,
+   "body_hex": "7b226572726f72223a22627573795f6f725f74696d656f7574227d",
+   "body_text": "{\"error\":\"busy_or_timeout\"}",
+   "body_sha256": "5719697518d7c2694caca7bcabb2aef7421244b8148c4169979c3757731146c1",
+   "canonical": "flock-management-response-v1\n66666666666666666666666666666666\n00:11:22:33:44:55\nPOST\n/v1/update\n2d5565fb483d8ea4525a7a9229677d1038ad34b6e22c8d5152e1d7f7b9817597\n0123456789abcdef0123456789abcdef\n5\n5aa9991868f5ce8711312af3e6b1813561e4b8c74b872818f9455e10ef5b4f12\n503\n5719697518d7c2694caca7bcabb2aef7421244b8148c4169979c3757731146c1",
+   "signature": "0b3bf89e5e05bee00d3e84f1f3ca401c0e34620d247ebb19f8fa184e2a9c0487"
+  },
+  {
+   "name": "update-post-200",
+   "note": "",
+   "key_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+   "binding": {
+    "challenge": "77777777777777777777777777777777",
+    "node": "00:11:22:33:44:55",
+    "method": "POST",
+    "path": "/v1/update",
+    "request_hash": "110009dcee21620b166f3abfecb5eff7a873be729d1c2d53822e7acc5f34eb9b",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "6",
+    "request_signature": "9a7c9da32bb4c29ae721f99dd56b7bbb124c93b357f98bc6d046c3888af8743c"
+   },
+   "status": 200,
+   "body_hex": "7b226f6b223a747275652c227265626f6f74696e67223a747275657d",
+   "body_text": "{\"ok\":true,\"rebooting\":true}",
+   "body_sha256": "4907e83e96bf92ce0416b7e8319d558ba09576c8f6b08131d1b8a0ed982f8a3d",
+   "canonical": "flock-management-response-v1\n77777777777777777777777777777777\n00:11:22:33:44:55\nPOST\n/v1/update\n110009dcee21620b166f3abfecb5eff7a873be729d1c2d53822e7acc5f34eb9b\n0123456789abcdef0123456789abcdef\n6\n9a7c9da32bb4c29ae721f99dd56b7bbb124c93b357f98bc6d046c3888af8743c\n200\n4907e83e96bf92ce0416b7e8319d558ba09576c8f6b08131d1b8a0ed982f8a3d",
+   "signature": "60090ac9bae7441ed2950703d20760516f0e6fd4294e2030c9f8c45bc16b3b53"
+  },
+  {
+   "name": "journal-read-200-ndjson",
+   "note": "Largest counter",
+   "key_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+   "binding": {
+    "challenge": "88888888888888888888888888888888",
+    "node": "00:11:22:33:44:55",
+    "method": "POST",
+    "path": "/v1/journal/read",
+    "request_hash": "5aef1902aa67f4eb31948c12cb9b166beac148e54de6abff5d65150b50067453",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "4294967295",
+    "request_signature": "a7f274c5e28b4001c003c53c531fa986f5351e9e6cd61c17b27aaaf013008d57"
+   },
+   "status": 200,
+   "body_hex": "7b227469636b223a312c227374617465223a2257414954227d0a7b227469636b223a322c227374617465223a22434f4d4d4954227d0a",
+   "body_text": "{\"tick\":1,\"state\":\"WAIT\"}\n{\"tick\":2,\"state\":\"COMMIT\"}\n",
+   "body_sha256": "7ae16b5d91d1f792c1a6b3732f5f6c7cb1ee1a3109e3dcd554c2a7ff98dd509b",
+   "canonical": "flock-management-response-v1\n88888888888888888888888888888888\n00:11:22:33:44:55\nPOST\n/v1/journal/read\n5aef1902aa67f4eb31948c12cb9b166beac148e54de6abff5d65150b50067453\n0123456789abcdef0123456789abcdef\n4294967295\na7f274c5e28b4001c003c53c531fa986f5351e9e6cd61c17b27aaaf013008d57\n200\n7ae16b5d91d1f792c1a6b3732f5f6c7cb1ee1a3109e3dcd554c2a7ff98dd509b",
+   "signature": "50e648d2ca470fc61854eaab6bed6ce2086e82d6e697e0b3add618b18afb2e25"
+  },
+  {
+   "name": "journal-read-404",
+   "note": "",
+   "key_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+   "binding": {
+    "challenge": "99999999999999999999999999999999",
+    "node": "00:11:22:33:44:55",
+    "method": "POST",
+    "path": "/v1/journal/read",
+    "request_hash": "d91323a5298f3b9f814db29efaa271f24fbdccedfdd062491b8abc8e07b7fb69",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "7",
+    "request_signature": "b21d7c1bcc53012f115484e2f66bd462dd8e970ac005d99a54efa73980a94f00"
+   },
+   "status": 404,
+   "body_hex": "556e6b6e6f776e206a6f75726e616c",
+   "body_text": "Unknown journal",
+   "body_sha256": "a1fc2fa7f802a6e80041ce808da01f1e7a9c7c563edc509de55dbe2ad939f0cd",
+   "canonical": "flock-management-response-v1\n99999999999999999999999999999999\n00:11:22:33:44:55\nPOST\n/v1/journal/read\nd91323a5298f3b9f814db29efaa271f24fbdccedfdd062491b8abc8e07b7fb69\n0123456789abcdef0123456789abcdef\n7\nb21d7c1bcc53012f115484e2f66bd462dd8e970ac005d99a54efa73980a94f00\n404\na1fc2fa7f802a6e80041ce808da01f1e7a9c7c563edc509de55dbe2ad939f0cd",
+   "signature": "b0888db817ecc675468235299b0a9fc16c6a1a1a330e13a4afbd4f163ba4729c"
+  },
+  {
+   "name": "journal-post-200",
+   "note": "",
+   "key_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+   "binding": {
+    "challenge": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "node": "00:11:22:33:44:55",
+    "method": "POST",
+    "path": "/v1/journal",
+    "request_hash": "7ae16b5d91d1f792c1a6b3732f5f6c7cb1ee1a3109e3dcd554c2a7ff98dd509b",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "8",
+    "request_signature": "7dac92d9c4d4e952fddf99db27c2eb0e82cc96c1c1fcff87008ef0d75f4cb691"
+   },
+   "status": 200,
+   "body_hex": "7b226f6b223a747275652c22736861323536223a2237616531366235643931643166373932633161366233373332663566366337636231656531613331303965336463643535346332613766663938646435303962222c226279746573223a35347d",
+   "body_text": "{\"ok\":true,\"sha256\":\"7ae16b5d91d1f792c1a6b3732f5f6c7cb1ee1a3109e3dcd554c2a7ff98dd509b\",\"bytes\":54}",
+   "body_sha256": "78a69f2201237afc1b1b665910c6a0cf35c3a443c16f86639cc67204bda4129a",
+   "canonical": "flock-management-response-v1\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n00:11:22:33:44:55\nPOST\n/v1/journal\n7ae16b5d91d1f792c1a6b3732f5f6c7cb1ee1a3109e3dcd554c2a7ff98dd509b\n0123456789abcdef0123456789abcdef\n8\n7dac92d9c4d4e952fddf99db27c2eb0e82cc96c1c1fcff87008ef0d75f4cb691\n200\n78a69f2201237afc1b1b665910c6a0cf35c3a443c16f86639cc67204bda4129a",
+   "signature": "9f5ec29486914e0c2e964ef2c47003289a0fbc365acf60c5a7d74d7319fc79ad"
+  },
+  {
+   "name": "empty-body-200",
+   "note": "Body hash is the empty SHA-256",
+   "key_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+   "binding": {
+    "challenge": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/status",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "9",
+    "request_signature": "45825e3e84bfef5f845ee7fe9f516fc69ab7899c1b8ad967b4c28e33d95873a7"
+   },
+   "status": 200,
+   "body_hex": "",
+   "body_text": "",
+   "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "canonical": "flock-management-response-v1\nbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\n00:11:22:33:44:55\nGET\n/v1/status\ne3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\n0123456789abcdef0123456789abcdef\n9\n45825e3e84bfef5f845ee7fe9f516fc69ab7899c1b8ad967b4c28e33d95873a7\n200\ne3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "signature": "fbe0d762f97a5be0ff2be524ee532844e973e1c21ad2b3d5f5ad99c6713a4db3"
+  },
+  {
+   "name": "lowercase-node-mac",
+   "note": "Header mac() accepts either case; the bytes differ",
+   "key_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+   "binding": {
+    "challenge": "cccccccccccccccccccccccccccccccc",
+    "node": "aa:bb:cc:dd:ee:ff",
+    "method": "GET",
+    "path": "/v1/status",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "10",
+    "request_signature": "24b8713d6956b404b6247aa4293ed44eb7030e5daf63ead5a7ad694a9cbead41"
+   },
+   "status": 200,
+   "body_hex": "7b2274797065223a22737461747573222c2276223a312c22626173655f6d6163223a2230303a31313a32323a33333a34343a3535222c226c6162656c223a224131222c22626f6f745f636f756e74223a352c226669726d77617265223a22302e392e30227d",
+   "body_text": "{\"type\":\"status\",\"v\":1,\"base_mac\":\"00:11:22:33:44:55\",\"label\":\"A1\",\"boot_count\":5,\"firmware\":\"0.9.0\"}",
+   "body_sha256": "b08d32c49c762fb83e14bc68121423e7a67763b0327112bd4a7b0f42bc7d705a",
+   "canonical": "flock-management-response-v1\ncccccccccccccccccccccccccccccccc\naa:bb:cc:dd:ee:ff\nGET\n/v1/status\ne3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\n0123456789abcdef0123456789abcdef\n10\n24b8713d6956b404b6247aa4293ed44eb7030e5daf63ead5a7ad694a9cbead41\n200\nb08d32c49c762fb83e14bc68121423e7a67763b0327112bd4a7b0f42bc7d705a",
+   "signature": "812afcb02bf0ea0a2ade7a50e05f2d079448b84f7c574baa96e733aa84693d10"
+  },
+  {
+   "name": "longest-path-404",
+   "note": "256-character path",
+   "key_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+   "binding": {
+    "challenge": "dddddddddddddddddddddddddddddddd",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "11",
+    "request_signature": "8ec1850f82d1991571fdb254e826995efe7ca6c9744616f031978436e14117ec"
+   },
+   "status": 404,
+   "body_hex": "4e6f7468696e67206d6174636865732074686520676976656e20555249",
+   "body_text": "Nothing matches the given URI",
+   "body_sha256": "2ff3ceff7794362c6d0b85d775c92f4831c34affe216829b7a0cd585b4742ad6",
+   "canonical": "flock-management-response-v1\ndddddddddddddddddddddddddddddddd\n00:11:22:33:44:55\nGET\n/ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp\ne3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\n0123456789abcdef0123456789abcdef\n11\n8ec1850f82d1991571fdb254e826995efe7ca6c9744616f031978436e14117ec\n404\n2ff3ceff7794362c6d0b85d775c92f4831c34affe216829b7a0cd585b4742ad6",
+   "signature": "ced374baf93eb7992b264e8cdf7751b612342693f61867df7d0f393e72960d49"
+  },
+  {
+   "name": "status-100-edge",
+   "note": "",
+   "key_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+   "binding": {
+    "challenge": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/status",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "12",
+    "request_signature": "672e48fe7376bfaa3bd1a8ee201a1711ab5dfcd21ff4eac7ddcede6515919069"
+   },
+   "status": 100,
+   "body_hex": "",
+   "body_text": "",
+   "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "canonical": "flock-management-response-v1\neeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\n00:11:22:33:44:55\nGET\n/v1/status\ne3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\n0123456789abcdef0123456789abcdef\n12\n672e48fe7376bfaa3bd1a8ee201a1711ab5dfcd21ff4eac7ddcede6515919069\n100\ne3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "signature": "050f2b93dbe4929602a08a88bd8efc8ba35385b65a556058924332f3c8c08c7c"
+  },
+  {
+   "name": "status-599-edge",
+   "note": "",
+   "key_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+   "binding": {
+    "challenge": "ffffffffffffffffffffffffffffffff",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/status",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "13",
+    "request_signature": "c17d5b59be7602278586071d9e7991f5063bef2db7a87236ad7765d271192c6e"
+   },
+   "status": 599,
+   "body_hex": "78",
+   "body_text": "x",
+   "body_sha256": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881",
+   "canonical": "flock-management-response-v1\nffffffffffffffffffffffffffffffff\n00:11:22:33:44:55\nGET\n/v1/status\ne3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\n0123456789abcdef0123456789abcdef\n13\nc17d5b59be7602278586071d9e7991f5063bef2db7a87236ad7765d271192c6e\n599\n2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881",
+   "signature": "19b0434353ac1b081fcada1236cdf1d16e31d3a39dda80b0d52784bc63c0c58c"
+  },
+  {
+   "name": "other-key",
+   "note": "",
+   "key_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+   "binding": {
+    "challenge": "0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f",
+    "node": "00:11:22:33:44:55",
+    "method": "POST",
+    "path": "/v1/control",
+    "request_hash": "e4e032e0f288f4548b74dc4baa28be25100b2a414e7f87f428710bd038a2148e",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "14",
+    "request_signature": "14a13ee7d6975fdf6ff3a1e6dbbb1538b4f2dd5c4a2cf655fc93a48c4cedc2d4"
+   },
+   "status": 200,
+   "body_hex": "7b226f6b223a747275657d",
+   "body_text": "{\"ok\":true}",
+   "body_sha256": "4062edaf750fb8074e7e83e0c9028c94e32468a8b6f1614774328ef045150f93",
+   "canonical": "flock-management-response-v1\n0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f\n00:11:22:33:44:55\nPOST\n/v1/control\ne4e032e0f288f4548b74dc4baa28be25100b2a414e7f87f428710bd038a2148e\n0123456789abcdef0123456789abcdef\n14\n14a13ee7d6975fdf6ff3a1e6dbbb1538b4f2dd5c4a2cf655fc93a48c4cedc2d4\n200\n4062edaf750fb8074e7e83e0c9028c94e32468a8b6f1614774328ef045150f93",
+   "signature": "57a19cbd99ebdb5ec81caec568ebca23f235a08595ba1387403076c665c96d1c"
+  }
+ ],
+ "invalid_bindings": [
+  {
+   "name": "challenge-uppercase-hex",
+   "binding": {
+    "challenge": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/status",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "1",
+    "request_signature": "0000000000000000000000000000000000000000000000000000000000000000"
+   }
+  },
+  {
+   "name": "challenge-31-chars",
+   "binding": {
+    "challenge": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/status",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "1",
+    "request_signature": "0000000000000000000000000000000000000000000000000000000000000000"
+   }
+  },
+  {
+   "name": "challenge-33-chars",
+   "binding": {
+    "challenge": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/status",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "1",
+    "request_signature": "0000000000000000000000000000000000000000000000000000000000000000"
+   }
+  },
+  {
+   "name": "node-missing-colon",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:4455",
+    "method": "GET",
+    "path": "/v1/status",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "1",
+    "request_signature": "0000000000000000000000000000000000000000000000000000000000000000"
+   }
+  },
+  {
+   "name": "node-too-long",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:44:55:66",
+    "method": "GET",
+    "path": "/v1/status",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "1",
+    "request_signature": "0000000000000000000000000000000000000000000000000000000000000000"
+   }
+  },
+  {
+   "name": "node-dash-separated",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00-11-22-33-44-55",
+    "method": "GET",
+    "path": "/v1/status",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "1",
+    "request_signature": "0000000000000000000000000000000000000000000000000000000000000000"
+   }
+  },
+  {
+   "name": "method-put",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:44:55",
+    "method": "PUT",
+    "path": "/v1/status",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "1",
+    "request_signature": "0000000000000000000000000000000000000000000000000000000000000000"
+   }
+  },
+  {
+   "name": "method-lowercase",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:44:55",
+    "method": "get",
+    "path": "/v1/status",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "1",
+    "request_signature": "0000000000000000000000000000000000000000000000000000000000000000"
+   }
+  },
+  {
+   "name": "path-no-leading-slash",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "v1/status",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "1",
+    "request_signature": "0000000000000000000000000000000000000000000000000000000000000000"
+   }
+  },
+  {
+   "name": "path-with-space",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/sta tus",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "1",
+    "request_signature": "0000000000000000000000000000000000000000000000000000000000000000"
+   }
+  },
+  {
+   "name": "path-empty",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "1",
+    "request_signature": "0000000000000000000000000000000000000000000000000000000000000000"
+   }
+  },
+  {
+   "name": "path-257-chars",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "1",
+    "request_signature": "0000000000000000000000000000000000000000000000000000000000000000"
+   }
+  },
+  {
+   "name": "path-non-ascii",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/st\u00e4tus",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "1",
+    "request_signature": "0000000000000000000000000000000000000000000000000000000000000000"
+   }
+  },
+  {
+   "name": "path-with-tab",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/\tstatus",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "1",
+    "request_signature": "0000000000000000000000000000000000000000000000000000000000000000"
+   }
+  },
+  {
+   "name": "request-hash-uppercase",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/status",
+    "request_hash": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "1",
+    "request_signature": "0000000000000000000000000000000000000000000000000000000000000000"
+   }
+  },
+  {
+   "name": "request-hash-short",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/status",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b85",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "1",
+    "request_signature": "0000000000000000000000000000000000000000000000000000000000000000"
+   }
+  },
+  {
+   "name": "nonce-uppercase",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/status",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789ABCDEF0123456789ABCDEF",
+    "count": "1",
+    "request_signature": "0000000000000000000000000000000000000000000000000000000000000000"
+   }
+  },
+  {
+   "name": "nonce-placeholder-on-status",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/status",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "-",
+    "count": "1",
+    "request_signature": "0000000000000000000000000000000000000000000000000000000000000000"
+   }
+  },
+  {
+   "name": "count-zero",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/status",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "0",
+    "request_signature": "0000000000000000000000000000000000000000000000000000000000000000"
+   }
+  },
+  {
+   "name": "count-leading-zero",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/status",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "01",
+    "request_signature": "0000000000000000000000000000000000000000000000000000000000000000"
+   }
+  },
+  {
+   "name": "count-too-large",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/status",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "4294967296",
+    "request_signature": "0000000000000000000000000000000000000000000000000000000000000000"
+   }
+  },
+  {
+   "name": "count-eleven-digits",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/status",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "10000000000",
+    "request_signature": "0000000000000000000000000000000000000000000000000000000000000000"
+   }
+  },
+  {
+   "name": "count-placeholder-on-status",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/status",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "0",
+    "request_signature": "0000000000000000000000000000000000000000000000000000000000000000"
+   }
+  },
+  {
+   "name": "count-signed",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/status",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "+1",
+    "request_signature": "0000000000000000000000000000000000000000000000000000000000000000"
+   }
+  },
+  {
+   "name": "signature-uppercase",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/status",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "1",
+    "request_signature": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+   }
+  },
+  {
+   "name": "signature-short",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/status",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "1",
+    "request_signature": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+   }
+  },
+  {
+   "name": "signature-placeholder-on-status",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/status",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "1",
+    "request_signature": "-"
+   }
+  },
+  {
+   "name": "challenge-path-post",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:44:55",
+    "method": "POST",
+    "path": "/v1/challenge",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "-",
+    "count": "0",
+    "request_signature": "-"
+   }
+  },
+  {
+   "name": "challenge-path-nonempty-hash",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/challenge",
+    "request_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "nonce": "-",
+    "count": "0",
+    "request_signature": "-"
+   }
+  },
+  {
+   "name": "challenge-path-real-nonce",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/challenge",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "0123456789abcdef0123456789abcdef",
+    "count": "0",
+    "request_signature": "-"
+   }
+  },
+  {
+   "name": "challenge-path-count-1",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/challenge",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "-",
+    "count": "1",
+    "request_signature": "-"
+   }
+  },
+  {
+   "name": "challenge-path-real-signature",
+   "binding": {
+    "challenge": "11111111111111111111111111111111",
+    "node": "00:11:22:33:44:55",
+    "method": "GET",
+    "path": "/v1/challenge",
+    "request_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nonce": "-",
+    "count": "0",
+    "request_signature": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+   }
+  }
+ ]
+}
