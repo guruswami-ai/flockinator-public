@@ -7,6 +7,13 @@ adversary model that drives it.
 
 ## The interference node
 
+Physically, Kulira is a two-part node: an Apple M5 Max host
+(64 GB RAM) running the adversary model locally, plus the
+ESP-MOSAICO embodied peripheral (camera, microphones, speaker,
+sensor board) that faces the wall. The full catalogue and the
+reasoning are recorded in
+[ADR-002](decisions/ADR-002-kulira-physical-node.md).
+
 Kulira sits on the same lab network as the sixteen nodes and the Korvo
 controller, with USB-attached radios and network interfaces. In the
 experiment it stands in for a hostile neighbouring swarm or
