@@ -79,6 +79,19 @@ class Reassembler:
         self.run_id, self.gaps = None, 0  # context tuple once set
         self.completed_tick = -1  # replays at/below this are rejected
 
+    def reset(self, run_id: bytes, seed: int, cycle: int) -> None:
+        """Authorized reset for a NEW run (issue #144).
+
+        Only the management layer may call this, after a run has
+        been announced on the authenticated management channel.
+        Incoming SIM frames can never reset the replay watermark:
+        a context change on the wire is treated as foreign traffic
+        until reset() is called with the announced context.
+        """
+        self.tick, self.parts, self.mask = None, {}, 0
+        self.run_id = (run_id, seed, cycle)
+        self.completed_tick = -1
+
     def feed(self, header, payload):
         if header["kind"] not in (SNAP_FRAG, RESYNC_REPLY):
             return None

@@ -120,3 +120,25 @@ def test_completed_snapshot_replay_rejected():
     old = snapshot_frames(KEY, 3, RUN, 42, 1, WORLD, 122)
     hdr, pay = unpack_frame(KEY, old[0])
     assert r.feed(hdr, pay) is None
+
+
+def test_authorized_reset_lifecycle():
+    r = Reassembler()
+    frames_a = snapshot_frames(KEY, 5, RUN, 42, 1, WORLD, 123)
+    got = None
+    for f in frames_a:
+        hdr, pay = unpack_frame(KEY, f)
+        got = r.feed(hdr, pay) or got
+    assert got == WORLD
+    run_b = bytes(range(16, 32))
+    frames_b = snapshot_frames(KEY, 0, run_b, 42, 2, WORLD, 0)
+    hdr, pay = unpack_frame(KEY, frames_b[0])
+    assert r.feed(hdr, pay) is None  # new run on wire alone does NOT reset
+    r.reset(run_b, 42, 2)            # management-authorized reset
+    got = None
+    for f in frames_b:
+        hdr, pay = unpack_frame(KEY, f)
+        got = r.feed(hdr, pay) or got
+    assert got == WORLD
+    hdr, pay = unpack_frame(KEY, frames_a[0])
+    assert r.feed(hdr, pay) is None  # stale run A traffic still rejected

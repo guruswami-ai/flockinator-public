@@ -108,16 +108,19 @@ def parity(host_rows, device_rows) -> dict:
     """
     mismatch = len(host_rows) != len(device_rows)
     n = min(len(host_rows), len(device_rows))
+
+    def _is_missing(i):
+        return device_rows[i]["input_hash"] == missing_hash(
+            device_rows[i]["tick"], device_rows[i]["seed"])
     id_bad = sum(1 for i in range(n)
                  if host_rows[i]["tick"] != device_rows[i]["tick"]
                  or host_rows[i]["seed"] != device_rows[i]["seed"])
     hash_bad = sum(1 for i in range(n)
-                   if host_rows[i]["input_hash"] != device_rows[i]["input_hash"])
+                   if not _is_missing(i)
+                   and host_rows[i]["input_hash"] != device_rows[i]["input_hash"])
     dec_bad = sum(1 for i in range(n)
                   if host_rows[i]["decision"] != device_rows[i]["decision"])
-    missing = sum(1 for i in range(n)
-                  if device_rows[i]["input_hash"] == missing_hash(
-                      device_rows[i]["tick"], device_rows[i]["seed"]))
+    missing = sum(1 for i in range(n) if _is_missing(i))
     agree = sum(1 for i in range(n)
                 if host_rows[i]["tick"] == device_rows[i]["tick"]
                 and host_rows[i]["seed"] == device_rows[i]["seed"]
@@ -126,9 +129,13 @@ def parity(host_rows, device_rows) -> dict:
                      or (device_rows[i]["input_hash"] == missing_hash(
                              device_rows[i]["tick"], device_rows[i]["seed"])
                          and device_rows[i]["decision"] == WAIT)))
+    # Contract v1.1: strictly more than 50% missing = link failure,
+    # reported as such, never as a numerical policy score.
+    link_failure = n > 0 and missing / n > 0.5
     return {"compared": n, "agree": 0 if mismatch else agree,
-            "missing_input_rows": missing,
-            "parity": None if mismatch or not n else round(agree / n, 4),
+            "missing_input_rows": missing, "link_failure": link_failure,
+            "parity": None if mismatch or not n or link_failure
+            else round(agree / n, 4),
             "length_mismatch": mismatch, "identity_mismatches": id_bad,
             "hash_mismatches": hash_bad, "decision_mismatches": dec_bad,
             "host_rows": len(host_rows), "device_rows": len(device_rows)}
