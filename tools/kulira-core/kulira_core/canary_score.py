@@ -89,6 +89,14 @@ def main(argv=None) -> int:
     # or an empty report set is a failed gate, not a pass.
     failed = not reports or any(
         r["parity"] is None or r["link_failure"] for r in reports.values())
+    # With an explicit --seeds manifest the CLI asserts gate
+    # acceptance, not mere scorability: Gate A passes only when
+    # every expected seed matches on every row (parity 1.0).
+    # Without a manifest the command is scoring-only and a
+    # numerical parity below 1.0 is a publishable result.
+    if expected:
+        failed = failed or any(
+            reports[str(s)]["parity"] != 1.0 for s in expected)
     return 1 if failed else 0
 
 
