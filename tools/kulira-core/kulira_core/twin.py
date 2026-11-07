@@ -105,30 +105,36 @@ def parity(host_rows, device_rows) -> dict:
 
     A length mismatch is a journal-completeness failure: parity is
     reported as None, never as a truncated-prefix 1.0.
+    Canonical missing-input markers require WAIT, not a matching host
+    hash. More than half the compared rows missing is a link failure;
+    parity is None while the agreement and mismatch counts remain visible.
     """
     mismatch = len(host_rows) != len(device_rows)
     n = min(len(host_rows), len(device_rows))
+    is_missing = [device_rows[i]["input_hash"] == missing_hash(
+                      device_rows[i]["tick"], device_rows[i]["seed"])
+                  for i in range(n)]
     id_bad = sum(1 for i in range(n)
                  if host_rows[i]["tick"] != device_rows[i]["tick"]
                  or host_rows[i]["seed"] != device_rows[i]["seed"])
     hash_bad = sum(1 for i in range(n)
-                   if host_rows[i]["input_hash"] != device_rows[i]["input_hash"])
+                   if not is_missing[i]
+                   and host_rows[i]["input_hash"] != device_rows[i]["input_hash"])
     dec_bad = sum(1 for i in range(n)
                   if host_rows[i]["decision"] != device_rows[i]["decision"])
-    missing = sum(1 for i in range(n)
-                  if device_rows[i]["input_hash"] == missing_hash(
-                      device_rows[i]["tick"], device_rows[i]["seed"]))
+    missing = sum(is_missing)
+    link_failure = missing * 2 > n
     agree = sum(1 for i in range(n)
                 if host_rows[i]["tick"] == device_rows[i]["tick"]
                 and host_rows[i]["seed"] == device_rows[i]["seed"]
-                and ((host_rows[i]["input_hash"] == device_rows[i]["input_hash"]
+                and ((not is_missing[i]
+                      and host_rows[i]["input_hash"] == device_rows[i]["input_hash"]
                       and host_rows[i]["decision"] == device_rows[i]["decision"])
-                     or (device_rows[i]["input_hash"] == missing_hash(
-                             device_rows[i]["tick"], device_rows[i]["seed"])
-                         and device_rows[i]["decision"] == WAIT)))
+                     or (is_missing[i] and device_rows[i]["decision"] == WAIT)))
     return {"compared": n, "agree": 0 if mismatch else agree,
             "missing_input_rows": missing,
-            "parity": None if mismatch or not n else round(agree / n, 4),
+            "parity": None if mismatch or not n or link_failure else round(agree / n, 4),
+            "link_failure": link_failure,
             "length_mismatch": mismatch, "identity_mismatches": id_bad,
             "hash_mismatches": hash_bad, "decision_mismatches": dec_bad,
             "host_rows": len(host_rows), "device_rows": len(device_rows)}

@@ -1,6 +1,8 @@
+import pytest
+
 from kulira_core.twin import (DOUBLE_CHECK, SEARCH, WAIT, decide,
                               distribution_sweep, expected_distribution,
-                              input_hash, parity,
+                              input_hash, missing_hash, parity,
                               run_twin, to_csv)
 
 
@@ -72,12 +74,89 @@ def test_parity_joint_agreement_and_identity():
 
 
 def test_missing_input_rows_score_as_wait_not_mismatch():
-    from kulira_core.twin import missing_hash
     rows = run_twin(7, 50, p_loss=0.0)
     device = [dict(r) for r in rows]
     device[10] = {**device[10], "input_hash": missing_hash(10, 7), "decision": WAIT}
     out = parity(rows, device)
     assert out["missing_input_rows"] == 1 and out["parity"] == 1.0
+    assert out["hash_mismatches"] == 0 and out["link_failure"] is False
     device[10]["decision"] = SEARCH  # missing input must WAIT
     out = parity(rows, device)
     assert out["parity"] < 1.0
+    assert out["missing_input_rows"] == 1 and out["hash_mismatches"] == 0
+
+
+@pytest.mark.parametrize("missing_count", [0, 49, 50, 51, 100])
+@pytest.mark.parametrize("decision", [WAIT, SEARCH])
+def test_parity_link_failure_threshold_counts_markers_regardless_of_decision(
+        missing_count, decision):
+    rows = run_twin(7, 100, p_loss=0.0)
+    device = [dict(r) for r in rows]
+    for row in device[:missing_count]:
+        row.update(input_hash=missing_hash(row["tick"], row["seed"]),
+                   decision=decision)
+    out = parity(rows, device)
+    expected_agree = 100 if decision == WAIT else 100 - missing_count
+    assert out["compared"] == 100 and out["agree"] == expected_agree
+    assert out["missing_input_rows"] == missing_count
+    assert out["parity"] == (None if missing_count > 50 else expected_agree / 100)
+    assert out["hash_mismatches"] == 0
+    assert out["identity_mismatches"] == 0
+    assert out["decision_mismatches"] == sum(
+        h["decision"] != d["decision"] for h, d in zip(rows, device))
+    assert out["link_failure"] is (missing_count > 50)
+
+
+@pytest.mark.parametrize("field", ["tick", "seed"])
+def test_missing_input_marker_does_not_override_wrong_identity(field):
+    rows = run_twin(7, 100, p_loss=0.0)
+    device = [dict(r) for r in rows]
+    device[10][field] += 1000
+    device[10].update(input_hash=missing_hash(device[10]["tick"], device[10]["seed"]),
+                      decision=WAIT)
+    out = parity(rows, device)
+    assert out["identity_mismatches"] == 1 and out["agree"] == 99
+    assert out["missing_input_rows"] == 1 and out["hash_mismatches"] == 0
+    assert out["parity"] == 0.99 and out["link_failure"] is False
+
+
+@pytest.mark.parametrize("decision", [SEARCH, DOUBLE_CHECK, 99])
+def test_matching_missing_markers_still_require_wait(decision):
+    rows = run_twin(7, 100, p_loss=0.0)
+    rows[10].update(input_hash=missing_hash(10, 7), decision=decision)
+    out = parity(rows, [dict(r) for r in rows])
+    assert out["agree"] == 99 and out["parity"] == 0.99
+    assert out["missing_input_rows"] == 1 and out["hash_mismatches"] == 0
+    assert out["decision_mismatches"] == 0  # raw host/device diagnostic
+    assert out["link_failure"] is False
+
+
+@pytest.mark.parametrize("bad_hash", ["deadbeef", missing_hash(999, 7)])
+def test_noncanonical_hash_is_a_mismatch_even_with_wait(bad_hash):
+    rows = run_twin(7, 100, p_loss=0.0)
+    device = [dict(r) for r in rows]
+    device[10].update(input_hash=bad_hash, decision=WAIT)
+    out = parity(rows, device)
+    assert out["hash_mismatches"] == 1 and out["missing_input_rows"] == 0
+    assert out["agree"] == 99 and out["parity"] == 0.99
+    assert out["link_failure"] is False
+
+
+@pytest.mark.parametrize("host_count,device_count", [(0, 0), (3, 0), (0, 3), (4, 3), (3, 4)])
+@pytest.mark.parametrize("missing", [False, True])
+def test_link_failure_does_not_override_empty_or_incomplete_journals(
+        host_count, device_count, missing):
+    rows = run_twin(7, 4, p_loss=0.0)
+    device = [dict(r) for r in rows[:device_count]]
+    if missing:
+        for row in device:
+            row.update(input_hash=missing_hash(row["tick"], row["seed"]), decision=WAIT)
+    out = parity(rows[:host_count], device)
+    compared = min(host_count, device_count)
+    assert out["compared"] == compared and out["agree"] == 0
+    assert out["host_rows"] == host_count and out["device_rows"] == device_count
+    assert out["length_mismatch"] is (host_count != device_count)
+    assert out["parity"] is None
+    assert out["missing_input_rows"] == (compared if missing else 0)
+    assert out["hash_mismatches"] == 0
+    assert out["link_failure"] is (missing and compared > 0)
