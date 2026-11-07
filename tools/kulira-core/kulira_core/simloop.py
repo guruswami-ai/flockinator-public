@@ -10,17 +10,30 @@ from __future__ import annotations
 
 from .simcore import World
 from .simwire import snapshot_frames, fnv1a
-from .twin import SEARCH, DOUBLE_CHECK, WAIT, decide, input_hash
+from .twin import SEARCH, DOUBLE_CHECK, WAIT, decide, input_hash, missing_hash
 
 
 def run_loop(seed: int, ticks: int = 300, key: bytes = b"k" * 32,
-             run_id: bytes = bytes(range(16))) -> dict:
+             run_id: bytes = bytes(range(16)),
+             drop_ticks: frozenset = frozenset()) -> dict:
+    """drop_ticks: ticks where the robot receives no input at all.
+
+    Those ticks journal a missing-input row (contract v1.1) with
+    decision WAIT and no motion - the host rehearsal of canary
+    loss behaviour.
+    """
     world = World(seed)
     sx, sy = world.survivor
     journal, frames = [], 0
     found_tick = None
     prev_hash = 0
     for tick in range(ticks):
+        if tick in drop_ticks:
+            world.step({})
+            journal.append({"tick": tick, "seed": seed,
+                            "input_hash": missing_hash(tick, seed),
+                            "decision": WAIT, "latency_us": 0})
+            continue
         r = world.robots[0]
         dist = max(abs(sx - r["x"]), abs(sy - r["y"]))  # Chebyshev, dm
         signal_q = max(0, 1000 - dist // 4)
