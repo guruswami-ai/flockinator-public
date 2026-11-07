@@ -14,11 +14,14 @@ and pre-registered gates make the claims checkable.
 ## The five-minute path
 
 Short on time? [The demonstration in one page](docs/judging/demo-narrative.md)
-is the whole story - one flagship result, one measured Meta
-intervention, one reproduce block - in about two minutes.
+connects existing wall footage, one host benchmark, one recorded Meta
+review and its checked code change, reproduction and limits.
 
-1. **Watch** the narrated demo (linked from the
-   [README](README.md)) — what the wall is and why it exists.
+1. **Watch** the [physical wall footage](https://flockinator-sim.pages.dev/media.html)
+   or [narrated demo](https://www.youtube.com/watch?v=HaYNTBhXbu4).
+   These show the display instrument, not on-node inference or a continuous
+   physical intervention. The [one-page narrative](docs/judging/demo-narrative.md)
+   gives the separate host benchmark and recorded review evidence.
 2. **Read the scoreboard:**
    [results dashboard](https://guruswami-ai.github.io/flockinator-public/results/)
    and the [claims map](docs/judging/claims-map.md), which grades
@@ -27,6 +30,9 @@ intervention, one reproduce block - in about two minutes.
 3. **Reproduce something real** (about a minute each):
 
    ```sh
+   # The narrative's one host benchmark, checked against frozen expected content
+   uv run python tools/reproduce/run.py --verify
+
    # Frozen planner baseline, dev seeds 0-19 -> recall 0.2141
    uv run --project tools/fleet-score python tools/fleet-score/baseline.py --seeds 0-19 --out /tmp/bl --label dev
 
@@ -64,6 +70,7 @@ intervention, one reproduce block - in about two minutes.
 | Adversary experiment series | [`docs/experiments/`](docs/experiments/kulira-trust-series.md), [`tools/kulira-core/`](tools/kulira-core/README.md) |
 | Panel-policy canary (device parity, pending journal) | [`docs/experiments/panel-policy-canary-preregistration.md`](docs/experiments/panel-policy-canary-preregistration.md), [`validation/kulira/canary-golden-vectors-001.csv`](validation/kulira/canary-golden-vectors-001.csv) — host rehearsal only until a Drishdi device journal is scored |
 | Feedback-trust boundary (delayed/sparse reveal) | [`docs/experiments/feedback-trust-confirmatory-results.md`](docs/experiments/feedback-trust-confirmatory-results.md), [`validation/kulira/feedback-trust-paired-001.json`](validation/kulira/feedback-trust-paired-001.json) — simulation, narrowed claim #159 |
+| Feedback-trust reporting update (2026-11-07) | [Post hoc supplement](docs/experiments/feedback-trust-reporting-supplement.md) supersedes the [status note's](docs/experiments/feedback-trust-evidence-status.md) reporting gaps; historical verdicts stand, matched-threshold causal study remains future work |
 | Firmware build/test provenance | [`docs/firmware-evidence.md`](docs/firmware-evidence.md) |
 | What runs where (honestly) | [`docs/judging/physical-execution-map.md`](docs/judging/physical-execution-map.md), [`docs/architecture.md`](docs/architecture.md) |
 | Residual problems, named | R1-R9 in [`docs/results/README.md`](docs/results/README.md) |

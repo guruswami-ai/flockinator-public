@@ -4,6 +4,18 @@
 [#134](https://github.com/guruswami-ai/flockinator-public/issues/134) with the
 shipped evidence. It does not alter historical registrations, outputs or criteria.
 
+**Supersession update, 2026-11-07 (public main `1cfa974`):** the completed
+[post hoc reporting supplement](feedback-trust-reporting-supplement.md)
+supersedes the reporting gaps recorded below: it supplies all-cell same-window
+counts/rates, descriptive paired uncertainty, reconstructed update-event budgets
+and primary-literature context on already exposed seeds. The table and closure
+assessment below retain the earlier review state, not today's reporting backlog.
+Historical runtime/energy cost remains unmeasured; event counts are not cost.
+Isolating learning from thresholds still needs the
+[matched-control protocol](feedback-trust-matched-control-proposal.md) and
+separate registration; the [implemented compatibility harness](feedback-trust-matched-implementation.md)
+is not a new study. Historical registrations, artifacts and verdicts stand.
+
 | Requested evidence | Current public artifact | What remains |
 |---|---|---|
 | Separate delayed/incomplete runner | [`feedback_trust.py`](../../tools/kulira-core/kulira_core/feedback_trust.py) and [registration](feedback-trust-preregistration.md) | Runner has no explicit version field; pin its Git revision when reproducing |
@@ -28,7 +40,7 @@ actively misleading". REP-P's extreme-cell equality with frozen unit weights
 is a scoped result, not a general equivalence theorem. See the dated result
 corrections for the exact cells and window labels.
 
-## Reproduction and closure
+## Reproduction and closure at the earlier review
 
 From the repository root, the existing boundary/compatibility tests run with:
 
@@ -69,4 +81,5 @@ primary-literature context and matched-threshold causal attribution need
 explicit disposition. A maintainer can close the *historical bounded comparison*
 with these limits and transfer the causal follow-up to #172; do not mark the
 stronger original research question fully resolved merely because tests pass.
-No new study or collection is authorized by this status note.
+No new study or collection is authorized by this status note. For the subsequent
+disposition of the reporting gaps, use the dated supplement linked above.
