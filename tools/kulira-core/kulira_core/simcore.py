@@ -8,6 +8,7 @@ Firmware port target: same integer equations on Korvo + panels.
 """
 from __future__ import annotations
 
+import math
 import struct
 
 ROBOTS = 16
@@ -20,6 +21,16 @@ MAX_SPEED = 300  # cm/s clamp
 
 def _clamp(v, lo, hi):
     return lo if v < lo else hi if v > hi else v
+
+
+def _tdiv(a: int, b: int) -> int:
+    """Truncating division (C semantics), NOT Python floor division.
+
+    vx=-15: C gives -1, Python // gives -2. The C port is the
+    reference semantics; this helper keeps both identical.
+    """
+    q = abs(a) // abs(b)
+    return q if (a < 0) == (b < 0) else -q
 
 
 class World:
@@ -38,9 +49,9 @@ class World:
         for i, r in enumerate(self.robots):
             vx, vy = intents.get(i, (0, 0))
             vx, vy = _clamp(vx, -MAX_SPEED, MAX_SPEED), _clamp(vy, -MAX_SPEED, MAX_SPEED)
-            r["x"] = _clamp(r["x"] + vx // 10, -32000, 32000)
-            r["y"] = _clamp(r["y"] + vy // 10, -32000, 32000)
-            r["speed"] = _clamp(int((vx * vx + vy * vy) ** 0.5), 0, 32000) if (vx or vy) else 0
+            r["x"] = _clamp(r["x"] + _tdiv(vx, 10), -32000, 32000)
+            r["y"] = _clamp(r["y"] + _tdiv(vy, 10), -32000, 32000)
+            r["speed"] = math.isqrt(vx * vx + vy * vy) if (vx or vy) else 0
             if vx or vy:
                 # heading in decidegrees, integer atan2-free quadrant approx
                 r["heading"] = (r["heading"] + (5 if vy > 0 else -5 if vy < 0 else 0)) % 3600
@@ -57,6 +68,8 @@ class World:
 
     @staticmethod
     def decode(data: bytes) -> dict:
+        if len(data) != 8 + ROBOTS * 24:
+            raise ValueError(f"snapshot must be 392 bytes, got {len(data)}")
         tick, sx, sy = HDR.unpack(data[:8])
         robots = []
         for i in range(ROBOTS):

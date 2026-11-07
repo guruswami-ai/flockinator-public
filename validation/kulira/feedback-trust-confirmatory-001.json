@@ -1,0 +1,89 @@
+{
+ "split": "confirmatory seeds 240-259",
+ "results": {
+  "E d=0 a=1.0": {
+   "dangerous_first": 37,
+   "dangerous_second": 36,
+   "mean_recall": 0.4806,
+   "mean_decisions": 17.95,
+   "rep_colluders": 0.145
+  },
+  "E d=0 a=0.25": {
+   "dangerous_first": 37,
+   "dangerous_second": 36,
+   "mean_recall": 0.4806,
+   "mean_decisions": 17.95,
+   "rep_colluders": 0.622
+  },
+  "E d=15 a=1.0": {
+   "dangerous_first": 37,
+   "dangerous_second": 36,
+   "mean_recall": 0.4806,
+   "mean_decisions": 17.95,
+   "rep_colluders": 0.145
+  },
+  "E d=15 a=0.25": {
+   "dangerous_first": 37,
+   "dangerous_second": 36,
+   "mean_recall": 0.4806,
+   "mean_decisions": 17.95,
+   "rep_colluders": 0.622
+  },
+  "REP d=0 a=1.0": {
+   "dangerous_first": 38,
+   "dangerous_second": 12,
+   "mean_recall": 0.4131,
+   "mean_decisions": 14.85,
+   "rep_colluders": 0.145
+  },
+  "REP d=0 a=0.25": {
+   "dangerous_first": 59,
+   "dangerous_second": 36,
+   "mean_recall": 0.5476,
+   "mean_decisions": 21.05,
+   "rep_colluders": 0.622
+  },
+  "REP d=15 a=1.0": {
+   "dangerous_first": 68,
+   "dangerous_second": 20,
+   "mean_recall": 0.5174,
+   "mean_decisions": 19.9,
+   "rep_colluders": 0.145
+  },
+  "REP d=15 a=0.25": {
+   "dangerous_first": 77,
+   "dangerous_second": 38,
+   "mean_recall": 0.6001,
+   "mean_decisions": 23.65,
+   "rep_colluders": 0.622
+  },
+  "REP-P d=0 a=1.0": {
+   "dangerous_first": 82,
+   "dangerous_second": 22,
+   "mean_recall": 0.5311,
+   "mean_decisions": 21.05,
+   "rep_colluders": 0.145
+  },
+  "REP-P d=0 a=0.25": {
+   "dangerous_first": 90,
+   "dangerous_second": 83,
+   "mean_recall": 0.7269,
+   "mean_decisions": 30.3,
+   "rep_colluders": 0.622
+  },
+  "REP-P d=15 a=1.0": {
+   "dangerous_first": 90,
+   "dangerous_second": 45,
+   "mean_recall": 0.626,
+   "mean_decisions": 25.45,
+   "rep_colluders": 0.145
+  },
+  "REP-P d=15 a=0.25": {
+   "dangerous_first": 90,
+   "dangerous_second": 83,
+   "mean_recall": 0.7269,
+   "mean_decisions": 30.3,
+   "rep_colluders": 0.622
+  }
+ }
+}

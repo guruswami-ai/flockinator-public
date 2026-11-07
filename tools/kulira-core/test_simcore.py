@@ -40,3 +40,23 @@ def test_snapshot_flows_through_simwire():
         hdr, pay = unpack_frame(KEY, f)
         world = r.feed(hdr, pay) or world
     assert World.decode(world)["tick"] == w.tick
+
+
+def test_negative_velocity_uses_c_truncating_division():
+    w = World(1)
+    x0 = w.robots[0]["x"]
+    w.step({0: (-15, -25)})
+    assert w.robots[0]["x"] - x0 == -1  # trunc(-15/10), not floor -2
+    assert w.robots[0]["y"] - 200 == -2  # trunc(-25/10)
+
+
+def test_speed_is_integer_isqrt():
+    w = World(1)
+    w.step({0: (30, 40)})
+    assert w.robots[0]["speed"] == 50
+
+
+def test_decode_rejects_wrong_length():
+    import pytest
+    with pytest.raises(ValueError):
+        World.decode(b"\x00" * 100)
