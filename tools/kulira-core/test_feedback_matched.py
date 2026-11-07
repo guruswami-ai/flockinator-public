@@ -127,3 +127,15 @@ def test_cli_historical_only_is_deterministic_and_refuses_overwrite(tmp_path):
     assert exc.value.code == 2 and first.read_bytes() == saved
     with pytest.raises(SystemExit):
         main(["--out", str(tmp_path/"missing-mode.json")])
+
+
+@pytest.mark.parametrize('seq,availability', [
+    ([None], 1),
+    ([{'contact': 0, 'truth': 'hazard', 'reports': None}], 1),
+    ([{'contact': 0, 'truth': 'hazard', 'reports': [None]}], 1),
+    ([{'contact': 0, 'truth': 'hazard', 'reports': []}], 10**1000),
+    (None, 1),
+])
+def test_malformed_sequence_inputs_reject_deliberately(seq, availability):
+    with pytest.raises(ValueError):
+        score_sequence_matched(seq, availability=availability, start=0, stop=1)

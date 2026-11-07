@@ -21,21 +21,27 @@ ARMS = {"L1": (True, 1.0), "F1": (False, 1.0),
 
 
 def _validate(seq, delay, availability, reveal_seed, start, stop):
+    if not isinstance(seq, (list, tuple)):
+        raise ValueError("sequence must be a list or tuple")
     if type(delay) is not int or delay < 0:
         raise ValueError("delay must be a nonnegative integer")
-    if type(availability) not in (int, float) or not math.isfinite(availability) or not 0 <= availability <= 1:
+    if type(availability) not in (int, float) or not 0 <= availability <= 1 or not math.isfinite(availability):
         raise ValueError("availability must be finite and in [0,1]")
     if type(reveal_seed) is not int:
         raise ValueError("reveal_seed must be an integer")
     if not (type(start) is int and type(stop) is int and 0 <= start < stop <= len(seq)):
         raise ValueError("invalid evaluation window")
     for i, contact in enumerate(seq):
+        if not isinstance(contact, dict):
+            raise ValueError("each contact must be an object")
         if type(contact.get("contact")) is not int or contact["contact"] != i:
             raise ValueError("contacts must be contiguous, ordered and zero-based")
         if contact.get("truth") not in ("survivor", "hazard"):
             raise ValueError("unknown truth class")
+        if not isinstance(contact.get("reports"), (list, tuple)):
+            raise ValueError("reports must be a list or tuple")
         for report in contact["reports"]:
-            if (len(report) != 5 or not isinstance(report[0], str) or not report[0]
+            if (not isinstance(report, (list, tuple)) or len(report) != 5 or not isinstance(report[0], str) or not report[0]
                     or report[1] not in NODES or report[3] not in ("survivor", "hazard")):
                 raise ValueError("invalid historical report tuple")
 
