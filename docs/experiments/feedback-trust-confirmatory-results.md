@@ -30,3 +30,30 @@ is dangerous in exactly that regime. Defence design rule
 carried forward: a node may only discount a reporter on
 outcomes it has actually received, and when feedback quality
 is unknown, strict counting or abstention is the safe default.
+
+**Correction and narrowing (2026-11-07, issue #159).** The
+registered HC outcomes above stand, but the conclusion is
+narrower than first stated:
+
+- The HC1 effect is **small**: paired per-seed differences
+  (REP minus E, extreme cell) average +0.10 dangerous commits
+  per seed (per-seed evidence:
+  `validation/kulira/feedback-trust-paired-001.json`). This
+  supports a small observed aggregate reversal in this world,
+  not a well-established population penalty. No post hoc
+  interval is presented as a registered test.
+- Coverage differs in the same window: REP commits more
+  (190 vs E 173) and finds more true survivors (152 vs 137 of
+  306). Precision is comparable (0.800 vs 0.792). "More
+  dangerous commits" alone does not establish blanket
+  inferiority; it establishes a harm/recall trade-off that
+  needs an explicit objective to judge.
+- E and REP also differ in commit thresholds (margin >=2 vs
+  >=1 plus a weight floor), so this comparison does **not**
+  isolate learning as the cause of the difference relative
+  to E. A causal claim needs the matched frozen-weight
+  control registered as future work in issue #159.
+- Delay alone does not remove the benefit (REP at D=15,
+  A=1.0: 20 vs E 36 in this run). The accurate boundary is:
+  reputation's advantage inverts in this grid only when delay
+  and sparse reveal combine, for these policies and horizon.
