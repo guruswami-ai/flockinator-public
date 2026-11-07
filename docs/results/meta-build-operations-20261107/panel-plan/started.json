@@ -1,0 +1,12 @@
+{
+  "schema": "flockinator-meta-build-call/1",
+  "endpoint": "https://api.meta.ai/v1/responses",
+  "started_at": "2026-11-07T10:47:06.294754+00:00",
+  "requested_model": "muse-spark-1.3-contributor",
+  "request_sha256": "b07ba6d9fcb938df85f0070d5622b51f6606deae79d4de65e4af94b71225b7da",
+  "attempts": 1,
+  "automatic_retries": 0,
+  "http_status": null,
+  "provider_request_id": null,
+  "outcome": "started"
+}

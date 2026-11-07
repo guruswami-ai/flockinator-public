@@ -1,0 +1,36 @@
+{
+  "schema": "flockinator-meta-build-call/1",
+  "endpoint": "https://api.meta.ai/v1/responses",
+  "started_at": "2026-11-07T10:47:07.389814+00:00",
+  "requested_model": "muse-spark-1.3-contributor",
+  "request_sha256": "fd78c1efc545765874d2fda03e335b1318c0310f8d2a112c6d05323eb235869e",
+  "attempts": 1,
+  "automatic_retries": 0,
+  "http_status": 200,
+  "provider_request_id": "a887deb8-89e5-40f9-b915-248200692dad",
+  "outcome": "completed",
+  "response_headers": {
+    "content-type": "application/json",
+    "date": "Sat, 07 Nov 2026 10:47:47 GMT",
+    "x-request-id": "a887deb8-89e5-40f9-b915-248200692dad",
+    "request-id": null
+  },
+  "response_sha256": "03c60947ceeffa89ab304634d3f3ea2003dfd531955adc7b79222513d42a76b8",
+  "credential_redacted": false,
+  "reported_model": "muse-spark-1.3-contributor",
+  "response_id": "resp_6aef01d3fa83dd677c2245e6",
+  "usage": {
+    "input_tokens": 3987,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 5000,
+    "output_tokens_details": {
+      "reasoning_tokens": 4210
+    },
+    "total_tokens": 8987
+  },
+  "provider_status": "completed",
+  "finished_at": "2026-11-07T10:47:47.534765+00:00",
+  "elapsed_seconds": 40.144853
+}

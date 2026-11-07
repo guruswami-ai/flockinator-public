@@ -122,6 +122,12 @@ camera calibration nor synthetic/model observers prove human benefit.
 and quality scoring, and #184's [single-attempt trace wrapper](research/model-trace-tooling.md).
 Although #135 was already closed, its prospective evidence remains outstanding.
 
+**Operational progress (2026-11-07):** [four recorded Meta API build-assistance
+calls](results/meta-build-operations-20261107/README.md) retain exact envelopes,
+usage, model mistakes, checked execution logs and an initial failed build.
+This supplies a real operational trace; it does not supply the frozen baseline,
+held-out comparison or measured benefit below.
+
 **Remaining:** choose one workflow and freeze inputs, baseline, quality/false-alarm
 criteria and time/cost budget. Connect an actual provider adapter; retain genuine
 sanitised requests, responses, errors, usage and requested/reported model identity;

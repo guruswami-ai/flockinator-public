@@ -1,0 +1,5 @@
+CMake Error at /build/corrected/source/firmware/korvo-monitor/main/CMakeLists.txt:5 (message):
+  Missing speech/takeoff.pcm; see main/speech/README.md or disable
+  CONFIG_KORVO_EMBED_SPEECH
+
+

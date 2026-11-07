@@ -1,0 +1,93 @@
+Public Korvo S31 clean-build result — 2026-11-07
+
+Outcome: PASS, target compilation only. No flash, serial connection, hardware
+operation, private-checkout edit, push, PR, deployment or Meta operation occurred.
+
+Source frontier
+- Base: aabd15f (management response authentication; unchanged by this worker).
+- Build fix: dac313fe06d53c3a3c43e369d6d5b9c33d1a4bc9.
+- Follow-up documentation fix: ffbb5760483c74633cf2dd46e10409f04b0d8e64.
+  The only difference after the tested build-fix commit is one README rsync line
+  that copies firmware/shared. Compiled sources and defaults are identical.
+- Git working tree was clean after both commits.
+
+Changes
+- Added public sdkconfig.defaults selecting esp32s31, verified board flash/PSRAM
+  settings, custom partitions, performance optimization, scheduler and LVGL fonts.
+- Added CONFIG_KORVO_EMBED_SPEECH, default disabled. No PCM assets are required
+  for the default build. Existing valid user-supplied SD samples can still play;
+  missing samples retain the existing tone fallback. No silent substitute assets.
+- Opt-in embedding requires all ten operator-supplied PCM files and gives a
+  useful missing-file error. Only embedding-enabled builds seed missing SD files.
+- Documented explicit S31 selection, default/optional speech behavior, and
+  layout-preserving local copies including node-platform/include and shared.
+- Ignored local build/config and generated PCM files to prevent accidental commits.
+
+Clean exported build
+- Host: Drishdi; fresh git archive export, no private source or voice assets copied.
+- Remote root: /build/corrected
+- Source: source/firmware/korvo-monitor under that root.
+- Source archive: source-dac313f.tar; SHA256:
+  77314a3017f7e655ea0ac6731b62f5c51bb1fd8788fbd924f0abdef41cb245bd
+- ESP-IDF: 9a97f6c54ec638111ce55cd36581b3c192f15207, v6.1.0.
+- BSP: bd4d4ac18657e73583af3d7c0b0a23c3cddf3735.
+- Compiler: riscv32-esp-elf-gcc 15.2.0, crosstool-NG esp-15.2.0_20251204.
+- IDF-owned Python runtime: idf6.1_py3.12_env; CMake 4.0.3.
+- Initial environment probe found Ninja absent. Installed Ninja with uv in the
+  isolated root/build-tools environment; no global or private-project change.
+  Ninja reports 1.13.2.git.kitware.jobserver-pipe-1; setup log retained.
+- Commands after exporting the pinned IDF environment and KORVO_SDK_PATH:
+  idf.py --preview set-target esp32s31  (exit 0)
+  idf.py --preview build              (exit 0)
+- All 2269 Ninja steps completed, including fleet.cpp and feedback.c compilation,
+  final ELF link, S31 binary generation, and partition-size check.
+- Application size: 0x20c5d0 bytes; factory partition 0x400000 bytes, 49% free.
+- Generated sdkconfig confirms every committed board default and explicitly has
+  CONFIG_KORVO_EMBED_SPEECH unset (selected-config.txt).
+- Nonfatal warnings: upstream Kconfig deprecation notices, unavailable Git tags
+  in the local pinned IDF clone, and vendored json.hpp std::is_trivial deprecation.
+
+Additional checks
+- Opt-in missing-assets check:
+  cmake -DCONFIG_KORVO_EMBED_SPEECH=ON -P main/CMakeLists.txt
+  correctly fails with Missing speech/takeoff.pcm and remediation guidance.
+  speech-required.log and speech-required.exit retain the expected failure.
+- Executed the README copy operations into a temporary local destination.
+  diff -qr confirms monitor, node-platform/include and shared trees match source;
+  relative response_auth.h and commissioning/wire.h paths resolve.
+  copy-recipe-*.diff are empty, proving the comparisons passed.
+- git diff --check passed.
+- Local source archive and mirrored SDK config/lock hashes rechecked successfully.
+
+SHA256 evidence
+- sdkconfig.defaults:
+  4d19530518bec80e473eb1074d43347bdd6bf85c7a151b2f48166c6391ef8409
+- generated sdkconfig:
+  b0c94034be0b98790ec2aa9a518fb0414847c4c4a5c6d739c9090f2f90e8c87e
+- resolved dependencies.lock:
+  a65a45410d8f1983e904ec89ef38bc9470b0cac0c9a6afbab721767db73f4c53
+- firmware ELF:
+  154a9bc1e7e2834ff4a7608beacc4fe0769c7fa8d54fc6dd856ac00cf77d39a9
+- firmware BIN:
+  18b0679f9864e9094e6e12e408f1f7426578b57b62665b8fb7f30f442ef2447b
+- evidence-dac313f.tgz:
+  e18bd658e5b187bef26378ca9acacda8f29ac63a94738e2ad31f7dd550044fde
+
+Preserved evidence
+- Local: /evidence/report.txt (this report).
+- Local: /evidence/source-dac313f.tar (exact source).
+- Local: /evidence/evidence-dac313f.tgz and evidence/.
+  Includes full build/set-target/export logs, exit files, script, tool versions,
+  source-file SHA256 manifest, SDK config/defaults, dependency lock, generated
+  CMakeCache, project description, compile commands, and artifact hashes.
+- Remote: /build/corrected retains exact source,
+  full build products and the same raw logs/config/hash files. Nothing was staged
+  for flashing. Existing private checkout and coordinator's node build untouched.
+
+Limits and remaining acceptance
+- No compilation blockers remain for the default public S31 configuration.
+- Optional embedded speech has a verified missing-file guard but was not built
+  with actual voice assets. No voice terms or speech playback acceptance claimed.
+- Display, touch, audio, SD, Wi-Fi, fleet behavior and response authentication
+  require their own appropriate runtime/physical acceptance; this build proves
+  compilation and linking only.
