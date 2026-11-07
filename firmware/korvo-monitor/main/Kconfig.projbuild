@@ -1,0 +1,12 @@
+menu "Korvo monitor"
+
+config KORVO_EMBED_SPEECH
+    bool "Embed operator-supplied speech samples"
+    default n
+    help
+        Embed the ten PCM files described in main/speech/README.md and seed
+        missing samples on the SD card. These files are not distributed.
+        When disabled, existing SD samples can still play; missing samples
+        fall back to the event tone.
+
+endmenu

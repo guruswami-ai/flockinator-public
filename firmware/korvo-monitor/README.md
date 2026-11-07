@@ -71,14 +71,30 @@ Upstream sources used:
 - esp-dev-kits: `bd4d4ac18657e73583af3d7c0b0a23c3cddf3735`
 
 The unmodified Korvo BSP comes from the pinned esp-dev-kits checkout. Its component
-manifest resolves display, touch and other board dependencies. Camera and audio
-are not started by this application.
+manifest resolves display, touch and other board dependencies. The application
+starts speaker output; camera and microphone capture are not started.
+
+Run the following from this directory in a fresh public checkout. The committed
+`sdkconfig.defaults` selects the S31, custom partition table, 16 MiB QIO flash,
+PSRAM, fonts and scheduler settings. Explicit target selection also avoids reusing
+an ESP32 configuration from an earlier failed build.
 
 ```sh
 export IDF_PYTHON_ENV_PATH="$HOME/.espressif/python_env/idf6.1_py3.12_env"
 source "$HOME/esp/esp-idf-s31/export.sh"
 export KORVO_SDK_PATH="$HOME/esp/esp-dev-kits-s31"
+idf.py --preview set-target esp32s31
 idf.py --preview build
+```
+
+The default build needs no PCM assets. It plays event tones when no corresponding
+speech sample exists on SD. To embed your own speech, generate all ten samples and
+enable **Korvo monitor → Embed operator-supplied speech samples** in
+`idf.py --preview menuconfig`; see [speech setup](main/speech/README.md).
+
+Installation is a separate hardware acceptance step:
+
+```sh
 idf.py --preview -p "$FLOCKINATOR_KORVO_PORT" flash
 idf.py --preview -p "$FLOCKINATOR_KORVO_PORT" monitor
 ```
@@ -103,11 +119,13 @@ Readings expire after 20 seconds; LIVE denotes a fresh response, not all-hardwar
 For this SMB workspace, use a local build copy to avoid slow metadata operations:
 
 ```sh
-mkdir -p "$HOME/.cache/flockinator-korvo/source"
-rsync -a --exclude build --exclude '._*' ./ "$HOME/.cache/flockinator-korvo/source/"
-cd "$HOME/.cache/flockinator-korvo/source"
+mkdir -p "$HOME/.cache/flockinator-korvo/source/firmware"
+rsync -a --exclude build --exclude managed_components --exclude '._*' ../korvo-monitor "$HOME/.cache/flockinator-korvo/source/firmware/"
+mkdir -p "$HOME/.cache/flockinator-korvo/source/firmware/node-platform"
+rsync -a ../node-platform/include "$HOME/.cache/flockinator-korvo/source/firmware/node-platform/"
+cd "$HOME/.cache/flockinator-korvo/source/firmware/korvo-monitor"
+idf.py --preview set-target esp32s31
 idf.py --preview build
-idf.py --preview -p "$FLOCKINATOR_KORVO_PORT" flash
 ```
 
 Keep source edits in the repository and repeat the sync before each build. Sync the

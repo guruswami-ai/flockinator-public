@@ -12,12 +12,17 @@
 #include "freertos/queue.h"
 #include "freertos/task.h"
 #include "feedback.h"
+#include "sdkconfig.h"
 
+typedef struct {int state; const char *name; const uint8_t *start,*end;} sample_t;
+#if CONFIG_KORVO_EMBED_SPEECH
 #define SAMPLE(name) extern const uint8_t name##_start[] asm("_binary_" #name "_pcm_start"); extern const uint8_t name##_end[] asm("_binary_" #name "_pcm_end")
 SAMPLE(takeoff); SAMPLE(seen); SAMPLE(friend); SAMPLE(target); SAMPLE(engage);
 SAMPLE(assign); SAMPLE(share); SAMPLE(rtb); SAMPLE(crash); SAMPLE(kill);
-typedef struct {int state; const char *name; const uint8_t *start,*end;} sample_t;
 #define ENTRY(state,name) {state,#name,name##_start,name##_end}
+#else
+#define ENTRY(state,name) {state,#name,NULL,NULL}
+#endif
 static const sample_t samples[]={ENTRY(27,takeoff),ENTRY(2,seen),ENTRY(22,friend),ENTRY(23,target),ENTRY(6,engage),ENTRY(15,assign),ENTRY(3,share),ENTRY(18,rtb),ENTRY(9,crash),ENTRY(8,kill)};
 typedef struct {int volume,frequency,state;} tone_t;
 static QueueHandle_t tones;
@@ -35,6 +40,7 @@ static void prepare_card(void)
         ESP_LOGW("feedback","Cannot create audio folder; tones remain available");return;
     }
     card_ready=true;
+#if CONFIG_KORVO_EMBED_SPEECH
     for(unsigned i=0;i<sizeof(samples)/sizeof(samples[0]);i++) {
         char path[96];snprintf(path,sizeof(path),"/sdcard/flockinator/audio/%s.pcm",samples[i].name);
         struct stat existing;
@@ -54,6 +60,7 @@ static void prepare_card(void)
         if(!ok){unlink(temporary);ESP_LOGW("feedback","Could not save %s",samples[i].name);}
         else ESP_LOGI("feedback","SD sample ready: %s",samples[i].name);
     }
+#endif
 }
 static bool play_sample(int state)
 {

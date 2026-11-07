@@ -1,1 +1,11 @@
-idf_component_register(SRCS "main.c" "controller.cpp" "fleet.cpp" "board_model.cpp" "vendor/blake2s-ref.c" "lab_host.cpp" "lab_model.cpp" "feedback.c" INCLUDE_DIRS "." "../../node-platform/include" REQUIRES esp_http_client nvs_flash esp_wifi esp_event esp_http_server mbedtls esp_driver_uart esp32_s31_korvo esp_timer esp_psram esp_system EMBED_TXTFILES "operator.js" "index.html" "app.js" "style.css" "planner.html" "planner.js" "planner.css" "lab.html" "lab.js" "lab.css" EMBED_FILES "speech/takeoff.pcm" "speech/seen.pcm" "speech/friend.pcm" "speech/target.pcm" "speech/engage.pcm" "speech/assign.pcm" "speech/share.pcm" "speech/rtb.pcm" "speech/crash.pcm" "speech/kill.pcm")
+set(speech_files)
+if(CONFIG_KORVO_EMBED_SPEECH)
+    foreach(event takeoff seen friend target engage assign share rtb crash kill)
+        if(NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/speech/${event}.pcm")
+            message(FATAL_ERROR "Missing speech/${event}.pcm; see main/speech/README.md or disable CONFIG_KORVO_EMBED_SPEECH")
+        endif()
+        list(APPEND speech_files "speech/${event}.pcm")
+    endforeach()
+endif()
+
+idf_component_register(SRCS "main.c" "controller.cpp" "fleet.cpp" "board_model.cpp" "vendor/blake2s-ref.c" "lab_host.cpp" "lab_model.cpp" "feedback.c" INCLUDE_DIRS "." "../../node-platform/include" REQUIRES esp_http_client nvs_flash esp_wifi esp_event esp_http_server mbedtls esp_driver_uart esp32_s31_korvo esp_timer esp_psram esp_system EMBED_TXTFILES "operator.js" "index.html" "app.js" "style.css" "planner.html" "planner.js" "planner.css" "lab.html" "lab.js" "lab.css" EMBED_FILES ${speech_files})
