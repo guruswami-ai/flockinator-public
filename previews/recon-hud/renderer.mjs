@@ -5,7 +5,8 @@ import {simulatedHeading,northArrow} from './compass.mjs';
 export const states=['HOLD','SCAN','SEEN','SHARE','CHECK','DOUBT','ENGAGE','LOST','ZOOM','CRASH','EMPTY','NOLINK','ALERT','PRIORITY','CLAIM','ASSIGN','YIELD','LOITER','R2B','LAND','CHARGE','STANDBY','FRIEND','TARGET','DEPLOY'];
 export const designationColors={friendly:'#4488ff',target:'#ff3030'};
 export const sensorViews={cam:'TV · daylight',night:'NV · night vision',whitehot:'WH · white-hot',blackhot:'BH · black-hot',ir:'IR strobe'};
-export const stateLabel=state=>state==='ZOOM'?'KILL':state;
+// Keep legacy timeline keys; display the shared firmware's current vocabulary.
+export const stateLabel=state=>state==='ZOOM'?'MARK':state==='ENGAGE'?'EVENT':state;
 export const descriptions={HOLD:'Hovering, waiting for the next simulated order.',SCAN:'A banking horizon and flowing ground texture suggest forward flight.',SEEN:'Single-pixel synthetic contacts have been observed. Corner brackets mark the group.',SHARE:'Paired message pulses: orange TX on the sender, green RX on the receiver. Each border flashes twice.',CHECK:'A second observation is requested before accepting a report.',DOUBT:'Two conflicting locations remain visible. Neither is silently treated as truth.'};
 Object.assign(descriptions,{
  DEPLOY:'Twenty seconds of outbound flight to spread into the survey area. No sightings or identification reports appear during deployment.',
@@ -25,7 +26,7 @@ Object.assign(descriptions,{
  CLAIM:'Two scripted nodes request ownership of the same fictional observation.',
  ASSIGN:'The storyboard names one observation owner. This is a preset result, not a live decision.',
  YIELD:'Peers release their duplicate claim and show the assigned owner.',
- ENGAGE:'Simulated target engaged: brackets close around the fictional beacon. This is a visual event, not an aircraft command.',
+ ENGAGE:'Scripted inspection event: brackets close around the fictional beacon. This is a visual event, not an aircraft command.',
  LOST:'Target lost: the observation drifts out of view, leaving a search reticle and last-known marker.',
  ZOOM:'Closing on red contacts: ground and people enlarge, the horizon leaves the frame and the central contact fills the camera before black. Target fixation with a solid red border and countdown 00:10 to 00:01 during zoom, then 1.5 seconds of black screen and five seconds of SIGNAL LOST static.',
  CRASH:'The camera tumbles toward the ground, settles against dirt with no horizon, and holds still. At three seconds, SIGNAL LOST static begins for five seconds.',

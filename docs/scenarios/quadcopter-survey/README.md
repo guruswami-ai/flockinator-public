@@ -30,6 +30,10 @@ The first-person captions are **presenter explanations**. They should be read as
 A retrospective explanation from a Muse reviewer is also different from a reason
 code recorded when the node made its decision.
 
+The 25 illustrated states are a selected subset of the 30-state shared model.
+See the [state compatibility map](../../state-compatibility.md) for omitted
+states, browser aliases and sensor-rendering limits.
+
 ## 1. Mission objectives and the visible story
 
 The current scripted model exposes the goals **Observe**, **Compare reports** and

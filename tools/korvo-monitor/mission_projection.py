@@ -2,7 +2,10 @@
 import math
 from node_commissioner.protocol import validate_status
 
-STATES = ("HOLD", "SCAN", "SEEN", "SHARE", "CHECK", "DOUBT", "ENGAGE", "LOST", "KILL", "CRASH", "EMPTY", "NOLINK", "ALERT", "PRIORITY", "CLAIM", "ASSIGN", "YIELD", "LOITER", "R2B", "LAND", "CHARGE", "STANDBY", "FRIEND", "TARGET", "DEPLOY", "APPROVED", "ORDERS", "TAKEOFF", "BLANK", "READY")
+STATES = ("HOLD", "SCAN", "SEEN", "SHARE", "CHECK", "DOUBT", "EVENT", "LOST", "MARK", "CRASH", "EMPTY", "NOLINK", "ALERT", "PRIORITY", "CLAIM", "ASSIGN", "YIELD", "LOITER", "R2B", "LAND", "CHARGE", "STANDBY", "FRIEND", "TARGET", "DEPLOY", "APPROVED", "ORDERS", "TAKEOFF", "BLANK", "READY")
+
+# Older firmware uses the same numeric slots with historical presentation names.
+LEGACY_STATES = {"ENGAGE": "EVENT", "KILL": "MARK"}
 
 def project(index, status, mac, label):
     validate_status(status, mac, label)
@@ -24,6 +27,8 @@ def project(index, status, mac, label):
     if world.get('freshness') not in ('LIVE', 'STALE', 'RESYNC') or type(mission.get('running')) is not bool:
         raise ValueError('invalid mission state')
     state=mission.get('state')
+    if isinstance(state, str):
+        state = LEGACY_STATES.get(state, state)
     if state not in STATES:
         raise ValueError('invalid mission state')
     return {'state':STATES.index(state), 'index':index, 'position':tuple(pos), 'heading':heading,

@@ -1,5 +1,5 @@
 import unittest
-from mission_projection import project
+from mission_projection import project, STATES
 
 class Projection(unittest.TestCase):
     def setUp(self):
@@ -12,6 +12,15 @@ class Projection(unittest.TestCase):
         self.assertEqual(project(0,self.s,self.s['base_mac'],'A1')['state'],3)
         self.s['mission']['state']='UNSUPPORTED'
         with self.assertRaises(ValueError): project(0,self.s,self.s['base_mac'],'A1')
+    def test_current_and_legacy_event_slots(self):
+        # Shared firmware names EVENT/MARK; older status reports used ENGAGE/KILL.
+        for name, slot in [('EVENT', 6), ('ENGAGE', 6), ('MARK', 8), ('KILL', 8)]:
+            with self.subTest(name=name):
+                self.s['mission']['state'] = name
+                self.assertEqual(project(0, self.s, self.s['base_mac'], 'A1')['state'], slot)
+        self.assertEqual(STATES[6], 'EVENT')
+        self.assertEqual(STATES[8], 'MARK')
+
     def test_other_world_is_not_mission(self):
         self.s['panel']['world']['source']='host_fictional_survey'
         self.assertIsNone(project(0,self.s,self.s['base_mac'],'A1'))
