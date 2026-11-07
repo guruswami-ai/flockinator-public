@@ -77,6 +77,8 @@ def main(argv=None) -> int:
                         help="expected seed manifest, e.g. 80,81,82; "
                              "asserts gate acceptance (parity 1.0)")
     args = parser.parse_args(argv)
+    if args.seeds is not None and not args.seeds.strip():
+        parser.error("--seeds manifest must name at least one seed")
     expected = ([int(s) for s in args.seeds.split(",")]
                 if args.seeds else None)
     text = pathlib.Path(args.journal).read_text()
@@ -99,6 +101,11 @@ def main(argv=None) -> int:
             reports[str(s)]["parity"] != 1.0 for s in expected)
         failed = failed or any(
             int(s) not in expected for s in reports)
+        # Gate acceptance is exact agreement on supplied rows:
+        # a missing-marker row is a valid loss-aware score, but it
+        # is not a supplied golden hash and never passes a gate.
+        failed = failed or any(
+            reports[str(s)]["missing_input_rows"] for s in expected)
     return 1 if failed else 0
 
 
