@@ -1,6 +1,6 @@
 import pytest
 
-from kulira_core.canary_score import load_device_csv, score_journal
+from kulira_core.canary_score import load_device_csv, main, score_journal
 from kulira_core.twin import WAIT, missing_hash, run_twin, to_csv
 
 
@@ -55,3 +55,15 @@ def test_empty_journal_against_manifest_fails_per_seed():
     rep = score_journal([], ticks=100, expected_seeds=(80, 81, 82))
     assert set(rep) == {"80", "81", "82"}
     assert all(r["parity"] is None for r in rep.values())
+
+
+def test_cli_exit_code_matches_verdict(tmp_path):
+    rows = run_twin(80, 100, p_loss=0.0)
+    good = tmp_path / "good.csv"
+    good.write_text(to_csv(rows))
+    assert main([str(good), "--ticks", "100", "--seeds", "80"]) == 0
+    truncated = tmp_path / "truncated.csv"
+    truncated.write_text(to_csv(rows[:90]))
+    assert main([str(truncated), "--ticks", "100", "--seeds", "80"]) == 1
+    # Missing expected seed must fail the process, not exit 0.
+    assert main([str(good), "--ticks", "100", "--seeds", "80,82"]) == 1
