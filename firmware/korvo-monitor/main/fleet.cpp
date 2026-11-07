@@ -5,7 +5,9 @@
 #include "esp_random.h"
 #include "esp_mac.h"
 #include "psa/crypto.h"
+#include "../../shared/management/response_auth.h"
 #include <arpa/inet.h>
+#include <strings.h>
 #include <ctime>
 #include <atomic>
 #include "mission_world.h"
@@ -36,27 +38,64 @@ string sign(const uint8_t* key,const string& text){
     auto e=psa_mac_compute(id,PSA_ALG_HMAC(PSA_ALG_SHA_256),(const uint8_t*)text.data(),text.size(),out,32,&n);
     psa_destroy_key(id);return e==PSA_SUCCESS&&n==32?hex(out,n):string{};
 }
-esp_err_t receive(esp_http_client_event_t* e){
-    if(e->event_id==HTTP_EVENT_ON_DATA){
-        auto& s=*static_cast<string*>(e->user_data);
-        if(s.size()+e->data_len>131072)return ESP_FAIL;
-        s.append((const char*)e->data,e->data_len);
-    }
-    return ESP_OK;
+bool response_hmac(const uint8_t* key,const char* bytes,size_t size,char out[65]){
+    string signature=sign(key,string(bytes,size));
+    if(!flock_response::hex(signature.c_str(),64))return false;
+    memcpy(out,signature.c_str(),65);return true;
 }
-bool fetch(const Panel& p,const char* path,const char* method,const string& bytes,const Json& headers,string& reply){
+struct ReceivedResponse {
+    string body;
+    char version[2]{},signature[65]{};
+    bool version_seen=false,signature_seen=false,failed=false,finished=false;
+};
+esp_err_t receive(esp_http_client_event_t* e){
+    auto& r=*static_cast<ReceivedResponse*>(e->user_data);
+    if(e->event_id==HTTP_EVENT_ON_HEADER){
+        if(!e->header_key||!e->header_value)r.failed=true;
+        else if(!strcasecmp(e->header_key,flock_response::VersionHeader)){
+            if(r.version_seen||!flock_response::copy(r.version,e->header_value))r.failed=true;
+            r.version_seen=true;
+        }else if(!strcasecmp(e->header_key,flock_response::SignatureHeader)){
+            if(r.signature_seen||!flock_response::copy(r.signature,e->header_value))r.failed=true;
+            r.signature_seen=true;
+        }
+    }else if(e->event_id==HTTP_EVENT_ON_DATA){
+        if(r.finished||e->data_len<0||size_t(e->data_len)>flock_response::BodyLimit-r.body.size()||(!e->data&&e->data_len))r.failed=true;
+        if(!r.failed&&e->data_len)r.body.append(static_cast<const char*>(e->data),e->data_len);
+    }else if(e->event_id==HTTP_EVENT_ERROR)r.failed=true;
+    else if(e->event_id==HTTP_EVENT_ON_FINISH)r.finished=true;
+    return r.failed?ESP_FAIL:ESP_OK;
+}
+bool fetch(const Panel& p,const char* path,const char* method,const string& bytes,const Json& headers,
+           const flock_response::Binding& binding,string& reply){
+    reply.clear();
+    flock_response::Pending pending{binding,ms(),true};ReceivedResponse received;
     string url="http://"+string(p.ip)+path;esp_http_client_config_t cfg{};
-    cfg.url=url.c_str();cfg.timeout_ms=1700;cfg.event_handler=receive;cfg.user_data=&reply;
+    cfg.url=url.c_str();cfg.timeout_ms=1700;cfg.event_handler=receive;cfg.user_data=&received;
     cfg.disable_auto_redirect=true;cfg.buffer_size=2048;cfg.buffer_size_tx=1024;
     auto c=esp_http_client_init(&cfg);if(!c)return false;
-    if(!strcmp(method,"POST")){esp_http_client_set_method(c,HTTP_METHOD_POST);esp_http_client_set_post_field(c,bytes.data(),bytes.size());}
-    for(auto it=headers.begin();it!=headers.end();++it)esp_http_client_set_header(c,it.key().c_str(),it.value().get_ref<const string&>().c_str());
-    reply.clear();auto e=esp_http_client_perform(c);int status=esp_http_client_get_status_code(c);
-    esp_http_client_cleanup(c);return e==ESP_OK&&status==200;
+    bool setup=true;
+    if(!strcmp(method,"POST"))setup=esp_http_client_set_method(c,HTTP_METHOD_POST)==ESP_OK&&esp_http_client_set_post_field(c,bytes.data(),bytes.size())==ESP_OK;
+    for(auto it=headers.begin();it!=headers.end();++it)
+        if(esp_http_client_set_header(c,it.key().c_str(),it.value().get_ref<const string&>().c_str())!=ESP_OK)setup=false;
+    if(esp_http_client_set_header(c,flock_response::VersionHeader,"1")!=ESP_OK||
+       esp_http_client_set_header(c,flock_response::ChallengeHeader,binding.challenge)!=ESP_OK)setup=false;
+    auto e=setup?esp_http_client_perform(c):ESP_FAIL;int status=esp_http_client_get_status_code(c);
+    bool complete=esp_http_client_is_complete_data_received(c);
+    esp_http_client_cleanup(c);
+    if(e!=ESP_OK||!complete||received.failed||!received.finished||!received.version_seen||!received.signature_seen)return false;
+    string digest=sha256hex(received.body);
+    if(!flock_response::verify(pending,ms(),received.version,received.signature,status,digest.c_str(),p.key,response_hmac)||status!=200)return false;
+    reply.swap(received.body);return true;
 }
 bool status(int i,Json& s){
     string data;bool ok=signed_panel(i,"GET","/v1/status","",data);
-    if(ok){s=Json::parse(data,nullptr,false);ok=s.is_object()&&s.value("label",string{})==name(i)&&s.value("base_mac",string{})==panels[i].mac&&s.value("type",string{})=="status";}
+    if(ok){
+        s=Json::parse(data,nullptr,false);
+        ok=s.is_object()&&s.contains("label")&&s["label"]==name(i)&&s.contains("base_mac")&&s["base_mac"]==panels[i].mac&&
+           s.contains("type")&&s["type"]=="status"&&s.contains("uptime_ms")&&natural(s["uptime_ms"],UINT64_MAX)&&
+           s.contains("free_internal")&&natural(s["free_internal"],UINT32_MAX)&&s.contains("firmware")&&s["firmware"].is_string();
+    }
     Health h{};h.at=ms();h.live=ok;
     if(ok){h.uptime=s.value("uptime_ms",uint64_t{})/1000;h.ram=s.value("free_internal",0u)/1024;snprintf(h.version,sizeof(h.version),"%s",s.value("firmware",string{}).c_str());}
     {Guard l(mutex);health[i]=h;}return ok;
@@ -108,18 +147,25 @@ void worker(void*){
 }
 string sha256hex(const string& bytes){uint8_t b[32];size_t n=0;if(psa_hash_compute(PSA_ALG_SHA_256,(const uint8_t*)bytes.data(),bytes.size(),b,32,&n)!=PSA_SUCCESS)return {};return hex(b,n);}
 bool signed_panel(int i,const char* method,const char* path,const string& body,string& reply){
+    reply.clear();
     if(!ready||i<0||i>=16)return false;
     const auto& p=panels[i];string raw;
-    if(!fetch(p,"/v1/challenge","GET","",Json::object(),raw))return false;
+    uint8_t random[16];esp_fill_random(random,sizeof(random));string client=hex(random,sizeof(random));
+    flock_response::Binding binding;
+    if(!flock_response::bind(binding,client.c_str(),p.mac,"GET","/v1/challenge",flock_response::EmptyHash)||
+       !fetch(p,"/v1/challenge","GET","",Json::object(),binding,raw))return false;
     auto c=Json::parse(raw,nullptr,false);
-    if(!c.is_object()||c.value("base_mac",string{})!=p.mac||!c.value("configured",false)||c.value("v",0)!=1||
-       !c.contains("next_counter")||!natural(c["next_counter"],UINT32_MAX)||c["next_counter"]==0)return false;
-    string nonce=c.value("nonce",string{});if(nonce.size()!=32||nonce.find_first_not_of("0123456789abcdef")!=string::npos)return false;
+    if(!c.is_object()||!c.contains("base_mac")||c["base_mac"]!=p.mac||!c.contains("configured")||c["configured"]!=true||
+       !c.contains("v")||!natural(c["v"],1)||c["v"]!=1||!c.contains("next_counter")||
+       !natural(c["next_counter"],UINT32_MAX)||c["next_counter"]==0||!c.contains("nonce")||!c["nonce"].is_string())return false;
+    string nonce=c["nonce"];if(nonce.size()!=32||nonce.find_first_not_of("0123456789abcdef")!=string::npos)return false;
     string counter=c["next_counter"].dump(),digest=sha256hex(body);
     string msg="v1\n"+nonce+"\n"+counter+"\n"+p.mac+"\n"+method+"\n"+path+"\n"+digest;
     string sig=sign(p.key,msg);if(sig.empty())return false;
     Json headers={{"X-Flock-Nonce",nonce},{"X-Flock-Counter",counter},{"X-Flock-Target",p.mac},{"X-Flock-SHA256",digest},{"X-Flock-Signature",sig},{"Content-Type","application/octet-stream"}};
-    return fetch(p,path,method,body,headers,reply);
+    esp_fill_random(random,sizeof(random));client=hex(random,sizeof(random));
+    if(!flock_response::bind(binding,client.c_str(),p.mac,method,path,digest.c_str(),nonce.c_str(),counter.c_str(),sig.c_str()))return false;
+    return fetch(p,path,method,body,headers,binding,reply);
 }
 bool fleet_init(nvs_handle_t handle){
     ns=handle;mutex=xSemaphoreCreateMutex();size_t sz=sizeof(panels);

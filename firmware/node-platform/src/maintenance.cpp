@@ -40,8 +40,7 @@ static bool unhex(const char* s,uint8_t* out,size_t n) {
 }
 static bool same(const uint8_t* a,const uint8_t* b,size_t n) { uint8_t diff=0; for(size_t i=0;i<n;i++) diff|=a[i]^b[i]; return diff==0; }
 static void refresh_identity() { uint8_t raw[16],digest[32]; esp_fill_random(raw,16); hex(raw,16,nonce); mbedtls_sha256(key,32,digest,0); hex(digest,8,key_id); counter=0; }
-static esp_err_t answer(httpd_req_t* req,const char* text) { httpd_resp_set_type(req,"application/json"); return httpd_resp_send(req,text,HTTPD_RESP_USE_STRLEN); }
-static esp_err_t unavailable(httpd_req_t* req) { httpd_resp_set_status(req,"503 Service Unavailable"); return answer(req,"{\"error\":\"busy_or_timeout\"}"); }
+#include "management_response.h"
 static bool authenticate(httpd_req_t* req,char expected_hash[65]) {
     char signature[65],received_nonce[33],target[18],count[11]; uint8_t supplied[32],actual[32],digest[32];
     if(!has_key || httpd_req_get_hdr_value_str(req,"X-Flock-Signature",signature,sizeof(signature))!=ESP_OK ||
@@ -59,61 +58,65 @@ static bool authenticate(httpd_req_t* req,char expected_hash[65]) {
     counter=n; return true; // Consume before executing, including failed requests.
 }
 static esp_err_t challenge(httpd_req_t* req) {
+    ManagementResponse response(req); if(!response.acceptable()) return ESP_FAIL;
     xSemaphoreTake(guard,portMAX_DELAY);
     char out[256]; snprintf(out,sizeof(out),"{\"v\":1,\"base_mac\":\"%s\",\"nonce\":\"%s\",\"next_counter\":%lu,\"key_id\":\"%s\",\"configured\":%s}",board,nonce,static_cast<unsigned long>(counter+1),key_id,has_key?"true":"false");
-    xSemaphoreGive(guard); return answer(req,out);
+    xSemaphoreGive(guard); return response.answer(out);
 }
 static esp_err_t protected_status(httpd_req_t* req) {
+    ManagementResponse response(req); if(!response.acceptable()) return ESP_FAIL;
     xSemaphoreTake(guard,portMAX_DELAY); char hash[65]; bool ok=authenticate(req,hash);
     const char* empty="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855";
-    if(!ok || strcmp(hash,empty) || req->content_len) { xSemaphoreGive(guard); return httpd_resp_send_err(req,HTTPD_401_UNAUTHORIZED,"Authentication failed"); }
+    if(!ok || strcmp(hash,empty) || req->content_len) { xSemaphoreGive(guard); return response.error(401,"Authentication failed"); }
     char* copy=strdup(snapshot); xSemaphoreGive(guard);
-    if(!copy) return httpd_resp_send_err(req,HTTPD_500_INTERNAL_SERVER_ERROR,"No memory");
-    auto result=answer(req,copy); free(copy); return result;
+    if(!copy) return response.error(500,"No memory");
+    auto result=response.answer(copy); free(copy); return result;
 }
 static esp_err_t control(httpd_req_t* req) {
+    ManagementResponse response(req); if(!response.acceptable()) return ESP_FAIL;
     char expected[65],body[512]{}; xSemaphoreTake(guard,portMAX_DELAY); bool ok=authenticate(req,expected); uint32_t id=counter; xSemaphoreGive(guard);
-    if(!ok) return httpd_resp_send_err(req,HTTPD_401_UNAUTHORIZED,"Authentication failed");
-    if(req->content_len<1 || req->content_len>=sizeof(body)) return httpd_resp_send_err(req,HTTPD_400_BAD_REQUEST,"Invalid command length");
+    if(!ok) return response.error(401,"Authentication failed");
+    if(req->content_len<1 || req->content_len>=sizeof(body)) return response.error(400,"Invalid command length");
     size_t got=0; while(got<req->content_len) { int n=httpd_req_recv(req,body+got,req->content_len-got); if(n<=0) return ESP_FAIL; got+=n; }
     uint8_t digest[32]; char actual[65]; mbedtls_sha256(reinterpret_cast<uint8_t*>(body),got,digest,0); hex(digest,32,actual);
-    if(strcmp(actual,expected)) return httpd_resp_send_err(req,HTTPD_400_BAD_REQUEST,"Invalid digest");
+    if(strcmp(actual,expected)) return response.error(400,"Invalid digest");
     if(body[0]=='{') {
         auto* command=cJSON_ParseWithLength(body,got);
         auto text=[&](const char* name){auto* value=cJSON_GetObjectItemCaseSensitive(command,name);return cJSON_IsString(value)?value->valuestring:"";};
         const char* action=text("op");
         if(!strncmp(action,"display_",8)||!strncmp(action,"mission_",8)){
             Command queued{};queued.id=id;queued.op=3;queued.expires=esp_timer_get_time()+3000000;memcpy(queued.body,body,got);cJSON_Delete(command);
-            if(xQueueSend(commands,&queued,0)!=pdTRUE)return unavailable(req);
+            if(xQueueSend(commands,&queued,0)!=pdTRUE)return response.unavailable();
             Reply reply{};int64_t deadline=esp_timer_get_time()+3500000;
-            while(esp_timer_get_time()<deadline){if(xQueueReceive(replies,&reply,pdMS_TO_TICKS(100))&&reply.id==id)return answer(req,reply.ok?"{\"ok\":true}":"{\"ok\":false,\"error\":\"invalid_display_command\"}");}
-            return unavailable(req);
+            while(esp_timer_get_time()<deadline){if(xQueueReceive(replies,&reply,pdMS_TO_TICKS(100))&&reply.id==id)return response.answer(reply.ok?"{\"ok\":true}":"{\"ok\":false,\"error\":\"invalid_display_command\"}");}
+            return response.unavailable();
         }
         int sdop=!strcmp(action,"sd_prepare")?1:!strcmp(action,"sd_format_quick")?2:!strcmp(action,"sd_format_full")?3:0;
         uint32_t job=0;const char* error=sdop?storage_request(sdop,text("card_id"),text("token"),job):"invalid_sd_operation";
         cJSON_Delete(command);
         char out[160];
-        if(error){httpd_resp_set_status(req,"409 Conflict");snprintf(out,sizeof(out),"{\"ok\":false,\"error\":\"%s\"}",error);}
+        if(error){snprintf(out,sizeof(out),"{\"ok\":false,\"error\":\"%s\"}",error);}
         else snprintf(out,sizeof(out),"{\"ok\":true,\"job\":%lu}",(unsigned long)job);
-        return answer(req,out);
+        return response.answer(out,error?409:200);
     }
     int op=!strcmp(body,"tone")?1:!strcmp(body,"next_page")?2:0;
-    if(strcmp(actual,expected) || !op) return httpd_resp_send_err(req,HTTPD_400_BAD_REQUEST,"Invalid command or digest");
+    if(strcmp(actual,expected) || !op) return response.error(400,"Invalid command or digest");
     Command c{id,op,esp_timer_get_time()+3000000};
-    if(xQueueSend(commands,&c,0)!=pdTRUE) return unavailable(req);
+    if(xQueueSend(commands,&c,0)!=pdTRUE) return response.unavailable();
     Reply r{}; int64_t deadline=esp_timer_get_time()+3500000;
-    while(esp_timer_get_time()<deadline) { if(xQueueReceive(replies,&r,pdMS_TO_TICKS(100)) && r.id==id) return answer(req,r.ok?"{\"ok\":true}":"{\"ok\":false}"); }
-    return unavailable(req);
+    while(esp_timer_get_time()<deadline) { if(xQueueReceive(replies,&r,pdMS_TO_TICKS(100)) && r.id==id) return response.answer(r.ok?"{\"ok\":true}":"{\"ok\":false}"); }
+    return response.unavailable();
 }
 #ifdef FLOCK_MISSION_JOURNAL
 #include "journal_http.h"
 #endif
 static esp_err_t update(httpd_req_t* req) {
+    ManagementResponse response(req); if(!response.acceptable()) return ESP_FAIL;
     char expected[65]; xSemaphoreTake(guard,portMAX_DELAY); bool authenticated=authenticate(req,expected); xSemaphoreGive(guard);
-    if(!authenticated) return httpd_resp_send_err(req,HTTPD_401_UNAUTHORIZED,"Authentication failed");
+    if(!authenticated) return response.error(401,"Authentication failed");
     auto* slot=esp_ota_get_next_update_partition(nullptr);
-    if(!slot || req->content_len<288 || req->content_len>slot->size) return httpd_resp_send_err(req,HTTPD_400_BAD_REQUEST,"Image does not fit");
-    if(!maintenance_claim_update()) return unavailable(req);
+    if(!slot || req->content_len<288 || req->content_len>slot->size) return response.error(400,"Image does not fit");
+    if(!maintenance_claim_update()) return response.unavailable();
     esp_ota_handle_t ota=0; esp_err_t e=esp_ota_begin(slot,req->content_len,&ota);
     mbedtls_sha256_context hash; mbedtls_sha256_init(&hash); mbedtls_sha256_starts(&hash,0);
     uint8_t buffer[2048]; size_t received=0;
@@ -133,8 +136,8 @@ static esp_err_t update(httpd_req_t* req) {
     }
     if(e==ESP_OK) e=esp_ota_set_boot_partition(slot);
     if(ota) esp_ota_abort(ota);
-    if(e!=ESP_OK) { maintenance_release_update(); return httpd_resp_send_err(req,HTTPD_400_BAD_REQUEST,"Image rejected; running slot retained"); }
-    answer(req,"{\"ok\":true,\"rebooting\":true}"); vTaskDelay(pdMS_TO_TICKS(250)); esp_restart(); return ESP_OK;
+    if(e!=ESP_OK) { maintenance_release_update(); return response.error(400,"Image rejected; running slot retained"); }
+    response.answer("{\"ok\":true,\"rebooting\":true}"); vTaskDelay(pdMS_TO_TICKS(250)); esp_restart(); return ESP_OK;
 }
 void maintenance_init(const char* mac) {
     strncpy(board,mac,sizeof(board)-1); guard=xSemaphoreCreateMutex(); commands=xQueueCreate(4,sizeof(Command)); replies=xQueueCreate(4,sizeof(Reply));
