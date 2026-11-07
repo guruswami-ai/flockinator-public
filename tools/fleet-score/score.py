@@ -131,7 +131,12 @@ def score_run(run_dir) -> dict:
         idx = _contact_index(ev.get("contact"))
         if idx is None:
             return None
-        if list(truth[idx]["pos"]) != list(ev.get("tile") or []):
+        tile = ev.get("tile")
+        # Rejected/non-voting reports may contain arbitrary JSON. Scalars
+        # and objects are not coordinates and must not crash this census.
+        if not isinstance(tile, (list, tuple)):
+            return None
+        if list(truth[idx]["pos"]) != list(tile):
             return None
         return idx
 
