@@ -73,6 +73,50 @@ class CallTests(unittest.TestCase):
         self.assertFalse(self.call(conn))
         self.assertTrue(all(SYNTHETIC_KEY.encode() not in p.read_bytes() for p in (self.root / "result").iterdir()))
 
+    def test_escaped_credential_request_rejected_before_write_or_network(self):
+        escaped = "".join("\\u%04x" % ord(char) for char in SYNTHETIC_KEY)
+        for value in (SYNTHETIC_KEY, {SYNTHETIC_KEY: ["nested"]}):
+            with self.subTest(value=value):
+                request = {"model": "muse-spark-1.3-contributor", "store": False,
+                           "max_output_tokens": 100, "input": value}
+                self.request.write_text(json.dumps(request).replace(SYNTHETIC_KEY, escaped))
+                conn = Connection()
+                with self.assertRaises(ValueError):
+                    self.call(conn)
+                self.assertEqual(conn.calls, [])
+                self.assertFalse((self.root / "result").exists())
+
+    def test_escaped_response_strings_and_keys_cannot_leak_into_receipt(self):
+        escaped = "".join("\\u%04x" % ord(char) for char in SYNTHETIC_KEY)
+        payload = {"status": "completed", "model": SYNTHETIC_KEY,
+                   "id": "prefix-" + SYNTHETIC_KEY,
+                   "usage": {SYNTHETIC_KEY: [{"nested": SYNTHETIC_KEY}]}}
+        conn = Connection(body=json.dumps(payload).replace(SYNTHETIC_KEY, escaped).encode())
+        self.assertFalse(self.call(conn))
+        for path in (self.root / "result").iterdir():
+            decoded = json.loads(path.read_bytes())
+            self.assertNotIn(SYNTHETIC_KEY, json.dumps(decoded, ensure_ascii=False))
+        receipt = json.loads((self.root / "result/receipt.json").read_bytes())
+        self.assertTrue(receipt["credential_redacted"])
+        self.assertEqual(receipt["outcome"], "provider_failure")
+        self.assertEqual(receipt["response_sha256"], module.digest((self.root / "result/response.json").read_bytes()))
+
+    def test_safe_response_wire_bytes_preserved(self):
+        body = b'{ "status" : "completed", "model": "muse-spark-1.3-contributor", "text":"\\u0041" }\n'
+        self.assertTrue(self.call(Connection(body=body)))
+        self.assertEqual((self.root / "result/response.json").read_bytes(), body)
+
+    def test_malformed_or_duplicate_response_not_persisted(self):
+        escaped = "".join("\\u%04x" % ord(char) for char in SYNTHETIC_KEY)
+        for index, body in enumerate((b'{"text":"' + escaped.encode(),
+                                      b'{"x":"' + escaped.encode() + b'","x":0}')):
+            with self.subTest(index=index):
+                target = self.root / str(index)
+                self.assertFalse(module.record(self.request, target,
+                    connection_factory=lambda *a, **kw: Connection(body=body)))
+                self.assertFalse((target / "response.json").exists())
+                self.assertEqual(json.loads((target / "receipt.json").read_bytes())["outcome"], "invalid_response")
+
     def test_duplicate_request_and_reuse_reject_before_network(self):
         conn = Connection()
         self.assertTrue(self.call(conn))

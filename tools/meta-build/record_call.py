@@ -37,6 +37,17 @@ def unique(pairs):
     return result
 
 
+def scrub(value, key):
+    """Inspect decoded strings, including JSON object keys and nested usage fields."""
+    if isinstance(value, str):
+        return value.replace(key, "[REDACTED]")
+    if isinstance(value, list):
+        return [scrub(item, key) for item in value]
+    if isinstance(value, dict):
+        return {scrub(name, key): scrub(item, key) for name, item in value.items()}
+    return value
+
+
 def record(request_path, output, *, connection_factory=http.client.HTTPSConnection):
     key = os.environ.get("MODEL_API_KEY", "")
     if not key:
@@ -45,6 +56,8 @@ def record(request_path, output, *, connection_factory=http.client.HTTPSConnecti
     if len(raw) > MAX_BYTES or key.encode() in raw:
         raise ValueError("request too large or contains the credential")
     request = json.loads(raw, object_pairs_hook=unique)
+    if scrub(request, key) != request:
+        raise ValueError("request contains the credential")
     if not isinstance(request, dict):
         raise ValueError("request must be an object")
     if set(request) - {"model", "input", "instructions", "reasoning", "max_output_tokens", "store"}:
@@ -81,19 +94,26 @@ def record(request_path, output, *, connection_factory=http.client.HTTPSConnecti
         if len(body) > MAX_BYTES:
             meta["outcome"] = "response_too_large"
             return False
-        redacted = key.encode() in body
-        body = body.replace(key.encode(), b"[REDACTED]")
-        (output / "response.json").write_bytes(body)
-        meta["response_sha256"] = digest(body)
-        meta["credential_redacted"] = redacted
         try:
             parsed = json.loads(body, object_pairs_hook=unique)
         except (ValueError, UnicodeError):
+            # An ambiguous/malformed envelope cannot be safely inspected. Do not
+            # persist it: escaped credential text may bypass a raw-byte check.
             meta["outcome"] = "invalid_response"
             return False
         if not isinstance(parsed, dict):
             meta["outcome"] = "invalid_response"
             return False
+        sanitized = scrub(parsed, key)
+        redacted = sanitized != parsed or key.encode() in body
+        if redacted:
+            parsed = sanitized
+            body = json.dumps(parsed, ensure_ascii=True).encode()
+        # Safe envelopes retain their exact wire bytes; altered ones are marked
+        # as redacted failures, and their hashes describe the sanitized bytes.
+        (output / "response.json").write_bytes(body)
+        meta["response_sha256"] = digest(body)
+        meta["credential_redacted"] = redacted
         meta["reported_model"] = parsed.get("model")
         meta["response_id"] = parsed.get("id")
         meta["usage"] = parsed.get("usage")
@@ -114,7 +134,7 @@ def record(request_path, output, *, connection_factory=http.client.HTTPSConnecti
                 meta["close_failed"] = True
         meta["finished_at"] = utc()
         meta["elapsed_seconds"] = round(time.monotonic() - start, 6)
-        (output / "receipt.json").write_text(json.dumps(meta, indent=2) + "\n")
+        (output / "receipt.json").write_text(json.dumps(scrub(meta, key), indent=2) + "\n")
 
 
 def main():
