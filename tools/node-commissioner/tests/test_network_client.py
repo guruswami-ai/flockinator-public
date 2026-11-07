@@ -371,6 +371,29 @@ def test_exchange_deadline_is_enforced(node, client):
         client.challenge()
 
 
+def test_completed_reply_past_deadline_is_rejected_if_watchdog_is_delayed(node, client, monkeypatch):
+    """A valid complete reply cannot win a race with a delayed Timer callback."""
+    from types import SimpleNamespace
+    from node_commissioner import network
+    original_clock = network.clock
+    original_read = network.http.client.HTTPResponse.read
+    elapsed = [0.0]
+
+    def finish_after_deadline(response, *args, **kwargs):
+        body = original_read(response, *args, **kwargs)
+        elapsed[0] = 1.0  # Deterministic time jump; proof is still younger than 10 s.
+        return body
+
+    monkeypatch.setattr(network, "clock", lambda: original_clock() + elapsed[0])
+    monkeypatch.setattr(network.threading, "Timer", lambda *a, **kw:
+                        SimpleNamespace(start=lambda: None, cancel=lambda: None))
+    monkeypatch.setattr(network.http.client.HTTPResponse, "read", finish_after_deadline)
+    client.CHALLENGE_TIMEOUT = 0.5
+    with pytest.raises(TimeoutError, match="exceeded"):
+        client.challenge()
+    assert len(node.requests) == 1
+
+
 def test_slowly_dripped_response_cannot_outlive_the_deadline(node, client):
     import time
     node.drip["/v1/status"] = 0.05  # Each byte arrives well inside any socket timeout; the whole body would take seconds.

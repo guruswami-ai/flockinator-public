@@ -179,7 +179,7 @@ class NetworkClient:
             for sock in pinned:
                 sock.close()
             connection.close()
-        if expired.is_set():
+        if expired.is_set() or clock() >= deadline:
             raise TimeoutError(expired_message)
         if clock() - pending.started > max_age:
             raise ResponseAuthError(f"Response to {method} {path} arrived later than the {max_age:g}s freshness bound")
