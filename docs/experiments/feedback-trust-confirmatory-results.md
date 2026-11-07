@@ -57,3 +57,14 @@ narrower than first stated:
   A=1.0: 20 vs E 36 in this run). The accurate boundary is:
   reputation's advantage inverts in this grid only when delay
   and sparse reveal combine, for these policies and horizon.
+
+**Window labelling (2026-11-07, #159 follow-up).** In
+`validation/kulira/feedback-trust-paired-001.json`,
+`dangerous_second` covers contacts 30-59, while
+`decisions` and `recall` are whole-sequence fields
+(decision sums: E 359, REP 473, REP-P 606). The
+173/190/298 commit comparison in the correction above
+is second-half. The historical JSON is not rewritten;
+read each field on its own window. Final reputation
+fields in the evidence are post-flush diagnostics, not
+the weights available to earlier decisions.

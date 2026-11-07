@@ -24,8 +24,12 @@ every cell by construction (it never learns):
   misleading, because colluders keep near-initial trust for
   most of the sequence while honest nodes are randomly
   discounted by the few reveals that do arrive.
-- **HF3 supported.** Degradation is monotone across the grid
-  for REP (9 -> 19 -> 45 second-half dangerous).
+- **HF3 supported.** Degradation is monotone along the
+  registered diagonal for REP (9 -> 19 -> 45 second-half
+  dangerous). Diagonal only: at full availability REP across
+  delays 0/5/15 is 9/11/9, not monotone. The table is the
+  selected registered diagonal; the full 27-cell grid is
+  in the evidence JSON.
 - **The surprise is REP-P.** Probation (full weight until 10
   observations) is catastrophic under incomplete feedback:
   73-91 dangerous commits, two to three times the no-learning
@@ -48,7 +52,8 @@ options are unweighted strict counting or abstention, and any
 probationary-trust mechanism must count *revealed* observations
 before it is allowed to discount anyone. A confirmatory run on
 fresh seeds is required before this becomes a claim; the dev
-grid above is the complete registered table, not a selection.
+table above is the selected registered diagonal (HF3);
+the complete 27-cell grid is in the evidence JSON.
 
 **Correction (2026-11-07, issue #159).** Two statements above
 are corrected. (1) The design rule about unrevealed
@@ -64,3 +69,20 @@ is the narrower one in the confirmatory correction: the
 advantage inverts when delay and sparse reveal combine, in
 this world, for these policies. The threshold confound (E
 requires margin >=2, REP >=1) is also acknowledged there.
+
+**Supersession (2026-11-07, #159 follow-up).** The HF2
+causal phrase above ("actively misleading", "worse than
+never learning") is retracted. E uses a stricter commit
+rule than REP, so that comparison does not isolate
+learning. Post hoc matched diagnostic on these same
+exposed seeds, labelled post hoc and not a registered
+result: REP frozen at unit weights (availability 0)
+records 91 second-half dangerous commits (dev) and 83
+(confirmatory), against learned sparse REP at 45 and 38.
+Learning improves on its own frozen configuration in
+both splits. At the extreme cell REP-P equals that
+frozen unit-weight rule exactly (91 dev, 83
+confirmatory): probation never graduates there, so its
+excess is the unit-weight rule at REP thresholds, not a
+probation dynamic. Historical evidence JSON is
+unchanged; no new seeds were run.
